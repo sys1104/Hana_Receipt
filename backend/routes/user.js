@@ -1,45 +1,4 @@
-// ============================= 아이디, 비밀번호 인증 function ============================//
-var authUser = function(database, id, password, callback) {
-  console.log('********** authUser 호출 **********');
-  var crypto = require('crypto'); //암호화 모듈 호출
-  database.pool.getConnection(function(err, conn) { //DB 접속
-    if (err) {
-      if (conn) {
-        conn.release();
-      }
-      callback(err, null);
-      return;
-    }
-    console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
-    var columns = ['u_id', 'u_pw', 'u_salt'];
-    var tablename = 'user';
-    //물음표가 두개 연속으로 붙으면 컬럼이나 테이블 이름을 뜻한다
-    var exec = conn.query('select ?? from ?? where u_id=?', [columns, tablename, id], function(err, rows) {
-      //select의 결과물은 배열로 들어온다. rows 변수...
-      if (rows.length > 0) {
-        console.log('********** 아이디 [%s], 패스워드 [%s]가 일치하는 사용자 찾았습니다. 패스워드 비교 시작하겠습니다. **********', id, password);
-        var userHashPass = crypto.createHash("sha512").update(password + rows[0].u_salt).digest("hex");
-        if (rows[0].u_pw == userHashPass) {
-          callback(null, rows);
-          console.log('**********' + rows[0].u_id + '**********');
-        } else {
-          console.log('********** 비밀번호가 일치하지 않습니다. **********');
-        }
-      } else {
-        console.log('********** 일치하는 사용자가 없습니다. **********');
-        callback(null, null);
-      }
-    });
-    conn.on('error', function(err) {
-      console.log('********** 데이터베이스 연결 시 에러 발생함 **********');
-      console.dir(err);
-      callback(err, null);
-    });
-  });
-};
-
 // ============================= 로그인 function ============================//
-
 var login = function(req, res, callback) {
   console.log('********** login 호출 **********');
   var database = req.app.get('database');
@@ -108,6 +67,47 @@ var login = function(req, res, callback) {
 };
 
 
+// ============================= 아이디, 비밀번호 인증 function ============================//
+var authUser = function(database, id, password, callback) {
+  console.log('********** authUser 호출 **********');
+  var crypto = require('crypto'); //암호화 모듈 호출
+  database.pool.getConnection(function(err, conn) { //DB 접속
+    if (err) {
+      if (conn) {
+        conn.release();
+      }
+      callback(err, null);
+      return;
+    }
+    console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
+    var columns = ['u_id', 'u_pw', 'u_salt'];
+    var tablename = 'user';
+    //물음표가 두개 연속으로 붙으면 컬럼이나 테이블 이름을 뜻한다
+    var exec = conn.query('select ?? from ?? where u_id=?', [columns, tablename, id], function(err, rows) {
+      //select의 결과물은 배열로 들어온다. rows 변수...
+      if (rows.length > 0) {
+        console.log('********** 아이디 [%s], 패스워드 [%s]가 일치하는 사용자 찾았습니다. 패스워드 비교 시작하겠습니다. **********', id, password);
+        var userHashPass = crypto.createHash("sha512").update(password + rows[0].u_salt).digest("hex");
+        if (rows[0].u_pw == userHashPass) {
+          callback(null, rows);
+          console.log('**********' + rows[0].u_id + '**********');
+        } else {
+          console.log('********** 비밀번호가 일치하지 않습니다. **********');
+        }
+      } else {
+        console.log('********** 일치하는 사용자가 없습니다. **********');
+        callback(null, null);
+      }
+    });
+    conn.on('error', function(err) {
+      console.log('********** 데이터베이스 연결 시 에러 발생함 **********');
+      console.dir(err);
+      callback(err, null);
+    });
+  });
+};
+
+
 // ============================= 로그아웃 function ============================//
 var logout = function(req, res, callback) {
   if (req.session.user) {
@@ -126,16 +126,55 @@ var logout = function(req, res, callback) {
   }
 };
 
+//============================== 회원가입 function =================================//
+var signup = function(req, res, callback) {
+  var database = req.app.get('database');
+  console.log('********** server-side signup 호출됨 **********');
+  var paramId = req.body.u_id;
+  var paramPw = req.body.u_pw;
+  var paramName = req.body.u_name;
+  var paramPhone = req.body.u_phone;
+  var paramEmail = req.body.u_email;
+  var paramJob = req.body.u_job;
+  var paramSalary = req.body.u_salary;
+  //아이디와 패스워드 받고 DB에 접근
+  //database --> true : DB에 접근할 수 있는 상태
+  if (database) {
+    var axios = require('axios');
+    addUser(database, paramId, paramPw, paramName, paramPhone, paramEmail, paramJob, paramSalary, function(err, result) {
+      if (err) {
+        throw err;
+      } // 에러 처리
+      if (result) {
+        console.dir(result);
+      } else {
+        res.writeHead(200, {
+          "Content-Type": 'text/html;charset=utf8'
+        });
+        res.write('<h1>사용자 추가 실패</h1>');
+        res.write("<br/><a href='/public/adduser.html'>다시 가입하기</a>");
+        res.end();
+      }
+    });
+  } else {
+    //DB접속에 실패 했을 경우
+    res.writeHead(200, {
+      "Content-Type": 'text/html;charset=utf8'
+    });
+    res.write('<h1>데이터베이스 연결 실패</h1>');
+    res.write('<div><p>DB에 연결 하지 못했습니다</p></div>');
+    res.write("<br/><a href='/public/adduser.html'>다시 가입하기</a>");
+    res.end();
+  }
+};
+
+
 // ============================= 사용자추가 function ============================//
 var addUser = function(database, id, pwd, name, phone, email, job, salary, callback) {
   console.log('********** server-side addUser 호출됨 **********');
   var crypto = require('crypto');
-
   var salt = Math.round((new Date().valueOf() * Math.random())) + "";
   var hashpass = crypto.createHash("sha512").update(pwd + salt).digest("hex");
-
-
-  console.log(id + '  ' + hashpass + name + phone + email + job + '  ' + salary);
   //pool에서 커넥션 객체 가져오기
   database.pool.getConnection(function(err, conn) {
     if (err) {
@@ -184,50 +223,6 @@ var addUser = function(database, id, pwd, name, phone, email, job, salary, callb
     });
   });
 };
-
-
-//============================== 회원가입 function =================================//
-var signup = function(req, res, callback) {
-  var database = req.app.get('database');
-  console.log('********** server-side signup 호출됨 **********');
-  var paramId = req.body.u_id;
-  var paramPw = req.body.u_pw;
-  var paramName = req.body.u_name;
-  var paramPhone = req.body.u_phone;
-  var paramEmail = req.body.u_email;
-  var paramJob = req.body.u_job;
-  var paramSalary = req.body.u_salary;
-  //아이디와 패스워드 받고 DB에 접근
-  //database --> true : DB에 접근할 수 있는 상태
-  if (database) {
-    var axios = require('axios');
-    addUser(database, paramId, paramPw, paramName, paramPhone, paramEmail, paramJob, paramSalary, function(err, result) {
-      if (err) {
-        throw err;
-      } // 에러 처리
-      if (result) {
-        console.dir(result);
-      } else {
-        res.writeHead(200, {
-          "Content-Type": 'text/html;charset=utf8'
-        });
-        res.write('<h1>사용자 추가 실패</h1>');
-        res.write("<br/><a href='/public/adduser.html'>다시 가입하기</a>");
-        res.end();
-      }
-    });
-  } else {
-    //DB접속에 실패 했을 경우
-    res.writeHead(200, {
-      "Content-Type": 'text/html;charset=utf8'
-    });
-    res.write('<h1>데이터베이스 연결 실패</h1>');
-    res.write('<div><p>DB에 연결 하지 못했습니다</p></div>');
-    res.write("<br/><a href='/public/adduser.html'>다시 가입하기</a>");
-    res.end();
-  }
-};
-
 
 //======================== 테스트 함수 ==========================//
 
