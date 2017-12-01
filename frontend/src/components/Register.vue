@@ -18,7 +18,7 @@
         </div>
         <button class="btn btn-success">Register</button>
         <!-- <famous :stories="stories"></famous> -->
-        <famous></famous>
+        <!-- <famous></famous> -->
     </div>
 </template>
 
