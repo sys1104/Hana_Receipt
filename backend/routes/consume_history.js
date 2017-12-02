@@ -6,7 +6,6 @@ var requestHistory = function(req, res, callback) {
   if (req.session.user) {
     console.log('********** 사용자 세션 확인하였습니다. **********') {
       var paramId = req.session.user.name;
-
       database.pool.getConnection(function(err, conn) {
         if (err) {
           if (conn) {
@@ -88,5 +87,23 @@ var saveHistory = function(database, u_num, cate_num, content, price, time, wast
     };
     //conn 객체를 사용해서 sql 실행
     //set 모든 컬럼에 집어넣는 문법
+    var exec = conn.query('instert into consume_history set ?', data, function(err, result) {
+      //쿼리 작업 수행 후 반드시 연결을 해제 해야 한다.
+      conn.release();
+      console.log('실행 sql : %s', exec.sql);
+      if (err) {
+        console.log('sql 수행 중 에러발생.');
+        console.dir(err);
+
+        callback(err, null);
+        return;
+      }
+      callback(null, result);
+    });
+    conn.on('error', function(err) {
+      console.log('데이터베이스 연결 시 에러 발생함');
+      console.dir(err);
+      callback(err, null);
+    });
   });
 };
