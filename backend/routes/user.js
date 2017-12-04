@@ -74,7 +74,7 @@ var login = function(req, res, callback) {
 
 // ============================= 아이디, 비밀번호 인증 function ============================//
 var authUser = function(database, id, password, callback) {
-<<<<<<< HEAD
+
   console.log('********** server-side authUser 호출 **********');
   var crypto = require('crypto'); //암호화 모듈 호출
   database.pool.getConnection(function(err, conn) { //DB 접속
@@ -101,34 +101,6 @@ var authUser = function(database, id, password, callback) {
           callback(null, rows);
         } else {
           console.log('********** 비밀번호가 일치하지 않습니다. **********');
-=======
-    console.log('********** server-side authUser 호출 **********');
-    var crypto = require('crypto'); //암호화 모듈 호출
-    database.pool.getConnection(function(err, conn) { //DB 접속
-        if (err) {
-            if (conn) {
-                conn.release();
-            }
-            callback(err, null);
-            return;
->>>>>>> 0569eb39bc69f253aa26fcc8ca00d7a1140b5fb3
-        }
-        console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
-        var columns = ['u_num', 'u_id', 'u_pw', 'u_salt'];
-        var tablename = 'user';
-        //물음표가 두개 연속으로 붙으면 컬럼이나 테이블 이름을 뜻한다
-        var exec = conn.query('select ?? from ?? where u_id=?', [columns, tablename, id], function(err, rows) {
-            //select의 결과물은 배열로 들어온다. rows 변수...
-            if (rows.length > 0) {
-                console.log('********** 아이디 [%s]가 일치하는 사용자 찾았습니다. 패스워드 비교 시작하겠습니다. **********', id);
-                var salt = rows[0].u_salt;
-                var u_pw = rows[0].u_pw;
-                var userHashPass = crypto.createHash("sha512").update(password + salt).digest('hex');
-                if (u_pw === userHashPass) {
-                    console.log('********** 일치하는 사용자의 아이디는 ' + rows[0].u_id + '**********');
-                    callback(null, rows);
-                } else {
-                    console.log('********** 비밀번호가 일치하지 않습니다. **********');
                 }
             } else {
                 console.log('********** 일치하는 사용자가 없습니다. **********');
@@ -483,11 +455,7 @@ var loadContents = function(req, res) {
 module.exports.login = login;
 module.exports.logout = logout;
 module.exports.signup = signup;
-<<<<<<< HEAD
 module.exports.singup = showUser;
 module.exports.singup = editUser;
 module.exports.singup = leaveUser;
 module.exports.loadContents = loadContents;
-=======
-module.exports.loadContents = loadContents;
->>>>>>> 0569eb39bc69f253aa26fcc8ca00d7a1140b5fb3

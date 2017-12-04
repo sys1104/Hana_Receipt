@@ -3,7 +3,7 @@
 <div class="container">
     <navi></navi>
     <div id="register" style="width:300px; display:inline-block; margin-top:200px">
-      
+
       <h2>회원가입</h2>
       <div class="form-group">
         <input type="text" placeholder="아이디" v-model="u_id" class="form-control" name="u_id" id="u_id">
@@ -43,7 +43,6 @@
 import axios from 'axios'
 import Navi from './Navi.vue'
 
-<<<<<<< HEAD
 $(document).ready(function() {
   //#id에서 포커스가 벗어나면
   $("#u_id").blur(function() {
@@ -70,8 +69,6 @@ $(document).ready(function() {
   });
 });
 
-=======
->>>>>>> 0569eb39bc69f253aa26fcc8ca00d7a1140b5fb3
 export default {
   data: function() {
     return {
