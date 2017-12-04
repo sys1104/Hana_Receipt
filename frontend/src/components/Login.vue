@@ -27,7 +27,7 @@ export default {
       var pw = this.u_pw;
       if (id == '' || pw == '') {
         this.errinfo = '';
-        this.classFade = ''
+        this.classFade = '';
       } else {
         axios({
           method: 'post',

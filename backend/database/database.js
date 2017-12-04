@@ -2,9 +2,10 @@ var mysql = require('mysql'); //mysql 모듈
 var database = {}; //데이터베이스 객체
 var pool = {}; //풀 객체
 database.init = function(app, config) { //데이터베이스 초기화
-  console.log('********** database.init 호출됨 **********');
-  connect(app, config);
+    console.log('********** database.init 호출됨 **********');
+    connect(app, config);
 };
+
 function connect(app, config) {
   pool = mysql.createPool({ //connection poll 생성
     connectionLimit: 50, //50개의 커넥션까지 가능
