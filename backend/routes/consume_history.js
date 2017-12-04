@@ -220,7 +220,7 @@ var editHistory = function(database, u_num, cate_num, content, price, time, wast
 };
 
 
-var read_user_board = function(database, callback) {
+var read_consume_board = function(database, callback) {
   console.log('read board list 호출');
   console.dir(database);
   database.pool.getConnection(function(err, conn) {
@@ -261,7 +261,7 @@ var consumeList = function(req, res) {
   // var paramPostNum = req.query.tmp_post_num;
 
   if (database) {
-    read_user_board(database, function(err, rows) {
+    read_consume_board(database, function(err, rows) {
 
       if (err) {
         console.error('read board 중 에러바생 ' + err.stack);
