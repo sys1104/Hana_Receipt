@@ -20,13 +20,14 @@ export default {
   data: function() {
     return {
       u_id: '',
-      u_pw: ''
+      u_pw: '',
+      u_num : '',
     }
   },
   methods: {
     login() {
-
       var self = this;
+
       console.log('********** front-end login 호출 **********');
       var id = this.u_id;
       var pw = this.u_pw;
@@ -35,6 +36,7 @@ export default {
         this.classFade = '';
       } else {
         axios({
+            
           method: 'post',
           url: 'api/user/login',
           data: {
@@ -44,18 +46,25 @@ export default {
         }).then(function(response) {
           console.log('********** 로그인완료 **********');
           self.result = response.data;
-          self.u_id = parseInt(self.result);
+          self.u_num = parseInt(self.result);
           console.log(self.result);
+          self.$session.start()
+          self.$session.set('session',self.result)
+          console.log('세션 만듦')
+          console.log('세션 값 확인 '+ self.$session.get('session'))
+          setTimeout("window.location.href = './'",1000)
+
         //   makeSession(self.result);
+          
         })
       }
-      console.log('바깥' + self.u_id);
-      if(self.u_id){
-        this.$session.start()
-        this.$session.set('session',self.u_id)
-        console.log('세션 만듦')
-        setTimeout("window.location.href = './'",0)
-      }
+    //   console.log('바깥' + self.u_num);
+    //   if(self.u_num){
+    //     this.$session.start()
+    //     this.$session.set('session',self.u_num)
+    //     console.log('세션 만듦')
+    //     setTimeout("window.location.href = './'",10000)
+    //   }
     }//login,
     // makeSession(u_num){
     //     this.$session.start()
@@ -66,6 +75,9 @@ export default {
   },
   created() {
     console.log('login')
+  },
+  mounted() {
+
   }
 }
 </script>

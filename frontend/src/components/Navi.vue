@@ -43,9 +43,9 @@ export default {
     // this.$session.start()
     // this.$session.set('jwt','value')
     if (!this.$session.exists()) {
-      console.log('세션 없음');
+      console.log('Navi : 세션 없음');
     }else{
-      console.log('세션 있음');
+      console.log('Navi : 세션 있음');
     }
   },
   methods: {

@@ -36,10 +36,14 @@
 <script>
 import axios from 'axios'
 import Navi from './Navi.vue'
+import Vue from 'vue'
+import VueSession from 'vue-session'
+Vue.use(VueSession)
 
 export default {
   data: function() {
     return {
+      u_num: '',
       u_id: '',
       u_pw: '',
       u_name: '',
@@ -53,6 +57,9 @@ export default {
     Navi
   },
   methods: {
+    getUserInfo() {
+
+    }, 
     modifyUser() {
       console.log('********** front-end addUser 호출 **********');
       var id = this.u_id;
@@ -89,6 +96,15 @@ export default {
   // props:['stories'],
   created() {
     console.log('modifyUser')
+    if (!this.$session.exists()) {
+        console.log('세션 없음');
+        }else{
+        console.log('세션 있음')
+        // this.u_num = this.$session.getAll();
+        console.log('세션 값 확인 '+ this.$session.get('session'))
+
+        }
+
   }
 }
 </script>
