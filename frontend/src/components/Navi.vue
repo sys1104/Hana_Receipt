@@ -12,11 +12,12 @@
 
              <li class="nav-item mx-0 mx-lg-1 t">
               <!-- <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" @click="currentComponent='Login',currentHeader=''">로그인</a> -->
-              <router-link class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" to="/login">로그인</router-link> 
+              <router-link v-if="$session.exists() == false" class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" to="/login">로그인</router-link> 
             </li>             
              <li class="nav-item mx-0 mx-lg-1 t">
-              <!-- <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" @click="currentComponent='Register',currentHeader=''">회원가입</a> -->
-              <router-link class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" to="/register">회원가입</router-link> 
+              <a v-if="$session.exists() == true" class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" @click="logout">로그아웃</a>
+              <router-link v-if="$session.exists() == false" class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" to="/register">회원가입</router-link> 
+
             </li>
           </ul>
         </div>
@@ -24,3 +25,35 @@
     </nav>
 
 </template>
+
+<script>
+import Vue from 'vue'
+import VueSession from 'vue-session'
+Vue.use(VueSession)
+export default {
+  name: 'panel',
+//   data () {
+//             return {
+//                 session : ''
+//             }
+//   },
+  beforeCreate: function () {
+    // this.$session.start()
+    // this.$session.set('jwt','value')
+    if (!this.$session.exists()) {
+      console.log('세션 없음');
+    }else{
+      console.log('세션 있음');
+    }
+  },
+  methods: {
+    logout: function () {
+      this.$session.destroy()
+      setTimeout("window.location.href = './'",1000)
+    }
+  }
+}
+</script>
+
+
+
