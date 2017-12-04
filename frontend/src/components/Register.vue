@@ -22,7 +22,7 @@
   <div class="form-group">
     <input type="number" placeholder="연봉" v-model="u_salary" class="form-control" name="u_salary">
   </div>
-  <button @click.prevent="addUser" class="btn btn-success">가입</button>
+  <button @click="addUser" class="btn btn-success">가입</button>
   <!-- <famous :stories="stories"></famous> -->
   <!-- <famous></famous> -->
 </div>
@@ -56,7 +56,7 @@ export default {
       var email = this.u_email;
       var job = this.u_job;
       var salary = this.u_salary;
-      if (name == '' || pwd == '') {
+      if (id == '' || pwd == '') {
         this.errinfo = '';
         this.classFade = ''
       } else {

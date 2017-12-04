@@ -1,12 +1,13 @@
 // ============================= 로그인 function ============================//
 var login = function(req, res, callback) {
-  console.log('********** login 호출 **********');
+  console.log('********** server-side login 호출 **********');
   var database = req.app.get('database');
   var paramId = req.body.id || req.query.id;
   var paramPw = req.body.pw || req.query.pw;
 
   if (database) {
-    //1)사용자 인증 함수 호출 authUser
+    var axios = require('axios');
+    //사용자 인증 함수 호출 authUser
     authUser(database, paramId, paramPw, function(err, rows) {
       if (err) {
         console.error('********** 로그인 중 에러 발생 **********' + err.stack);
@@ -29,7 +30,7 @@ var login = function(req, res, callback) {
         });
         var isUser = {
           isUser: true
-        }
+        };
         if (req.session.user) {
           console.log('********** 세션 유지 **********');
           req.app.render('main', isUser, function(err, html) {
@@ -42,6 +43,7 @@ var login = function(req, res, callback) {
         } else {
           console.log('********** 세션 생성 안됨 **********');
         }
+        res.redirect('http://localhost:8080');
       } else {
         //docs가 존재하지 않으면 로그인 실패
         res.writeHead(200, {
@@ -69,7 +71,7 @@ var login = function(req, res, callback) {
 
 // ============================= 아이디, 비밀번호 인증 function ============================//
 var authUser = function(database, id, password, callback) {
-  console.log('********** authUser 호출 **********');
+  console.log('********** server-side authUser 호출 **********');
   var crypto = require('crypto'); //암호화 모듈 호출
   database.pool.getConnection(function(err, conn) { //DB 접속
     if (err) {
@@ -267,7 +269,7 @@ var read_user_board = function(database, callback) {
       callback(err, null);
     });
   });
-}
+};
 
 var loadContents = function(req, res) {
   //아이디와 패스워드 받고 dB에 접근
@@ -318,7 +320,7 @@ var loadContents = function(req, res) {
     res.write('<br/> <a href="/public/login2.html">다시 로그인 </a>');
     res.end();
   }
-}
+};
 
 module.exports.login = login;
 module.exports.logout = logout;

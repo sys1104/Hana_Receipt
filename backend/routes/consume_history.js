@@ -4,7 +4,7 @@ var requestHistory = function(req, res, callback) {
   var database = req.app.get('database');
   var u_num = '';
   if (req.session.user) {
-    console.log('********** 사용자 세션 확인하였습니다. **********') {
+    console.log('********** 사용자 세션 확인하였습니다. **********'); {
       var paramId = req.session.user.name;
       database.pool.getConnection(function(err, conn) {
         if (err) {
