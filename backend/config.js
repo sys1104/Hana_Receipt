@@ -20,6 +20,12 @@ module.exports = {
       type: 'post'
     },
     {
+      file: './ajax_user',
+      path: '/api/user/dup-check',
+      method: 'user_dup_check',
+      type: 'get'
+    },
+    {
       file: './user',
       path: '/api/user/loadContents',
       method: 'loadContents',
@@ -28,14 +34,14 @@ module.exports = {
     {
       file: './consume_history',
       path: '/api/consume_history/updateHistory',
-      method:'updateHistory',
-      type:'post'
+      method: 'updateHistory',
+      type: 'post'
     },
     {
       file: './consume_history',
       path: '/api/consume_history/requestHistory',
-      method:'requestHistory',
-      type:'post'
+      method: 'requestHistory',
+      type: 'post'
     }
   ],
   jsonrpc_api_path: '/api'
