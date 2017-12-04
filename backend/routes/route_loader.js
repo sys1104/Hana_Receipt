@@ -1,6 +1,6 @@
 var route_loader = {};
-//모듈에서 직접 config 파일 불러오기 - 상위 폴더에 config.js가 있기 때문에
-//                                  ../config 사용
+// 모듈에서 직접 config 파일 불러오기 - 상위 폴더에 config.js가 있기 때문에
+// ../config 사용
 var config = require('../config');
 route_loader.init = function(app, router) {
   console.log('********** route_loader.init 호출됨. ********** ');

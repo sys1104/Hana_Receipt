@@ -15,9 +15,15 @@ module.exports = {
     },
     {
       file: './user',
-      path: '/user/signup',
+      path: '/api/user/signup',
       method: 'signup',
       type: 'post'
+    },
+    {
+      file: './user',
+      path: '/api/user/loadContents',
+      method: 'loadContents',
+      type: 'get'
     }
   ],
   jsonrpc_api_path: '/api'
