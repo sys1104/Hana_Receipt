@@ -19,8 +19,9 @@ var login = function(req, res, callback) {
       } // 에러 처리
       if (rows) {
         var data = {};
-        data = rows.u_num;
+        data = rows[0].u_num;
         res.json(data);
+        console.log(data);
         res.end();
         //doc가 존재하면 로그인 성공
         // req.session.user = {
