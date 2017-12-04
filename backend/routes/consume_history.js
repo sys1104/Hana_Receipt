@@ -2,35 +2,37 @@
 var requestHistory = function(req, res, callback) {
   console.log('********** server-side requestHistory 호출됨 **********');
   var database = req.app.get('database');
-  var u_num = '';
-  if (req.session.user) {
-    console.log('********** 사용자 세션 확인하였습니다. **********');
-    {
-      var paramId = req.session.user.name;
-      database.pool.getConnection(function(err, conn) {
-        if (err) {
-          if (conn) {
-            conn.release();
-          }
-          callback(err, null);
-          return;
-        }
-        console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
-        var exec = conn.query('select u_num from user where u_id=?', paramId, function(err, rows) {
-          if (rows.length > 0) {
-            console.log('********** u_num 은 %s ' + rows[0].u_num + ' **********');
-            u_num = rows[0].u_num;
-          }
-        });
-        conn.on('error', function(err) {
-          console.log('데이터베이스 연결 시 에러 발생함');
-          console.dir(err);
-          callback(err, null);
-        });
-      });
-    }
-  }
-  var cate_num = req.body.cate_num;
+
+  //유저 넘버에 임의로 2대입 (아직 로그인 미구현이라 Test용도) --> 이에따라 세션부분 주석처리
+  var u_num = 2;
+  // if (req.session.user) {
+  //   console.log('********** 사용자 세션 확인하였습니다. **********');
+  //   {
+  //     var paramId = req.session.user.name;
+  //     database.pool.getConnection(function(err, conn) {
+  //       if (err) {
+  //         if (conn) {
+  //           conn.release();
+  //         }
+  //         callback(err, null);
+  //         return;
+  //       }
+  //       console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
+  //       var exec = conn.query('select u_num from user where u_id=?', paramId, function(err, rows) {
+  //         if (rows.length > 0) {
+  //           console.log('********** u_num 은 %s ' + rows[0].u_num + ' **********');
+  //           u_num = rows[0].u_num;
+  //         }
+  //       });
+  //       conn.on('error', function(err) {
+  //         console.log('데이터베이스 연결 시 에러 발생함');
+  //         console.dir(err);
+  //         callback(err, null);
+  //       });
+  //     });
+  //   }
+  // }
+  var cate_num = Number(req.body.cate_num);
   var content = req.body.content;
   var price = req.body.price;
   var time = req.body.time;
@@ -84,7 +86,7 @@ var saveHistory = function(database, u_num, cate_num, content, price, time, wast
       content: content,
       price: price,
       time: time,
-      wasted: wasted,
+      wasted: wasted
     };
     //conn 객체를 사용해서 sql 실행
     //set 모든 컬럼에 집어넣는 문법
