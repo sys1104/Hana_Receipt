@@ -13,6 +13,9 @@
 
 <script>
 import axios from 'axios'
+import Vue from 'vue'
+import VueSession from 'vue-session'
+Vue.use(VueSession)
 export default {
   data: function() {
     return {
@@ -22,8 +25,9 @@ export default {
   },
   methods: {
     login() {
+
+      var self = this;
       console.log('********** front-end login 호출 **********');
-      var u_num = 0;
       var id = this.u_id;
       var pw = this.u_pw;
       if (id == '' || pw == '') {
@@ -39,12 +43,26 @@ export default {
           }
         }).then(function(response) {
           console.log('********** 로그인완료 **********');
-          alert('로그인 성공');
-          this.u_num = response.data;
-          console.dir(response.data);
+          self.result = response.data;
+          self.u_id = parseInt(self.result);
+          console.log(self.result);
+        //   makeSession(self.result);
         })
       }
-    }
+      console.log('바깥' + self.u_id);
+      if(self.u_id){
+        this.$session.start()
+        this.$session.set('session',self.u_id)
+        console.log('세션 만듦')
+        setTimeout("window.location.href = './'",0)
+      }
+    }//login,
+    // makeSession(u_num){
+    //     this.$session.start()
+    //     this.$session.set('session',u_num)
+    //     setTimeout("window.location.href = './'",1000)
+    // }
+
   },
   created() {
     console.log('login')
