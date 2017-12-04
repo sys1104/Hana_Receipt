@@ -46,6 +46,8 @@ var requestHistory = function(req, res, callback) {
       }
       if (result) {
         console.dir(result);
+        //일단 메인으로 redirect
+        res.redirect('http://localhost:8080');
       } else {
         res.writeHead(200, {
           "Content-Type": 'text/html;charset=utf8'
@@ -144,7 +146,7 @@ var updateHistory = function(req, res, callback) {
     }
   }
   // var paramUnum = req.body.u_num;
-  var paramCatenum = req.body.cate_num;
+  var paramCatenum = Number(req.body.cate_num);
   var paramContent = req.body.content;
   var paramPrice = req.body.price;
   var paramTime = req.body.time;

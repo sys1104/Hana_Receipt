@@ -29,6 +29,7 @@
 
 <script>
 import axios from 'axios'
+// import router from '../main.js'
 export default {
   data: function() {
     return {
@@ -67,13 +68,16 @@ export default {
         }).then(function(response) {
           console.log('********** 소비내역 저장완료 **********');
           alert('소비내역 저장 완료되었습니다');
+          setTimeout("window.location.href = './store_test'",1000)
+          // this.$router.push('/store_test')
 
         })
       // }
+      // this.$router.push('/store_test')
     }
   },
   created() {
-    console.log('insertConsume')
+    console.log('insertConsume');
   }
 }
 </script>
