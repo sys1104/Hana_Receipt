@@ -1,26 +1,6 @@
 <template>
-
-
 <div id="insertConsume" style="width:300px; display:inline-block;">
-  <!-- <div class="row">
-      <table class="table table-striped table-hover table-responsive">
-        <tr class="table-header">
-         <td>카테고리</td>
-         <td>내용</td>
-         <td>가격</td>
-         <td>일시</td>
-        </tr>
-        <tr class="table-body" v-for="(result,index) in results">
-         <td>{{result.cate_num}}dd {{index}}</td>
-         <td>{{result.content}}</td>
-         <td>{{result.price}}</td>
-         <td>{{result.time}}</td>
-         <td><button class="btn btn-primary">수정</button></td>
-        </tr>
-      </table>
-      <button @click="hanshin">눌러봐 리스트</button>
-  </div> -->
-
+  <stories></stories>
   <h2>소비내역 저장</h2>
   <div class="form-group">
     <select v-model="cate_num" class="form-control" name="cate_num">
@@ -50,8 +30,7 @@
 
 <script>
 import axios from 'axios'
-// import Stories from './Stories.vue'
-// import router from '../main.js'
+import Stories from './Stories.vue'
 export default {
   data: function() {
     return {
@@ -65,7 +44,7 @@ export default {
     }
   },
   components: {
-    // Stories
+    Stories
   },
   methods: {
     requestHistory() {

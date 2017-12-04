@@ -74,6 +74,34 @@ var login = function(req, res, callback) {
 
 // ============================= 아이디, 비밀번호 인증 function ============================//
 var authUser = function(database, id, password, callback) {
+<<<<<<< HEAD
+  console.log('********** server-side authUser 호출 **********');
+  var crypto = require('crypto'); //암호화 모듈 호출
+  database.pool.getConnection(function(err, conn) { //DB 접속
+    if (err) {
+      if (conn) {
+        conn.release();
+      }
+      callback(err, null);
+      return;
+    }
+    console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
+    var columns = ['u_num', 'u_id', 'u_pw', 'u_salt'];
+    var tablename = 'user';
+    //물음표가 두개 연속으로 붙으면 컬럼이나 테이블 이름을 뜻한다
+    var exec = conn.query('select ?? from ?? where u_id=?', [columns, tablename, id], function(err, rows) {
+      //select의 결과물은 배열로 들어온다. rows 변수...
+      if (rows.length > 0) {
+        console.log('********** 아이디 [%s]가 일치하는 사용자 찾았습니다. 패스워드 비교 시작하겠습니다. **********', id);
+        var salt = rows[0].u_salt;
+        var u_pw = rows[0].u_pw;
+        var userHashPass = crypto.createHash("sha512").update(password + salt).digest('hex');
+        if (u_pw === userHashPass) {
+          console.log('********** 일치하는 사용자의 아이디는 ' + rows[0].u_id + '**********');
+          callback(null, rows);
+        } else {
+          console.log('********** 비밀번호가 일치하지 않습니다. **********');
+=======
     console.log('********** server-side authUser 호출 **********');
     var crypto = require('crypto'); //암호화 모듈 호출
     database.pool.getConnection(function(err, conn) { //DB 접속
@@ -83,6 +111,7 @@ var authUser = function(database, id, password, callback) {
             }
             callback(err, null);
             return;
+>>>>>>> 0569eb39bc69f253aa26fcc8ca00d7a1140b5fb3
         }
         console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
         var columns = ['u_num', 'u_id', 'u_pw', 'u_salt'];
@@ -232,27 +261,138 @@ var addUser = function(database, id, pwd, name, phone, email, job, salary, callb
     });
 };
 
+// ======================= 회원정보 출력 function =================== //
+var showUser = function(database, req, res, callback) {
+  console.log('********** server-side showUser 호출됨 **********');
+  var u_num = ''; //vue에서 받아와야 함!!!
+  database.pool.getConnection(function(err, conn) {
+    if (err) {
+      //커넥션을 pool에 반환하기
+      if (conn) {
+        conn.release();
+      }
+      callback(err, null);
+      return;
+    }
+    console.log('데이터베이스 연결 Thread' + conn.threadId);
+    //삽입할 데이터를 객체로 만들기 앞: DB컬럼명, 뒤: 파라미터로 받아온 컬럼명
+    var paramPw = req.body.u_pw;
+    var paramName = req.body.u_name;
+    var paramPhone = req.body.u_phone;
+    var paramEmail = req.body.u_email;
+    var paramJob = req.body.u_job;
+    var paramSalary = req.body.u_salary;
+    //conn 객체를 사용해서 sql 실행
+    //set 모든 컬럼에 집어넣는 문법
+    var exec = conn.query('select * from user where u_num=?', u_num, function(err, rows) {
+      //쿼리 작업 수행 후 반드시 연결을 해제 해야 한다.
+      conn.release();
+      console.log('********** 실행 sql : %s ********** ', exec.sql);
+      if (err) {
+        console.log('********** sql 수행 중 에러발생. ********** ');
+        console.dir(err);
+        callback(err, null);
+        return;
+      }
+      callback(null, rows);
+      // res.redirect('/public/main.html');
+      // res.end();
+    });
+    conn.on('error', function(err) {
+      console.log('**********  데이터베이스 연결 시 에러 발생함 ********** ');
+      console.dir(err);
+      callback(err, null);
+    });
+  });
+};
+
 
 // ========================= 회원정보 수정 function =================//
 
-
-
-
-
-
-
-
-
-
+var editUser = function(database, req, res, callback) {
+  console.log('********** server-side editUser 호출됨 **********');
+  var u_num = ''; //vue에서 받아와야 함!!!
+  database.pool.getConnection(function(err, conn) {
+    if (err) {
+      //커넥션을 pool에 반환하기
+      if (conn) {
+        conn.release();
+      }
+      callback(err, null);
+      return;
+    }
+    console.log('데이터베이스 연결 Thread' + conn.threadId);
+    //삽입할 데이터를 객체로 만들기 앞: DB컬럼명, 뒤: 파라미터로 받아온 컬럼명
+    var paramPw = req.body.u_pw;
+    var paramName = req.body.u_name;
+    var paramPhone = req.body.u_phone;
+    var paramEmail = req.body.u_email;
+    var paramJob = req.body.u_job;
+    var paramSalary = req.body.u_salary;
+    //conn 객체를 사용해서 sql 실행
+    //set 모든 컬럼에 집어넣는 문법
+    var exec = conn.query('update user set u_pw=?,u_salt=?,u_name=?,u_phone=?,u_email=?,u_job=?,u_salary=? where u_num=?',
+    paramPw,paramName,pararmPhone,paramEmail,paramJob,paramSalary,u_num, function(err, result) {
+      //쿼리 작업 수행 후 반드시 연결을 해제 해야 한다.
+      conn.release();
+      console.log('********** 실행 sql : %s ********** ', exec.sql);
+      if (err) {
+        console.log('********** sql 수행 중 에러발생. ********** ');
+        console.dir(err);
+        callback(err, null);
+        return;
+      }
+      callback(null, result);
+      // res.redirect('/public/main.html');
+      // res.end();
+    });
+    conn.on('error', function(err) {
+      console.log('**********  데이터베이스 연결 시 에러 발생함 ********** ');
+      console.dir(err);
+      callback(err, null);
+    });
+  });
+};
 
 // ========================= 회원탈퇴 function =================//
 
-
-
-
-
-
-
+var leaveUser = function(database, req, res, callback) {
+  console.log('********** server-side leaveUser 호출됨 **********');
+  var u_num = ''; //vue에서 받아와야 함!!!
+  database.pool.getConnection(function(err, conn) {
+    if (err) {
+      //커넥션을 pool에 반환하기
+      if (conn) {
+        conn.release();
+      }
+      callback(err, null);
+      return;
+    }
+    console.log('데이터베이스 연결 Thread' + conn.threadId);
+    //삽입할 데이터를 객체로 만들기 앞: DB컬럼명, 뒤: 파라미터로 받아온 컬럼명
+    //conn 객체를 사용해서 sql 실행
+    //set 모든 컬럼에 집어넣는 문법
+    var exec = conn.query('delete from user where u_num = ?', u_num, function(err, result) {
+      //쿼리 작업 수행 후 반드시 연결을 해제 해야 한다.
+      conn.release();
+      console.log('********** 실행 sql : %s ********** ', exec.sql);
+      if (err) {
+        console.log('********** sql 수행 중 에러발생. ********** ');
+        console.dir(err);
+        callback(err, null);
+        return;
+      }
+      callback(null, result);
+      // res.redirect('/public/main.html');
+      // res.end();
+    });
+    conn.on('error', function(err) {
+      console.log('**********  데이터베이스 연결 시 에러 발생함 ********** ');
+      console.dir(err);
+      callback(err, null);
+    });
+  });
+};
 
 
 //======================== 테스트 함수 ==========================//
@@ -343,4 +483,11 @@ var loadContents = function(req, res) {
 module.exports.login = login;
 module.exports.logout = logout;
 module.exports.signup = signup;
+<<<<<<< HEAD
+module.exports.singup = showUser;
+module.exports.singup = editUser;
+module.exports.singup = leaveUser;
 module.exports.loadContents = loadContents;
+=======
+module.exports.loadContents = loadContents;
+>>>>>>> 0569eb39bc69f253aa26fcc8ca00d7a1140b5fb3
