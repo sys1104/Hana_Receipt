@@ -4,7 +4,7 @@
     <navi></navi>
     <div id="register" style="width:300px; display:inline-block; margin-top:200px">
       
-      <h2>회원가입</h2>
+      <h2>회원정보 수정</h2>
       <div class="form-group">
         <input type="text" placeholder="아이디" v-model="u_id" class="form-control" name="u_id">
       </div>
@@ -26,7 +26,7 @@
       <div class="form-group">
         <input type="number" placeholder="연봉" v-model="u_salary" class="form-control" name="u_salary">
       </div>
-      <button @click.prevent="addUser" class="btn btn-success">가입</button>
+      <button @click.prevent="addUser" class="btn btn-success">수정</button>
       <!-- <famous :stories="stories"></famous> -->
       <!-- <famous></famous> -->
     </div>
@@ -53,7 +53,7 @@ export default {
     Navi
   },
   methods: {
-    addUser() {
+    modifyUser() {
       console.log('********** front-end addUser 호출 **********');
       var id = this.u_id;
       var pwd = this.u_pw;
@@ -68,7 +68,7 @@ export default {
       } else {
         axios({
           method: 'post',
-          url: 'api/user/signup',
+          url: 'api/user/modifyUser',
           data: {
             u_id: id,
             u_pwd: pwd,
@@ -79,16 +79,16 @@ export default {
             u_salary: salary
           }
         }).then(function(response) {
-          console.log('********** 회원가입완료 **********');
-          alert('회원가입이 완료되었습니다');
-          setTimeout("window.location.href = './login'",1000)
+          console.log('********** 회원정보 수정 완료 **********');
+          alert('회원 정보 수정이 완료되었습니다');
+          setTimeout("window.location.href = './modifyUser'",1000)
         })
       }
     }
   },
   // props:['stories'],
   created() {
-    console.log('register')
+    console.log('modifyUser')
   }
 }
 </script>
