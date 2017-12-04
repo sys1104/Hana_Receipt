@@ -19,8 +19,9 @@ var login = function(req, res, callback) {
       } // 에러 처리
       if (rows) {
         var data = {};
-        data = rows;
+        data = rows[0].u_num;
         res.json(data);
+        console.log(data);
         res.end();
         //doc가 존재하면 로그인 성공
         // req.session.user = {
@@ -84,7 +85,7 @@ var authUser = function(database, id, password, callback) {
       return;
     }
     console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
-    var columns = ['u_id', 'u_pw', 'u_salt'];
+    var columns = ['u_num','u_id', 'u_pw', 'u_salt'];
     var tablename = 'user';
     //물음표가 두개 연속으로 붙으면 컬럼이나 테이블 이름을 뜻한다
     var exec = conn.query('select ?? from ?? where u_id=?', [columns, tablename, id], function(err, rows) {
@@ -233,6 +234,18 @@ var addUser = function(database, id, pwd, name, phone, email, job, salary, callb
 
 
 // ========================= 회원정보 수정 function =================//
+
+
+
+
+
+
+
+
+
+
+
+// ========================= 회원탈퇴 function =================//
 
 
 
