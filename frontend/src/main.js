@@ -15,6 +15,7 @@ import StoriesAll from './components/StoriesAll.vue'
 import StoriesFamous from './components/StoriesFamous.vue'
 import FirstSection from './components/FirstSection.vue'
 import Main from './components/Main.vue'
+import Storetest from './components/Storetest.vue'
 Vue.use(VueRouter)
 
 //사용할 라우터 객체등록
@@ -24,6 +25,8 @@ const routes = [
     { name: 'stories', path: '/stories', component: Stories },
     { name: 'login', path: '/login', component: Login },
     { name: 'first_section', path: 'first_section', component: FirstSection },
+    { name: 'store_test', path: '/store_test', component: Storetest },
+
     {
         path: './stories',
         component: StoriesPage,
