@@ -23,6 +23,7 @@ export default {
   methods: {
     login() {
       console.log('********** front-end login 호출 **********');
+      var u_num = 0;
       var id = this.u_id;
       var pw = this.u_pw;
       if (id == '' || pw == '') {
@@ -39,6 +40,8 @@ export default {
         }).then(function(response) {
           console.log('********** 로그인완료 **********');
           alert('로그인 성공');
+          this.u_num = response.data;
+          console.dir(response.data);
         })
       }
     }

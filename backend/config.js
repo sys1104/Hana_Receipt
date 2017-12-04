@@ -40,8 +40,19 @@ module.exports = {
     {
       file: './consume_history',
       path: '/api/consume_history/requestHistory',
+<<<<<<< HEAD
       method: 'requestHistory',
       type: 'post'
+=======
+      method:'requestHistory',
+      type:'post'
+    },
+    {
+      file: './consume_history',
+      path: 'api/consume_history/consumeList',
+      method: 'consumeList',
+      type: 'get'
+>>>>>>> 70a213682ce727c16afdd5e3f2792b2953fa3d5a
     }
   ],
   jsonrpc_api_path: '/api'
