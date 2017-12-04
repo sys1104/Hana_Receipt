@@ -14,11 +14,12 @@ import StoriesPage from './components/StoriesPage.vue'
 import StoriesAll from './components/StoriesAll.vue'
 import StoriesFamous from './components/StoriesFamous.vue'
 import FirstSection from './components/FirstSection.vue'
+import Main from './components/Main.vue'
 Vue.use(VueRouter)
 
 //사용할 라우터 객체등록
 const routes = [
-    { name: 'home', path: '/' },
+    { name: 'home', path: '/', component: Main },
     { name: 'regist', path: '/register', component: Register },
     { name: 'stories', path: '/stories', component: Stories },
     { name: 'login', path: '/login', component: Login },
