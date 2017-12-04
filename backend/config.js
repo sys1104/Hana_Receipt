@@ -3,13 +3,13 @@ module.exports = {
   server_port: 3000,
   route_info: [{
       file: './user',
-      path: '/user/login',
+      path: '/api/user/login',
       method: 'login',
       type: 'post'
     },
     {
       file: './user',
-      path: '/user/logout',
+      path: '/api/user/logout',
       method: 'logout',
       type: 'post'
     },

@@ -119,8 +119,7 @@ var updateHistory = function(req, res, callback) {
   var database = req.app.get('database');
   var u_num = '';
   if (req.session.user) {
-    console.log('********** 사용자 세션 확인하였습니다. **********');
-    {
+    console.log('********** 사용자 세션 확인하였습니다. **********'); {
       var paramId = req.session.user.name;
       database.pool.getConnection(function(err, conn) {
         if (err) {
@@ -182,7 +181,7 @@ var updateHistory = function(req, res, callback) {
   }
 };
 
-var editHistory = function (database, u_num, cate_num, content, price, time, wasted, callback) {
+var editHistory = function(database, u_num, cate_num, content, price, time, wasted, callback) {
   console.log('********** editHistory 호출됨 **********');
   //pool에서 커넥션 객체 가져오기
   database.pool.getConnection(function(err, conn) {
@@ -197,19 +196,20 @@ var editHistory = function (database, u_num, cate_num, content, price, time, was
     console.log('데이터베이스 연결 Thread' + conn.threadId);
     //conn 객체를 사용해서 sql 실행
     var exec = conn.query('update consume_history set cate_num = ?, content = ?, price = ?, time = ?, wasted =? where u_num = ?',
-     cate_num, content, price, time, wasted, u_num, function(err, result) {
-      //쿼리 작업 수행 후 반드시 연결을 해제 해야 한다.
-      conn.release();
-      console.log('실행 sql : %s', exec.sql);
-      if (err) {
-        console.log('sql 수행 중 에러발생.');
-        console.dir(err);
+      cate_num, content, price, time, wasted, u_num,
+      function(err, result) {
+        //쿼리 작업 수행 후 반드시 연결을 해제 해야 한다.
+        conn.release();
+        console.log('실행 sql : %s', exec.sql);
+        if (err) {
+          console.log('sql 수행 중 에러발생.');
+          console.dir(err);
 
-        callback(err, null);
-        return;
-      }
-      callback(null, result);
-    });
+          callback(err, null);
+          return;
+        }
+        callback(null, result);
+      });
     conn.on('error', function(err) {
       console.log('데이터베이스 연결 시 에러 발생함');
       console.dir(err);
