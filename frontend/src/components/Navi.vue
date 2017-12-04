@@ -12,11 +12,13 @@
 
              <li class="nav-item mx-0 mx-lg-1 t">
               <!-- <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" @click="currentComponent='Login',currentHeader=''">로그인</a> -->
-              <router-link v-if="$session.exists() == false" class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" to="/login">로그인</router-link> 
+              <!-- <a v-if="$session.exists() == true" class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" @click="logout">마이페이지</a> -->
+              <router-link name="login" v-if="$session.exists() == false" class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" to="/login">로그인</router-link> 
+              <router-link name="my-page" v-if="$session.exists() == true" class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" to="/modify_user">마이페이지</router-link>               
             </li>             
              <li class="nav-item mx-0 mx-lg-1 t">
               <a v-if="$session.exists() == true" class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" @click="logout">로그아웃</a>
-              <router-link v-if="$session.exists() == false" class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" to="/register">회원가입</router-link> 
+              <router-link name="add-user" v-if="$session.exists() == false" class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" to="/register">회원가입</router-link> 
 
             </li>
           </ul>
@@ -49,7 +51,7 @@ export default {
   methods: {
     logout: function () {
       this.$session.destroy()
-      setTimeout("window.location.href = './'",1000)
+      setTimeout("window.location.href = './'",0)
     }
   }
 }

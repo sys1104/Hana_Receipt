@@ -132,21 +132,22 @@ var editGoal = function(database, req, res, callback) {
     var g_time = req.body.g_time;
     //conn 객체를 사용해서 sql 실행
     //set 모든 컬럼에 집어넣는 문법
-    var exec = conn.query('update user set u_pw=?,u_salt=?,u_name=?,u_phone=?,u_email=?,u_job=?,u_salary=? where u_num=?',
-    paramPw,paramName,pararmPhone,paramEmail,paramJob,paramSalary,u_num, function(err, result) {
-      //쿼리 작업 수행 후 반드시 연결을 해제 해야 한다.
-      conn.release();
-      console.log('********** 실행 sql : %s ********** ', exec.sql);
-      if (err) {
-        console.log('********** sql 수행 중 에러발생. ********** ');
-        console.dir(err);
-        callback(err, null);
-        return;
-      }
-      callback(null, result);
-      // res.redirect('/public/main.html');
-      // res.end();
-    });
+    var exec = conn.query('update goal set u_num=?,cate_num=?,g_price=?,g_time=? where g_num=?',
+      u_num, cate_num, g_price, g_time, g_num,
+      function(err, result) {
+        //쿼리 작업 수행 후 반드시 연결을 해제 해야 한다.
+        conn.release();
+        console.log('********** 실행 sql : %s ********** ', exec.sql);
+        if (err) {
+          console.log('********** sql 수행 중 에러발생. ********** ');
+          console.dir(err);
+          callback(err, null);
+          return;
+        }
+        callback(null, result);
+        // res.redirect('/public/main.html');
+        // res.end();
+      });
     conn.on('error', function(err) {
       console.log('**********  데이터베이스 연결 시 에러 발생함 ********** ');
       console.dir(err);
@@ -155,5 +156,5 @@ var editGoal = function(database, req, res, callback) {
   });
 };
 
-module.exports.requestHistory = requestHistory;
-module.exports.updateHistory = updateHistory;
+module.exports.requestGoal = requestGoal;
+module.exports.editGoal = editGoal;

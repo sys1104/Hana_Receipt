@@ -3,7 +3,7 @@
 <div class="container">
     <navi></navi>
     <div id="register" style="width:300px; display:inline-block; margin-top:200px">
-
+      
       <h2>회원가입</h2>
       <div class="form-group">
         <input type="text" placeholder="아이디" v-model="u_id" class="form-control" name="u_id" id="u_id">
@@ -43,6 +43,7 @@
 import axios from 'axios'
 import Navi from './Navi.vue'
 
+<<<<<<< HEAD
 $(document).ready(function() {
   //#id에서 포커스가 벗어나면
   $("#u_id").blur(function() {
@@ -69,6 +70,8 @@ $(document).ready(function() {
   });
 });
 
+=======
+>>>>>>> 0569eb39bc69f253aa26fcc8ca00d7a1140b5fb3
 export default {
   data: function() {
     return {
@@ -88,13 +91,13 @@ export default {
     addUser() {
       console.log('********** front-end addUser 호출 **********');
       var id = this.u_id;
-      var pw = this.u_pw;
+      var pwd = this.u_pw;
       var name = this.u_name;
       var phone = this.u_phone;
       var email = this.u_email;
       var job = this.u_job;
       var salary = this.u_salary;
-      if (id == '' || pw == '') {
+      if (name == '' || pwd == '') {
         this.errinfo = '';
         this.classFade = ''
       } else {
@@ -103,7 +106,7 @@ export default {
           url: 'api/user/signup',
           data: {
             u_id: id,
-            u_pw: pw,
+            u_pwd: pwd,
             u_name: name,
             u_phone: phone,
             u_email: email,
