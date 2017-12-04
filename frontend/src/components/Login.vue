@@ -24,8 +24,8 @@ export default {
     login() {
       console.log('********** front-end login 호출 **********');
       var id = this.u_id;
-      var pwd = this.u_pw;
-      if (id == '' || pwd == '') {
+      var pw = this.u_pw;
+      if (id == '' || pw == '') {
         this.errinfo = '';
         this.classFade = ''
       } else {
@@ -34,7 +34,7 @@ export default {
           url: 'api/user/login',
           data: {
             u_id: id,
-            u_pwd: pwd
+            u_pw: pw
           }
         }).then(function(response) {
           console.log('********** 로그인완료 **********');

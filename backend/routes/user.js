@@ -2,9 +2,8 @@
 var login = function(req, res, callback) {
   console.log('********** server-side login 호출 **********');
   var database = req.app.get('database');
-  var paramId = req.body.id || req.query.id;
-  var paramPw = req.body.pw || req.query.pw;
-
+  var paramId = req.body.u_id || req.query.u_id;
+  var paramPw = req.body.u_pw || req.query.u_pw;
   if (database) {
     var axios = require('axios');
     //사용자 인증 함수 호출 authUser
@@ -19,31 +18,34 @@ var login = function(req, res, callback) {
         res.end();
       } // 에러 처리
       if (rows) {
+        var data = {};
+        data = rows;
+        res.json(data);
+        res.end();
         //doc가 존재하면 로그인 성공
-        req.session.user = {
-          name: paramId,
-          authorized: true
-        };
+        // req.session.user = {
+        //   name: paramId,
+        //   authorized: true
+        // };
         console.log("********** user 세션 생성 **********");
-        res.writeHead(200, {
-          "Content-Type": 'text/html;charset=utf8'
-        });
-        var isUser = {
-          isUser: true
-        };
-        if (req.session.user) {
-          console.log('********** 세션 유지 **********');
-          req.app.render('main', isUser, function(err, html) {
-            if (err) {
-              throw err;
-            }
-            console.log(html);
-            res.end(html);
-          });
-        } else {
-          console.log('********** 세션 생성 안됨 **********');
-        }
-        res.redirect('http://localhost:8080');
+        // res.writeHead(200, {
+        //   "Content-Type": 'text/html;charset=utf8'
+        // });
+        // var isUser = {
+        //   isUser: true
+        // };
+        // if (req.session.user) {
+        //   console.log('********** 세션 유지 **********');
+        //   req.app.render('main', isUser, function(err, html) {
+        //      if (err) {
+        //        throw err;
+        //      }
+        //      console.log(html);
+        //      res.end(html);
+        //    });
+        // } else {
+        //   console.log('********** 세션 생성 안됨 **********');
+        // }
       } else {
         //docs가 존재하지 않으면 로그인 실패
         res.writeHead(200, {
@@ -88,11 +90,13 @@ var authUser = function(database, id, password, callback) {
     var exec = conn.query('select ?? from ?? where u_id=?', [columns, tablename, id], function(err, rows) {
       //select의 결과물은 배열로 들어온다. rows 변수...
       if (rows.length > 0) {
-        console.log('********** 아이디 [%s], 패스워드 [%s]가 일치하는 사용자 찾았습니다. 패스워드 비교 시작하겠습니다. **********', id, password);
-        var userHashPass = crypto.createHash("sha512").update(password + rows[0].u_salt).digest("hex");
-        if (rows[0].u_pw == userHashPass) {
+        console.log('********** 아이디 [%s]가 일치하는 사용자 찾았습니다. 패스워드 비교 시작하겠습니다. **********', id);
+        var salt = rows[0].u_salt;
+        var u_pw = rows[0].u_pw;
+        var userHashPass = crypto.createHash("sha512").update(password + salt).digest('hex');
+        if (u_pw === userHashPass) {
+          console.log('********** 일치하는 사용자의 아이디는 ' + rows[0].u_id + '**********');
           callback(null, rows);
-          console.log('**********' + rows[0].u_id + '**********');
         } else {
           console.log('********** 비밀번호가 일치하지 않습니다. **********');
         }
@@ -176,7 +180,8 @@ var addUser = function(database, id, pwd, name, phone, email, job, salary, callb
   console.log('********** server-side addUser 호출됨 **********');
   var crypto = require('crypto');
   var salt = Math.round((new Date().valueOf() * Math.random())) + "";
-  var hashpass = crypto.createHash("sha512").update(pwd + salt).digest("hex");
+  var password = pwd;
+  var hashpass = crypto.createHash("sha512").update(password + salt).digest('hex');
   //pool에서 커넥션 객체 가져오기
   database.pool.getConnection(function(err, conn) {
     if (err) {
