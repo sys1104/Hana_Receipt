@@ -1,5 +1,26 @@
 <template>
+
+
 <div id="insertConsume" style="width:300px; display:inline-block;">
+  <!-- <div class="row">
+      <table class="table table-striped table-hover table-responsive">
+        <tr class="table-header">
+         <td>카테고리</td>
+         <td>내용</td>
+         <td>가격</td>
+         <td>일시</td>
+        </tr>
+        <tr class="table-body" v-for="(result,index) in results">
+         <td>{{result.cate_num}}dd {{index}}</td>
+         <td>{{result.content}}</td>
+         <td>{{result.price}}</td>
+         <td>{{result.time}}</td>
+         <td><button class="btn btn-primary">수정</button></td>
+        </tr>
+      </table>
+      <button @click="hanshin">눌러봐 리스트</button>
+  </div> -->
+
   <h2>소비내역 저장</h2>
   <div class="form-group">
     <select v-model="cate_num" class="form-control" name="cate_num">
@@ -29,10 +50,13 @@
 
 <script>
 import axios from 'axios'
+// import Stories from './Stories.vue'
 // import router from '../main.js'
 export default {
   data: function() {
     return {
+      u_num:'2',
+      results:'',
       cate_num: '',
       content: '',
       price: '',
@@ -41,11 +65,12 @@ export default {
     }
   },
   components: {
-    // Famous
+    // Stories
   },
   methods: {
     requestHistory() {
       console.log('********** front-end requestHistory 호출 **********');
+      var u_num = 2;
       var cate_num = this.cate_num;
       var content = this.content;
       var price = this.price;
@@ -59,6 +84,7 @@ export default {
           method: 'post',
           url: 'api/consume_history/requestHistory',
           data: {
+            u_num:u_num,
             cate_num: cate_num,
             content: content,
             price: price,
@@ -75,9 +101,62 @@ export default {
       // }
       // this.$router.push('/store_test')
     }
+    // hanshin() {
+    //   var self  = this;
+    //   // addUser() {
+    //     console.log('조회해보기 들어옴 Vue~');
+    //          var cate_num1 = this.results.cate_num;
+    //          var content1 = this.results.content;
+    //          var price1 = this.results.price;
+    //          var time1 = this.results.time;
+    //          var wasted1 = this.results.wasted;
+    //
+    //       axios({
+    //       method: 'get',
+    //       url: 'api/consume_history/consumeList',
+    //       data:{
+    //         cate_num: cate_num1,
+    //         content: content1,
+    //         price: price1,
+    //         time : time1
+    //       }
+    //     }).then(function (response) {
+    //
+    //       self.results = response.data;
+    //       console.log('vue리절트 시작~'+response.data + '리절트~');
+    //       console.log('뽑아왔지롱');
+    //       alert('뽑아왔으 리스트!');
+    //     })
+    // }
   },
-  created() {
-    console.log('insertConsume');
-  }
+  created(){
+    console.log('Storetest')
+
+    // var self  = this;
+    // // addUser() {
+    //   console.log('조회해보기 들어옴 Vue~');
+    //        var cate_num1 = this.results.cate_num;
+    //        var content1 = this.results.content;
+    //        var price1 = this.results.price;
+    //        var time1 = this.results.time;
+    //        var wasted1 = this.results.wasted;
+    //
+    //     axios({
+    //     method: 'get',
+    //     url: 'api/consume_history/consumeList',
+    //     data:{
+    //       cate_num: cate_num1,
+    //       content: content1,
+    //       price: price1,
+    //       time : time1
+    //     }
+    //   }).then(function (response) {
+    //
+    //     self.results = response.data;
+    //     console.log('vue리절트 시작~'+response.data + '리절트~');
+    //     console.log('뽑아왔지롱');
+    //     alert('뽑아왔으 리스트!');
+    //   })
+    }
 }
 </script>
