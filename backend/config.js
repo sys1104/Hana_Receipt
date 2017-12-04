@@ -24,6 +24,18 @@ module.exports = {
       path: '/api/user/loadContents',
       method: 'loadContents',
       type: 'get'
+    },
+    {
+      file: './consume_history',
+      path: '/api/consume_history/updateHistory',
+      method:'updateHistory',
+      type:'post'
+    },
+    {
+      file: './consume_history',
+      path: '/api/consume_history/requestHistory',
+      method:'requestHistory',
+      type:'post'
     }
   ],
   jsonrpc_api_path: '/api'
