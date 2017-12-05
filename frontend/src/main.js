@@ -17,6 +17,8 @@ import FirstSection from './components/FirstSection.vue'
 import Main from './components/Main.vue'
 import Storetest from './components/Storetest.vue'
 import ModifyUser from './components/ModifyUser.vue'
+import GoalManagement from './components/GoalManagement.vue'
+
 Vue.use(VueRouter)
 
 //사용할 라우터 객체등록
@@ -28,6 +30,7 @@ const routes = [
     { name: 'first_section', path: 'first_section', component: FirstSection },
     { name: 'store_test', path: '/store_test', component: Storetest },
     { name: 'modify_user', path: '/modify_user', component: ModifyUser },
+    { name: 'goal_management', path: '/goal_management', component: GoalManagement },
 
     {
         path: './stories',

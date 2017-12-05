@@ -8,8 +8,8 @@
 <!--        <h2 class="font-weight-light mb-0">Web Developer - Graphic Artist - User Experience Designer</h2>-->
         <!-- <button class="btn btn-success btn-lg" style="margin-right: 100px;">목표 관리</button> -->
         <router-link class="btn btn-success btn-lg" style="margin-right: 100px;" to="/store_test">소비 내역</router-link>
-
-        <button class="btn btn-danger btn-lg">목표 관리</button>
+        <router-link class="btn btn-danger btn-lg" to="/goal_management">목표 관리</router-link>
+        <!-- <button class="btn btn-danger btn-lg">목표 관리</button> -->
       </div>
     </header>
 </template>
