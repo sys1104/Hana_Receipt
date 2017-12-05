@@ -55,6 +55,12 @@ module.exports = {
             method: 'consumeList',
             type: 'get'
         },
+        {
+            file: './consume_history',
+            path: '/api/consume_history/deleteHistory',
+            method: 'deleteHistory',
+            type: 'get'
+        }
 
     ],
     jsonrpc_api_path: '/api'
