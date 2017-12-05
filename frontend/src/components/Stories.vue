@@ -62,7 +62,6 @@
          </td>
          <td><button v-if="flag==true && (result.consume_num == result3)" class="btn btn-success" @click="editConsume(result)">완료</button></td>
          <td><button v-if="flag==true && (result.consume_num == result3)" class="btn btn-danger" @click="delConsume(result)">삭제</button></td>
-
         </tr>
       </table>
 
@@ -81,7 +80,19 @@
         </li>
       </ul>
     </div> -->
-    <v-paginator resource_url="stories" @update="updateResource"></v-paginator>
+
+
+    <!-- <div class="pagination">
+        <button class="btn btn-default" @click="updateResource(pagination.next_page_url)"
+                :disabled="!pagination.prev_page_url">
+            Previous
+        </button>
+        <span>Page {{pagination.current_page}} of {{pagination.last_page}}</span>
+        <button class="btn btn-default" @click="updateResource(pagination.next_page_url)"
+                :disabled="!pagination.next_page_url">Next
+        </button>
+    </div> -->
+
   </div>
 </template>
 
@@ -107,36 +118,32 @@
           result3 : '',
           list_total : '',
           page_num : '',
-          list_list : ''
+          list_list : '',
+          pagination: {
+            // "total": 10,
+            // "per_page": 5,
+            // "current_page": 1,
+            // "last_page": 5,
+            // "next_page_url": "http://192.168.1.43:3000/api/consume_history/consumeList",
+            // "prev_page_url": "http://192.168.1.43:3000/api/consume_history/consumeList",
+            // "from": 1,
+            // "to": 5,
+            "total": '',
+            "per_page": '',
+            "current_page": '',
+            "last_page": '',
+            "next_page_url": '',
+            "prev_page_url": '',
+            "from": '',
+            "to": '',
+          }
         }
       },
       components:{
         VPaginator: VuePaginator
       },
       methods :{
-        updateResource(){
-          var self2 = this;
-          axios({
-          method: 'get',
-          url: 'api/consume_history/consumeList',
-          data:{
-          }
-        }).then(function (response) {
-              self2.results = response.data;
-              self2.list_total = response.data.length;
-              var list_total = self2.list_total;
-              if(self2.list_total >= 5) {
-                self2.page_num = 5;
-              } else {
-                self2.page_num = self2.list_total;
-              }
-              // self.list_list = response.data.length / 5;
-              // console.log('데이터 total_length : ' + self.list_list);
-              // console.dir('vue리절트 시작~'+response.data + '리절트~');
-              console.log('뽑아왔지롱222');
-            })
-          this.list_list = self2.results
-        },
+        //date포맷 변경 function
         dateFormatChange(date) {
             var options = {
                 weekday: "short", year: "numeric", month: "short",
@@ -218,6 +225,14 @@
             } else {
               self.page_num = self.list_total;
             }
+
+            self.pagination.total = response.data.length;
+            self.pagination.current_page = 1;
+            self.pagination.last_page = 5;
+            self.pagination.prev_page_url = '';
+            self.pagination.next_page_url = '';
+            self.pagination.from = response.data.length / 5;
+            self.pagination.to = 10;
             // self.list_list = response.data.length / 5;
             // console.log('데이터 total_length : ' + self.list_list);
             // console.dir('vue리절트 시작~'+response.data + '리절트~');
