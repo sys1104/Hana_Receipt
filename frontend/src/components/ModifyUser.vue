@@ -58,7 +58,7 @@ export default {
   },
   methods: {
     getUserInfo() {
-
+        
     }, 
     modifyUser() {
       console.log('********** front-end addUser 호출 **********');
@@ -73,23 +73,7 @@ export default {
         this.errinfo = '';
         this.classFade = ''
       } else {
-        axios({
-          method: 'post',
-          url: 'api/user/modifyUser',
-          data: {
-            u_id: id,
-            u_pwd: pwd,
-            u_name: name,
-            u_phone: phone,
-            u_email: email,
-            u_job: job,
-            u_salary: salary
-          }
-        }).then(function(response) {
-          console.log('********** 회원정보 수정 완료 **********');
-          alert('회원 정보 수정이 완료되었습니다');
-          setTimeout("window.location.href = './modifyUser'",1000)
-        })
+
       }
     }
   },
@@ -104,7 +88,18 @@ export default {
         console.log('세션 값 확인 '+ this.$session.get('session'))
 
         }
+      axios({
+          method: 'post',
+          url: 'api/user/showUser',
+          data: {
+            u_num: this.$session.get('session'),
 
+          }
+      }).then(function(response) {
+          console.log('********** showUser 응답 받음 **********');
+          console.log(response.data);
+          // setTimeout("window.location.href = './modifyUser'",1000)
+      })    
   }
 }
 </script>
