@@ -36,7 +36,6 @@ export default {
         this.classFade = '';
       } else {
         axios({
-            
           method: 'post',
           url: 'api/user/login',
           data: {
@@ -55,7 +54,7 @@ export default {
           setTimeout("window.location.href = './'",1000)
 
         //   makeSession(self.result);
-          
+
         })
       }
     //   console.log('바깥' + self.u_num);

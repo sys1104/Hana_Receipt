@@ -19,18 +19,18 @@ module.exports = {
             method: 'signup',
             type: 'post'
         },
-        {
-            file: './ajax_user',
-            path: '/api/user/dup-check',
-            method: 'user_dup_check',
-            type: 'get'
-        },
-        {
-            file: './user',
-            path: '/api/user/loadContents',
-            method: 'loadContents',
-            type: 'get'
-        },
+        // {
+        //     file: './ajax_user',
+        //     path: '/api/user/dup-check',
+        //     method: 'user_dup_check',
+        //     type: 'get'
+        // },
+        // {
+        //     file: './user',
+        //     path: '/api/user/loadContents',
+        //     method: 'loadContents',
+        //     type: 'get'
+        // },
         {
             file: './user',
             path: '/api/user/showUser',

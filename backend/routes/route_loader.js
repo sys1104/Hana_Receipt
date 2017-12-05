@@ -17,7 +17,6 @@ function initRoutes(app, router) {
     console.log('**********  %s 파일에서 모듈정보를 읽어옴. ********** ', curItem.file);
     //라우팅 처리
     if (curItem.type == 'get') {
-      //           요청 url
       router.route(curItem.path).get(curModule[curItem.method]);
     } else if (curItem.type == 'post') {
       router.route(curItem.path).post(curModule[curItem.method]);
