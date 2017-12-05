@@ -361,7 +361,7 @@ var consumeList = function(req, res) {
 var wasted_category_list = function(req, res, callback) {
   console.log('********** server-side 목표대비 사용금액 분석 function 호출 **********');
   var database = req.app.get('database');
-  var u_num = ''; //vue에서 받아와야 함!!!
+  var u_num = req.body.u_num; //vue에서 받아와야 함!!!
   var paramCatenum = req.body.cate_num;
   var start_date = ''; //front단에서 오늘 기준으로 주일의 시작
   var end_date = ''; //front단에서 오늘 기준으로 주일의 마지막날로 정의한 것을 받아옴
@@ -378,7 +378,7 @@ var wasted_category_list = function(req, res, callback) {
         res.end();
         // 에러 처리
       }
-      if (row) {
+      if (rows) {
         data.wasted_used = rows;
       } else {
         console.log("********** 사용내역 없음 **********");
@@ -435,8 +435,5 @@ var wasted_used = function(database, u_num, start_date, end_date, callback) {
 module.exports.requestHistory = requestHistory;
 module.exports.updateHistory = updateHistory;
 module.exports.consumeList = consumeList;
-<<<<<<< HEAD
-module.exports.wasted_category_list = wasted_category_list;
-=======
 module.exports.deleteHistory = deleteHistory;
->>>>>>> a96984144a1bdce659cd8637f42f4223945fd6c6
+module.exports.wasted_category_list = wasted_category_list;
