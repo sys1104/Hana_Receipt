@@ -10,7 +10,7 @@
          <td>일시</td>
         </tr>
         <!-- v-if="index < page_num" -->
-        <tr class="table-body" v-for="(result,index) in results">
+        <tr class="table-body" v-for="(result,index) in results" v-if="index>= (page-1)*numberInpage && index<numberInpage*page">
          <!-- 리스트 화면 -->
          <td>
            <select v-if="flag==false" v-model="result.cate_num" disabled class="form-control">
@@ -63,42 +63,37 @@
          <td><button v-if="flag==true && (result.consume_num == result3)" class="btn btn-success" @click="editConsume(result)">완료</button></td>
          <td><button v-if="flag==true && (result.consume_num == result3)" class="btn btn-danger" @click="delConsume(result)">삭제</button></td>
         </tr>
+        <!-- <div class="pagination">
+        <ul id="pagination" class="pagination" >
+          <li>
+            <a href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li><a href="#" v-for="i in 4">{{ i }}</a></li>
+          <li>
+            <a href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+        </div> -->
+        <div>
+        <ul v-for="i in list_total" class="list-group">
+          <li class="list-group-item">
+            <button class="btn btn-danger" @click="pageto(i)">{{i}}</button>
+          </li>
+        </ul>
+        <!-- <button class="btn btn-danger" @click="pageto(i)">{{i}}</button> -->
+        <!-- <button class="btn btn-danger" @click="pageto(2)">2</button>
+        <button class="btn btn-danger" @click="pageto(3)">3</button> -->
+        </div>
       </table>
-
-      <!-- <div class="pagination">
-      <ul id="pagination" class="pagination" >
-        <li>
-          <a href="#" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-        <li><a href="#" v-for="i in 4">{{ i }}</a></li>
-        <li>
-          <a href="#" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-      </ul>
-    </div> -->
-
-
-    <!-- <div class="pagination">
-        <button class="btn btn-default" @click="updateResource(pagination.next_page_url)"
-                :disabled="!pagination.prev_page_url">
-            Previous
-        </button>
-        <span>Page {{pagination.current_page}} of {{pagination.last_page}}</span>
-        <button class="btn btn-default" @click="updateResource(pagination.next_page_url)"
-                :disabled="!pagination.next_page_url">Next
-        </button>
-    </div> -->
-
   </div>
 </template>
 
 <script>
     import axios from 'axios'
-    import VuePaginator from 'vuejs-paginator'
     export default {
       data: function () {
         // editing: true
@@ -118,31 +113,17 @@
           result3 : '',
           list_total : '',
           page_num : '',
-          list_list : '',
-          pagination: {
-            // "total": 10,
-            // "per_page": 5,
-            // "current_page": 1,
-            // "last_page": 5,
-            // "next_page_url": "http://192.168.1.43:3000/api/consume_history/consumeList",
-            // "prev_page_url": "http://192.168.1.43:3000/api/consume_history/consumeList",
-            // "from": 1,
-            // "to": 5,
-            "total": '',
-            "per_page": '',
-            "current_page": '',
-            "last_page": '',
-            "next_page_url": '',
-            "prev_page_url": '',
-            "from": '',
-            "to": '',
-          }
+          numberInpage:10,
+          page:''
         }
       },
       components:{
         VPaginator: VuePaginator
       },
       methods :{
+        pageto(number){
+          this.page = number;
+        },
         //date포맷 변경 function
         dateFormatChange(date) {
             var options = {
@@ -219,23 +200,13 @@
       }).then(function (response) {
             self.results = response.data;
             self.list_total = response.data.length;
+            console.log(self.list_total);
             var list_total = self.list_total;
             if(self.list_total >= 5) {
               self.page_num = 5;
             } else {
               self.page_num = self.list_total;
             }
-
-            self.pagination.total = response.data.length;
-            self.pagination.current_page = 1;
-            self.pagination.last_page = 5;
-            self.pagination.prev_page_url = '';
-            self.pagination.next_page_url = '';
-            self.pagination.from = response.data.length / 5;
-            self.pagination.to = 10;
-            // self.list_list = response.data.length / 5;
-            // console.log('데이터 total_length : ' + self.list_list);
-            // console.dir('vue리절트 시작~'+response.data + '리절트~');
             console.log('뽑아왔지롱');
           })
       }

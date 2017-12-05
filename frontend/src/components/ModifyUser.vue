@@ -3,11 +3,11 @@
 <div class="container">
     <navi></navi>
     <div id="register" style="width:300px; display:inline-block; margin-top:200px">
-      
+
       <h2>회원정보 수정</h2>
       <div class="form-group">
         <p class="text-left">아이디 </p>
-        <input type="text" placeholder="아이디" v-model="u_id" class="form-control" name="u_id">
+        <input type="text" placeholder="아이디" v-model="u_id" class="form-control" name="u_id" disabled>
       </div>
       <!-- <div class="form-group">
         <input type="password" placeholder="패스워드" v-model="u_pw" class="form-control" name="u_pw">
@@ -65,13 +65,12 @@ export default {
   },
   methods: {
     getUserInfo() {
-        
-    }, 
+
+    },
     modifyUser() {
       console.log('********** front-end modifyUser 호출 **********');
-      // var id = this.u_id;
       // var pwd = this.u_pw;
-      // var name = this.u_name;
+      var name = this.u_name;
       var phone = this.u_phone;
       var email = this.u_email;
       var job = this.u_job;
@@ -83,8 +82,7 @@ export default {
           url: 'api/user/modifyUser',
           data: {
             u_num: num,
-            // u_id: id,
-            // u_name: name,
+            u_name: name,
             u_phone: phone,
             u_email: email,
             u_job: job,
@@ -126,13 +124,13 @@ export default {
           self.u_email = response.data[0].u_email
           self.u_job = response.data[0].u_job
           self.u_salary = response.data[0].u_salary
-          
+
 
           // this.u_id = response.data.u_id;
-          
+
           // response.data.u_name = this.u_name;
           // setTimeout("window.location.href = './modifyUser'",1000)
-      })    
+      })
   }
 }
 </script>
