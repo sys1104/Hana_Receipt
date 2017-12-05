@@ -29,19 +29,51 @@
 
 <script>
 import axios from 'axios'
+
+
+
 export default {
   data: function() {
     return {
       results: ''
     }
   },
+  methods: {
+    calculateDate() {
+      console.log('********** front-end addUser 호출 **********');
+      var today = new date();
+      console.log(today);
+    }
+  },
   created() {
     var self = this;
+    var now = new Date();
+    var today = now.getDay();
+    var startDate = '';
+    var endDate = '';
+    if (today != 1) {
+      startDate = now.setDate(now.getDate() - (today - 1));
+      startDate = new Date(startDate);
+    }
+    endDate = now.setDate(now.getDate() + 6);
+    endDate = new Date(endDate);
+    var startDate_date = startDate.getDate();
+    var startDate_month = startDate.getMonth();
+    var startDate_year = startDate.getFullYear();
+    var start_date = startDate_year + '-' + startDate_month + '-' +startDate_date;
+    var endDate_date = endDate.getDate();
+    var endDate_month = endDate.getMonth();
+    var endDate_year = endDate.getFullYear();
+    var end_date = endDate_year + '-' + endDate_month + '-' + endDate_date;
+    console.log(start_date);
+    console.log(end_date);
     axios({
       method: 'post',
       url: 'api/consume_history/wastedList',
       data: {
-        u_num: this.$session.get('session')
+        u_num: this.$session.get('session'),
+        start_date: start_date,
+        end_date: end_date
       }
     }).then(function(response) {
       self.results = response.data.wasted_used;

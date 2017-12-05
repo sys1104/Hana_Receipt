@@ -352,19 +352,15 @@ var consumeList = function(req, res) {
 };
 
 
-
-
-
-
-
 // ========================= server-side 1주일간 낭비되는 금액 카테고리별 출력 function =================== //
 var wasted_category_list = function(req, res, callback) {
   console.log('********** server-side 목표대비 사용금액 분석 function 호출 **********');
   var database = req.app.get('database');
   var u_num = req.body.u_num; //vue에서 받아와야 함!!!
-  var paramCatenum = req.body.cate_num;
-  var start_date = ''; //front단에서 오늘 기준으로 주일의 시작
-  var end_date = ''; //front단에서 오늘 기준으로 주일의 마지막날로 정의한 것을 받아옴
+  var start_date = req.body.start_date; //front단에서 오늘 기준으로 주일의 시작
+  var end_date = req.body.end_date; //front단에서 오늘 기준으로 주일의 마지막날로 정의한 것을 받아옴
+  console.log(start_date);
+  console.log(end_date);
   if (database) {
     var data = {};
     wasted_used(database, u_num, start_date, end_date, function(err, rows) {
@@ -411,7 +407,7 @@ var wasted_used = function(database, u_num, start_date, end_date, callback) {
       return;
     }
     console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
-    var exec = conn.query('select cate_num, sum(price) from consume_history where wasted = 1 and time >= ? and time <= ?',
+    var exec = conn.query('select cate_num, sum(price) from consume_history where u_num = ? and wasted = 1 and time >= ? and time <= ?',
       u_num, start_date, end_date,
       function(err, rows) {
         //select의 결과물은 배열로 들어온다. rows 변수...
