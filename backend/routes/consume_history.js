@@ -408,7 +408,7 @@ var wasted_used = function(database, u_num, start_date, end_date, callback) {
     }
     console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
     var exec = conn.query('select cate_num, sum(price) from consume_history where u_num = ? and wasted = 1 and time >= ? and time <= ?',
-      u_num, start_date, end_date,
+      [u_num, start_date, end_date],
       function(err, rows) {
         //select의 결과물은 배열로 들어온다. rows 변수...
         if (rows.length > 0) {

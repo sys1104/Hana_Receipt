@@ -23,6 +23,8 @@ import ModifyUser from './components/ModifyUser.vue'
 import GoalManagement from './components/GoalManagement.vue'
 
 Vue.use(VueRouter)
+Vue.use(VueResource)
+Vue.use(VuePaginator)
 
 //사용할 라우터 객체등록
 const routes = [

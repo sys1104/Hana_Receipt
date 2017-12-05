@@ -10,7 +10,7 @@
          <td>일시</td>
         </tr>
         <!-- v-if="index < page_num" -->
-        <tr class="table-body" v-for="(result,index) in results">
+        <tr class="table-body" v-for="(result,index) in results" v-if="index>= (page-1)*numberInpage && index<numberInpage*page">
          <!-- 리스트 화면 -->
          <td>
            <select v-if="flag==false" v-model="result.cate_num" disabled class="form-control">
@@ -62,32 +62,38 @@
          </td>
          <td><button v-if="flag==true && (result.consume_num == result3)" class="btn btn-success" @click="editConsume(result)">완료</button></td>
          <td><button v-if="flag==true && (result.consume_num == result3)" class="btn btn-danger" @click="delConsume(result)">삭제</button></td>
-
         </tr>
+        <!-- <div class="pagination">
+        <ul id="pagination" class="pagination" >
+          <li>
+            <a href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li><a href="#" v-for="i in 4">{{ i }}</a></li>
+          <li>
+            <a href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+        </div> -->
+        <div>
+        <ul v-for="i in list_total" class="list-group">
+          <li class="list-group-item">
+            <button class="btn btn-danger" @click="pageto(i)">{{i}}</button>
+          </li>
+        </ul>
+        <!-- <button class="btn btn-danger" @click="pageto(i)">{{i}}</button> -->
+        <!-- <button class="btn btn-danger" @click="pageto(2)">2</button>
+        <button class="btn btn-danger" @click="pageto(3)">3</button> -->
+        </div>
       </table>
-
-      <!-- <div class="pagination">
-      <ul id="pagination" class="pagination" >
-        <li>
-          <a href="#" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-        <li><a href="#" v-for="i in 4">{{ i }}</a></li>
-        <li>
-          <a href="#" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-      </ul>
-    </div> -->
-    <v-paginator resource_url="stories" @update="updateResource"></v-paginator>
   </div>
 </template>
 
 <script>
     import axios from 'axios'
-    import VuePaginator from 'vuejs-paginator'
     export default {
       data: function () {
         // editing: true
@@ -107,36 +113,18 @@
           result3 : '',
           list_total : '',
           page_num : '',
-          list_list : ''
+          numberInpage:10,
+          page:''
         }
       },
       components:{
         VPaginator: VuePaginator
       },
       methods :{
-        updateResource(){
-          var self2 = this;
-          axios({
-          method: 'get',
-          url: 'api/consume_history/consumeList',
-          data:{
-          }
-        }).then(function (response) {
-              self2.results = response.data;
-              self2.list_total = response.data.length;
-              var list_total = self2.list_total;
-              if(self2.list_total >= 5) {
-                self2.page_num = 5;
-              } else {
-                self2.page_num = self2.list_total;
-              }
-              // self.list_list = response.data.length / 5;
-              // console.log('데이터 total_length : ' + self.list_list);
-              // console.dir('vue리절트 시작~'+response.data + '리절트~');
-              console.log('뽑아왔지롱222');
-            })
-          this.list_list = self2.results
+        pageto(number){
+          this.page = number;
         },
+        //date포맷 변경 function
         dateFormatChange(date) {
             var options = {
                 weekday: "short", year: "numeric", month: "short",
@@ -212,15 +200,13 @@
       }).then(function (response) {
             self.results = response.data;
             self.list_total = response.data.length;
+            console.log(self.list_total);
             var list_total = self.list_total;
             if(self.list_total >= 5) {
               self.page_num = 5;
             } else {
               self.page_num = self.list_total;
             }
-            // self.list_list = response.data.length / 5;
-            // console.log('데이터 total_length : ' + self.list_list);
-            // console.dir('vue리절트 시작~'+response.data + '리절트~');
             console.log('뽑아왔지롱');
           })
       }

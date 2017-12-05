@@ -35,39 +35,39 @@
 <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요한) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <!-- 모든 합쳐진 플러그인을 포함하거나 (아래) 필요한 각각의 파일들을 포함하세요 -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <!-- Respond.js 으로 IE8 에서 반응형 기능을 활성화하세요 (https://github.com/scottjehl/Respond) -->
 <script src="/resources/bootstrap/js/respond.js"></script>
-<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
 <script>
 import axios from 'axios'
 import Navi from './Navi.vue'
+import ajax from 'ajax'
 
 // $(document).ready(function() {
-//   //#id에서 포커스가 벗어나면
-//   $("#u_id").blur(function() {
-//     //userInput에 들어 있는 내용을 토대로
-//     // querystring 생성
-//     var userInput = $(this);
-//     var param = $(userInput).serialize();
-//     console.log(param);
-//     //ajax 통신 시작
-//     $.ajax({
-//       url: '/api/user/dup-check',
-//       data: param,
-//       dataType: 'json',
-//       type: 'get',
-//       success: function(data) {
-//         if (data.msg === 'ok') {
-//           $(userInput).css('border', '1px solid green');
-//         } else {
-//           $(userInput).css('border', '1px solid red');
-//           window.alert('이미 사용중인 아이디입니다.');
-//         }
-//       }
-//     });
-//   });
-// });
+$(function() {
+  //#id에서 포커스가 벗어나면
+  $("#u_id").blur(function() {
+    //userInput에 들어 있는 내용을 토대로
+    // querystring 생성
+    var userInput = $(this);
+    var param = $(userInput).serialize();
+    console.log(param);
+    //ajax 통신 시작
+    $.ajax({
+      url: '/api/user/user_dup_check',
+      data: param,
+      dataType: 'json',
+      type: 'get',
+      success: function(data) {
+        if (data.msg === 'ok') {
+          $(userInput).css('border', '1px solid green');
+        } else {
+          $(userInput).css('border', '1px solid red');
+          window.alert('이미 사용중인 아이디입니다.');
+        }
+      }
+    });
+  });
+});
 
 export default {
   data: function() {
