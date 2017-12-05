@@ -38,6 +38,12 @@ module.exports = {
             type: 'post'
         },
         {
+            file: './user',
+            path: '/api/user/modifyUser',
+            method: 'modifyUser',
+            type: 'post'
+        },
+        {
             file: './consume_history',
             path: '/api/consume_history/updateHistory',
             method: 'updateHistory',
