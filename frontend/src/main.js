@@ -3,6 +3,9 @@
 import Vue from 'vue'
 import App from './App'
 import VueRouter from 'vue-router'
+//두영추가
+import VueResource from 'vue-resource'
+import VuePaginator from 'vuejs-paginator'
 
 //라우터 객체에 등록할 컴포넌트 불러오기
 import Login from './components/Login.vue'

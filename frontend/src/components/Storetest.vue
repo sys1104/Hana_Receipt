@@ -1,5 +1,5 @@
 <template>
-<div id="insertConsume" style="width:300px; display:inline-block;">
+<div id="insertConsume" style="width:800px; display:inline-block;">
   <stories></stories>
   <h2>소비내역 저장</h2>
   <div class="form-group">
