@@ -23,30 +23,7 @@ var login = function(req, res, callback) {
         res.json(data);
         console.log(data);
         res.end();
-        //doc가 존재하면 로그인 성공
-        // req.session.user = {
-        //   name: paramId,
-        //   authorized: true
-        // };
         console.log("********** user 세션 생성 **********");
-        // res.writeHead(200, {
-        //   "Content-Type": 'text/html;charset=utf8'
-        // });
-        // var isUser = {
-        //   isUser: true
-        // };
-        // if (req.session.user) {
-        //   console.log('********** 세션 유지 **********');
-        //   req.app.render('main', isUser, function(err, html) {
-        //      if (err) {
-        //        throw err;
-        //      }
-        //      console.log(html);
-        //      res.end(html);
-        //    });
-        // } else {
-        //   console.log('********** 세션 생성 안됨 **********');
-        // }
       } else {
         //docs가 존재하지 않으면 로그인 실패
         res.writeHead(200, {
