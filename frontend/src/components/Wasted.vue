@@ -51,7 +51,7 @@ export default {
     var startDate = '';
     var endDate = '';
     if (today != 1) {
-      startDate = now.setDate(now.getDate() - (today - 1));
+      startDate = now.setDate(now.getDate() - (today - 8));
       startDate = new Date(startDate);
     }
     endDate = now.setDate(now.getDate() + 6);
