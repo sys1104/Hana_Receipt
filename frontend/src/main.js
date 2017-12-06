@@ -3,8 +3,10 @@
 import Vue from 'vue'
 import App from './App'
 import VueRouter from 'vue-router'
-//세션
+import VuePaginator from 'vuejs-paginator'
 import VueSession from 'vue-session'
+//세션
+import VueResource from 'vue-resource'
 //axios
 import axios from 'axios'
 //라우터 객체에 등록할 컴포넌트 불러오기
