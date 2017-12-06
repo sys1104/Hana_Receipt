@@ -16,7 +16,9 @@ var cate_used_goal_money = function(req, res, callback) {
         res.end();
         // 에러 처리
       }
-      if (row) {
+      if (rows) {
+        console.log('********** cate_used **********');
+        console.log('********** data.cate_used ' + rows + ' *********');
         data.cate_used = rows;
       } else {
         console.log("********** 사용내역 없음 **********");
@@ -33,7 +35,7 @@ var cate_used_goal_money = function(req, res, callback) {
         res.end();
         // 에러 처리
       }
-      if (row2) {
+      if (rows2) {
         data.goal_money = rows2;
       } else {
         console.log("********** 사용내역 없음 **********");
@@ -55,7 +57,7 @@ var cate_used_goal_money = function(req, res, callback) {
 };
 
 // ========================= server-side 카테고리별 사용금액 분석 function =================== //
-var cate_used = function(database, u_num, paramCatenum, start_date, end_date, callback) {
+var cate_used = function(database, u_num, callback) {
   console.log('********** server-side cate_used 호출 **********');
   database.pool.getConnection(function(err, conn) { //DB 접속
     if (err) {
@@ -66,11 +68,12 @@ var cate_used = function(database, u_num, paramCatenum, start_date, end_date, ca
       return;
     }
     console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
-    var exec = conn.query('select cate_num, sum(price) from (select * from consume_history where u_num = ? and c_time >= (select max(g_time) from goal where u_num = ?) and c_time <= (select max(g_endtime) from goal where u_num = ?)) as sub_goal group by cate_num', [u_num, u_num, u_num],
+    var exec = conn.query('select cate_num, sum(price) as sum_price from (select * from consume_history where u_num = ? and c_time >= (select max(g_time) from goal where u_num = ?) and c_time <= (select max(g_endtime) from goal where u_num = ?)) as sub_goal group by cate_num', [u_num, u_num, u_num],
       function(err, rows) {
         //select의 결과물은 배열로 들어온다. rows 변수...
         if (rows.length > 0) {
           console.log('********** 카테고리별 목표대비 사용금액 rows로 반환 **********');
+          console.log(rows);
           callback(null, rows);
         } else {
           console.log('********** 사용내역이 없습니다.**********');
@@ -360,3 +363,5 @@ var compare_other = function(database, u_num, start_date, end_date, callback) {
     });
   });
 };
+
+module.exports.cate_used_goal_money = cate_used_goal_money;

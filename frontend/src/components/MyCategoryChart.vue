@@ -5,6 +5,7 @@
 
 <script>
 // 카테고리별 목표금액 그래프
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -19,7 +20,7 @@ export default {
           tick: {
             visible: false
           },
-          labels: ["미분류", "주거/통신", "패션/미용", "식비", "교통", "생활/쇼핑"],
+          labels: '',  // 배열형식으로 지정해야함
           item: {
             fontColor: "#000000",
             fontSize: 16
@@ -61,10 +62,11 @@ export default {
           }
         },
         series: [{
-            values: [3, 2, 6, 7, 4, 2],
+            values: [1,1,1,1,1,1], //배열 형식으로 지정해야함
             borderRadius: "50px 0px 0px 50px",
             backgroundColor: "#E71D36",
-            rules: [{
+            rules:
+            [{
                 rule: "%i === 0",
                 backgroundColor: "#E71D36"
               },
@@ -92,11 +94,12 @@ export default {
             ]
           },
           {
-            values: [7, 8, 4, 3, 6, 8],
+            values: [9,9,9,9,9,9], //배열 형식으로 지정해야함
             borderRadius: "0px 50px 50px 0px",
             backgroundColor: "#E71D36",
             //alpha : 0.8,
-            rules: [{
+            rules:
+            [{
                 rule: "%i === 0",
                 backgroundColor: "#e85d6f"
               },
@@ -126,7 +129,6 @@ export default {
       }
     }
   },
-
   mounted() {
     zingchart.render({
       id: 'myCategoryChart',
@@ -137,37 +139,24 @@ export default {
   },
   created() {
     var self = this;
-    // this.u_id = self.result[0];
-    // this.u_name = '송영수'
     if (!this.$session.exists()) {
       console.log('********** 세션이 없습니다. **********');
     } else {
       console.log('********** 세션이 있습니다. **********');
       // this.u_num = this.$session.getAll();
-      console.log('세션 값 확인 ' + this.$session.get('session'))
+      console.log('세션 값 확인 ' + this.$session.get('session'));
+      axios({
+        method: 'post',
+        url: 'api/analysis/cate_used_goal_money',
+        data: {
+          u_num: this.$session.get('session'),
+        }
+      }).then(function(response) {
+        console.log('********** cate_used_goal_money 응답 받음 **********');
+        console.log(response.data);
+        self.scaleX.labels = response.data.cate_num;
+      })
     }
-    axios({
-      method: 'post',
-      url: 'api/analysis/cate_used_goal_money',
-      data: {
-        u_num: this.$session.get('session'),
-      }
-    }).then(function(response) {
-      console.log('********** showUser 응답 받음 **********');
-      console.log(response.data);
-      self.u_id = response.data[0].u_id
-      self.u_name = response.data[0].u_name
-      self.u_phone = response.data[0].u_phone
-      self.u_email = response.data[0].u_email
-      self.u_job = response.data[0].u_job
-      self.u_salary = response.data[0].u_salary
-
-
-      // this.u_id = response.data.u_id;
-
-      // response.data.u_name = this.u_name;
-      // setTimeout("window.location.href = './modifyUser'",1000)
-    })
   }
 }
 </script>
