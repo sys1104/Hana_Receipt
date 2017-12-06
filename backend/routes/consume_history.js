@@ -333,8 +333,8 @@ var wastedList = function(req, res, callback) {
   var u_num = req.body.u_num; //vue에서 받아와야 함!!!
   var start_date = Number(req.body.start_date); //front단에서 오늘 기준으로 주일의 시작
   var end_date = Number(req.body.end_date); //front단에서 오늘 기준으로 주일의 마지막날로 정의한 것을 받아옴
-  console.log(start_date);
-  console.log(end_date);
+  console.log('start_date 값 : ' + start_date);
+  console.log('end_date 값 : ' + end_date);
   if (database) {
 
     wasted_used(database, u_num, start_date, end_date, function(err, rows) {
