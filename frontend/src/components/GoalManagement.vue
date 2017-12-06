@@ -40,7 +40,8 @@ export default {
       results:'',
       cate_num: '',
       g_time: '',
-      g_price: ''
+      g_price: '',
+      form_num : 1,
     }
   },
   components: {
