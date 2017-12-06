@@ -326,3 +326,4 @@ var remove_goal = function(database, u_num, g_num, callback) {
 module.exports.request_goal = request_goal;
 module.exports.save_goal = save_goal;
 module.exports.edit_goal = edit_goal;
+module.exports.delete_goal = delete_goal;

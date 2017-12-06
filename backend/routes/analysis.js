@@ -2,10 +2,10 @@
 var cate_used_goal_money = function(req, res, callback) {
   console.log('********** server-side 목표대비 사용금액 분석 function 호출 **********');
   var database = req.app.get('database');
-  var u_num = ''; //vue에서 받아와야 함!!!
+  var u_num = req.body.u_num; //vue에서 받아와야 함!!!
   var paramCatenum = req.body.cate_num;
-  var start_date = ''; //front단에서 오늘 기준으로 주일의 시작
-  var end_date = ''; //front단에서 오늘 기준으로 주일의 마지막날로 정의한 것을 받아옴
+  var start_date = req.body.start_date; //front단에서 오늘 기준으로 주일의 시작
+  var end_date = req.body.end_date; //front단에서 오늘 기준으로 주일의 마지막날로 정의한 것을 받아옴
   if (database) {
     var data = {};
     cate_used(database, u_num, paramCatenum, start_date, end_date, function(err, rows) {
@@ -125,9 +125,9 @@ var cate_goal= function(database, u_num, paramCatenum, start_date, end_date, cal
 var all_used_goal_money = function(req, res, callback) {
   console.log('********** server-side 총 항목 목표대비 사용금액 분석 function 호출 **********');
   var database = req.app.get('database');
-  var u_num = ''; //vue에서 받아와야 함!!!
-  var start_date = ''; //front단에서 오늘 기준으로 주일의 시작
-  var end_date = ''; //front단에서 오늘 기준으로 주일의 마지막날로 정의한 것을 받아옴
+  var u_num = req.body.u_num;
+  var start_date = req.body.start_date; //front단에서 오늘 기준으로 주일의 시작
+  var end_date = req.body.end_date; //front단에서 오늘 기준으로 주일의 마지막날로 정의한 것을 받아옴
   if (database) {
     var data = {};
     all_used(database, u_num, start_date, end_date, function(err, rows) {
@@ -248,9 +248,9 @@ var all_goal= function(database, u_num, start_date, end_date, callback) {
 var compare_user_other = function(req, res, callback) {
   console.log('********** server-side 총 항목 목표대비 사용금액 분석 function 호출 **********');
   var database = req.app.get('database');
-  var u_num = ''; //vue에서 받아와야 함!!!
-  var start_date = ''; //front단에서 오늘 기준으로 주일의 시작
-  var end_date = ''; //front단에서 오늘 기준으로 주일의 마지막날로 정의한 것을 받아옴
+  var u_num = req.body.u_num; //vue에서 받아와야 함!!!
+  var start_date = req.body.start_date; //front단에서 오늘 기준으로 주일의 시작
+  var end_date = req.body.end_date; //front단에서 오늘 기준으로 주일의 마지막날로 정의한 것을 받아옴
   if (database) {
     var data = {};
     compare_user(database, u_num, start_date, end_date, function(err, rows) {
