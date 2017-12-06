@@ -19,12 +19,12 @@ module.exports = {
             method: 'signup',
             type: 'post'
         },
-        {
-            file: './ajax_user',
-            path: '/api/user/user_dup_check',
-            method: 'user_dup_check',
-            type: 'get'
-        },
+        // {
+        //     file: './ajax_user',
+        //     path: '/api/user/user_dup_check',
+        //     method: 'user_dup_check',
+        //     type: 'get'
+        // },
         // {
         //     file: './user',
         //     path: '/api/user/loadContents',
@@ -66,7 +66,14 @@ module.exports = {
             path: '/api/consume_history/deleteHistory',
             method: 'deleteHistory',
             type: 'get'
+        },
+        {
+            file: './consume_history',
+            path: '/api/consume_history/wastedList',
+            method: 'wasted_category_list',
+            type: 'post'
         }
+
 
     ],
     jsonrpc_api_path: '/api'

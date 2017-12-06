@@ -14,7 +14,7 @@
       </div> -->
       <div class="form-group">
         <p class="text-left">이름 </p>
-        <input type="text" placeholder="이름" v-model="u_name" class="form-control" name="u_name">
+        <input type="text" placeholder="이름" v-model="u_name" class="form-control" name="u_name" disabled>
       </div>
       <div class="form-group">
         <p class="text-left">휴대폰 번호 </p>
@@ -42,9 +42,7 @@
 <script>
 import axios from 'axios'
 import Navi from './Navi.vue'
-import Vue from 'vue'
-import VueSession from 'vue-session'
-Vue.use(VueSession)
+
 
 export default {
   data: function() {
@@ -76,7 +74,7 @@ export default {
       var job = this.u_job;
       var salary = this.u_salary;
       var num = this.$session.get('session');
-      console.log('연봉 샘플데이터 '+salary)
+      console.log('폰 샘플데이터 '+phone)
       axios({
           method: 'post',
           url: 'api/user/modifyUser',

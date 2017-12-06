@@ -6,7 +6,10 @@ import VueRouter from 'vue-router'
 //두영추가
 import VueResource from 'vue-resource'
 import VuePaginator from 'vuejs-paginator'
-
+//세션
+import VueSession from 'vue-session'
+//axios
+import axios from 'axios'
 //라우터 객체에 등록할 컴포넌트 불러오기
 import Login from './components/Login.vue'
 import Register from './components/Register.vue'
@@ -25,8 +28,9 @@ import GoalManagement from './components/GoalManagement.vue'
 Vue.use(VueRouter)
 Vue.use(VueResource)
 Vue.use(VuePaginator)
-
-//사용할 라우터 객체등록
+Vue.use(VueSession)
+Vue.use(axios)
+    //사용할 라우터 객체등록
 const routes = [
     { name: 'home', path: '/', component: Main },
     { name: 'regist', path: '/register', component: Register },
