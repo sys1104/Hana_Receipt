@@ -19,7 +19,7 @@
     <input type="text" placeholder="가격" v-model="price" class="form-control" name="price">
   </div>
   <div class="form-group">
-    <input type="text" placeholder="시간" v-model="time" class="form-control" name="time">
+    <input type="text" placeholder="입력 예)20171205" v-model="c_time" class="form-control" name="c_time">
   </div>
   <div class="form-group">
     <input type="email" placeholder="낭비체크" v-model="wasted" class="form-control" name="wasted">
@@ -39,7 +39,7 @@ export default {
       cate_num: '',
       content: '',
       price: '',
-      time: '',
+      c_time: '',
       wasted: ''
     }
   },
@@ -53,7 +53,7 @@ export default {
       var cate_num = this.cate_num;
       var content = this.content;
       var price = this.price;
-      var time = this.time;
+      var c_time = this.c_time;
       var wasted = this.wasted;
         axios({
           method: 'post',
@@ -63,7 +63,7 @@ export default {
             cate_num: cate_num,
             content: content,
             price: price,
-            time: time,
+            c_time: c_time,
             wasted: wasted
           }
         }).then(function(response) {

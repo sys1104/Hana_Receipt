@@ -2,44 +2,17 @@
 var requestHistory = function(req, res, callback) {
   console.log('********** server-side requestHistory 호출됨 **********');
   var database = req.app.get('database');
-
-  // if (req.session.user) {
-  //   console.log('********** 사용자 세션 확인하였습니다. **********');
-  //   {
-  //     var paramId = req.session.user.name;
-  //     database.pool.getConnection(function(err, conn) {
-  //       if (err) {
-  //         if (conn) {
-  //           conn.release();
-  //         }
-  //         callback(err, null);
-  //         return;
-  //       }
-  //       console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
-  //       var exec = conn.query('select u_num from user where u_id=?', paramId, function(err, rows) {
-  //         if (rows.length > 0) {
-  //           console.log('********** u_num 은 %s ' + rows[0].u_num + ' **********');
-  //           u_num = rows[0].u_num;
-  //         }
-  //       });
-  //       conn.on('error', function(err) {
-  //         console.log('데이터베이스 연결 시 에러 발생함');
-  //         console.dir(err);
-  //         callback(err, null);
-  //       });
-  //     });
-  //   }
-  // }
+  
   var u_num = Number(req.body.u_num);
   var cate_num = Number(req.body.cate_num);
   var content = req.body.content;
   var price = req.body.price;
-  var time = req.body.time;
+  var c_time = req.body.c_time;
   var wasted = req.body.wasted;
 
   if (database) {
     var axios = require('axios');
-    saveHistory(database, u_num, cate_num, content, price, time, wasted, function(err, result) {
+    saveHistory(database, u_num, cate_num, content, price, c_time, wasted, function(err, result) {
       if (err) {
         throw err;
       }
@@ -67,7 +40,7 @@ var requestHistory = function(req, res, callback) {
   }
 };
 
-var saveHistory = function(database, u_num, cate_num, content, price, time, wasted, callback) {
+var saveHistory = function(database, u_num, cate_num, content, price, c_time, wasted, callback) {
   console.log('********** server-side saveHistory 호출됨 **********');
   //pool에서 커넥션 객체 가져오기
   database.pool.getConnection(function(err, conn) {
@@ -86,7 +59,7 @@ var saveHistory = function(database, u_num, cate_num, content, price, time, wast
       cate_num: cate_num,
       content: content,
       price: price,
-      time: time,
+      c_time: c_time,
       wasted: wasted
     };
     //conn 객체를 사용해서 sql 실행
@@ -121,12 +94,12 @@ var updateHistory = function(req, res, callback) {
   var paramCatenum = Number(req.body.cate_num);
   var paramContent = req.body.content;
   var paramPrice = req.body.price;
-  var paramTime = req.body.time;
+  var paramCtime = req.body.c_time;
   var paramWasted = req.body.wasted;
   //database --> true : DB에 접근할 수 있는 상태
   if (database) {
     var axios = require('axios');
-    editHistory(database, paramConsumenum, paramUnum, paramCatenum, paramContent, paramPrice, paramTime, paramWasted, function(err, result) {
+    editHistory(database, paramConsumenum, paramUnum, paramCatenum, paramContent, paramPrice, paramCtime, paramWasted, function(err, result) {
       if (err) {
         throw err;
       } // 에러 처리
@@ -154,7 +127,7 @@ var updateHistory = function(req, res, callback) {
   }
 };
 
-var editHistory = function(database, consume_num, u_num, cate_num, content, price, time, wasted, callback) {
+var editHistory = function(database, consume_num, u_num, cate_num, content, price, c_time, wasted, callback) {
   console.log('********** editHistory 호출됨 **********');
   //pool에서 커넥션 객체 가져오기
   database.pool.getConnection(function(err, conn) {
@@ -169,8 +142,8 @@ var editHistory = function(database, consume_num, u_num, cate_num, content, pric
     console.log('데이터베이스 연결 Thread' + conn.threadId);
     // select consume_num from consume_history
     //conn 객체를 사용해서 sql 실행
-    var exec = conn.query('update consume_history set cate_num = ?, content = ?, price = ?, time = ?, wasted =? where u_num = ? and consume_num = ?',
-      [cate_num, content, price, time, wasted, u_num, consume_num],
+    var exec = conn.query('update consume_history set cate_num = ?, content = ?, price = ?, c_time = ?, wasted =? where u_num = ? and consume_num = ?',
+      [cate_num, content, price, c_time, wasted, u_num, consume_num],
       function(err, result) {
         //쿼리 작업 수행 후 반드시 연결을 해제 해야 한다.
         conn.release();
@@ -281,7 +254,7 @@ var read_consume_board = function(database, callback) {
     }
     console.log('데이터 베이스 연결 스레드 아이디 : ' + conn.threadID);
     //칼럼명을 배열로 만들기
-    var sql = 'select * from consume_history order by time';
+    var sql = 'select * from consume_history order by c_time';
     // var columns = [post_num];
     var exec = conn.query(sql, function(err, rows) {
       //select의 결과물은 배열로 들어온다. -rows 변수..
