@@ -327,7 +327,7 @@ var consumeList = function(req, res) {
 
 
 // ========================= server-side 1주일간 낭비되는 금액 카테고리별 출력 function =================== //
-var wasted_category_list = function(req, res, callback) {
+var wastedList = function(req, res, callback) {
   console.log('********** server-side 목표대비 사용금액 분석 function 호출 **********');
   var database = req.app.get('database');
   var u_num = req.body.u_num; //vue에서 받아와야 함!!!
@@ -383,7 +383,7 @@ var wasted_used = function(database, u_num, start_date, end_date, callback) {
       return;
     }
     console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
-    var exec = conn.query('select cate_num, sum(price) from consume_history where u_num = ? and wasted = 1 and c_time >= ? and c_time <= ? group by cate_num',
+    var exec = conn.query('select cate_num, sum(price) sum_price from consume_history where u_num = ? and wasted = 1 and c_time >= ? and c_time <= ? group by cate_num',
       [u_num, start_date, end_date],
       function(err, rows) {
         //select의 결과물은 배열로 들어온다. rows 변수...
@@ -409,4 +409,4 @@ module.exports.requestHistory = requestHistory;
 module.exports.updateHistory = updateHistory;
 module.exports.consumeList = consumeList;
 module.exports.deleteHistory = deleteHistory;
-module.exports.wasted_category_list = wasted_category_list;
+module.exports.wastedList = wastedList;

@@ -70,7 +70,7 @@ module.exports = {
         {
             file: './consume_history',
             path: '/api/consume_history/wastedList',
-            method: 'wasted_category_list',
+            method: 'wastedList',
             type: 'post'
         },
         {
@@ -78,8 +78,13 @@ module.exports = {
             path: '/api/goal/request_goal',
             method: 'request_goal',
             type: 'get'
+        },
+        {
+            file: './goal',
+            path: '/api/goal/save_goal',
+            method: 'save_goal',
+            type: 'post'
         }
-
 
     ],
     jsonrpc_api_path: '/api'

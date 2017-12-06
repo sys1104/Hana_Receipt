@@ -13,9 +13,8 @@
           <td>금액</td>
         </tr>
         <tr class="table-body" v-for="result in results">
-          <td>
-            {{result}}
-          </td>
+          <td>{{result.cate_num}}</td>
+          <td>{{result.sum_price}}</td>
         </tr>
       </table>
       <hr>
