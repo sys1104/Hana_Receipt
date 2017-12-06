@@ -3,6 +3,7 @@ var request_goal = function(req, res, callback) {
   console.log('********** server-side 목표 리스트 요청 function 호출 **********');
   var database = req.app.get('database');
   var u_num = req.body.u_num; //vue에서 받아와야 함!!!
+
   if (database) {
     list_goal(database, u_num, function(err, rows) {
       if (err) {
@@ -240,9 +241,6 @@ var update_goal = function(database, u_num, cate_num, g_price, g_time, g_endtime
     });
   });
 };
-
-
-
 
 // ==================== 목표내역 삭제 파라미터 전달 function ==================== //
 var delete_goal = function(req, res, callback) {
