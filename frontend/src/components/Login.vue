@@ -1,21 +1,22 @@
 <template>
-<div class="col-md-10" id="login" style="width:300px; display:inline-block;">
-  <h2>로그인</h2>
-  <div class="form-group form-horizontal">
-    <input type="text" placeholder="아이디" v-model="u_id" class="form-control" name="u_id">
+<div class="container">
+  <navi></navi>
+  <div class="col-md-10" id="login" style="width:300px; display:inline-block; margin-top : 300px">
+    <h2>로그인</h2>
+    <div class="form-group form-horizontal">
+      <input type="text" placeholder="아이디" v-model="u_id" class="form-control" name="u_id">
+    </div>
+    <div class="form-group">
+      <input type="password" placeholder="패스워드" v-model="u_pw" class="form-control" name="u_pw">
+    </div>
+    <button @click="login" class="btn btn-primary">로그인</button>
   </div>
-  <div class="form-group">
-    <input type="password" placeholder="패스워드" v-model="u_pw" class="form-control" name="u_pw">
-  </div>
-  <button @click="login" class="btn btn-primary">로그인</button>
 </div>
 </template>
 
 <script>
 import axios from 'axios'
-import Vue from 'vue'
-import VueSession from 'vue-session'
-Vue.use(VueSession)
+import Navi from './Navi.vue'
 export default {
   data: function() {
     return {
@@ -23,6 +24,9 @@ export default {
       u_pw: '',
       u_num : '',
     }
+  },  
+  components: {
+    Navi
   },
   methods: {
     login() {
@@ -51,7 +55,7 @@ export default {
           self.$session.set('session',self.result)
           console.log('세션 만듦')
           console.log('세션 값 확인 '+ self.$session.get('session'))
-          setTimeout("window.location.href = './'",1000)
+          setTimeout("window.location.href = './'",0)
 
         //   makeSession(self.result);
 

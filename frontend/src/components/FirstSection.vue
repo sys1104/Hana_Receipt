@@ -2,7 +2,7 @@
       <!-- Portfolio Grid Section -->
     <section class="portfolio" id="portfolio">
       <div class="container">
-        <h2 class="text-center text-uppercase text-secondary mb-0">ㅎㅇ</h2>
+        <h2 class="text-center text-uppercase text-secondary mb-0">목표금액 : 100,000</h2>
         <hr class="star-dark mb-5">
         <div class="row">
           <div class="col-md-6 col-lg-4">
