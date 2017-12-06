@@ -3,12 +3,11 @@ var request_goal = function(req, res, callback) {
   console.log('********** server-side 목표 리스트 요청 function 호출 **********');
   var database = req.app.get('database');
   var u_num = req.body.u_num; //vue에서 받아와야 함!!!
-  var start_date = Number(req.body.start_date); //front단에서 오늘 기준으로 주일의 시작
-  var end_date = Number(req.body.end_date); //front단에서 오늘 기준으로 주일의 마지막날로 정의한 것을 받아옴
+  // var start_date = Number(req.body.g_time); //front단에서 오늘 기준으로 주일의 시작
   console.log(start_date);
-  console.log(end_date);
+  // console.log(end_date);
   if (database) {
-    list_goal(database, u_num, start_date, end_date, function(err, rows) {
+    list_goal(database, u_num, function(err, rows) {
       if (err) {
         console.error('********** cate_used 에러 발생 **********' + err.stack);
         res.writeHead(200, {
@@ -43,7 +42,7 @@ var request_goal = function(req, res, callback) {
 };
 
 // ========================= server-side 목표리스트 출력 function =================== //
-var list_goal = function(database, u_num, start_date, end_date, callback) {
+var list_goal = function(database, u_num, callback) {
   console.log('********** server-side wasted_used 호출 **********');
   database.pool.getConnection(function(err, conn) { //DB 접속
     if (err) {
@@ -243,6 +242,86 @@ var update_goal = function(database, u_num, cate_num, g_price, g_time, callback)
     });
   });
 };
+
+// ==================== 목표내역 삭제 파라미터 전달 function ==================== //
+var delete_goal = function(req, res, callback) {
+  console.log('********** server-side edit_goal 호출됨 **********');
+  var database = req.app.get('database');
+  var u_num = req.body.u_num;
+  var g_num = req.body.g_num;
+  if (database) {
+    var axios = require('axios');
+    remove_goal(database, u_num, g_num, function(err, result) {
+      if (err) {
+        throw err;
+      }
+      if (result) {
+        console.dir(result);
+        //일단 메인으로 redirect
+        res.redirect('http://localhost:8080');
+      } else {
+        res.writeHead(200, {
+          "Content-Type": 'text/html;charset=utf8'
+        });
+        res.write('<h1>소비내역 삭제 실패</h1>');
+        res.end();
+      }
+    });
+  } else {
+    //DB접속에 실패 했을 경우
+    res.writeHead(200, {
+      "Content-Type": 'text/html;charset=utf8'
+    });
+    res.write('<h1>데이터베이스 연결 실패</h1>');
+    res.write('<div><p>DB에 연결 하지 못했습니다</p></div>');
+    res.write("<br/><a href='/public/adduser.html'>다시 가입하기</a>");
+    res.end();
+  }
+};
+
+// ==================== 목표 DB 삭제 function ==================== //
+var remove_goal = function(database, u_num, g_num, callback) {
+  console.log('********** server-side remove_goal 호출됨 **********');
+  //pool에서 커넥션 객체 가져오기
+  database.pool.getConnection(function(err, conn) {
+    if (err) {
+      //커넥션을 pool에 반환하기
+      if (conn) {
+        conn.release();
+      }
+      callback(err, null);
+      return;
+    }
+    console.log('데이터베이스 연결 Thread' + conn.threadId);
+    //삽입할 데이터를 객체로 만들기 앞: DB컬럼명, 뒤: 파라미터로 받아온 컬럼명
+    var data = {
+      u_num: u_num,
+      cate_num: cate_num,
+    };
+    //conn 객체를 사용해서 sql 실행
+    //set 모든 컬럼에 집어넣는 문법
+    var exec = conn.query('delete from goal where u_num = ? and g_num = ?',
+      [u_num, g_num], function(err, result) {
+      //쿼리 작업 수행 후 반드시 연결을 해제 해야 한다.
+      conn.release();
+      console.log('실행 sql : %s', exec.sql);
+      if (err) {
+        console.log('sql 수행 중 에러발생.');
+        console.dir(err);
+
+        callback(err, null);
+        return;
+      }
+      callback(null, result);
+    });
+    conn.on('error', function(err) {
+      console.log('데이터베이스 연결 시 에러 발생함');
+      console.dir(err);
+      callback(err, null);
+    });
+  });
+};
+
 
 module.exports.request_goal = request_goal;
 module.exports.save_goal = save_goal;
