@@ -3,9 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import VueRouter from 'vue-router'
-//두영추가
-import VueResource from 'vue-resource'
-import VuePaginator from 'vuejs-paginator'
+
 //세션
 import VueSession from 'vue-session'
 //axios
@@ -26,8 +24,8 @@ import ModifyUser from './components/ModifyUser.vue'
 import GoalManagement from './components/GoalManagement.vue'
 
 Vue.use(VueRouter)
-Vue.use(VueResource)
-Vue.use(VuePaginator)
+// Vue.use(VueResource)
+// Vue.use(VuePaginator)
 Vue.use(VueSession)
 Vue.use(axios)
     //사용할 라우터 객체등록
@@ -63,10 +61,10 @@ const router = new VueRouter({
     mode: 'history',
     base: '/',
     routes
-})
+});
 
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 
 

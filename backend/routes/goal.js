@@ -79,10 +79,10 @@ var list_goal = function(database, u_num, start_date, end_date, callback) {
 
 // ==================== 목표 저장 파라미터 전달 function ==================== //
 var save_goal = function(req, res, callback) {
-  console.log('********** server-side requestGoal 호출됨 **********');
+  console.log('********** server-side save_goal 호출됨 **********');
   var database = req.app.get('database');
-  var u_num = '';
-  var cate_num = '';
+  var u_num = req.body.u_num;
+  var cate_num = req.body.cate_num;
   var g_price = req.body.g_price;
   var g_time = req.body.g_time;
 
@@ -165,8 +165,8 @@ var store_goal = function(database, u_num, cate_num, g_price, g_time, callback) 
 var edit_goal = function(req, res, callback) {
   console.log('********** server-side edit_goal 호출됨 **********');
   var database = req.app.get('database');
-  var u_num = '';
-  var cate_num = '';
+  var u_num = req.body.u_num;
+  var cate_num = req.body.cate_num;
   var g_price = req.body.g_price;
   var g_time = req.body.g_time;
   if (database) {
@@ -245,5 +245,5 @@ var update_goal = function(database, u_num, cate_num, g_price, g_time, callback)
 };
 
 module.exports.request_goal = request_goal;
-module.exports.store_goal = store_goal;
+module.exports.save_goal = save_goal;
 module.exports.edit_goal = edit_goal;
