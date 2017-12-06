@@ -1,71 +1,95 @@
-<template>
-      <!-- Portfolio Grid Section -->
-    <section class="portfolio" id="portfolio">
-      <div class="container">
-        <h2 class="text-center text-uppercase text-secondary mb-0">목표금액 : 100,000</h2>
+<template id="test">
+      <div class="container" id="hi">
+        <br>
+
+        <h2 class="text-center text-uppercase text-secondary mb-0">목표금액 : 100000원</h2>
         <hr class="star-dark mb-5">
         <div class="row">
-          <div class="col-md-6 col-lg-4">
-            <a class="portfolio-item d-block mx-auto" href="#portfolio-modal-1">
-              <div class="portfolio-item-caption d-flex position-absolute h-100 w-100">
-                <div class="portfolio-item-caption-content my-auto w-100 text-center text-white">
-                  <i class="fa fa-search-plus fa-3x"></i>
-                </div>
-              </div>
-              <img class="img-fluid" src="img/portfolio/cabin.png" alt="">
-            </a>
+          <div class="col-md-3">
+            <!-- 첫번째 그래프 -->
+           <my-total-chart></my-total-chart>
           </div>
-          <div class="col-md-6 col-lg-4">
-            <a class="portfolio-item d-block mx-auto" href="#portfolio-modal-2">
-              <div class="portfolio-item-caption d-flex position-absolute h-100 w-100">
-                <div class="portfolio-item-caption-content my-auto w-100 text-center text-white">
-                  <i class="fa fa-search-plus fa-3x"></i>
-                </div>
-              </div>
-              <img class="img-fluid" src="img/portfolio/cake.png" alt="">
-            </a>
+          <div class="col-md-4">
+            <!-- 두번째 그래프 -->
+           <my-category-chart></my-category-chart>
           </div>
-          <div class="col-md-6 col-lg-4">
-            <a class="portfolio-item d-block mx-auto" href="#portfolio-modal-3">
-              <div class="portfolio-item-caption d-flex position-absolute h-100 w-100">
-                <div class="portfolio-item-caption-content my-auto w-100 text-center text-white">
-                  <i class="fa fa-search-plus fa-3x"></i>
-                </div>
-              </div>
-              <img class="img-fluid" src="img/portfolio/circus.png" alt="">
-            </a>
+          <div class="col-md-5">
+           <PercentageChart></PercentageChart>
           </div>
-          <div class="col-md-6 col-lg-4">
-            <a class="portfolio-item d-block mx-auto" href="#portfolio-modal-4">
-              <div class="portfolio-item-caption d-flex position-absolute h-100 w-100">
-                <div class="portfolio-item-caption-content my-auto w-100 text-center text-white">
-                  <i class="fa fa-search-plus fa-3x"></i>
-                </div>
-              </div>
-              <img class="img-fluid" src="img/portfolio/game.png" alt="">
-            </a>
-          </div>
-          <div class="col-md-6 col-lg-4">
-            <a class="portfolio-item d-block mx-auto" href="#portfolio-modal-5">
-              <div class="portfolio-item-caption d-flex position-absolute h-100 w-100">
-                <div class="portfolio-item-caption-content my-auto w-100 text-center text-white">
-                  <i class="fa fa-search-plus fa-3x"></i>
-                </div>
-              </div>
-              <img class="img-fluid" src="img/portfolio/safe.png" alt="">
-            </a>
-          </div>
-          <div class="col-md-6 col-lg-4">
-            <a class="portfolio-item d-block mx-auto" href="#portfolio-modal-6">
-              <div class="portfolio-item-caption d-flex position-absolute h-100 w-100">
-                <div class="portfolio-item-caption-content my-auto w-100 text-center text-white">
-                  <i class="fa fa-search-plus fa-3x"></i>
-                </div>
-              </div>
-              <img class="img-fluid" src="img/portfolio/submarine.png" alt="">
-            </a>
-          </div>
+          <div>
         </div>
       </div>
-    </section>
+      </div>
 </template>
+
+<style>
+  #hi{
+    background-color : white;
+  }
+</style>
+
+<script>
+
+import MyTotalChart from './MyTotalChart.vue'
+import MyCategoryChart from './MyCategoryChart.vue'
+import PercentageChart from './PercentageChart.vue'
+
+export default {
+    components : {
+        MyTotalChart,
+        MyCategoryChart,
+        PercentageChart
+    }   
+} 
+// <template id="test">
+//       <!-- Portfolio Grid Section -->
+//     <section class="portfolio" id="portfolio">
+//       <div class="container">
+//         <h2 class="text-center text-uppercase text-secondary mb-0">ㅎㅇ</h2>
+//         <hr class="star-dark mb-5">
+//         <h4 class="text-center">절약 목표는  원 입니다.</h4>
+
+//         <div class="row">
+//           <div class="col-md-4">
+//             <a class="d-block mx-auto" href="#portfolio-modal-2">
+//               <!-- <div class="portfolio-item-caption d-flex position-absolute h-100 w-100"> -->
+//                   <!-- <i class="fa fa-search-plus fa-3x"></i> -->
+//                   <!-- </div> -->
+//               <div>
+//                 <!-- 첫번째 그래프 -->
+//                   <my-total-chart></my-total-chart>
+//               </div>
+//             </a>
+//           </div>
+//           <div class="col-md-4">
+//             <a class="d-block mx-auto" href="#portfolio-modal-2">
+//               <!-- <div class="portfolio-item-caption d-flex position-absolute h-100 w-100"> -->
+//                   <!-- <i class="fa fa-search-plus fa-3x"></i> -->
+//                   <!-- </div> -->
+//               <div>
+//                 <!-- 두번째 그래프 -->
+//                   <my-category-chart></my-category-chart>
+//               </div>
+//             </a>
+//           </div>
+//           <div class="col-md-4">
+//             <a class="d-block mx-auto" href="#portfolio-modal-3">
+//               <!-- <div class="portfolio-item-caption d-flex position-absolute h-100 w-100"> -->
+//                   <!-- <i class="fa fa-search-plus fa-3x"></i> -->
+//               <!-- </div> -->
+//               <div>
+//                 <!-- 세번째 그래프 -->
+//                 <PercentageChart></PercentageChart>
+//               </div>
+//             </a>
+//           </div>
+//         </div>
+//         <div>
+//           <h4> 솔루션 </h4>
+//         </div>
+//       </div>
+      
+//     </section>
+// </template>
+</script>
+
