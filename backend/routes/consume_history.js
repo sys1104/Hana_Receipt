@@ -2,7 +2,7 @@
 var requestHistory = function(req, res, callback) {
   console.log('********** server-side requestHistory 호출됨 **********');
   var database = req.app.get('database');
-  
+
   var u_num = Number(req.body.u_num);
   var cate_num = Number(req.body.cate_num);
   var content = req.body.content;
@@ -17,7 +17,7 @@ var requestHistory = function(req, res, callback) {
         throw err;
       }
       if (result) {
-        console.dir(result);
+        // console.dir(result);
         //일단 메인으로 redirect
         res.redirect('http://localhost:8080');
       } else {
@@ -104,7 +104,7 @@ var updateHistory = function(req, res, callback) {
         throw err;
       } // 에러 처리
       if (result) {
-        console.dir(result);
+        // console.dir(result);
         res.redirect('http://localhost:8080');
       } else {
         res.writeHead(200, {
@@ -180,7 +180,7 @@ var deleteHistory = function(req, res, callback) {
         throw err;
       } // 에러 처리
       if (result) {
-        console.dir(result);
+        // console.dir(result);
         res.redirect('http://localhost:8080');
       } else {
         res.writeHead(200, {
@@ -242,8 +242,8 @@ var delHistory = function(database, consume_num, u_num, callback) {
 
 // ==================== 소비내역 리스트 function ==================== //
 var read_consume_board = function(database, callback) {
-  console.log('read board list 호출');
-  console.dir(database);
+  console.log('********** read consume list 호출 **********');
+  // console.dir(database);
   database.pool.getConnection(function(err, conn) {
     if (err) {
       if (conn) {
@@ -252,9 +252,10 @@ var read_consume_board = function(database, callback) {
       callback(err, null);
       return;
     }
-    console.log('데이터 베이스 연결 스레드 아이디 : ' + conn.threadID);
+    // console.log('데이터 베이스 연결 스레드 아이디 : ' + conn.threadID);
     //칼럼명을 배열로 만들기
-    var sql = 'select * from consume_history order by c_time';
+    // var sql = 'select * from consume_history order by c_time';
+    var sql = 'select consume_num,u_num,cate_num,content,price,substring(c_time,1,10) as c_time,wasted from consume_history order by c_time';
     // var columns = [post_num];
     var exec = conn.query(sql, function(err, rows) {
       //select의 결과물은 배열로 들어온다. -rows 변수..
@@ -274,11 +275,11 @@ var read_consume_board = function(database, callback) {
 };
 
 var consumeList = function(req, res) {
-  console.log('consumeList들어옴~');
+  console.log('********** consumeList 호출 **********');
   //아이디와 패스워드 받고 dB에 접근
   //database --> true : DB에 접근 할 수 있는 상태
   var database = req.app.get('database');
-  console.dir(database);
+  // console.dir(database);
   // var paramPostNum = req.query.tmp_post_num;
 
   if (database) {
@@ -382,7 +383,7 @@ var wasted_used = function(database, u_num, start_date, end_date, callback) {
       return;
     }
     console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
-    var exec = conn.query('select cate_num, sum(price) from consume_history where u_num = ? and wasted = 1 and time >= ? and time <= ? group by cate_num',
+    var exec = conn.query('select cate_num, sum(price) from consume_history where u_num = ? and wasted = 1 and c_time >= ? and c_time <= ? group by cate_num',
       [u_num, start_date, end_date],
       function(err, rows) {
         //select의 결과물은 배열로 들어온다. rows 변수...

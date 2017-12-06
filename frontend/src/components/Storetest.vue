@@ -13,7 +13,7 @@
      </select>
   </div>
   <div class="form-group">
-    <input type="text" placeholder="이름" v-model="content" class="form-control" name="content">
+    <input type="text" placeholder="소비품목 이름" v-model="content" class="form-control" name="content">
   </div>
   <div class="form-group">
     <input type="text" placeholder="가격" v-model="price" class="form-control" name="price">
@@ -75,32 +75,6 @@ export default {
   },
   created(){
     console.log('Storetest')
-
-    // var self  = this;
-    // // addUser() {
-    //   console.log('조회해보기 들어옴 Vue~');
-    //        var cate_num1 = this.results.cate_num;
-    //        var content1 = this.results.content;
-    //        var price1 = this.results.price;
-    //        var time1 = this.results.time;
-    //        var wasted1 = this.results.wasted;
-    //
-    //     axios({
-    //     method: 'get',
-    //     url: 'api/consume_history/consumeList',
-    //     data:{
-    //       cate_num: cate_num1,
-    //       content: content1,
-    //       price: price1,
-    //       time : time1
-    //     }
-    //   }).then(function (response) {
-    //
-    //     self.results = response.data;
-    //     console.log('vue리절트 시작~'+response.data + '리절트~');
-    //     console.log('뽑아왔지롱');
-    //     alert('뽑아왔으 리스트!');
-    //   })
     }
 }
 </script>

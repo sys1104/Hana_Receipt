@@ -43,31 +43,31 @@ import Navi from './Navi.vue'
 import ajax from 'ajax'
 
 // $(document).ready(function() {
-$(function() {
-  //#id에서 포커스가 벗어나면
-  $("#u_id").blur(function() {
-    //userInput에 들어 있는 내용을 토대로
-    // querystring 생성
-    var userInput = $(this);
-    var param = $(userInput).serialize();
-    console.log(param);
-    //ajax 통신 시작
-    $.ajax({
-      url: '/api/user/user_dup_check',
-      data: param,
-      dataType: 'json',
-      type: 'get',
-      success: function(data) {
-        if (data.msg === 'ok') {
-          $(userInput).css('border', '1px solid green');
-        } else {
-          $(userInput).css('border', '1px solid red');
-          window.alert('이미 사용중인 아이디입니다.');
-        }
-      }
-    });
-  });
-});
+// $(function() {
+//   //#id에서 포커스가 벗어나면
+//   $("#u_id").blur(function() {
+//     //userInput에 들어 있는 내용을 토대로
+//     // querystring 생성
+//     var userInput = $(this);
+//     var param = $(userInput).serialize();
+//     console.log(param);
+//     //ajax 통신 시작
+//     $.ajax({
+//       url: '/api/user/user_dup_check',
+//       data: param,
+//       dataType: 'json',
+//       type: 'get',
+//       success: function(data) {
+//         if (data.msg === 'ok') {
+//           $(userInput).css('border', '1px solid green');
+//         } else {
+//           $(userInput).css('border', '1px solid red');
+//           window.alert('이미 사용중인 아이디입니다.');
+//         }
+//       }
+//     });
+//   });
+// });
 
 export default {
   data: function() {

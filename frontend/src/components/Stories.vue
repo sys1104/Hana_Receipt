@@ -163,13 +163,13 @@
         },
         //삭제 클릭시 실행되는 function
         delConsume(result) {
-          var con_num = result.consume_num;
+          var consume_num = result.consume_num;
           var unum = result.u_num;
           axios({
             method: 'post',
             url: 'api/consume_history/deleteHistory',
             data: {
-              consume_num:con_num,
+              consume_num:consume_num,
               u_num:unum
             }
           }).then(function(response) {
