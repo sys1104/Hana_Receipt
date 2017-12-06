@@ -14,12 +14,12 @@
         </tr>
         <tr class="table-body" v-for="result in results">
           <td>
-            result
+            {{result}}
           </td>
         </tr>
       </table>
       <hr>
-      <h3 class="text-right">총액 : 210000원</h3>
+      <h3 class="text-right">총액 : 원</h3>
     </div>
 
   </div>
@@ -57,26 +57,26 @@ export default {
     }
     endDate = now.setDate(now.getDate() + 6);
     endDate = new Date(endDate);
-    // var startDate_date = startDate.getDate();
-    // var startDate_month = startDate.getMonth() + 1;
-    // var startDate_year = startDate.getFullYear();
-    // var start_date = startDate_year + '-' + startDate_month + '-' +startDate_date;
-    // var endDate_date = endDate.getDate();
-    // var endDate_month = endDate.getMonth() + 1;
-    // var endDate_year = endDate.getFullYear();
-    // var end_date = endDate_year + '-' + endDate_month + '-' + endDate_date;
-    // console.log(start_date);
-    // console.log(end_date);
+    var startDate_date = startDate.getDate();
+    var startDate_month = startDate.getMonth() + 1;
+    var startDate_year = startDate.getFullYear();
+    var start_date = startDate_year + '' + startDate_month + '' + startDate_date;
+    var endDate_date = endDate.getDate();
+    var endDate_month = endDate.getMonth() + 1;
+    var endDate_year = endDate.getFullYear();
+    var end_date = endDate_year + '' + endDate_month + '' + endDate_date;
+    console.log(start_date);
+    console.log(end_date);
     axios({
       method: 'post',
       url: 'api/consume_history/wastedList',
       data: {
         u_num: this.$session.get('session'),
-        start_date: startDate,
-        end_date: endDate
+        start_date: start_date,
+        end_date: end_date
       }
     }).then(function(response) {
-      self.results = response.data.wasted_used;
+      self.results = response.data;
     })
   }
 }

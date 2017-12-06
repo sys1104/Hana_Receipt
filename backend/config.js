@@ -72,6 +72,12 @@ module.exports = {
             path: '/api/consume_history/wastedList',
             method: 'wasted_category_list',
             type: 'post'
+        },
+        {
+            file: './goal',
+            path: '/api/goal/request_goal',
+            method: 'request_goal',
+            type: 'get'
         }
 
 

@@ -357,12 +357,12 @@ var wasted_category_list = function(req, res, callback) {
   console.log('********** server-side 목표대비 사용금액 분석 function 호출 **********');
   var database = req.app.get('database');
   var u_num = req.body.u_num; //vue에서 받아와야 함!!!
-  var start_date = req.body.start_date; //front단에서 오늘 기준으로 주일의 시작
-  var end_date = req.body.end_date; //front단에서 오늘 기준으로 주일의 마지막날로 정의한 것을 받아옴
+  var start_date = Number(req.body.start_date); //front단에서 오늘 기준으로 주일의 시작
+  var end_date = Number(req.body.end_date); //front단에서 오늘 기준으로 주일의 마지막날로 정의한 것을 받아옴
   console.log(start_date);
   console.log(end_date);
   if (database) {
-    var data = {};
+
     wasted_used(database, u_num, start_date, end_date, function(err, rows) {
       if (err) {
         console.error('********** cate_used 에러 발생 **********' + err.stack);
@@ -375,14 +375,16 @@ var wasted_category_list = function(req, res, callback) {
         // 에러 처리
       }
       if (rows) {
-        data.wasted_used = rows;
+        var data = {};
+        data = rows;
+        res.json(data);
+        console.log('********** data json 형태로 Wasted.vue로 보냄 **********')
+        console.log(data);
+        res.end();
       } else {
         console.log("********** 사용내역 없음 **********");
       }
     });
-    res.json(data);
-    console.log(data);
-    res.end();
   } else {
     //DB접속에 실패 했을 경우
     res.writeHead(200, {
@@ -407,12 +409,13 @@ var wasted_used = function(database, u_num, start_date, end_date, callback) {
       return;
     }
     console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
-    var exec = conn.query('select cate_num, sum(price) from consume_history where u_num = ? and wasted = 1 and time >= ? and time <= ?',
+    var exec = conn.query('select cate_num, sum(price) from consume_history where u_num = ? and wasted = 1 and time >= ? and time <= ? group by cate_num',
       [u_num, start_date, end_date],
       function(err, rows) {
         //select의 결과물은 배열로 들어온다. rows 변수...
         if (rows.length > 0) {
           console.log('********** 카테고리별 낭비금액 rows로 반환 **********');
+          console.log(rows);
           callback(null, rows);
         } else {
           console.log('********** 사용내역이 없습니다.**********');
