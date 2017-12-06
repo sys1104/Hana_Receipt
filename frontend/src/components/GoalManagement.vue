@@ -59,10 +59,12 @@
               <td><button v-if="flag==true && (result.g_num == result3)" class="btn btn-danger" @click="delete_goal(result)">삭제</button></td>
             </tr>
           </div>
-          <div>
-            <ul v-for="i in list_total" class="list-group">
+          <div v-if="list_total != page_num">
+            <ul class="list-group">
               <li class="list-group-item">
-                <button class="btn btn-danger" @click="pageto(i)">{{i}}</button>
+                <button class="btn btn-danger" @click="pageto(pageIndex-2, list_total, page_num)" v-if="pageIndex != 1">prev</button>
+                <span>Page {{pageIndex}} of {{page_total}}</span>
+                <button class="btn btn-danger" @click="pageto(pageIndex, list_total, page_num)" v-if="nextBtn != 0">next</button>
               </li>
             </ul>
           </div>
@@ -70,7 +72,7 @@
       </div>
       <br><br>
       <div class="col-md-8">
-        <button @click.prevent="requestGoal" class="btn btn-primary form-control">추가하기</button>
+        <button @click="requestGoal" class="btn btn-primary form-control">추가하기</button>
       </div>
       <br><br>
       <div class="form-group col-md-8">
@@ -105,10 +107,12 @@ export default {
       info4: '',
       flag: false,
       result3: '',
-      list_total: '',
+      list_total: {},
       page_num: '',
-      numberInpage: 10,
-      page: ''
+      page: 1,
+      pageIndex: 1,
+      nextBtn: {},
+      page_total: {}
     }
   },
   components: {
@@ -117,93 +121,105 @@ export default {
     VPaginator: VuePaginator
   },
   methods: {
-    pageto(number) {
-      this.page = number;
-    },
-    //date포맷 변경 function
-    dateFormatChange(date) {
-      var options = {
-        weekday: "short",
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit"
-      };
-      return date.toLocaleTimeString("ko-KR", options);
-    },
-    //수정 후 완료클릭시 실행되는 function
-    edit_goal(result) {
-      console.log('********** front-end editConsume 호출 **********');
-      var u_num = result.u_num;
-      var g_num = result.g_num;
-      var cate_num = result.cate_num;
-      var g_price = result.g_price;
-      var g_time = result.g_time;
-      axios({
-        method: 'post',
-        url: 'api/goal/edit_goal',
-        data: {
-          u_num: u_num,
-          g_num: g_num,
-          cate_num: cate_num,
-          g_price: g_price,
-          g_time: g_time,
-        }
-      }).then(function(response) {
-        console.log('********** 소비내역 수정완료 **********');
-        alert('목표 수정이 완료되었습니다');
-        setTimeout("window.location.href = './goal_management'", 1000)
-      })
-    },
-    //수정 클릭시 실행되는 function
-    editClick(result) {
-      console.log('********** front-end editClick 호출 **********');
-      // this.flag = true;
-      console.log('result2.g_num : ' + result.g_num);
-      // if(result.consume_num){
-      this.flag = true;
-      // }
-      this.result3 = result.g_num;
-    },
-    //삭제 클릭시 실행되는 function
-    delete_goal(result) {
-      var u_num = result.u_num;
-      var g_num = result.g_num;
-      axios({
-        method: 'post',
-        url: 'api/goal/delete_goal',
-        data: {
-          u_num: u_num,
-          g_num: g_num
-        }
-      }).then(function(response) {
-        console.log('********** 소비내역 삭제완료 **********');
-        alert('목표 삭제가 완료되었습니다');
-        setTimeout("window.location.href = './goal_management'", 1000)
-      })
+    pageto(number, total_length, p_num) {
+    if (number * p_num > total_length || (number + 1) * p_num > total_length) {
+      this.nextBtn = 0;
+    } else {
+      this.nextBtn = 1;
+    }
+    this.pageIndex = number + 1;
+
+    //prev, next 버튼 클릭시 0일 때 page처리
+    if (number == 0) {
+      this.page = 1;
+    } else {
+      this.page = this.pageIndex;
     }
   },
-  created() {
-    console.log('stories Created()')
-    var self = this;
+  //date포맷 변경 function
+  // dateFormatChange(date) {
+  //   var options = {
+  //     weekday: "short",
+  //     year: "numeric",
+  //     month: "short",
+  //     day: "numeric",
+  //     hour: "2-digit",
+  //     minute: "2-digit"
+  //   };
+  //   return date.toLocaleTimeString("ko-KR", options);
+  // },
+  //수정 후 완료클릭시 실행되는 function
+  edit_goal(result) {
+    console.log('********** front-end editConsume 호출 **********');
+    var u_num = result.u_num;
+    var g_num = result.g_num;
+    var cate_num = result.cate_num;
+    var g_price = result.g_price;
+    var g_time = result.g_time;
     axios({
-      method: 'get',
-      url: 'api/goal/request_goal',
-      data: {}
-    }).then(function(response) {
-      self.results = response.data;
-      self.list_total = response.data.length;
-      console.log(self.list_total);
-      var list_total = self.list_total;
-      if (self.list_total >= 5) {
-        self.page_num = 5;
-      } else {
-        self.page_num = self.list_total;
+      method: 'post',
+      url: 'api/goal/edit_goal',
+      data: {
+        u_num: u_num,
+        g_num: g_num,
+        cate_num: cate_num,
+        g_price: g_price,
+        g_time: g_time,
       }
-      console.log('뽑아왔지롱');
+    }).then(function(response) {
+      console.log('********** 소비내역 수정완료 **********');
+      alert('목표 수정이 완료되었습니다');
+      setTimeout("window.location.href = './goal_management'", 1000)
+    })
+  },
+  //수정 클릭시 실행되는 function
+  editClick(result) {
+    console.log('********** front-end editClick 호출 **********');
+    // this.flag = true;
+    console.log('result2.g_num : ' + result.g_num);
+    // if(result.consume_num){
+    this.flag = true;
+    // }
+    this.result3 = result.g_num;
+  },
+  //삭제 클릭시 실행되는 function
+  delete_goal(result) {
+    var u_num = result.u_num;
+    var g_num = result.g_num;
+    axios({
+      method: 'post',
+      url: 'api/goal/delete_goal',
+      data: {
+        u_num: u_num,
+        g_num: g_num
+      }
+    }).then(function(response) {
+      console.log('********** 소비내역 삭제완료 **********');
+      alert('목표 삭제가 완료되었습니다');
+      setTimeout("window.location.href = './goal_management'", 1000)
     })
   }
+},
+created() {
+  console.log('stories Created()')
+  var self = this;
+  axios({
+    method: 'get',
+    url: 'api/goal/request_goal',
+    data: {}
+  }).then(function(response) {
+    self.results = response.data;
+    self.list_total = Number(response.data.length);
+    //pagination -> 전체 페이지수와 소비내역리스트 전체 길이
+    if (self.list_total >= 10) {
+      self.page_num = 10;
+    } else {
+      self.page_num = self.list_total;
+    }
+    self.page_total = parseInt(self.list_total / self.page_num) + 1;
+    console.log('********** 목표내역 리스트 **********');
+  })
+}
 }
 </script>
 
