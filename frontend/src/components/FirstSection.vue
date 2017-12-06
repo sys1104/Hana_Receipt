@@ -1,5 +1,7 @@
 <template id="test">
-      <div class="container">
+      <div class="container" id="hi">
+        <br>
+
         <h2 class="text-center text-uppercase text-secondary mb-0">목표금액 : 100000원</h2>
         <hr class="star-dark mb-5">
         <div class="row">
@@ -20,7 +22,11 @@
       </div>
 </template>
 
-
+<style>
+  #hi{
+    background-color : white;
+  }
+</style>
 
 <script>
 
