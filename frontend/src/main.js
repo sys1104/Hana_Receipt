@@ -3,9 +3,6 @@
 import Vue from 'vue'
 import App from './App'
 import VueRouter from 'vue-router'
-//두영추가
-import VueResource from 'vue-resource'
-import VuePaginator from 'vuejs-paginator'
 //세션
 import VueSession from 'vue-session'
 //axios
@@ -30,50 +27,77 @@ Vue.use(VueResource)
 Vue.use(VuePaginator)
 Vue.use(VueSession)
 Vue.use(axios)
-    //사용할 라우터 객체등록
-const routes = [
-    { name: 'home', path: '/', component: Main },
-    { name: 'regist', path: '/register', component: Register },
-    { name: 'stories', path: '/stories', component: Stories },
-    { name: 'login', path: '/login', component: Login },
-    { name: 'first_section', path: 'first_section', component: FirstSection },
-    { name: 'store_test', path: '/store_test', component: Storetest },
-    { name: 'modify_user', path: '/modify_user', component: ModifyUser },
-    { name: 'goal_management', path: '/goal_management', component: GoalManagement },
+//사용할 라우터 객체등록
+const routes = [{
+    name: 'home',
+    path: '/',
+    component: Main
+  },
+  {
+    name: 'regist',
+    path: '/register',
+    component: Register
+  },
+  {
+    name: 'stories',
+    path: '/stories',
+    component: Stories
+  },
+  {
+    name: 'login',
+    path: '/login',
+    component: Login
+  },
+  {
+    name: 'first_section',
+    path: 'first_section',
+    component: FirstSection
+  },
+  {
+    name: 'store_test',
+    path: '/store_test',
+    component: Storetest
+  },
+  {
+    name: 'modify_user',
+    path: '/modify_user',
+    component: ModifyUser
+  },
+  {
+    name: 'goal_management',
+    path: '/goal_management',
+    component: GoalManagement
+  },
 
-    {
-        path: './stories',
-        component: StoriesPage,
-        children: [{
-                path: '',
-                name: 'stories.all',
-                component: StoriesAll
-            },
-            {
-                path: 'famous',
-                name: 'stories.famous',
-                component: StoriesFamous
-            }
-        ]
-    }
+  {
+    path: './stories',
+    component: StoriesPage,
+    children: [{
+        path: '',
+        name: 'stories.all',
+        component: StoriesAll
+      },
+      {
+        path: 'famous',
+        name: 'stories.famous',
+        component: StoriesFamous
+      }
+    ]
+  }
 ]
-
 //라우터 객체 생성
 const router = new VueRouter({
-    mode: 'history',
-    base: '/',
-    routes
-})
-
-
-Vue.config.productionTip = false
-
-
-
+  mode: 'history',
+  base: '/',
+  routes
+});
+Vue.config.productionTip = false;
 /* eslint-disable no-new */
 new Vue({
-    el: '#app',
-    router, //어플리케이션 전체에서 라우터 인식 시키기
-    template: '<App/>',
-    components: { App }
-})
+  el: '#app',
+  router, //어플리케이션 전체에서 라우터 인식 시키기
+  template: '<App/>',
+  components: {
+    App
+  }
+});
