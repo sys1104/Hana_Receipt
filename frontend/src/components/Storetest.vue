@@ -19,11 +19,11 @@
     <input type="text" placeholder="가격" v-model="price" class="form-control" name="price">
   </div>
   <div class="form-group">
-    <input type="text" placeholder="입력 예)20171205" v-model="c_time" class="form-control" name="c_time">
+    <input type="text" placeholder="소비일자 예)20171205" v-model="c_time" class="form-control" name="c_time">
   </div>
-  <div class="form-group">
+  <!-- <div class="form-group">
     <input type="email" placeholder="낭비체크" v-model="wasted" class="form-control" name="wasted">
-  </div>
+  </div> -->
   <button @click.prevent="requestHistory" class="btn btn-success">저장</button>
 </div>
 </template>

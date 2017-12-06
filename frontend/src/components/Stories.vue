@@ -8,9 +8,8 @@
          <td>내용</td>
          <td>가격</td>
          <td>일시</td>
-         <td>낭비</td>
+         <td>낭비체크</td>
         </tr>
-        <!-- v-if="index < page_num" -->
         <tr class="table-body" v-for="(result, index) in results" v-if="(index >= (page-1)*page_num) && (index < page_num*page)">
          <!-- 리스트 화면 -->
          <td>
@@ -23,11 +22,10 @@
              <option value="6">미분류</option>
             </select>
          </td>
-         <!-- <td v-if="flag==false">{{result.consume_num}}</td> -->
          <td v-if="flag==false">{{result.content}}</td>
          <td v-if="flag==false">{{result.price}}</td>
          <td v-if="flag==false">{{result.c_time}}</td>
-         <td v-if="flag==false"><input v-if="result.wasted == 1" value="낭비" disabled/></td>
+         <td v-if="flag==false"><input type="checkbox" v-model="checked" v-if="result.wasted == 1" value="낭비" disabled/></td>
          <td><button v-if="flag==false" class="btn btn-primary" @click="editClick(result)">수정</button></td>
          <!-- 수정버튼 클릭시 -->
          <td>
@@ -48,12 +46,10 @@
               <option value="6">미분류</option>
              </select>
          </td>
-         <!-- <td><input class="form-control" name="cate_num" v-if="flag==true && (result.consume_num == result3)" v-model='info1=result.cate_num'/></td> -->
          <td>
            <input class="form-control" name="content" v-if="flag==true && (result.consume_num == result3)" v-model='info1=result.content'/>
            <input class="form-control" v-if="flag==true && (result3 != result.consume_num)" v-model='result.content' disabled/>
          </td>
-         <!-- <td><input class="form-control" v-if="flag==true && (result3 != result.consume_num)" v-model='result.content' disabled/></td> -->
          <td>
            <input class="form-control" name="price" v-if="flag==true && (result.consume_num == result3)" v-model='info2=result.price'/>
            <input class="form-control" v-if="flag==true && (result3 != result.consume_num)" v-model='result.price' disabled/>
@@ -63,8 +59,8 @@
            <input class="form-control" v-if="flag==true && (result3 != result.consume_num)" v-model='result.c_time' disabled/>
          </td>
          <td>
-           <!-- v-model='info4=result.wasted' -->
-           <input type="checkbox" class="form-control" name="wasted" v-if="flag==true && (result.consume_num == result3)" />
+           <input type="checkbox" name="wasted" v-if="flag==true && (result.consume_num == result3)" v-model="checked"/>
+           <!-- <label v-if="flag==true && (result.consume_num == result3)" for="checkbox">{{ checked }}</label> -->
            <input type="checkbox" class="form-control" v-if="flag==true && (result3 != result.consume_num)" disabled/>
          </td>
          <td><button v-if="flag==true && (result.consume_num == result3)" class="btn btn-success" @click="editConsume(result)">완료</button></td>
@@ -89,7 +85,6 @@
     import axios from 'axios'
     export default {
       data: function () {
-        // editing: true
         return {
           results:'',
           consume_num:'',
@@ -109,7 +104,8 @@
           page:1,
           pageIndex:1,
           nextBtn:{},
-          page_total:{}
+          page_total:{},
+          checked:true
         }
       },
       components:{
@@ -144,6 +140,13 @@
           var price = result.price;
           var c_time = result.c_time;
           var wasted = result.wasted;
+          if(this.checked == false){
+            wasted = 0;
+          }
+          if((this.checked == true && this.wasted == 0)){
+            wasted = 1;
+          }
+          console.log('wasted값 : '+wasted)
             axios({
               method: 'post',
               url: 'api/consume_history/updateHistory',
@@ -165,6 +168,9 @@
         //수정 클릭시 실행되는 function
         editClick(result) {
           console.log('********** front-end editClick 호출 **********');
+          if(result.wasted == 0){
+            this.checked = false;
+          }
           this.flag=true;
           this.result3 = result.consume_num;
         },
