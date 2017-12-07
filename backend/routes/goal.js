@@ -161,7 +161,7 @@ var store_goal = function(database, u_num, cate_num, g_price, g_time, g_endtime,
     // 'insert into goal set ?', data,
 
     // (u_num=?,cate_num=?, g_price=?, g_time=?, g_endtime=?)
-      var exec = conn.query({sql:['insert into goal(u_num, cate_num, g_price, g_time, g_endtime) values ?'], values:inserts}, function(err, result) {
+      var exec = conn.query({sql:'insert into goal(u_num, cate_num, g_price, g_time, g_endtime) values ?', values:[inserts]}, function(err, result) {
         //쿼리 작업 수행 후 반드시 연결을 해제 해야 한다.
         conn.release();
         console.log('실행 sql : %s', exec.sql);
