@@ -20,7 +20,7 @@ export default {
           tick: {
             visible: false
           },
-          labels: '',  // 배열형식으로 지정해야함
+          labels: '', //['1','2','3','4','5','6'], 배열형식으로 지정해야함
           item: {
             fontColor: "#000000",
             fontSize: 16
@@ -62,11 +62,10 @@ export default {
           }
         },
         series: [{
-            values: [1,1,1,1,1,1], //배열 형식으로 지정해야함
+            values: [1, 1, 1, 1, 1, 1], //배열 형식으로 지정해야함
             borderRadius: "50px 0px 0px 50px",
             backgroundColor: "#E71D36",
-            rules:
-            [{
+            rules: [{
                 rule: "%i === 0",
                 backgroundColor: "#E71D36"
               },
@@ -94,12 +93,11 @@ export default {
             ]
           },
           {
-            values: [9,9,9,9,9,9], //배열 형식으로 지정해야함
+            values: [9, 9, 9, 9, 9, 9], //배열 형식으로 지정해야함
             borderRadius: "0px 50px 50px 0px",
             backgroundColor: "#E71D36",
             //alpha : 0.8,
-            rules:
-            [{
+            rules: [{
                 rule: "%i === 0",
                 backgroundColor: "#e85d6f"
               },
@@ -153,8 +151,8 @@ export default {
         }
       }).then(function(response) {
         console.log('********** cate_used_goal_money 응답 받음 **********');
-        console.log(response.data);
-        self.scaleX.labels = response.data.cate_num;
+        console.log(response.data.cate_goal.cate_num);
+        self.myCategoryConfig.scaleX.labels = response.data.cate_goal.cate_num;
       })
     }
   }

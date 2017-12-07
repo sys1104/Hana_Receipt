@@ -24,7 +24,7 @@ var cate_used_goal_money = function(req, res, callback) {
         console.log("********** 사용내역 없음 **********");
       }
     });
-    cate_goal(database, u_num, paramCatenum, start_date, end_date, function(err, rows2) {
+    cate_goal(database, u_num, function(err, rows2) {
       if (err) {
         console.error('********** goal_money 에러 발생 **********' + err.stack);
         res.writeHead(200, {
@@ -36,14 +36,17 @@ var cate_used_goal_money = function(req, res, callback) {
         // 에러 처리
       }
       if (rows2) {
+        console.log('********** cate_goal ' + rows2 + ' **********');
         data.goal_money = rows2;
+        console.log('********** 프론트로 제이슨 형태로 데이터를 보냄 *********');
+        console.log(data.cate_used);
+        console.log(data.goal_money);
+        res.json(data);
+        res.end();
       } else {
         console.log("********** 사용내역 없음 **********");
       }
     });
-    res.json(data);
-    console.log(data);
-    res.end();
   } else {
     //DB접속에 실패 했을 경우
     res.writeHead(200, {
@@ -89,8 +92,8 @@ var cate_used = function(database, u_num, callback) {
 };
 
 // ========================= server-side 카테고리별 목표 사용금액 분석 function =================== //
-var cate_goal = function(database, u_num, paramCatenum, start_date, end_date, callback) {
-  console.log('********** server-side cate_used 호출 **********');
+var cate_goal = function(database, u_num, callback) {
+  console.log('********** server-side cate_goal 호출 **********');
   database.pool.getConnection(function(err, conn) { //DB 접속
     if (err) {
       if (conn) {
@@ -103,7 +106,7 @@ var cate_goal = function(database, u_num, paramCatenum, start_date, end_date, ca
     var exec = conn.query('select cate_num, g_price, g_time, g_endtime from goal where u_num = ?', u_num,
       function(err, rows2) {
         //select의 결과물은 배열로 들어온다. rows 변수...
-        if (rows.length > 0) {
+        if (rows2.length > 0) {
           console.log('********** 카테고리별 목표 사용금액 rows로 반환 **********');
           callback(null, rows2);
         } else {
