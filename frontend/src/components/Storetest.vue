@@ -34,13 +34,13 @@ import Stories from './Stories.vue'
 export default {
   data: function() {
     return {
-      u_num:'2',
+      u_num:'',
       results:'',
       cate_num: '',
       content: '',
       price: '',
       c_time: '',
-      wasted: ''
+      wasted: '0'
     }
   },
   components: {
@@ -49,7 +49,7 @@ export default {
   methods: {
     requestHistory() {
       console.log('********** front-end requestHistory 호출 **********');
-      var u_num = 2;
+      var u_num = this.$session.get('session');
       var cate_num = this.cate_num;
       var content = this.content;
       var price = this.price;

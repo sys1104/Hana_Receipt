@@ -18,8 +18,11 @@ var login = function(req, res, callback) {
                 res.end();
             } // 에러 처리
             if (rows) {
-                var data = {};
-                data = rows[0].u_num;
+                var data = {
+                    u_num: rows[0].u_num,
+                    u_id: paramId
+                };
+                // data = rows[0].u_num;
                 res.json(data);
                 console.log(data);
                 res.end();
@@ -77,6 +80,7 @@ var authUser = function(database, id, password, callback) {
                     callback(null, rows);
                 } else {
                     console.log('********** 비밀번호가 일치하지 않습니다. **********');
+                    callback(null, null);
                 }
             } else {
                 console.log('********** 일치하는 사용자가 없습니다. **********');
