@@ -223,11 +223,11 @@ var showUser = function(req, res, callback) {
         //1)사용자 인증 함수 호출 authUser
         listUser(database, u_num, function(err, rows) {
             if (err) {
-                console.error('로그인 중 에러 발생' + err.stack);
+                console.error('ShowUser 실행 도중 에러 발생' + err.stack);
                 res.writeHead(200, {
                     "Content-Type": 'text/html;charset=utf8'
                 });
-                res.write('<h2>로그인 도중 데이터베이스 에러 발생</h2>');
+                res.write('<h2>ShowUser 실행 도중 데이터베이스 에러 발생</h2>');
                 res.write('<p>' + err.stack + '</p>');
                 res.end();
             } // 에러 처리

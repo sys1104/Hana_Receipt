@@ -54,10 +54,9 @@ export default {
             if(response.data.u_id==self.u_id){
               console.log('********** 로그인완료 **********');
               self.result = response.data;
-              self.u_num = parseInt(self.result);
               console.log(self.result);
               self.$session.start()
-              self.$session.set('session',self.result)
+              self.$session.set('session',self.result.u_num)
               console.log('세션 만듦')
               console.log('세션 값 확인 '+ self.$session.get('session'))
               setTimeout("window.location.href = './'",0)
