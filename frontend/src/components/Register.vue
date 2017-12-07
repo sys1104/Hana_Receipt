@@ -88,13 +88,13 @@ export default {
     addUser() {
       console.log('********** front-end addUser 호출 **********');
       var id = this.u_id;
-      var pwd = this.u_pw;
+      var pw = this.u_pw;
       var name = this.u_name;
       var phone = this.u_phone;
       var email = this.u_email;
       var job = this.u_job;
       var salary = this.u_salary;
-      if (name == '' || pwd == '') {
+      if (name == '' || pw == '') {
         this.errinfo = '';
         this.classFade = ''
       } else {
@@ -103,7 +103,7 @@ export default {
           url: 'api/user/signup',
           data: {
             u_id: id,
-            u_pwd: pwd,
+            u_pw: pw,
             u_name: name,
             u_phone: phone,
             u_email: email,
