@@ -77,7 +77,7 @@ module.exports = {
             file: './goal',
             path: '/api/goal/request_goal',
             method: 'request_goal',
-            type: 'get'
+            type: 'post'
         },
         {
             file: './goal',

@@ -51,8 +51,8 @@ var list_goal = function(database, u_num, callback) {
       return;
     }
     console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
-    // 'select cate_num, g_price, g_time, g_endtime from goal where u_num = ?'
-    var exec = conn.query('select * from goal where u_num = ?', u_num,
+    // 'select * from goal where u_num = ?'
+    var exec = conn.query('select g_num, u_num, cate_num, g_price, substring(g_time,1,10) g_time, substring(g_endtime,1,10) g_endtime from goal where g_endtime in (select max(g_endtime) max_endtime from goal where u_num = ?)', u_num,
       function(err, rows) {
         //select의 결과물은 배열로 들어온다. rows 변수...
         conn.release();
@@ -116,7 +116,6 @@ var save_goal = function(req, res, callback) {
 // ==================== 목표 DB 저장 function ==================== //
 var store_goal = function(database, u_num, cate_num, g_price, g_time, g_endtime, callback) {
   console.log('********** server-side store_goal 호출됨 **********');
-
   //pool에서 커넥션 객체 가져오기
   database.pool.getConnection(function(err, conn) {
     if (err) {
@@ -128,52 +127,26 @@ var store_goal = function(database, u_num, cate_num, g_price, g_time, g_endtime,
       return;
     }
     console.log('데이터베이스 연결 Thread' + conn.threadId);
-    // //삽입할 데이터를 객체로 만들기 앞: DB컬럼명, 뒤: 파라미터로 받아온 컬럼명
-    // var data = {
-    //   u_num: u_num,
-    //   cate_num: cate_num,
-    //   g_price: g_price,
-    //   g_time: g_time,
-    //   g_endtime: g_endtime
-    // };
-
-    // var inserts = [];
-    // inserts.push(['name1', 'email1']);
-    // inserts.push(['name2', 'email2']);
-    // conn.query({
-    // sql: 'INSERT into mytable (name, email) VALUES ?',
-    // values: [inserts]
-    // });
+    console.log('카테넘렝쓰! : ' +  cate_num.length);
+    //inserts배열에 넘겨받은 값들 push
     var inserts = [];
     for(var i=0; i < cate_num.length;i++){
-      //삽입할 데이터를 객체로 만들기 앞: DB컬럼명, 뒤: 파라미터로 받아온 컬럼명
-
       inserts.push([u_num, cate_num[i], g_price[i], g_time, g_endtime]);
     }
-    // var data = {
-    //   u_num: u_num,
-    //   cate_num: cate_num[i],
-    //   g_price: g_price[i],
-    //   g_time: g_time,
-    //   g_endtime: g_endtime
-    // };
 
-    // 'insert into goal set ?', data,
+    var exec = conn.query({sql:'insert into goal(u_num, cate_num, g_price, g_time, g_endtime) values ?', values:[inserts]}, function(err, result) {
+      //쿼리 작업 수행 후 반드시 연결을 해제 해야 한다.
+      conn.release();
+      console.log('실행 sql : %s', exec.sql);
+      if (err) {
+        console.log('sql 수행 중 에러발생.');
+        console.dir(err);
 
-    // (u_num=?,cate_num=?, g_price=?, g_time=?, g_endtime=?)
-      var exec = conn.query({sql:'insert into goal(u_num, cate_num, g_price, g_time, g_endtime) values ?', values:[inserts]}, function(err, result) {
-        //쿼리 작업 수행 후 반드시 연결을 해제 해야 한다.
-        conn.release();
-        console.log('실행 sql : %s', exec.sql);
-        if (err) {
-          console.log('sql 수행 중 에러발생.');
-          console.dir(err);
-
-          callback(err, null);
-          return;
-        }
-        callback(null, result);
-      });
+        callback(err, null);
+        return;
+      }
+      callback(null, result);
+    });
 
 
 

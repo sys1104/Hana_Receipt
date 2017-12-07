@@ -3,9 +3,10 @@
   <navi></navi>
   <div class="container" style="display:inline-block">
     <wasted></wasted>
+    <goal-list></goal-list>
     <h2>목표 저장하기</h2>
     <!-- class="row" 추가 -->
-    <div class="row">
+    <div class="row" v-if="flag==false">
       <div class="form-group" style="width:20%;">
         <label class="form-control">목표기간</label>
         <!-- <input type="hidden" v-model="cate_num" class="form-control" value="1" name="cate_num"> -->
@@ -65,6 +66,13 @@
         <input type="text" placeholder="목표금액" v-model="g_price.g_price6" class="form-control" name="g_price6">
       </div>
     </div>
+
+
+    <div class="row" v-if="flag==true">
+      <div class="form-group" v-for="result in result1">
+        {{info=result.cate_num}}
+      </div>
+    </div>
     <button @click.prevent="goalStore" class="btn btn-success">저장</button>
   </div>
 </div>
@@ -78,10 +86,14 @@ import Login from './Login.vue'
 import Wasted from './Wasted.vue'
 import InsertGoal from './InsertGoal.vue'
 import Navi from './Navi.vue'
+import GoalList from './GoalList.vue'
 export default {
   data: function() {
     return {
+      flag:false,
+      info:'',
       results:'',
+      results1:[],
       u_num:'',
       g_num:'',
       cate_num: {
@@ -107,7 +119,8 @@ export default {
   components: {
     Wasted,
     Navi,
-    InsertGoal
+    InsertGoal,
+    GoalList
   },
   methods: {
     goalStore() {
@@ -115,19 +128,45 @@ export default {
       var u_num = this.u_num;
       // var cate_num = this.cate_num;
       var cate_num = [];
-      cate_num.push(this.cate_num.cate_num1);
-      cate_num.push(this.cate_num.cate_num2);
-      cate_num.push(this.cate_num.cate_num3);
-      cate_num.push(this.cate_num.cate_num4);
-      cate_num.push(this.cate_num.cate_num5);
-      cate_num.push(this.cate_num.cate_num6);
       var g_price = [];
-      g_price.push(this.g_price.g_price1);
-      g_price.push(this.g_price.g_price2);
-      g_price.push(this.g_price.g_price3);
-      g_price.push(this.g_price.g_price4);
-      g_price.push(this.g_price.g_price5);
-      g_price.push(this.g_price.g_price6);
+      var results1 = [];
+      this.flag = true;
+      if(!(this.g_price.g_price1=='')){
+        cate_num.push(this.cate_num.cate_num1);
+        g_price.push(this.g_price.g_price1);
+      }else{
+        this.results1.push(this.cate_num.cate_num1);
+      }
+      if(!(this.g_price.g_price2=='')){
+        cate_num.push(this.cate_num.cate_num2);
+        g_price.push(this.g_price.g_price2);
+      }else{
+        this.results1.push(this.cate_num.cate_num2);
+      }
+      if(!(this.g_price.g_price3=='')){
+        cate_num.push(this.cate_num.cate_num3);
+        g_price.push(this.g_price.g_price3);
+      }else{
+        this.results1.push(this.cate_num.cate_num3);
+      }
+      if(!(this.g_price.g_price4=='')){
+        cate_num.push(this.cate_num.cate_num4);
+        g_price.push(this.g_price.g_price4);
+      }else{
+        this.results1.push(this.cate_num.cate_num4);
+      }
+      if(!(this.g_price.g_price5=='')){
+        cate_num.push(this.cate_num.cate_num5);
+        g_price.push(this.g_price.g_price5);
+      }else{
+        this.results1.push(this.cate_num.cate_num5);
+      }
+      if(!(this.g_price.g_price1=='')){
+        cate_num.push(this.cate_num.cate_num6);
+        g_price.push(this.g_price.g_price6);
+      }else{
+        this.results1.push(this.cate_num.cate_num6);
+      }
       var g_time = this.g_time;
       var g_endtime = this.g_endtime;
       // var g_price = this.g_price;
@@ -150,6 +189,23 @@ export default {
   },
   created(){
     console.log('GoalManagement created()')
+
+    var self  = this;
+
+    axios({
+    method: 'post',
+    url: 'api/goal/request_goal',
+    data:{
+      u_num:this.$session.get('session')
+    }
+  }).then(function (response) {
+        self.results = response.data;
+        self.list_total = Number(response.data.length);
+        for(var i=0;i<self.results.length;i++){
+          console.log(self.results[i].g_num);
+        }
+        console.log('********** 목표 리스트 **********');
+      })
     }
 }
 </script>
