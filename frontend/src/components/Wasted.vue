@@ -45,7 +45,7 @@ export default {
     return {
       results: '',
       info:{},
-      sum:{}
+      sum:''
     }
   },
   methods: {
