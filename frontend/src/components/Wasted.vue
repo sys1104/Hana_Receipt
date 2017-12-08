@@ -1,17 +1,15 @@
 <template>
-<div class="container">
-  <h2>목표 관리</h2>
-  <br><br>
-  <hr>
-  <div class="col-md-12">
-
-    <div class="col-md-offset-3 col-md-6 box-container">
-      <h3>지난 주 낭비된 금액</h3>
-      <table class="table table-striped table-hover table-responsive">
+<div>
+  <br>
+    <div class="table-users">
+      <div class="header">지난 주 낭비된 금액</div>
+      <table cellspacing="0">
+      <!-- <table class="table table-striped table-hover table-responsive"> -->
         <tr class="table-header">
           <td>카테고리</td>
-          <td>금액</td>
+          <td style="text-align:center">금액</td>
         </tr>
+
         <tr class="table-body" v-for="(result,index) in results">
           <td>
             <select type="button" v-model="result.cate_num" disabled class="form-control">
@@ -23,15 +21,16 @@
               <option value="6">미분류</option>
              </select>
           </td>
-          <td>{{info = result.sum_price}}</td>
+
+          <td style="text-align:center">{{info = result.sum_price}}</td>
         </tr>
+      <tr><td></td><br><p style="font-weight:bold; color:#327a81" class="text-right">총액 : {{sum}}원</p><br></tr>
       </table>
       <hr>
-      <h3 class="text-right">총액 : {{sum}}원</h3>
-    </div>
-
   </div>
+  
 </div>
+
 </template>
 
 

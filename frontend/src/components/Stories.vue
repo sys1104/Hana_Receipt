@@ -1,14 +1,15 @@
 <template>
-  <div id="stories" style="width:100%">
-    <h2>소비내역 목록</h2>
-      <table class="table table-striped table-hover table-responsive">
+  <div id="stories" class="table-users" style="width:100%">
+    <div class="header">소비내역 목록</div>
+      <table cellspacing="0">
         <tr class="table-header">
          <!-- <td>소비번호</td> -->
-         <td>카테고리</td>
-         <td>내용</td>
-         <td>가격</td>
-         <td>일시</td>
-         <td>낭비체크</td>
+         <th>카테고리</th>
+         <th>내용</th>
+         <th>가격</th>
+         <th>일시</th>
+         <th>낭비체크</th>
+         <th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th>
         </tr>
         <tr class="table-body" v-for="(result, index) in results" v-if="(index >= (page-1)*page_num) && (index < page_num*page)">
          <!-- 리스트 화면 -->
@@ -24,9 +25,11 @@
          </td>
          <td v-if="flag==false">{{result.content}}</td>
          <td v-if="flag==false">{{result.price}}</td>
-         <td v-if="flag==false">{{result.c_time}}</td>
+         <td width="110" v-if="flag==false">{{result.c_time}}</td>
          <td v-if="flag==false"><input type="checkbox" v-model="checked" v-if="result.wasted == 1" value="낭비" disabled/></td>
-         <td><button v-if="flag==false" class="btn btn-primary" @click="editClick(result)">수정</button></td>
+         
+         <td><button v-if="flag==false"class="btn btn-danger button-pill" @click="editClick(result)"><span class="glyphicon glyphicon-pencil"></span>수정</button></td>
+
          <!-- 수정버튼 클릭시 -->
          <td>
            <select v-if="flag==true && (result.consume_num == result3)" v-model="result.cate_num" class="form-control" name="cate_num">
@@ -67,16 +70,17 @@
          <td><button v-if="flag==true && (result.consume_num == result3)" class="btn btn-danger" @click="delConsume(result)">삭제</button></td>
         </tr>
 
+
         <!-- 페이지네이션 -->
-        <div v-if="list_total != page_num">
-        <ul class="list-group">
-          <li class="list-group-item">
-            <button class="btn btn-danger" @click="pageto(pageIndex-2, list_total, page_num)" v-if="pageIndex != 1">prev</button>
+        <div class="counter" v-if="list_total != page_num">
+        
+            <button class="prev paginate left" @click="pageto(pageIndex-2, list_total, page_num)" v-if="pageIndex != 1"><i></i><i></i></button>
             <span>Page {{pageIndex}} of {{page_total}}</span>
-            <button class="btn btn-danger" @click="pageto(pageIndex, list_total, page_num)" v-if="nextBtn != 0">next</button>
-          </li>
-        </ul>
+            <button class="next paginate right" @click="pageto(pageIndex, list_total, page_num)" v-if="nextBtn != 0"><i></i><i></i></button>
+         
         </div>
+
+        
       </table>
   </div>
 </template>
@@ -216,4 +220,170 @@
           })
       }
     }
+
 </script>
+<style scoped>
+body {
+    background-color: #91ced4;
+}
+
+body * {
+    box-sizing: border-box;
+}
+
+.header {
+    background-color: #327a81;
+    color: white;
+    font-size: 1.5em;
+    padding: 1rem;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.table-users {
+    border: 1px solid #327a81;
+    border-radius: 10px;
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+    max-width: calc(100% - 2em);
+    margin: 1em auto;
+    overflow: hidden;
+    width: 800px;
+}
+
+table {
+    width: 100%;
+}
+
+table td,
+table th {
+    color: #2b686e;
+    padding: 10px;
+    font-weight: bold;
+}
+
+table td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+table td:last-child {
+    font-size: 0.95em;
+    line-height: 1.4;
+    text-align: left;
+}
+
+table th {
+    background-color: #daeff1;
+    font-weight: bold;
+}
+
+table tr:nth-child(2n) {
+    background-color: white;
+}
+
+table tr:nth-child(2n+1) {
+    background-color: #edf7f8;
+}
+
+@media screen and (max-width: 700px) {
+    table,
+    tr,
+    td {
+        display: block;
+    }
+    td:first-child {
+        position: absolute;
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        transform: translateY(-50%);
+        width: 100px;
+    }
+    td:not(:first-child) {
+        clear: both;
+        margin-left: 100px;
+        padding: 4px 20px 4px 90px;
+        position: relative;
+        text-align: left;
+    }
+    td:not(:first-child):before {
+        color: #91ced4;
+        content: '';
+        display: block;
+        left: 0;
+        position: absolute;
+    }
+    td:nth-child(2):before {
+        content: 'Name:';
+    }
+    td:nth-child(3):before {
+        content: 'Email:';
+    }
+    td:nth-child(4):before {
+        content: 'Phone:';
+    }
+    td:nth-child(5):before {
+        content: 'Comments:';
+    }
+    tr {
+        padding: 10px 0;
+        position: relative;
+    }
+    tr:first-child {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .header {
+        background-color: transparent;
+        color: white;
+        font-size: 2em;
+        font-weight: 700;
+        padding: 0;
+        text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+    }
+    td:first-child {
+        background-color: #c8e7ea;
+        border-bottom: 1px solid #91ced4;
+        border-radius: 10px 10px 0 0;
+        position: relative;
+        top: 0;
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+        width: 100%;
+    }
+    td:not(:first-child) {
+        margin: 0;
+        padding: 5px 1em;
+        width: 100%;
+    }
+    td:not(:first-child):before {
+        font-size: .8em;
+        padding-top: 0.3em;
+        position: relative;
+    }
+    td:last-child {
+        padding-bottom: 1rem !important;
+    }
+    tr {
+        background-color: white !important;
+        border: 1px solid #6cbec6;
+        border-radius: 10px;
+        box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+        margin: 0.5rem 0;
+        padding: 0;
+    }
+    .table-users {
+        border: none;
+        box-shadow: none;
+        overflow: visible;
+    }
+
+    /* button style */
+
+
+    /* pagination */
+
+
+}
+</style>

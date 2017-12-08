@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div class="container table-users">
 
     <table class="table table-striped table-hover table-responsive">
       <tr class="table-header">
