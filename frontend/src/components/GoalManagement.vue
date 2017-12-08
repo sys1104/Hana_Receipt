@@ -1,4 +1,24 @@
 <template>
+  <!-- <div id="insertGoal" class="table-users" style="margin-top:150px">
+      <navi></navi>
+  <div class="header">목표 관리</div>
+  <br>
+  <div class="container">
+    <wasted></wasted>
+    <div class="col-md-10; table-users">
+    <div class="header">목표 저장하기</div>
+    <div class="form-group">
+      <select v-model="cate_num" class="form-control" name="cate_num">
+        <option value="1">생활/쇼핑</option>
+        <option value="2">교통</option>
+        <option value="3">식비</option>
+        <option value="4">패션/미용</option>
+        <option value="5">주거/통신</option>
+        <option value="6">미분류</option>
+       </select>
+    </div>
+    <div class="form-group">
+      <input type="text" placeholder="목표기간" v-model="g_time" class="form-control" name="g_time"> -->
 <div id="insertGoal">
   <navi></navi>
   <div class="container" style="display:inline-block">
@@ -201,8 +221,25 @@ export default {
           alert('목표내역 저장 완료되었습니다');
           setTimeout("window.location.href = './goal_management'",1000)
         })
-    }
+    },
+      getToday(){
+        console.log('getToday!')
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+        if(dd<10) {
+          dd='0'+dd
+        }
+        if(mm<10) {
+          mm='0'+mm
+        }
+        console.log(yyyy + '-'+ mm + '-' + dd);
+        this.g_time = yyyy + '-'+ mm + '-' + dd;
+      }
+
   },
+
   created(){
     console.log('GoalManagement created()')
 
@@ -225,6 +262,9 @@ export default {
         console.log('********** 골매니지먼트에서 호출한 목표 리스트 **********');
         self.showGoal();
       })
+
+    this.getToday();
+
     }
 }
 </script>
