@@ -39,8 +39,8 @@ export default {
         MyTotalChart,
         MyCategoryChart,
         PercentageChart
-    }   
-} 
+    }
+}
 // <template id="test">
 //       <!-- Portfolio Grid Section -->
 //     <section class="portfolio" id="portfolio">
@@ -88,8 +88,7 @@ export default {
 //           <h4> 솔루션 </h4>
 //         </div>
 //       </div>
-      
+
 //     </section>
 // </template>
 </script>
-

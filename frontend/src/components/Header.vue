@@ -33,4 +33,6 @@ export default {
 .btn-lg.round {
 	border-radius: 24px;
 }
+
+
 </style>

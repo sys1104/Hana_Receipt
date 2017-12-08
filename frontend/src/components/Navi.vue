@@ -71,7 +71,6 @@ export default {
 
     #logo_head {
       display: inline-block;
-      font-family: 'Kaushan Script', cursive;
     }
 
     #logo_head:hover {
