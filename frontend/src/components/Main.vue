@@ -4,7 +4,7 @@
     <navi></navi>
     <custom-header></custom-header>
     <first-section></first-section>
-    <custom-footer></custom-footer> 
+    <!-- <custom-footer></custom-footer>  -->
     
 
   </div>
