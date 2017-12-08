@@ -72,7 +72,7 @@
         </tr>
 
         <!-- 페이지네이션 -->
-        <div class="counter" v-if="(page_num > 10)">
+        <div class="counter" v-if="(page_num == 10)">
 
             <button class="prev paginate left" @click="pageto(pageIndex-2, list_total, page_num)" v-if="pageIndex != 1"></button>
             <span>Page {{pageIndex}} of {{page_total}}</span>
