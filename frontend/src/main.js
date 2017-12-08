@@ -28,7 +28,9 @@ Vue.use(VueRouter)
     // Vue.use(VuePaginator)
 Vue.use(VueSession)
 Vue.use(axios)
-    //사용할 라우터 객체등록
+
+
+//사용할 라우터 객체등록
 const routes = [{
             name: 'home',
             path: '/',
@@ -93,6 +95,9 @@ const router = new VueRouter({
     base: '/',
     routes
 });
+
+
+
 Vue.config.productionTip = false;
 /* eslint-disable no-new */
 new Vue({
