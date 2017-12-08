@@ -84,6 +84,18 @@ module.exports = {
             path: '/api/goal/save_goal',
             method: 'save_goal',
             type: 'post'
+        },
+        {
+            file: './goal',
+            path: '/api/goal/edit_goal',
+            method: 'edit_goal',
+            type: 'post'
+        },
+        {
+            file: './goal',
+            path: '/api/goal/delete_goal',
+            method: 'delete_goal',
+            type: 'post'
         }
 
     ],

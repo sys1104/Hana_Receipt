@@ -7,76 +7,68 @@
     <h2>목표 저장하기</h2>
     <!-- class="row" 추가 -->
     <div class="row" v-if="flag==false">
-      <div class="form-group" style="width:20%;">
+      <div v-if="info0==false" class="form-group" style="width:20%;">
         <label class="form-control">목표기간</label>
         <!-- <input type="hidden" v-model="cate_num" class="form-control" value="1" name="cate_num"> -->
       </div>
-      <div class="form-group" style="width:30%">
+      <div v-if="info0==false" class="form-group" style="width:30%">
         <input type="text" placeholder="시작날짜" v-model="g_time" class="form-control" name="g_time">
       </div>
-      <div class="form-group" style="width:30%">
+      <div v-if="info0==false" class="form-group" style="width:30%">
         <input type="text" placeholder="마지막날짜" v-model="g_endtime" class="form-control" name="g_endtime">
       </div>
-
-      <div class="form-group" style="width:30%">
+<!-- results1[0]!=cate_num.cate_num1 && results1[1]!=cate_num.cate_num1 && results1[2]!=cate_num.cate_num1 && results1[3]!=cate_num.cate_num1 &&results1[4]!=cate_num.cate_num1 && results1[5]!=cate_num.cate_num1 -->
+      <div v-if="info1==false"class="form-group" style="width:30%">
         <label class="form-control">생활/쇼핑</label>
         <input type="hidden" v-model="cate_num.cate_num1" class="form-control" value="1" name="cate_num1">
       </div>
-      <div class="form-group" style="width:50%">
+      <div v-if="info1==false"class="form-group" style="width:50%">
         <input type="text" placeholder="목표금액" v-model="g_price.g_price1" class="form-control" name="g_price1">
       </div>
 
-      <div class="form-group" style="width:30%">
+      <div v-if="info2==false"class="form-group" style="width:30%">
         <label class="form-control">교통</label>
         <input type="hidden" v-model="cate_num.cate_num2" class="form-control" value="2" name="cate_num2">
       </div>
-      <div class="form-group" style="width:50%">
+      <div v-if="info2==false"class="form-group" style="width:50%">
         <input type="text" placeholder="목표금액" v-model="g_price.g_price2" class="form-control" name="g_price2">
       </div>
 
-      <div class="form-group" style="width:30%">
+      <div v-if="info3==false"class="form-group" style="width:30%">
         <label class="form-control">식비</label>
         <input type="hidden" v-model="cate_num.cate_num3" class="form-control" value="3" name="cate_num3">
       </div>
-      <div class="form-group" style="width:50%">
+      <div v-if="info3==false"class="form-group" style="width:50%">
         <input type="text" placeholder="목표금액" v-model="g_price.g_price3" class="form-control" name="g_price3">
       </div>
 
-      <div class="form-group" style="width:30%">
+      <div v-if="info4==false"class="form-group" style="width:30%">
         <label class="form-control">패션/미용</label>
         <input type="hidden" v-model="cate_num.cate_num4" class="form-control" value="4" name="cate_num4">
       </div>
-      <div class="form-group" style="width:50%">
+      <div v-if="info4==false"class="form-group" style="width:50%">
         <input type="text" placeholder="목표금액" v-model="g_price.g_price4" class="form-control" name="g_price4">
       </div>
 
-      <div class="form-group" style="width:30%">
+      <div v-if="info5==false"class="form-group" style="width:30%">
         <label class="form-control">주거/통신</label>
         <input type="hidden" v-model="cate_num.cate_num5" class="form-control" value="5" name="cate_num5">
       </div>
-      <div class="form-group" style="width:50%">
+      <div v-if="info5==false"class="form-group" style="width:50%">
         <input type="text" placeholder="목표금액" v-model="g_price.g_price5" class="form-control" name="g_price5">
       </div>
 
-      <div class="form-group" style="width:30%">
+      <div v-if="info6==false"class="form-group" style="width:30%">
         <label class="form-control">미분류</label>
         <input type="hidden" v-model="cate_num.cate_num6" class="form-control" value="6" name="cate_num6">
       </div>
-      <div class="form-group" style="width:50%">
+      <div v-if="info6==false"class="form-group" style="width:50%">
         <input type="text" placeholder="목표금액" v-model="g_price.g_price6" class="form-control" name="g_price6">
       </div>
     </div>
-
-
-    <div class="row" v-if="flag==true">
-      <div class="form-group" v-for="result in result1">
-        {{info=result.cate_num}}
-      </div>
-    </div>
     <button @click.prevent="goalStore" class="btn btn-success">저장</button>
-    </div>
   </div>
-  </div>
+</div>
 </template>
 
 
@@ -92,9 +84,17 @@ export default {
   data: function() {
     return {
       flag:false,
-      info:'',
+      info0:false,
+      info1:false,
+      info2:false,
+      info3:false,
+      info4:false,
+      info5:false,
+      info6:false,
       results:'',
       results1:[],
+      resultsEnd:'',
+      resultsStart:'',
       u_num:'',
       g_num:'',
       cate_num: {
@@ -124,53 +124,68 @@ export default {
     GoalList
   },
   methods: {
+    showGoal(){
+      if(this.results1.length > 0){
+        this.info0 = true;
+      }
+      for(var j=0; j < this.results1.length; j++){
+        if(this.cate_num.cate_num1 == this.results1[j]){
+          this.info1 = true;
+        }
+        if(this.cate_num.cate_num2 == this.results1[j]){
+          this.info2 = true;
+        }
+        if(this.cate_num.cate_num3 == this.results1[j]){
+          this.info3 = true;
+        }
+        if(this.cate_num.cate_num4 == this.results1[j]){
+          this.info4 = true;
+        }
+        if(this.cate_num.cate_num5 == this.results1[j]){
+          this.info5 = true;
+        }
+        if(this.cate_num.cate_num6 == this.results1[j]){
+          this.info6 = true;
+        }
+      }
+    },
     goalStore() {
       console.log('********** front-end goalStore 호출 **********');
       var u_num = this.u_num;
-      // var cate_num = this.cate_num;
       var cate_num = [];
       var g_price = [];
-      var results1 = [];
-      this.flag = true;
+      if(this.info0 == true){
+        var g_time = this.resultsStart;
+        var g_endtime = this.resultsEnd;
+      }else{
+        var g_time = this.g_time;
+        var g_endtime = this.g_endtime;
+      }
       if(!(this.g_price.g_price1=='')){
         cate_num.push(this.cate_num.cate_num1);
         g_price.push(this.g_price.g_price1);
-      }else{
-        this.results1.push(this.cate_num.cate_num1);
       }
       if(!(this.g_price.g_price2=='')){
         cate_num.push(this.cate_num.cate_num2);
         g_price.push(this.g_price.g_price2);
-      }else{
-        this.results1.push(this.cate_num.cate_num2);
       }
       if(!(this.g_price.g_price3=='')){
         cate_num.push(this.cate_num.cate_num3);
         g_price.push(this.g_price.g_price3);
-      }else{
-        this.results1.push(this.cate_num.cate_num3);
       }
       if(!(this.g_price.g_price4=='')){
         cate_num.push(this.cate_num.cate_num4);
         g_price.push(this.g_price.g_price4);
-      }else{
-        this.results1.push(this.cate_num.cate_num4);
       }
       if(!(this.g_price.g_price5=='')){
         cate_num.push(this.cate_num.cate_num5);
         g_price.push(this.g_price.g_price5);
-      }else{
-        this.results1.push(this.cate_num.cate_num5);
       }
-      if(!(this.g_price.g_price1=='')){
+      if(!(this.g_price.g_price6=='')){
         cate_num.push(this.cate_num.cate_num6);
         g_price.push(this.g_price.g_price6);
-      }else{
-        this.results1.push(this.cate_num.cate_num6);
       }
-      var g_time = this.g_time;
-      var g_endtime = this.g_endtime;
-      // var g_price = this.g_price;
+
         axios({
           method: 'post',
           url: 'api/goal/save_goal',
@@ -202,188 +217,19 @@ export default {
   }).then(function (response) {
         self.results = response.data;
         self.list_total = Number(response.data.length);
+        self.resultsStart = self.results[0].g_time;
+        self.resultsEnd = self.results[0].g_endtime;
         for(var i=0;i<self.results.length;i++){
-          console.log(self.results[i].g_num);
+          self.results1.push(self.results[i].cate_num);
         }
-        console.log('********** 목표 리스트 **********');
+        console.log('********** 골매니지먼트에서 호출한 목표 리스트 **********');
+        self.showGoal();
       })
     }
 }
 </script>
 
 
-<<<<<<< HEAD
-    <style>
-        .box-container{
-            border-style: solid;
-            border-width: 2px;
-            padding: 10px;
-        }
-        .table-header{
-            font-size: 20px;
-            font-weight: bold;
-        }
-        .table-color{
-            background-color: lightgrey;
-        }
-
-        body {
-            background-color: #91ced4;
-        }
-
-        body * {
-            box-sizing: border-box;
-        }
-
-        .header {
-            background-color: #327a81;
-            color: white;
-            font-size: 1.5em;
-            padding: 1rem;
-            text-align: center;
-            text-transform: uppercase;
-        }
-
-        .table-users {
-            border: 1px solid #327a81;
-            border-radius: 10px;
-            box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
-            max-width: calc(100% - 2em);
-            margin: 1em auto;
-            overflow: hidden;
-            width: 800px;
-        }
-
-        table {
-            width: 100%;
-        }
-
-        table td,
-        table th {
-            color: #2b686e;
-            padding: 10px;
-        }
-
-        table td {
-            text-align: center;
-            vertical-align: middle;
-        }
-
-        table td:last-child {
-            font-size: 0.95em;
-            line-height: 1.4;
-            text-align: left;
-        }
-
-        table th {
-            background-color: #daeff1;
-            font-weight: 300;
-        }
-
-        table tr:nth-child(2n) {
-            background-color: white;
-        }
-
-        table tr:nth-child(2n+1) {
-            background-color: #edf7f8;
-        }
-
-        @media screen and (max-width: 700px) {
-            table,
-            tr,
-            td {
-                display: block;
-            }
-            td:first-child {
-                position: absolute;
-                top: 50%;
-                -webkit-transform: translateY(-50%);
-                transform: translateY(-50%);
-                width: 100px;
-            }
-            td:not(:first-child) {
-                clear: both;
-                margin-left: 100px;
-                padding: 4px 20px 4px 90px;
-                position: relative;
-                text-align: left;
-            }
-            td:not(:first-child):before {
-                color: #91ced4;
-                content: '';
-                display: block;
-                left: 0;
-                position: absolute;
-            }
-            td:nth-child(2):before {
-                content: 'Name:';
-            }
-            td:nth-child(3):before {
-                content: 'Email:';
-            }
-            td:nth-child(4):before {
-                content: 'Phone:';
-            }
-            td:nth-child(5):before {
-                content: 'Comments:';
-            }
-            tr {
-                padding: 10px 0;
-                position: relative;
-            }
-            tr:first-child {
-                display: none;
-            }
-        }
-
-        @media screen and (max-width: 500px) {
-            .header {
-                background-color: transparent;
-                color: white;
-                font-size: 2em;
-                font-weight: 700;
-                padding: 0;
-                text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
-            }
-            td:first-child {
-                background-color: #c8e7ea;
-                border-bottom: 1px solid #91ced4;
-                border-radius: 10px 10px 0 0;
-                position: relative;
-                top: 0;
-                -webkit-transform: translateY(0);
-                transform: translateY(0);
-                width: 100%;
-            }
-            td:not(:first-child) {
-                margin: 0;
-                padding: 5px 1em;
-                width: 100%;
-            }
-            td:not(:first-child):before {
-                font-size: .8em;
-                padding-top: 0.3em;
-                position: relative;
-            }
-            td:last-child {
-                padding-bottom: 1rem !important;
-            }
-            tr {
-                background-color: white !important;
-                border: 1px solid #6cbec6;
-                border-radius: 10px;
-                box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
-                margin: 0.5rem 0;
-                padding: 0;
-            }
-            .table-users {
-                border: none;
-                box-shadow: none;
-                overflow: visible;
-            }
-        }
-        </style>
-=======
 <style>
     .box-container{
         border-style: solid;
@@ -398,4 +244,3 @@ export default {
         background-color: lightgrey;
     }
 </style>
->>>>>>> 9f07cb200d8af687daf38f6e2444c4a0941629ac
