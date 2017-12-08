@@ -131,7 +131,15 @@ var signup = function(req, res, callback) {
         var axios = require('axios');
         addUser(database, paramId, paramPw, paramName, paramPhone, paramEmail, paramJob, paramSalary, function(err, result) {
             if (err) {
-                throw err;
+                //addUser에서 에러 콜백 발생
+                console.log('addUser에서 에러 콜백 발생')
+                    // throw err;
+                var error = true;
+                var data = {
+                    error
+                }
+                res.json(data);
+                res.end();
             } // 에러 처리
             if (result) {
                 console.dir(result);
