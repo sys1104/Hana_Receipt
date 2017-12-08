@@ -101,10 +101,12 @@ export default {
       // for( var i in self.results){
       //   self.sum += i.sum_price;
       // }
+      var sum2 = 0;
       for(var i=0; i<self.results.length;i++){
-        self.sum += parseInt(self.results[i].sum_price);
+        sum2 += parseInt(self.results[i].sum_price);
       }
-      console.log('셀프섬값 : ' + self.sum);
+      self.sum = sum2;
+      console.log('self.sum값 : ' + self.sum);
 
     })
   }
