@@ -7,11 +7,11 @@
         <!-- <hr class="star-light"> -->
 <!--        <h2 class="font-weight-light mb-0">Web Developer - Graphic Artist - User Experience Designer</h2>-->
         <!-- <button class="btn btn-success btn-lg" style="margin-right: 100px;">목표 관리</button> -->
-        <div class="wrap" style="margin-top: 50px"> 
-        <router-link v-if="$session.exists() == true" class="button" style="margin-right: 100px;" to="/store_test">소비 내역</router-link>
-        <router-link v-else class="button" style="margin-right: 100px;" to="/login">소비 내역</router-link>    
-        <router-link v-if="$session.exists() == true" class="button2" to="/goal_management">목표 관리</router-link>
-        <router-link v-else class="button2" to="/login">목표 관리</router-link>
+        <div style="margin-top: 50px"> 
+        <router-link v-if="$session.exists() == true" class="btn btn-success btn-lg" style="margin-right: 100px;" to="/store_test">소비 내역</router-link>
+        <router-link v-else class="btn btn-success btn-lg" style="margin-right: 100px;" to="/login">소비 내역</router-link>        
+        <router-link v-if="$session.exists() == true" class="btn btn-danger btn-lg" to="/goal_management">목표 관리</router-link>
+        <router-link v-else class="btn btn-danger btn-lg" to="/login">목표 관리</router-link>
         </div>
         <!-- <button class="btn btn-danger btn-lg">목표 관리</button> -->
       </div>

@@ -52,7 +52,7 @@ var list_goal = function(database, u_num, callback) {
     }
     console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
     // 'select * from goal where u_num = ?'
-    var exec = conn.query('select g_num, u_num, cate_num, g_price, substring(g_time,1,10) g_time, substring(g_endtime,1,10) g_endtime from goal where g_endtime in (select max(g_endtime) max_endtime from goal where u_num = ?)', u_num,
+    var exec = conn.query('select g_num, u_num, cate_num, g_price, substring(g_time,1,10) g_time, substring(g_endtime,1,10) g_endtime from goal where g_endtime in (select max(g_endtime) max_endtime from goal where u_num = ?) and g_endtime > curdate()', u_num,
       function(err, rows) {
         //select의 결과물은 배열로 들어온다. rows 변수...
         conn.release();
@@ -219,12 +219,13 @@ var update_goal = function(database, u_num, g_num, cate_num, g_price, g_time, g_
       cate_num: cate_num,
       g_price: g_price,
       g_time: g_time,
-      g_endtime: g_endtime
+      g_endtime: g_endtime,
+      g_num : g_num
     };
     //conn 객체를 사용해서 sql 실행
     //set 모든 컬럼에 집어넣는 문법
-    var exec = conn.query('update goal set cate_num=?,g_price=?,g_time=?,g_endtime=? where g_num=?',
-     [cate_num, g_price, g_time, g_endtime, g_num], function(err, result) {
+    var exec = conn.query('update goal set cate_num=?,g_price=?,g_time=?,g_endtime=? where u_num = ? and g_num=?',
+     [cate_num, g_price, g_time, g_endtime, u_num, g_num], function(err, result) {
       //쿼리 작업 수행 후 반드시 연결을 해제 해야 한다.
       conn.release();
       console.log('실행 sql : %s', exec.sql);
@@ -298,7 +299,7 @@ var remove_goal = function(database, u_num, g_num, callback) {
     //삽입할 데이터를 객체로 만들기 앞: DB컬럼명, 뒤: 파라미터로 받아온 컬럼명
     var data = {
       u_num: u_num,
-      cate_num: cate_num,
+      g_num: g_num,
     };
     //conn 객체를 사용해서 sql 실행
     //set 모든 컬럼에 집어넣는 문법

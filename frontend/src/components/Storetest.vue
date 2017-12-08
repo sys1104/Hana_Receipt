@@ -1,13 +1,12 @@
 <template>
-<div id="insertConsume" class="table-users" style="width:1000px; display:inline-block;">
+<div id="insertConsume" class="table-users" style="width:800px; display:inline-block;">
   <navi></navi>
   <div class="header">소비 관리</div>
   <br>
   <stories></stories>
-  <br>
-  <div class="table-users" style="width:100%">
+  <br><br>
+  <div class="table-users">
   <div class="header">소비내역 저장</div>
-  <br>
   <div class="form-group">
     <select v-model="cate_num" class="form-control" name="cate_num">
       <option value="1">생활/쇼핑</option>
@@ -25,13 +24,12 @@
     <input type="text" placeholder="가격" v-model="price" class="form-control" name="price">
   </div>
   <div class="form-group">
-    <input type="date" placeholder="소비일자 예)20171205" v-model="c_time" class="form-control" name="c_time">
+    <input type="text" placeholder="소비일자 예)20171205" v-model="c_time" class="form-control" name="c_time">
   </div>
   <!-- <div class="form-group">
     <input type="email" placeholder="낭비체크" v-model="wasted" class="form-control" name="wasted">
   </div> -->
-  <button @click.prevent="requestHistory" class="btn" style="width:150px; background-color:#327a81; color:white; font-weight:bold">저 장</button>
-  <br><br>
+  <button @click.prevent="requestHistory" class="btn btn-success">저장</button>
   </div>
   <br>
 </div>
@@ -40,7 +38,6 @@
 <script>
 import axios from 'axios'
 import Stories from './Stories.vue'
-import Navi from './Navi.vue'
 export default {
   data: function() {
     return {
@@ -54,8 +51,7 @@ export default {
     }
   },
   components: {
-    Stories,
-    Navi
+    Stories
   },
   methods: {
     requestHistory() {
@@ -79,34 +75,15 @@ export default {
           }
         }).then(function(response) {
           console.log('********** 소비내역 저장완료 **********');
-          setTimeout("window.location.href = './store_test'",0)
+          alert('소비내역 저장 완료되었습니다');
+          setTimeout("window.location.href = './store_test'",1000)
         })
-    },
-        getToday(){
-            console.log('getToday!')    
-            var today = new Date();
-            var dd = today.getDate();
-            var mm = today.getMonth()+1; //January is 0!
-            var yyyy = today.getFullYear();
-            if(dd<10) {
-            dd='0'+dd
-            } 
-            if(mm<10) {
-                mm='0'+mm
-            }
-            console.log(yyyy + '-'+ mm + '-' + dd);
-            this.c_time = yyyy + '-'+ mm + '-' + dd;
-        }
+    }
   },
   created(){
     console.log('Storetest')
-    this.getToday();
     }
-
-
-}//exportDefault
-    
-
+}
 </script>
 <style scoped>
 body {

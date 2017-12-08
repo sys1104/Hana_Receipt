@@ -111,9 +111,6 @@ export default {
             u_salary: salary
           }
         }).then(function(response) {
-          if(response.data.error){
-            alert('중복된 아이디가 있습니다.');
-          }
           console.log('********** 회원가입완료 **********');
           alert('회원가입이 완료되었습니다');
           setTimeout("window.location.href = './login'",1000)
