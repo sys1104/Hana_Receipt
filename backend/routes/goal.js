@@ -52,7 +52,7 @@ var list_goal = function(database, u_num, callback) {
     }
     console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
     // 'select * from goal where u_num = ?'
-    var exec = conn.query('select g_num, u_num, cate_num, g_price, substring(g_time,1,10) g_time, substring(g_endtime,1,10) g_endtime from goal where g_endtime in (select max(g_endtime) max_endtime from goal where u_num = ?) and g_endtime > curdate()', u_num,
+    var exec = conn.query('select g_num, u_num, cate_num, g_price, substring(g_time,1,10) g_time, substring(g_endtime,1,10) g_endtime from goal where g_endtime in (select max(g_endtime) max_endtime from goal where u_num = ?) and g_endtime > curdate() and u_num=?', [u_num, u_num],
       function(err, rows) {
         //select의 결과물은 배열로 들어온다. rows 변수...
         conn.release();
