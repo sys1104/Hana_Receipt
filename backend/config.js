@@ -90,8 +90,19 @@ module.exports = {
       path: '/api/analysis/cate_used_goal_money',
       method: 'cate_used_goal_money',
       type: 'post'
+    },
+    {
+      file: './analysis',
+      path: '/api/analysis/all_used_goal_money',
+      method: 'all_used_goal_money',
+      type: 'post'
+    },
+    {
+      file: './analysis',
+      path: '/api/analysis/compare_user_other',
+      method: 'compare_user_other',
+      type: 'post'
     }
-
   ],
   jsonrpc_api_path: '/api'
 };

@@ -1,4 +1,3 @@
-
 <template>
 <div id='myCategoryChart'></div>
 </template>
@@ -20,7 +19,7 @@ export default {
           tick: {
             visible: false
           },
-          labels: '', //['1','2','3','4','5','6'], 배열형식으로 지정해야함
+          labels: [],
           item: {
             fontColor: "#000000",
             fontSize: 16
@@ -62,7 +61,7 @@ export default {
           }
         },
         series: [{
-            values: [1, 1, 1, 1, 1, 1], //배열 형식으로 지정해야함
+            values: [], //배열 형식으로 지정해야함
             borderRadius: "50px 0px 0px 50px",
             backgroundColor: "#E71D36",
             rules: [{
@@ -89,11 +88,10 @@ export default {
                 rule: "%i === 5",
                 backgroundColor: "#2EC4B6"
               }
-
             ]
           },
           {
-            values: [9, 9, 9, 9, 9, 9], //배열 형식으로 지정해야함
+            values: [], //배열 형식으로 지정해야함
             borderRadius: "0px 50px 50px 0px",
             backgroundColor: "#E71D36",
             //alpha : 0.8,
@@ -127,33 +125,62 @@ export default {
       }
     }
   },
-  mounted() {
-    zingchart.render({
-      id: 'myCategoryChart',
-      data: this.myCategoryConfig,
-      height: '70%',
-      width: '99%'
-    });
-  },
   created() {
     var self = this;
+    // this.myCategoryConfig.scaleX.labels.push('생활/쇼핑');
     if (!this.$session.exists()) {
       console.log('********** 세션이 없습니다. **********');
     } else {
       console.log('********** 세션이 있습니다. **********');
       // this.u_num = this.$session.getAll();
       console.log('세션 값 확인 ' + this.$session.get('session'));
-      axios({
-        method: 'post',
-        url: 'api/analysis/cate_used_goal_money',
-        data: {
-          u_num: this.$session.get('session'),
-        }
-      }).then(function(response) {
-        console.log('********** cate_used_goal_money 응답 받음 **********');
-        console.log(response.data.cate_goal.cate_num);
-        self.myCategoryConfig.scaleX.labels = response.data.cate_goal.cate_num;
-      })
+      var unum = this.$session.get('session');
+      setTimeout(function() {
+        axios({
+          method: 'post',
+          url: 'api/analysis/cate_used_goal_money',
+          data: {
+            u_num: unum
+          }
+        }).then((response) => {
+          console.log('********** cate_used_goal_money 응답 받음 **********');
+          console.log(response.data.cate_used);
+          console.log(response.data.cate_goal);
+          var cate_used = {};
+          cate_used = response.data.cate_used;
+          var cate_goal = {};
+          cate_goal = response.data.cate_goal;
+          for (var i = 0; i < cate_used.length; i++) {
+            if (cate_used[i].cate_num == 1) {
+              console.log(cate_used[i].sum_price);
+              console.log(cate_goal[i].g_price);
+              self.myCategoryConfig.scaleX.labels.push('생활/쇼핑');;
+              self.myCategoryConfig.series[0].values.push(Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 10));
+            } else if (cate_used[i].cate_num == 2) {
+              self.myCategoryConfig.scaleX.labels.push('교통');
+              self.myCategoryConfig.series[0].values.push(Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 10));
+            } else if (cate_used[i].cate_num == 3) {
+              self.myCategoryConfig.scaleX.labels.push('식비');
+              self.myCategoryConfig.series[0].values.push(Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 10));
+            } else if (cate_used[i].cate_num == 4) {
+              self.myCategoryConfig.scaleX.labels.push('패션/미용');
+              self.myCategoryConfig.series[0].values.push(Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 10));
+            } else if (cate_used[i].cate_num == 5) {
+              self.myCategoryConfig.scaleX.labels.push('주거/통신');
+              self.myCategoryConfig.series[0].values.push(Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 10));
+            } else {
+              self.myCategoryConfig.scaleX.labels.push('기타');
+              self.myCategoryConfig.series[0].values.push(Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 10));
+            }
+          }
+          zingchart.render({
+            id: 'myCategoryChart',
+            data: self.myCategoryConfig,
+            height: '70%',
+            width: '99%'
+          });
+        });
+      }, 500)
     }
   }
 }

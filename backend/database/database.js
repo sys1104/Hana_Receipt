@@ -7,16 +7,16 @@ database.init = function(app, config) { //데이터베이스 초기화
 };
 
 function connect(app, config) {
-  pool = mysql.createPool({ //connection poll 생성
-    connectionLimit: 50, //50개의 커넥션까지 가능
-    host: '192.168.1.17', //DB 서버 IP 주소
-    user: 'root',
-    password: '1234',
-    database: 'hana_receipt',
-    debug: 'false'
-  });
-  console.log('********** 커넥션 풀 생성 ***********');
-  database.pool = pool;
-  app.set('database', database);
+    pool = mysql.createPool({ //connection poll 생성
+        connectionLimit: 50, //50개의 커넥션까지 가능
+        host: '13.124.106.226', //DB 서버 IP 주소
+        user: 'root',
+        password: 'thddudtn',
+        database: 'hana_receipt',
+        debug: 'false'
+    });
+    console.log('********** 커넥션 풀 생성 ***********');
+    database.pool = pool;
+    app.set('database', database);
 }
 module.exports = database;
