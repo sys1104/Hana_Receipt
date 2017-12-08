@@ -241,7 +241,7 @@ var delHistory = function(database, consume_num, u_num, callback) {
 };
 
 // ==================== 소비내역 리스트 function ==================== //
-var read_consume_board = function(database, callback) {
+var read_consume_board = function(database, u_num, callback) {
   console.log('********** read consume list 호출 **********');
   // console.dir(database);
   database.pool.getConnection(function(err, conn) {
@@ -255,14 +255,14 @@ var read_consume_board = function(database, callback) {
     // console.log('데이터 베이스 연결 스레드 아이디 : ' + conn.threadID);
     //칼럼명을 배열로 만들기
     // var sql = 'select * from consume_history order by c_time';
-    var sql = 'select consume_num,u_num,cate_num,content,price,substring(c_time,1,10) as c_time,wasted from consume_history order by c_time';
+    var sql = 'select consume_num, u_num, cate_num,content,price,substring(c_time,1,10) as c_time,wasted from consume_history where u_num = ? order by c_time';
     // var columns = [post_num];
-    var exec = conn.query(sql, function(err, rows) {
+    var exec = conn.query(sql, [u_num], function(err, rows) {
       //select의 결과물은 배열로 들어온다. -rows 변수..
       if (rows.length > 0) {
         callback(null, rows);
       } else {
-        console.log('일치하는 사용자 없음');
+        console.log('일치하는 소비내역 없음 --> 길이=0');
         callback(null, null);
       }
     });
@@ -274,16 +274,17 @@ var read_consume_board = function(database, callback) {
   });
 };
 
-var consumeList = function(req, res) {
+var consumeList = function(req, res, callback) {
   console.log('********** consumeList 호출 **********');
   //아이디와 패스워드 받고 dB에 접근
   //database --> true : DB에 접근 할 수 있는 상태
   var database = req.app.get('database');
+  var u_num = req.body.u_num;
   // console.dir(database);
   // var paramPostNum = req.query.tmp_post_num;
 
   if (database) {
-    read_consume_board(database, function(err, rows) {
+    read_consume_board(database, u_num, function(err, rows) {
 
       if (err) {
         console.error('read board 중 에러바생 ' + err.stack);
@@ -305,12 +306,15 @@ var consumeList = function(req, res) {
 
       } else {
         //데이터베이스 접속이 실패 했을 경우
-        res.writeHead(200, {
-          'Content-Type': 'text/html;charset=utf8'
-        });
-        res.write('<h1>read board 실패</h1>');
-        res.write('<div><p>확인하세요.</p></div>');
-        res.end();
+        // res.writeHead(200, {
+        //   'Content-Type': 'text/html;charset=utf8'
+        // });
+        // res.write('<h1>read board 실패</h1>');
+        // res.write('<div><p>확인하세요.</p></div>');
+        // res.end();
+        console.log('로우가없음');
+        var data2 = {};
+        res.json(data2);
       }
     });
   } else {

@@ -14,8 +14,8 @@
               <!-- <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" @click="currentComponent='Login',currentHeader=''">로그인</a> -->
               <!-- <a v-if="$session.exists() == true" class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" @click="logout">마이페이지</a> -->
               <a id="logo_head"><router-link name="login" v-if="$session.exists() == false" class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" to="/login">로그인</router-link></a>
-              <a id="logo_head"><router-link name="my-page" v-if="$session.exists() == true" class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" to="/modify_user">마이페이지</router-link></a>           
-            </li>             
+              <a id="logo_head"><router-link name="my-page" v-if="$session.exists() == true" class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" to="/modify_user">마이페이지</router-link></a>
+            </li>
              <li class="nav-item mx-0 mx-lg-1 t">
               <a id="logo_head" v-if="$session.exists() == true" class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" style="margin-top:13px" @click="logout">로그아웃</a>
               <a id="logo_head"><router-link name="add-user" v-if="$session.exists() == false" class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" to="/register">회원가입</router-link></a>
@@ -86,4 +86,3 @@ export default {
       color:#18BC9C;
     }
 </style>
-

@@ -2,6 +2,9 @@
 <div id='myCategoryChart'></div>
 </template>
 
+
+
+
 <script>
 // 카테고리별 목표금액 그래프
 import axios from 'axios'

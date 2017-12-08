@@ -59,7 +59,7 @@ module.exports = {
             file: './consume_history',
             path: '/api/consume_history/consumeList',
             method: 'consumeList',
-            type: 'get'
+            type: 'post'
         },
         {
             file: './consume_history',
