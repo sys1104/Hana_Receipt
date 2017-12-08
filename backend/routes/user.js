@@ -18,8 +18,11 @@ var login = function(req, res, callback) {
                 res.end();
             } // 에러 처리
             if (rows) {
-                var data = {};
-                data = rows[0].u_num;
+                var data = {
+                    u_num: rows[0].u_num,
+                    u_id: paramId
+                };
+                // data = rows[0].u_num;
                 res.json(data);
                 console.log(data);
                 res.end();
@@ -77,6 +80,7 @@ var authUser = function(database, id, password, callback) {
                     callback(null, rows);
                 } else {
                     console.log('********** 비밀번호가 일치하지 않습니다. **********');
+                    callback(null, null);
                 }
             } else {
                 console.log('********** 일치하는 사용자가 없습니다. **********');
@@ -175,12 +179,12 @@ var addUser = function(database, id, pwd, name, phone, email, job, salary, callb
         var data = {
             u_id: id,
             u_pw: hashpass,
-            u_salt: salt,
             u_name: name,
             u_phone: phone,
             u_email: email,
             u_job: job,
-            u_salary: salary
+            u_salary: salary,
+            u_salt: salt
         };
         //conn 객체를 사용해서 sql 실행
         //set 모든 컬럼에 집어넣는 문법
@@ -219,11 +223,11 @@ var showUser = function(req, res, callback) {
         //1)사용자 인증 함수 호출 authUser
         listUser(database, u_num, function(err, rows) {
             if (err) {
-                console.error('로그인 중 에러 발생' + err.stack);
+                console.error('ShowUser 실행 도중 에러 발생' + err.stack);
                 res.writeHead(200, {
                     "Content-Type": 'text/html;charset=utf8'
                 });
-                res.write('<h2>로그인 도중 데이터베이스 에러 발생</h2>');
+                res.write('<h2>ShowUser 실행 도중 데이터베이스 에러 발생</h2>');
                 res.write('<p>' + err.stack + '</p>');
                 res.end();
             } // 에러 처리
@@ -286,81 +290,80 @@ var listUser = function(database, u_num, callback) {
 
 // ========================= 회원정보 수정 function =================//
 var modifyUser = function(req, res, callback) {
-  console.log('********** modifyUser 호출됨 **********');
-  var database = req.app.get('database');
-  var paramUnum = Number(req.body.u_num);
-  var paramName = req.body.u_name;
-  var paramPhone = req.body.u_phone;
-  var paramEmail = req.body.u_email;
-  var paramJob = req.body.u_job;
-  var paramSalary = req.body.u_salary;
-  //database --> true : DB에 접근할 수 있는 상태
-  if (database) {
-    var axios = require('axios');
-    updateUser(database, paramUnum, paramName, paramPhone, paramEmail, paramJob, paramSalary, function(err, result) {
-      if (err) {
-        throw err;
-      } // 에러 처리
-      if (result) {
-        console.dir(result);
-        res.redirect('http://localhost:8080');
-      } else {
-        res.writeHead(200, {
-          "Content-Type": 'text/html;charset=utf8'
+    console.log('********** modifyUser 호출됨 **********');
+    var database = req.app.get('database');
+    var paramUnum = Number(req.body.u_num);
+    var paramName = req.body.u_name;
+    var paramPhone = req.body.u_phone;
+    var paramEmail = req.body.u_email;
+    var paramJob = req.body.u_job;
+    var paramSalary = req.body.u_salary;
+    //database --> true : DB에 접근할 수 있는 상태
+    if (database) {
+        var axios = require('axios');
+        updateUser(database, paramUnum, paramName, paramPhone, paramEmail, paramJob, paramSalary, function(err, result) {
+            if (err) {
+                throw err;
+            } // 에러 처리
+            if (result) {
+                console.dir(result);
+                res.redirect('http://localhost:8080');
+            } else {
+                res.writeHead(200, {
+                    "Content-Type": 'text/html;charset=utf8'
+                });
+                res.write('<h1>회원정보 업데이트 실패</h1>');
+                res.write("<br/><a href='/public/adduser.html'>다시 되돌아가기</a>");
+                res.end();
+            }
         });
-        res.write('<h1>회원정보 업데이트 실패</h1>');
+    } else {
+        //DB접속에 실패 했을 경우
+        res.writeHead(200, {
+            "Content-Type": 'text/html;charset=utf8'
+        });
+        res.write('<h1>데이터베이스 연결 실패</h1>');
+        res.write('<div><p>DB에 연결 하지 못했습니다</p></div>');
         res.write("<br/><a href='/public/adduser.html'>다시 되돌아가기</a>");
         res.end();
-      }
-    });
-  } else {
-    //DB접속에 실패 했을 경우
-    res.writeHead(200, {
-      "Content-Type": 'text/html;charset=utf8'
-    });
-    res.write('<h1>데이터베이스 연결 실패</h1>');
-    res.write('<div><p>DB에 연결 하지 못했습니다</p></div>');
-    res.write("<br/><a href='/public/adduser.html'>다시 되돌아가기</a>");
-    res.end();
-  }
+    }
 };
 
 var updateUser = function(database, u_num, u_name, u_phone, u_email, u_job, u_salary, callback) {
-  console.log('********** updateUser 호출됨 **********');
-  //pool에서 커넥션 객체 가져오기
-  database.pool.getConnection(function(err, conn) {
-    if (err) {
-      //커넥션을 pool에 반환하기
-      if (conn) {
-        conn.release();
-      }
-      callback(err, null);
-      return;
-    }
-    console.log('데이터베이스 연결 Thread' + conn.threadId);
-    // select consume_num from consume_history
-    //conn 객체를 사용해서 sql 실행
-    var exec = conn.query('update user set u_name = ?, u_phone = ?, u_email = ?, u_job = ?, u_salary = ? where u_num = ?',
-      [u_name, u_phone, u_email, u_job, u_salary, u_num],
-      function(err, result) {
-        //쿼리 작업 수행 후 반드시 연결을 해제 해야 한다.
-        conn.release();
-        console.log('실행 sql : %s', exec.sql);
+    console.log('********** updateUser 호출됨 **********');
+    //pool에서 커넥션 객체 가져오기
+    database.pool.getConnection(function(err, conn) {
         if (err) {
-          console.log('sql 수행 중 에러발생.');
-          console.dir(err);
-
-          callback(err, null);
-          return;
+            //커넥션을 pool에 반환하기
+            if (conn) {
+                conn.release();
+            }
+            callback(err, null);
+            return;
         }
-        callback(null, result);
-      });
-    conn.on('error', function(err) {
-      console.log('데이터베이스 연결 시 에러 발생함');
-      console.dir(err);
-      callback(err, null);
+        console.log('데이터베이스 연결 Thread' + conn.threadId);
+        // select consume_num from consume_history
+        //conn 객체를 사용해서 sql 실행
+        var exec = conn.query('update user set u_name = ?, u_phone = ?, u_email = ?, u_job = ?, u_salary = ? where u_num = ?', [u_name, u_phone, u_email, u_job, u_salary, u_num],
+            function(err, result) {
+                //쿼리 작업 수행 후 반드시 연결을 해제 해야 한다.
+                conn.release();
+                console.log('실행 sql : %s', exec.sql);
+                if (err) {
+                    console.log('sql 수행 중 에러발생.');
+                    console.dir(err);
+
+                    callback(err, null);
+                    return;
+                }
+                callback(null, result);
+            });
+        conn.on('error', function(err) {
+            console.log('데이터베이스 연결 시 에러 발생함');
+            console.dir(err);
+            callback(err, null);
+        });
     });
-  });
 
 };
 

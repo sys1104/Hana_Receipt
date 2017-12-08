@@ -1,7 +1,12 @@
 <template>
-<div id="insertConsume" style="width:800px; display:inline-block;">
+<div id="insertConsume" class="table-users" style="width:800px; display:inline-block;">
+  <navi></navi>
+  <div class="header">소비 관리</div>
+  <br>
   <stories></stories>
-  <h2>소비내역 저장</h2>
+  <br><br>
+  <div class="table-users">
+  <div class="header">소비내역 저장</div>
   <div class="form-group">
     <select v-model="cate_num" class="form-control" name="cate_num">
       <option value="1">생활/쇼핑</option>
@@ -12,7 +17,7 @@
       <option value="6">미분류</option>
      </select>
   </div>
-  <div class="form-group">
+  <div class="form-group" style="col-md-8">
     <input type="text" placeholder="소비품목 이름" v-model="content" class="form-control" name="content">
   </div>
   <div class="form-group">
@@ -25,6 +30,8 @@
     <input type="email" placeholder="낭비체크" v-model="wasted" class="form-control" name="wasted">
   </div> -->
   <button @click.prevent="requestHistory" class="btn btn-success">저장</button>
+  </div>
+  <br>
 </div>
 </template>
 
@@ -34,13 +41,13 @@ import Stories from './Stories.vue'
 export default {
   data: function() {
     return {
-      u_num:'2',
+      u_num:'',
       results:'',
       cate_num: '',
       content: '',
       price: '',
       c_time: '',
-      wasted: ''
+      wasted: '0'
     }
   },
   components: {
@@ -49,7 +56,7 @@ export default {
   methods: {
     requestHistory() {
       console.log('********** front-end requestHistory 호출 **********');
-      var u_num = 2;
+      var u_num = this.$session.get('session');
       var cate_num = this.cate_num;
       var content = this.content;
       var price = this.price;
@@ -78,3 +85,168 @@ export default {
     }
 }
 </script>
+<style scoped>
+body {
+    background-color: #91ced4;
+}
+
+body * {
+    box-sizing: border-box;
+}
+
+.header {
+    background-color: #327a81;
+    color: white;
+    font-size: 1.5em;
+    padding: 1rem;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.table-users {
+    border: 1px solid #327a81;
+    border-radius: 10px;
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+    max-width: calc(100% - 2em);
+    margin: 1em auto;
+    overflow: hidden;
+    width: 800px;
+}
+
+table {
+    width: 100%;
+}
+
+table td,
+table th {
+    color: #2b686e;
+    padding: 10px;
+    font-weight: bold;
+}
+
+table td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+table td:last-child {
+    font-size: 0.95em;
+    line-height: 1.4;
+    text-align: left;
+}
+
+table th {
+    background-color: #daeff1;
+    font-weight: bold;
+}
+
+table tr:nth-child(2n) {
+    background-color: white;
+}
+
+table tr:nth-child(2n+1) {
+    background-color: #edf7f8;
+}
+
+@media screen and (max-width: 700px) {
+    table,
+    tr,
+    td {
+        display: block;
+    }
+    td:first-child {
+        position: absolute;
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        transform: translateY(-50%);
+        width: 100px;
+    }
+    td:not(:first-child) {
+        clear: both;
+        margin-left: 100px;
+        padding: 4px 20px 4px 90px;
+        position: relative;
+        text-align: left;
+    }
+    td:not(:first-child):before {
+        color: #91ced4;
+        content: '';
+        display: block;
+        left: 0;
+        position: absolute;
+    }
+    td:nth-child(2):before {
+        content: 'Name:';
+    }
+    td:nth-child(3):before {
+        content: 'Email:';
+    }
+    td:nth-child(4):before {
+        content: 'Phone:';
+    }
+    td:nth-child(5):before {
+        content: 'Comments:';
+    }
+    tr {
+        padding: 10px 0;
+        position: relative;
+    }
+    tr:first-child {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .header {
+        background-color: transparent;
+        color: white;
+        font-size: 2em;
+        font-weight: 700;
+        padding: 0;
+        text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+    }
+    td:first-child {
+        background-color: #c8e7ea;
+        border-bottom: 1px solid #91ced4;
+        border-radius: 10px 10px 0 0;
+        position: relative;
+        top: 0;
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+        width: 100%;
+    }
+    td:not(:first-child) {
+        margin: 0;
+        padding: 5px 1em;
+        width: 100%;
+    }
+    td:not(:first-child):before {
+        font-size: .8em;
+        padding-top: 0.3em;
+        position: relative;
+    }
+    td:last-child {
+        padding-bottom: 1rem !important;
+    }
+    tr {
+        background-color: white !important;
+        border: 1px solid #6cbec6;
+        border-radius: 10px;
+        box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+        margin: 0.5rem 0;
+        padding: 0;
+    }
+    .table-users {
+        border: none;
+        box-shadow: none;
+        overflow: visible;
+    }
+
+    /* button style */
+
+
+    /* pagination */
+
+
+}
+</style>
