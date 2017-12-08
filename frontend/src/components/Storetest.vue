@@ -1,12 +1,13 @@
 <template>
-<div id="insertConsume" class="table-users" style="width:800px; display:inline-block;">
+<div id="insertConsume" class="table-users" style="width:1000px; display:inline-block;">
   <navi></navi>
   <div class="header">소비 관리</div>
   <br>
   <stories></stories>
-  <br><br>
-  <div class="table-users">
+  <br>
+  <div class="table-users" style="width:100%">
   <div class="header">소비내역 저장</div>
+  <br>
   <div class="form-group">
     <select v-model="cate_num" class="form-control" name="cate_num">
       <option value="1">생활/쇼핑</option>
@@ -29,7 +30,8 @@
   <!-- <div class="form-group">
     <input type="email" placeholder="낭비체크" v-model="wasted" class="form-control" name="wasted">
   </div> -->
-  <button @click.prevent="requestHistory" class="btn btn-success">저장</button>
+  <button @click.prevent="requestHistory" class="btn" style="width:150px; background-color:#327a81; color:white; font-weight:bold">저 장</button>
+  <br><br>
   </div>
   <br>
 </div>

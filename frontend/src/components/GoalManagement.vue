@@ -1,4 +1,24 @@
 <template>
+  <!-- <div id="insertGoal" class="table-users" style="margin-top:150px">
+      <navi></navi>
+  <div class="header">목표 관리</div>
+  <br>
+  <div class="container">
+    <wasted></wasted>
+    <div class="col-md-10; table-users">
+    <div class="header">목표 저장하기</div>
+    <div class="form-group">
+      <select v-model="cate_num" class="form-control" name="cate_num">
+        <option value="1">생활/쇼핑</option>
+        <option value="2">교통</option>
+        <option value="3">식비</option>
+        <option value="4">패션/미용</option>
+        <option value="5">주거/통신</option>
+        <option value="6">미분류</option>
+       </select>
+    </div>
+    <div class="form-group">
+      <input type="text" placeholder="목표기간" v-model="g_time" class="form-control" name="g_time"> -->
 <div id="insertGoal">
   <navi></navi>
   <div class="container" style="display:inline-block">
