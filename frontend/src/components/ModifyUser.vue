@@ -6,33 +6,34 @@
       <br>
       <div class="form-group">
         <p class="text-left" style="margin-left:20px">아이디 </p>
-        <input type="text" style="width:780px; margin-left:10px" placeholder="아이디" v-model="u_id" class="form-control" name="u_id" disabled>
+        <input type="text" style="width:930px; margin-left:30px" placeholder="아이디" v-model="u_id" class="form-control" name="u_id" disabled>
       </div>
       <!-- <div class="form-group">
         <input type="password" placeholder="패스워드" v-model="u_pw" class="form-control" name="u_pw">
       </div> -->
       <div class="form-group">
         <p class="text-left" style="margin-left:20px">이름 </p>
-        <input type="text" style="width:780px; margin-left:10px" placeholder="이름" v-model="u_name" class="form-control" name="u_name" disabled>
+        <input type="text" style="width:930px; margin-left:30px" placeholder="이름" v-model="u_name" class="form-control" name="u_name" disabled>
       </div>
       <div class="form-group">
         <p class="text-left" style="margin-left:20px">휴대폰 번호 </p>
-        <input type="text" style="width:780px; margin-left:10px" placeholder="휴대폰번호" v-model="u_phone" class="form-control" name="u_phone">
+        <input type="text" style="width:930px; margin-left:30px" placeholder="휴대폰번호" v-model="u_phone" class="form-control" name="u_phone">
       </div>
       <div class="form-group">
         <p class="text-left" style="margin-left:20px">이메일 </p>
-        <input type="email" style="width:780px; margin-left:10px" placeholder="이메일" v-model="u_email" class="form-control" name="u_email">
+        <input type="email" style="width:930px; margin-left:30px" placeholder="이메일" v-model="u_email" class="form-control" name="u_email">
       </div>
       <div class="form-group">
         <p class="text-left" style="margin-left:20px">직업 </p>
-        <input type="text" style="width:780px; margin-left:10px" placeholder="직업" v-model="u_job" class="form-control" name="u_job">
+        <input type="text" style="width:930px; margin-left:30px" placeholder="직업" v-model="u_job" class="form-control" name="u_job">
       </div>
       <div class="form-group">
         <p class="text-left" style="margin-left:20px">연봉</p>
-        <input type="number" style="width:780px; margin-left:10px" placeholder="연봉" v-model="u_salary" class="form-control" name="u_salary">
+        <input type="number" style="width:930px; margin-left:30px" placeholder="연봉" v-model="u_salary" class="form-control" name="u_salary">
       </div>
       <br>
       <button @click.prevent="modifyUser" class="btn" style="width:200px; background-color:#327a81; color:white; font-weight:bold">수 정</button>
+      <br><br>
       <!-- <famous :stories="stories"></famous> -->
       <!-- <famous></famous> -->
     </div>
