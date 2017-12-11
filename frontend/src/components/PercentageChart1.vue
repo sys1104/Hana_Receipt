@@ -1,6 +1,13 @@
 
 <template>
+<div>
 <div id='percentageChart1'></div>
+<div class="col-md-12 col-md-offset-2">
+  <!-- 두번째 그래프 -->
+ <h4>{{u_name}}님은 <strong>패션/쇼핑</strong>에 가장 많은 비용을 지출하고 있습니다.</h4>
+ <h4>다른 이용자는 주거/통신에 가장 많은 비용을 지출하고 있습니다.</h4>
+</div>
+</div>
 </template>
 
 <script>
@@ -9,10 +16,11 @@ import axios from 'axios'
 export default {
               data() {
                 return {
+                  u_name : '',
                   percentageConfig: {
-                    // 첫번째 파이 
+                    // 첫번째 파이
                     graphset:[{
-                        type: "pie", 
+                        type: "pie",
                         backgroundColor: "none",
                         plot: {
                           borderColor: "white",
@@ -30,7 +38,7 @@ export default {
                             text: "%npv%"
                           },
                           animation:{
-                            effect: 2, 
+                            effect: 2,
                             method: 5,
                             speed: 500,
                             sequence: 1
@@ -54,9 +62,9 @@ export default {
                           align: "center"
                         },
                         plotarea: {
-                          margin: "0 0 0 0"  
+                          margin: "0 0 0 0"
                         },
-                        "series" : 
+                        "series" :
                          [{
                               "values": [],
                               "text": '생활/쇼핑',
@@ -88,7 +96,7 @@ export default {
                               "background-color": "#2C3E50"
                             }
                           ]
-                  }]     
+                  }]
           }
               }},
               created() {
@@ -142,6 +150,8 @@ export default {
                           console.log('********** compare_user_other 응답 받음 **********');
                           var compare_user = {};
                           compare_user = response.data.compare_user;
+                          self.u_name = compare_user[0].u_name;
+                          console.log('퍼센트차트에서 유네임 : ' + compare_user[0].u_name);
                           var compare_other = {};
                           compare_other = response.data.compare_other;
                           for (var i = 0; i < compare_user.length; i++) {
@@ -162,9 +172,9 @@ export default {
                           zingchart.render({
                             id: 'percentageChart1',
                             data: self.percentageConfig,
-                            height: '430px', 
+                            height: '430px',
                             width: '430px'
-                            // height: '110%', 
+                            // height: '110%',
                             // width: '110%'
                           });
                         });

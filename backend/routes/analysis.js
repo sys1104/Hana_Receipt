@@ -235,7 +235,8 @@ var all_goal = function(database, u_num, start_date, callback) {
       return;
     }
     console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
-    var exec = conn.query('select sum(g_price) as g_price from goal where u_num = ? and g_time <= ? and g_endtime >= ?',
+    // select sum(g_price) as g_price from goal where u_num = ? and g_time <= ? and g_endtime >= ?
+    var exec = conn.query('select sum(g_price) as g_price, B.u_name u_name from goal A, user B where A.u_num=B.u_num and A.u_num = ? and A.g_time <= ? and A.g_endtime >= ?',
       [u_num, start_date, start_date],
       function(err, rows2) {
         //select의 결과물은 배열로 들어온다. rows 변수...
@@ -330,7 +331,8 @@ var compare_user = function(database, u_num, start_date, end_date, callback) {
       return;
     }
     console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
-    var exec = conn.query('select cate_num, sum(price) as sum_price from (select * from consume_history where u_num = ? and c_time >= ? and c_time <= ?) as sub_consume_history group by cate_num', [u_num, start_date, end_date],
+    // select cate_num, sum(price) as sum_price from (select * from consume_history where u_num = ? and c_time >= ? and c_time <= ?) as sub_consume_history group by cate_num
+    var exec = conn.query('select A.cate_num, sum(price) as sum_price, B.u_name as u_name from (select * from consume_history where u_num = ? and c_time >= ? and c_time <= ?) as A, user B where A.u_num = B.u_num group by cate_num', [u_num, start_date, end_date],
       function(err, rows) {
         //select의 결과물은 배열로 들어온다. rows 변수...
         if (rows.length > 0) {

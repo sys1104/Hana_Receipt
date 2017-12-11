@@ -1,11 +1,11 @@
 <template>
 <div>
   <div class="col-md-6" id='myTotalChart'>
-    
+
   </div>
   <div class="col-md-6">
       <h4 style="color:green">{{result}}</h4>
-      <h4>두영님은 현재 목표금액 177000 중 30000원을 사용하고 있습니다.</h4>
+      <h4>{{u_name}}님은 현재 목표금액 {{goal_price}}원 중 {{now_price}}원을 사용하고 있습니다.</h4>
   </div>
 </div>
 
@@ -18,6 +18,9 @@ export default {
   data() {
     return {
       result : '',
+      goal_price : '',
+      now_price : '',
+      u_name : '',
       mytotalconfig: {
         graphset: [{
           type: "bar",
@@ -184,6 +187,9 @@ export default {
           }else if((Math.floor((all_used[0].sum_price) / (all_goal[0].g_price) * 100)) > 80 && (Math.floor((all_used[0].sum_price) / (all_goal[0].g_price) * 100)) <= 100){
             self.result = "매우 위험";
           }
+          self.goal_price = all_goal[0].g_price;
+          self.now_price = all_used[0].sum_price;
+          self.u_name = all_goal[0].u_name;
           zingchart.render({
             id: 'myTotalChart',
             data: self.mytotalconfig,

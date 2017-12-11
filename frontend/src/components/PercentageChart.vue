@@ -1,6 +1,12 @@
 
 <template>
-<div id='percentageChart'></div>
+<div id='percentageChart'>
+  <div class="col-md-12 col-md-offset-2">
+    <!-- 두번째 그래프 -->
+   <h4>{{u_name}}님은 <strong>패션/쇼핑</strong>에 가장 많은 비용을 지출하고 있습니다.</h4>
+   <h4>다른 이용자는 주거/통신에 가장 많은 비용을 지출하고 있습니다.</h4>
+  </div>
+</div>
 </template>
 
 <script>
@@ -9,6 +15,7 @@ import axios from 'axios'
 export default {
   data() {
     return {
+      u_name : '',
       percentageConfig: {
         "layout": "h",
         "globals": {
@@ -69,7 +76,7 @@ export default {
                 "text": '생활/쇼핑',
                 "background-color": "#E85D6F",
                 "font-size": 18
-          
+
               },
               {
                 "values": [],
@@ -206,7 +213,7 @@ export default {
       var today = now.getDay();
       var startDate = '';
       var endDate = '';
-      startDate = now.setDate(now.getDate() - (today + 2));
+      startDate = now.setDate(now.getDate() - (today + 6));
       startDate = new Date(startDate);
       endDate = now.setDate(now.getDate() + 7);
       endDate = new Date(endDate);
@@ -230,6 +237,8 @@ export default {
       }
       var endDate_year = endDate.getFullYear();
       var end_date = endDate_year + '' + endDate_month + '' + endDate_date;
+      console.log('!!!!!!!!!!!!!!!!!!!!!!!!!' + start_date);
+      console.log('!!!!!!!!!!!!!!!!!!!!!!!!!' + end_date);
       setTimeout(function() {
         axios({
           method: 'post',
@@ -243,6 +252,8 @@ export default {
           console.log('********** compare_user_other 응답 받음 **********');
           var compare_user = {};
           compare_user = response.data.compare_user;
+          self.u_name = compare_user[0].u_name;
+          console.log('퍼센트차트에서 유네임 : ' + compare_user[1].u_name);
           var compare_other = {};
           compare_other = response.data.compare_other;
           for (var i = 0; i < compare_user.length; i++) {
