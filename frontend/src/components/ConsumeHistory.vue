@@ -14,8 +14,8 @@
         <tr class="table-body" v-for="(result, index) in results" v-if="(index >= (page-1)*page_num) && (index < page_num*page)">
          <!-- 리스트 화면 -->
 
-         <td>
-           <select style="color:#327a81; font-weight:bold; width:140px; text-align:center" v-if="flag==false" v-model="result.cate_num" disabled class="form-control">
+         <td v-if="flag==false">
+           <select style="color:#327a81; font-weight:bold; width:140px; text-align:center"  v-model="result.cate_num" disabled class="form-control">
              <option value="1">생활/쇼핑</option>
              <option value="2">교통</option>
              <option value="3">식비</option>
@@ -28,30 +28,35 @@
          <td v-if="flag==false" style="width:135px">{{result.content}}</td>
          <td v-if="flag==false">{{result.price}}</td>
          <td width="120" v-if="flag==false">{{result.c_time}}</td>
-         <td v-if="flag==false"><input type="checkbox" v-model="checked" v-if="result.wasted == 1" id="wastedcheck" value="낭비" class="css-checkbox" disabled/>
-         <label for="wastedcheck" class="css-label alert-style"/>
+         <td v-if="flag==false"><input type="checkbox" v-model="checked" v-if="result.wasted == 1" id="wastedcheck" value="낭비"  disabled/>
+         <!-- <span class="glyphicon glyphicon-search"></span> -->
+         <!-- <label for="wastedcheck" class="css-label alert-style"/> -->
+         
+
          </td>
-         <td><button v-if="flag==false" style="width:90px; background-color:#327a81; color:white; font-weight:bold; margin-left=50px" @click="editClick(result)"
+         <td v-if="flag==false"><button style="width:90px; background-color:#327a81; color:white; font-weight:bold; margin-left=50px" @click="editClick(result)"
              class="btn">수 정</button></td>
         
 
-                                                                            <!-- 수정버튼 클릭시 -->
-         <td>
-           <select style="width:125px" v-if="flag==true && (result.consume_num == result3)" v-model="result.cate_num" class="form-control" name="cate_num">
-             <option value="1">생활/쇼핑</option>
-             <option value="2">교통</option>
-             <option value="3">식비</option>
-             <option value="4">패션/미용</option>
-             <option value="5">주거/통신</option>
-             <option value="6">미분류</option>
+        <!-- 수정버튼 클릭시 -->
+         <td v-if="flag==true && (result.consume_num == result3)">
+           <select style="width:125px" v-model="result.cate_num" class="form-control" name="cate_num">
+                <option value="1">생활/쇼핑</option>
+                <option value="2">교통</option>
+                <option value="3">식비</option>
+                <option value="4">패션/미용</option>
+                <option value="5">주거/통신</option>
+                <option value="6">미분류</option>
             </select>
-            <select style="width:125px" v-if="flag==true && (result.consume_num != result3)" v-model="result.cate_num" class="form-control" disabled>
-              <option value="1">생활/쇼핑</option>
-              <option value="2">교통</option>
-              <option value="3">식비</option>
-              <option value="4">패션/미용</option>
-              <option value="5">주거/통신</option>
-              <option value="6">미분류</option>
+         </td>
+         <td v-if="flag==true && (result.consume_num != result3)">
+            <select style="width:125px"  v-model="result.cate_num" class="form-control" disabled>
+                <option value="1">생활/쇼핑</option>
+                <option value="2">교통</option>
+                <option value="3">식비</option>
+                <option value="4">패션/미용</option>
+                <option value="5">주거/통신</option>
+                <option value="6">미분류</option>
              </select>
          </td>
          <td>
@@ -67,17 +72,16 @@
            <input style="width:120px; text-align:center" class="form-control" v-if="flag==true && (result3 != result.consume_num)" v-model='result.c_time' disabled/>
          </td>
          <td>
-           <input type="checkbox" name="wasted" v-if="flag==true && (result.consume_num == result3)" v-model="checked" style="width:20px"/>
-           <label for="wastedcheck" class="css-label alert-style"/>
+           <input type="checkbox" class="form-control check-box" name="wasted" v-if="flag==true && (result.consume_num == result3)" v-model="checked"/>
+           <!-- <label for="wastedcheck" class="css-label alert-style"/> -->
            <!-- <label v-if="flag==true && (result.consume_num == result3)" for="checkbox">{{ checked }}</label> -->
-           <input type="checkbox" class="form-control" v-if="flag==true && (result3 != result.consume_num)" disabled/>
+           <input type="checkbox" class="form-control check-box" v-if="flag==true && (result3 != result.consume_num)" disabled/>
          </td>
          <td><a v-if="flag==true && (result.consume_num == result3)" @click="editConsume(result)"><i class="icono-check"/></a></td>
          <td><a v-if="flag==true && (result.consume_num == result3)" @click="delConsume(result)"><i class="icono-trash"/></a></td>
          
         </tr>
         </table>
-
                                                                 <!-- 페이지네이션 -->
         <div class="counter" v-if="(page_num == 10)">
             <ul>
@@ -398,7 +402,7 @@ table tr:nth-child(2n+1) {
         color:red;
     }
 
-    /* checkbox */
+    /* checkbox
     label {
         -webkit-touch-callout: none;
         -webkit-user-select: none;
@@ -441,7 +445,7 @@ table tr:nth-child(2n+1) {
 
         .alert-style{
             background-image:url(http://csscheckbox.com/checkboxes/alert-style.png);
-            }
+            } */
             /* pagination */
 
                 .active {
@@ -449,5 +453,9 @@ table tr:nth-child(2n+1) {
                 color: white;
                 }
 
-
+.check-box{
+    width:30px; 
+    margin-left:34px; 
+    margin-top:20px;
+}
 </style>

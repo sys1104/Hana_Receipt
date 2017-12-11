@@ -6,32 +6,35 @@
   <consume-history></consume-history>
   <br>
   <div class="table-users" style="width:100%">
-  <div class="header">소비내역 저장</div>
-  <br>
-  <div class="form-group">
-    <select v-model="cate_num" class="form-control" name="cate_num">
-      <option value="1">생활/쇼핑</option>
-      <option value="2">교통</option>
-      <option value="3">식비</option>
-      <option value="4">패션/미용</option>
-      <option value="5">주거/통신</option>
-      <option value="6">미분류</option>
-     </select>
+    <div class="header">소비내역 저장</div>
+    <br>
+    <div class="form-group">
+        <select v-model="cate_num" class="form-control" name="cate_num">
+        <option value="1">생활/쇼핑</option>
+        <option value="2">교통</option>
+        <option value="3">식비</option>
+        <option value="4">패션/미용</option>
+        <option value="5">주거/통신</option>
+        <option value="6">미분류</option>
+        </select>
   </div>
-  <div class="form-group" style="col-md-8">
-    <input type="text" placeholder="  소비품목 이름" v-model="content" class="form-control" name="content">
-  </div>
-  <div class="form-group">
-    <input type="text" placeholder="  가격" v-model="price" class="form-control" name="price">
-  </div>
-  <div class="form-group">
-    <input type="date" placeholder="  소비일자 예)20171205" v-model="c_time" class="form-control" name="c_time">
-  </div>
+    <div class="form-group" style="col-md-8">
+        <input type="text" placeholder="  소비품목 이름" v-model="content" class="form-control" name="content">
+    </div>
+    <div class="form-group">
+        <input type="text" placeholder="  가격" v-model="price" class="form-control" name="price">
+    </div>
+    <div class="form-group">
+        <input type="date" placeholder="  소비일자 예)20171205" v-model="c_time" class="form-control" name="c_time">
+    </div>
   <!-- <div class="form-group">
     <input type="email" placeholder="낭비체크" v-model="wasted" class="form-control" name="wasted">
   </div> -->
-  <button @click.prevent="requestHistory" class="btn"
-  style="width:150px; background-color:#327a81; color:white; font-weight:bold">저 장</button>
+  <div class="form-group">
+        <button @click.prevent="requestHistory" class="btn"
+            style="width:150px; background-color:#327a81; color:white; font-weight:bold">저 장</button>
+  </div>
+
   <br><br>
   </div>
   <br>
@@ -67,6 +70,9 @@ export default {
       var price = this.price;
       var c_time = this.c_time;
       var wasted = this.wasted;
+      if(cate_num<1 || content.length<1 || price<=0){
+          alert('데이터를 입력하세요')
+      }else{
         axios({
           method: 'post',
           url: 'api/consume_history/requestHistory',
@@ -82,6 +88,8 @@ export default {
           console.log('********** 소비내역 저장완료 **********');
           setTimeout("window.location.href = './save_history'",0)
         })
+      }
+
     },
         getToday(){
             console.log('getToday!')
