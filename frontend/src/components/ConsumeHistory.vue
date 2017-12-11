@@ -31,10 +31,8 @@
          <td v-if="flag==false"><input type="checkbox" v-model="checked" v-if="result.wasted == 1" id="wastedcheck" value="낭비" class="css-checkbox" disabled/>
          <label for="wastedcheck" class="css-label alert-style"/>
          </td>
-         <!-- <span class="glyphicon glyphicon-pencil"></span> -->
          <td><button v-if="flag==false" style="width:90px; background-color:#327a81; color:white; font-weight:bold; margin-left=50px" @click="editClick(result)"
              class="btn">수 정</button></td>
-        <!-- <span class="glyphicon btn-glyphicon glyphicon-trash img-circle text-danger"></span> -->
         
 
                                                                             <!-- 수정버튼 클릭시 -->
@@ -79,13 +77,13 @@
          
         </tr>
         </table>
-        <!-- 페이지네이션 -->
-        <!-- <div class="counter" v-if="(page_num == 10)"> -->
-        <div class="text-center">
+
+                                                                <!-- 페이지네이션 -->
+        <div class="counter" v-if="(page_num == 10)">
             <ul>
-            <li><button class="btn active" @click="pageto(pageIndex-2, list_total, page_num)" v-if="pageIndex != 1">이전</button></li>
-            <li><span>Page {{pageIndex}} of {{page_total}}</span></li>
-            <li><button class="btn active" @click="pageto(pageIndex, list_total, page_num)" v-if="nextBtn != 0">다음</button></li>
+            <li><button class="btn active" @click="pageto(pageIndex-2, list_total, page_num)" v-if="pageIndex != 1">이전</button>
+            <p style="font-weight:bold; display:inline">Page {{pageIndex}} of {{page_total}}</p>
+            <button class="btn active" @click="pageto(pageIndex, list_total, page_num)" v-if="nextBtn != 0">다음</button></li>
             </ul>
         </div>
       
@@ -394,10 +392,10 @@ table tr:nth-child(2n+1) {
         position:relative;
         }
     .icono-check{
-        color:#BD2419;
+        color:green;
     }
     .icono-trash{
-        color:black;
+        color:red;
     }
 
     /* checkbox */
