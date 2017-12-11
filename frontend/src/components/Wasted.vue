@@ -284,4 +284,7 @@ table tr:nth-child(2n+1) {
     overflow: visible;
   }
 }
+  input::-webkit-input-placeholder {
+            color: #2C3E50;
+         }
 </style>

@@ -29,25 +29,27 @@
     <br>
     <div class="header">목표 저장</div>
     <br>
+    
     <!-- class="row" 추가 -->
     <div class="form-group" v-if="flag==false">
-      <div v-if="info0==false" class="form-group" style="width:20%;">
+      <div v-if="info0==false" class="form-group" style="width:30%" >
         <label class="form-control">목표기간</label>
         <!-- <input type="hidden" v-model="cate_num" class="form-control" value="1" name="cate_num"> -->
       </div>
-      <div v-if="info0==false" class="form-group" style="width:30%">
-        <input type="text" placeholder="시작날짜" v-model="g_time" class="form-control" name="g_time">
+      <div v-if="info0==false" class="form-group" style="width:25%">
+        <input type="text" placeholder="시작날짜" v-model="g_time" class="form-control" name="g_time" style="text-align:center">
       </div>
-      <div v-if="info0==false" class="form-group" style="width:30%">
-        <input type="text" placeholder="마지막날짜" v-model="g_endtime" class="form-control" name="g_endtime">
+      <div v-if="info0==false" class="form-group" style="width:25%">
+        <input type="text" placeholder="마지막날짜" v-model="g_endtime" class="form-control" name="g_endtime" style="text-align:center">
       </div>
 <!-- results1[0]!=cate_num.cate_num1 && results1[1]!=cate_num.cate_num1 && results1[2]!=cate_num.cate_num1 && results1[3]!=cate_num.cate_num1 &&results1[4]!=cate_num.cate_num1 && results1[5]!=cate_num.cate_num1 -->
+      
       <div v-if="info1==false"class="form-group" style="width:30%">
         <label class="form-control">생활/쇼핑</label>
         <input type="hidden" v-model="cate_num.cate_num1" class="form-control" value="1" name="cate_num1">
       </div>
       <div v-if="info1==false"class="form-group" style="width:50%">
-        <input type="text" placeholder="목표금액" v-model="g_price.g_price1" class="form-control" name="g_price1">
+        <input type="text" placeholder=" 목표금액" v-model="g_price.g_price1" class="form-control" name="g_price1">
       </div>
 
       <div v-if="info2==false"class="form-group" style="width:30%">
@@ -55,7 +57,7 @@
         <input type="hidden" v-model="cate_num.cate_num2" class="form-control" value="2" name="cate_num2">
       </div>
       <div v-if="info2==false"class="form-group" style="width:50%">
-        <input type="text" placeholder="목표금액" v-model="g_price.g_price2" class="form-control" name="g_price2">
+        <input type="text" placeholder=" 목표금액" v-model="g_price.g_price2" class="form-control" name="g_price2">
       </div>
 
       <div v-if="info3==false"class="form-group" style="width:30%">
@@ -63,7 +65,7 @@
         <input type="hidden" v-model="cate_num.cate_num3" class="form-control" value="3" name="cate_num3">
       </div>
       <div v-if="info3==false"class="form-group" style="width:50%">
-        <input type="text" placeholder="목표금액" v-model="g_price.g_price3" class="form-control" name="g_price3">
+        <input type="text" placeholder=" 목표금액" v-model="g_price.g_price3" class="form-control" name="g_price3">
       </div>
 
       <div v-if="info4==false"class="form-group" style="width:30%">
@@ -71,7 +73,7 @@
         <input type="hidden" v-model="cate_num.cate_num4" class="form-control" value="4" name="cate_num4">
       </div>
       <div v-if="info4==false"class="form-group" style="width:50%">
-        <input type="text" placeholder="목표금액" v-model="g_price.g_price4" class="form-control" name="g_price4">
+        <input type="text" placeholder=" 목표금액" v-model="g_price.g_price4" class="form-control" name="g_price4">
       </div>
 
       <div v-if="info5==false"class="form-group" style="width:30%">
@@ -79,7 +81,7 @@
         <input type="hidden" v-model="cate_num.cate_num5" class="form-control" value="5" name="cate_num5">
       </div>
       <div v-if="info5==false"class="form-group" style="width:50%">
-        <input type="text" placeholder="목표금액" v-model="g_price.g_price5" class="form-control" name="g_price5">
+        <input type="text" placeholder=" 목표금액" v-model="g_price.g_price5" class="form-control" name="g_price5">
       </div>
 
       <div v-if="info6==false"class="form-group" style="width:30%">
@@ -87,10 +89,11 @@
         <input type="hidden" v-model="cate_num.cate_num6" class="form-control" value="6" name="cate_num6">
       </div>
       <div v-if="info6==false"class="form-group" style="width:50%">
-        <input type="text" placeholder="목표금액" v-model="g_price.g_price6" class="form-control" name="g_price6">
+        <input type="text" placeholder=" 목표금액" v-model="g_price.g_price6" class="form-control" name="g_price6">
       </div>
     </div>
-    <button @click.prevent="goalStore" class="btn btn-success">저장</button>
+    <button @click.prevent="goalStore" class="btn" style="width:200px; background-color:#327a81; color:white; font-weight:bold">저장</button>
+    <br>
   </div>
 </div>
 </template>
@@ -315,133 +318,17 @@ body * {
     width: 800px;
 }
 
-table {
-    width: 100%;
+.form-group{
+  display: inline-block;
+  vertical-align: middle
 }
 
-table td,
-table th {
-    color: #2b686e;
-    padding: 10px;
-    font-weight: bold;
+.input{
+  text-align: center;
 }
 
-table td {
-    text-align: center;
-    vertical-align: middle;
-}
+input::-webkit-input-placeholder {
+  color: #2C3E50;
+  }
 
-table td:last-child {
-    font-size: 0.95em;
-    line-height: 1.4;
-    text-align: left;
-}
-
-table th {
-    background-color: #daeff1;
-    font-weight: bold;
-}
-
-table tr:nth-child(2n) {
-    background-color: white;
-}
-
-table tr:nth-child(2n+1) {
-    background-color: #edf7f8;
-}
-
-@media screen and (max-width: 700px) {
-    table,
-    tr,
-    td {
-        display: block;
-    }
-    td:first-child {
-        position: absolute;
-        top: 50%;
-        -webkit-transform: translateY(-50%);
-        transform: translateY(-50%);
-        width: 100px;
-    }
-    td:not(:first-child) {
-        clear: both;
-        margin-left: 100px;
-        padding: 4px 20px 4px 90px;
-        position: relative;
-        text-align: left;
-    }
-    td:not(:first-child):before {
-        color: #91ced4;
-        content: '';
-        display: block;
-        left: 0;
-        position: absolute;
-    }
-    td:nth-child(2):before {
-        content: 'Name:';
-    }
-    td:nth-child(3):before {
-        content: 'Email:';
-    }
-    td:nth-child(4):before {
-        content: 'Phone:';
-    }
-    td:nth-child(5):before {
-        content: 'Comments:';
-    }
-    tr {
-        padding: 10px 0;
-        position: relative;
-    }
-    tr:first-child {
-        display: none;
-    }
-}
-
-@media screen and (max-width: 500px) {
-    .header {
-        background-color: transparent;
-        color: white;
-        font-size: 2em;
-        font-weight: 700;
-        padding: 0;
-        text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
-    }
-    td:first-child {
-        background-color: #c8e7ea;
-        border-bottom: 1px solid #91ced4;
-        border-radius: 10px 10px 0 0;
-        position: relative;
-        top: 0;
-        -webkit-transform: translateY(0);
-        transform: translateY(0);
-        width: 100%;
-    }
-    td:not(:first-child) {
-        margin: 0;
-        padding: 5px 1em;
-        width: 100%;
-    }
-    td:not(:first-child):before {
-        font-size: .8em;
-        padding-top: 0.3em;
-        position: relative;
-    }
-    td:last-child {
-        padding-bottom: 1rem !important;
-    }
-    tr {
-        background-color: white !important;
-        border: 1px solid #6cbec6;
-        border-radius: 10px;
-        box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
-        margin: 0.5rem 0;
-        padding: 0;
-    }
-    .table-users {
-        border: none;
-        box-shadow: none;
-        overflow: visible;
-    }
-}
 </style>

@@ -194,3 +194,8 @@
       }
     }
 </script>
+<style>
+input::-webkit-input-placeholder {
+            color: #2C3E50;
+         }
+</style>
