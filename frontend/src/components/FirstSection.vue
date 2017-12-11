@@ -2,7 +2,7 @@
       <div class="container" id="hi">
         <br>
 
-        <h2 class="text-center text-uppercase text-secondary mb-0">목표금액 : 100000원</h2>
+        <h2 class="text-center text-uppercase text-secondary mb-0">목표금액 : {{results}}</h2>
         <hr class="star-dark mb-5">
         <div class="row">
           <div class="col-md-3">
@@ -29,16 +29,43 @@
 </style>
 
 <script>
-
+import axios from 'axios'
 import MyTotalChart from './MyTotalChart.vue'
 import MyCategoryChart from './MyCategoryChart.vue'
 import PercentageChart from './PercentageChart.vue'
 
 export default {
+    data() {
+      return {
+        u_num : '',
+        results : '',
+      }
+    },
     components : {
         MyTotalChart,
         MyCategoryChart,
         PercentageChart
+    },
+    created() {
+      var self = this;
+      axios({
+        method: 'post',
+        url: 'api/analysis/all_used_goal_money',
+        data: {
+          u_num: this.$session.get('session')
+        }
+      }).then((response) => {
+        console.log('********** all_used_goal_money 응답 받음 => 목표금액합산**********');
+        var all_used = {};
+        all_used = response.data.all_used;
+        var all_goal = {};
+        all_goal = response.data.all_goal;
+        // for(var i=0; i<response.length; i++){
+        //   self.results
+        // }
+        self.results = all_goal[0].g_price;
+        console.log('목표금액 합산 : ' + self.results);
+      });
     }
 }
 // <template id="test">
