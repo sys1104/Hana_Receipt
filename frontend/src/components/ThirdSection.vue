@@ -11,10 +11,6 @@
             <!-- 두번째 그래프 -->
             <percentage-chart2></percentage-chart2>
           </div>
-          <div class="col-md-12">
-           <h5>두영님은 <strong>패션/쇼핑</strong>에 가장 많은 비용을 지출하고 있습니다.</h5>
-           <h5>다른 이용자는 주거/통신에 가장 많은 비용을 지출하고 있습니다.</h5>    
-          </div>
           <!-- <div>
         </div> -->
       </div>

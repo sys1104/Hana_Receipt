@@ -4,8 +4,7 @@
 <div id='percentageChart1'></div>
 <div class="col-md-12 col-md-offset-2">
   <!-- 두번째 그래프 -->
- <h4>{{u_name}}님은 <strong>패션/쇼핑</strong>에 가장 많은 비용을 지출하고 있습니다.</h4>
- <h4>다른 이용자는 주거/통신에 가장 많은 비용을 지출하고 있습니다.</h4>
+ <h4>{{u_name}}님은 {{category}}에 가장 많은 비용을 지출하고 있습니다.</h4>
 </div>
 </div>
 </template>
@@ -17,6 +16,7 @@ export default {
               data() {
                 return {
                   u_name : '',
+                  category: '',
                   percentageConfig: {
                     // 첫번째 파이
                     graphset:[{
@@ -113,7 +113,7 @@ export default {
                       var today = now.getDay();
                       var startDate = '';
                       var endDate = '';
-                      startDate = now.setDate(now.getDate() - (today + 2));
+                      startDate = now.setDate(now.getDate() - (today + 6));
                       startDate = new Date(startDate);
                       endDate = now.setDate(now.getDate() + 7);
                       endDate = new Date(endDate);
@@ -137,6 +137,8 @@ export default {
                       }
                       var endDate_year = endDate.getFullYear();
                       var end_date = endDate_year + '' + endDate_month + '' + endDate_date;
+                      console.log('!!!!!!!!!!!!!!!!!!!!!!!!!' + start_date);
+                      console.log('!!!!!!!!!!!!!!!!!!!!!!!!!' + end_date);
                       setTimeout(function() {
                         axios({
                           method: 'post',
@@ -151,10 +153,31 @@ export default {
                           var compare_user = {};
                           compare_user = response.data.compare_user;
                           self.u_name = compare_user[0].u_name;
-                          console.log('퍼센트차트에서 유네임 : ' + compare_user[0].u_name);
+                          // console.log('퍼센트차트에서 유네임 : ' + compare_user[0].u_name);
                           var compare_other = {};
                           compare_other = response.data.compare_other;
+
+                          var temp = -1;
                           for (var i = 0; i < compare_user.length; i++) {
+                            if(compare_user[i].sum_price > temp){
+                              self.category = compare_user[i].cate_num;
+                              temp = compare_user[i].sum_price;
+                              if(self.category == 1){
+                                self.category = "생활/쇼핑";
+                              }else if(self.category == 2){
+                                self.category = "교통";
+                              }else if(self.category == 3){
+                                self.category = "식비";
+                              }else if(self.category == 4){
+                                self.category = "패션/미용";
+                              }else if(self.category == 5){
+                                self.category = "주거/통신";
+                              }else if(self.category == 6){
+                                self.category = "기타";
+                              }
+                              console.log(self.category);
+                            }
+
                             if (compare_user[i].cate_num == 1) {
                               self.percentageConfig.graphset[0].series[i].values.push(compare_user[i].sum_price);
                             } else if (compare_user[i].cate_num == 2) {
