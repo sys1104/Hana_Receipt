@@ -4,6 +4,8 @@
     <navi></navi>
     <custom-header></custom-header>
     <first-section></first-section>
+    <second-section></second-section>
+    <third-section></third-section>
     <!-- <custom-footer></custom-footer>  -->
     
 
@@ -16,6 +18,8 @@
   import Login from './Login'
   import Register from './Register'
   import FirstSection from './FirstSection'
+  import SecondSection from './SecondSection'
+  import ThirdSection from './ThirdSection'
   import CustomFooter from './Footer'
   import CustomHeader from './Header'
   import Navi from './Navi'
@@ -25,6 +29,8 @@
       Login,
       Register,
       FirstSection,
+      SecondSection,
+      ThirdSection,
       CustomFooter,
       CustomHeader,
       Navi

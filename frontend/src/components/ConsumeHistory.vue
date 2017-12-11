@@ -171,7 +171,7 @@
               }
             }).then(function(response) {
               console.log('********** 소비내역 수정완료 **********');
-              setTimeout("window.location.href = './store_test'",0)
+              setTimeout("window.location.href = './save_history'",0)
             })
         },
         //수정 클릭시 실행되는 function
@@ -197,7 +197,7 @@
           }).then(function(response) {
             console.log('********** 소비내역 삭제완료 **********');
             alert('소비내역 삭제가 완료되었습니다');
-            setTimeout("window.location.href = './store_test'",1000)
+            setTimeout("window.location.href = './SaveHistory'",0)
           })
         }
     },
