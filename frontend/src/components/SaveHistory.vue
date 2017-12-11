@@ -80,7 +80,7 @@ export default {
           }
         }).then(function(response) {
           console.log('********** 소비내역 저장완료 **********');
-          setTimeout("window.location.href = './store_test'",0)
+          setTimeout("window.location.href = './save_history'",0)
         })
     },
         getToday(){
@@ -100,7 +100,7 @@ export default {
         }
   },
   created(){
-    console.log('Storetest')
+    console.log('save_history')
     this.getToday();
     }
 

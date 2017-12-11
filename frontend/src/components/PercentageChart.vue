@@ -80,17 +80,17 @@ export default {
               {
                 "values": [],
                 "text": '패션/미용',
-                "background-color": "#E85D6F"
+                "background-color": "blue"
               },
               {
                 "values": [],
                 "text": '주거/통신',
-                "background-color": "#F7BE70"
+                "background-color": "red"
               },
               {
                 "values": [],
                 "text": '기타',
-                "background-color": "#90EAE2"
+                "background-color": "black"
               }
             ]
           },
@@ -167,17 +167,17 @@ export default {
               {
                 "values": [],
                 "text": '패션/미용',
-                "background-color": "#E85D6F"
+                "background-color": "blue"
               },
               {
                 "values": [],
                 "text": '주거/통신',
-                "background-color": "#F7BE70"
+                "background-color": "red"
               },
               {
                 "values": [],
                 "text": '기타',
-                "background-color": "#90EAE2"
+                "background-color": "black"
               }
             ]
           }
