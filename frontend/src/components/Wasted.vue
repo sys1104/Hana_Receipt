@@ -1,8 +1,8 @@
 <template>
 <div>
   <br>
-  <div class="table-users">
-    <div class="header">지난 주 낭비된 금액!!!</div>
+  <div class="table-users" style="width:100%">
+    <div class="header">지난 주 낭비된 금액</div>
     <table cellspacing="0">
       <!-- <table class="table table-striped table-hover table-responsive"> -->
       <tr>
