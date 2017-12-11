@@ -4,21 +4,13 @@
 
         <h2 class="text-center text-uppercase text-secondary mb-0">목표금액 : {{results}}</h2>
         <hr class="star-dark mb-5">
-        <div class="row">
-          <div class="col-md-3">
+        
+          <div class="col-md-12">
             <!-- 첫번째 그래프 -->
            <my-total-chart></my-total-chart>
           </div>
-          <div class="col-md-4">
-            <!-- 두번째 그래프 -->
-           <!-- <my-category-chart></my-category-chart> -->
-          </div>
-          <div class="col-md-5">
-           <!-- <PercentageChart></PercentageChart> -->
-          </div>
-          <div>
-        </div>
-      </div>
+
+      
       </div>
 </template>
 
@@ -31,8 +23,8 @@
 <script>
 import axios from 'axios'
 import MyTotalChart from './MyTotalChart.vue'
-import MyCategoryChart from './MyCategoryChart.vue'
-import PercentageChart from './PercentageChart.vue'
+// import MyCategoryChart from './MyCategoryChart.vue'
+// import PercentageChart from './PercentageChart.vue'
 
 export default {
     data() {
@@ -43,8 +35,8 @@ export default {
     },
     components : {
         MyTotalChart,
-        MyCategoryChart,
-        PercentageChart
+        // MyCategoryChart,
+        // PercentageChart
     },
     created() {
       var self = this;

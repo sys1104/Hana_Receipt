@@ -1,7 +1,7 @@
 <template>
 <div id="goallist" class="table-users" style="width:100%">
     <div class="header">설정한 목표 목록</div>
-      <table>
+      <table class="table-responsive">
         <tr>
          <th>시작</th>
          <th>끝</th>
@@ -115,8 +115,8 @@
               }
             }).then(function(response) {
               console.log('********** 목표내역 수정완료 **********');
-              alert('목표내역 수정이 완료되었습니다');
-              setTimeout("window.location.href = './goal_management'",1000)
+            //   alert('목표내역 수정이 완료되었습니다');
+              setTimeout("window.location.href = './goal_management'",0)
             })
         },
         //수정 클릭시 실행되는 function
@@ -138,7 +138,7 @@
             }
           }).then(function(response) {
             console.log('********** 목표내역 삭제완료 **********');
-            alert('목표내역 삭제가 완료되었습니다');
+            // alert('목표내역 삭제가 완료되었습니다');
             setTimeout("window.location.href = './goal_management'",1000)
           })
         }

@@ -25,6 +25,8 @@ export default {
               "shadow": false,
               "layout": "float",
               "margin": "auto auto 8% auto",
+              "margin-top" : "80%",
+              "font-size" : 100,
               "marker": {
                 "border-radius": 3,
                 "border-width": 0
@@ -65,7 +67,9 @@ export default {
             "series": [{
                 "values": [],
                 "text": '생활/쇼핑',
-                "background-color": "#E85D6F"
+                "background-color": "#E85D6F",
+                "font-size": 18
+          
               },
               {
                 "values": [],
@@ -104,6 +108,7 @@ export default {
               "shadow": false,
               "layout": "float",
               "margin": "auto auto 8% auto",
+              "margin-top" : "80%",
               "marker": {
                 "border-radius": 3,
                 "border-width": 0
@@ -116,7 +121,7 @@ export default {
               // "text":"카테고리별 평균 소비량",
               "background-color": "none",
               "color": "#626262",
-              "font-size": 16,
+              "font-size": 32,
               "x": -52,
               "y": 80
             },
@@ -142,11 +147,13 @@ export default {
               "value-box": {
                 "visible": false
               },
+              "margin-top" : "30px",
               // 마우스 올릴 때
               "tooltip": {
                 "text": "%v원",
                 "shadow": false,
-                "border-radius": 3
+                "border-radius": 3,
+                "font-size" : 50
               }
             },
             "series": [{
@@ -271,7 +278,7 @@ export default {
           zingchart.render({
             id: 'percentageChart',
             data: self.percentageConfig,
-            height: '75%',
+            height: '70%',
             width: '99%'
           });
         });

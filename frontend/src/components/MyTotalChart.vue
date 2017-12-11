@@ -1,5 +1,14 @@
 <template>
-<div id='myTotalChart'></div>
+<div>
+  <div class="col-md-6" id='myTotalChart'>
+    
+  </div>
+  <div class="col-md-6">
+      <h4 style="color:green">{{result}}</h4>
+      <h4>두영님은 현재 목표금액 177000 중 30000원을 사용하고 있습니다.</h4>
+  </div>
+</div>
+
 </template>
 
 <script>
@@ -8,6 +17,7 @@ import axios from 'axios'
 export default {
   data() {
     return {
+      result : '',
       mytotalconfig: {
         graphset: [{
           type: "bar",
@@ -146,6 +156,17 @@ export default {
           var all_goal = {};
           all_goal = response.data.all_goal;
           self.mytotalconfig.graphset[0].series[1].values.push(Math.floor((all_used[0].sum_price) / (all_goal[0].g_price) * 100));
+          if((Math.floor((all_used[0].sum_price) / (all_goal[0].g_price) * 100)) >=0 && (Math.floor((all_used[0].sum_price) / (all_goal[0].g_price) * 100)) <= 20){
+            self.result = "매우 알뜰";
+          }else if((Math.floor((all_used[0].sum_price) / (all_goal[0].g_price) * 100)) > 20 && (Math.floor((all_used[0].sum_price) / (all_goal[0].g_price) * 100)) <= 40){
+            self.result = "알뜰";
+          }else if((Math.floor((all_used[0].sum_price) / (all_goal[0].g_price) * 100)) > 40 && (Math.floor((all_used[0].sum_price) / (all_goal[0].g_price) * 100)) <= 60){
+            self.result = "보통";
+          }else if((Math.floor((all_used[0].sum_price) / (all_goal[0].g_price) * 100)) > 60 && (Math.floor((all_used[0].sum_price) / (all_goal[0].g_price) * 100)) <= 80){
+            self.result = "위험";
+          }else if((Math.floor((all_used[0].sum_price) / (all_goal[0].g_price) * 100)) > 80 && (Math.floor((all_used[0].sum_price) / (all_goal[0].g_price) * 100)) <= 100){
+            self.result = "매우 위험";
+          }
           zingchart.render({
             id: 'myTotalChart',
             data: self.mytotalconfig,

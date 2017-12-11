@@ -1,14 +1,14 @@
 <template id="second-section">
-      <div class="container" id="hi">
+      <div class="container-fluid" id="hi">
+          <div class="container">
+          
         <br>
-
-        <hr class="star-dark mb-5">
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-6">
             <!-- 첫번째 그래프 -->
            <my-category-chart></my-category-chart>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-6">
             <!-- 두번째 그래프 -->
           </div>
           <div class="col-md-5">
@@ -16,13 +16,14 @@
           </div>
           <div>
         </div>
-      </div>
+        </div>
+        </div>
       </div>
 </template>
 
 <style scoped>
-  .container{
-    background-color : red;
+  #hi{
+    background-color : lightgray;
   }
 </style>
 

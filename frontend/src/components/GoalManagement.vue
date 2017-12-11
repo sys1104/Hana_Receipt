@@ -225,8 +225,8 @@ export default {
           }
         }).then(function(response) {
           console.log('********** 목표내역 저장완료 **********');
-          alert('목표내역 저장 완료되었습니다');
-          setTimeout("window.location.href = './goal_management'",1000)
+          // alert('목표내역 저장 완료되었습니다');
+          setTimeout("window.location.href = './goal_management'",0)
         })
     },
       getToday(){

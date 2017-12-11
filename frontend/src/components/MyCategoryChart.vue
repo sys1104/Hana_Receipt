@@ -13,7 +13,7 @@ export default {
     return {
       myCategoryConfig: {
         type: "hbar",
-        backgroundColor: "#FCFCFC",
+        backgroundColor: "lightgrey",
         tooltip: {
           visible: false
         },
@@ -25,7 +25,7 @@ export default {
           labels: [],
           item: {
             fontColor: "#000000",
-            fontSize: 16
+            fontSize: 20
           }
         },
         scaleY: {
@@ -39,7 +39,7 @@ export default {
           }
         },
         plotarea: {
-          marginLeft: "80",
+          marginLeft: "200",
           marginTop: "30",
           marginBottom: "0"
         },
@@ -50,8 +50,8 @@ export default {
           valueBox: {
             visible: true,
             text: "%v0%",
-            fontColor: "#2A2B3A",
-            fontSize: 14
+            fontColor: "black",
+            fontSize: 20
           },
           tooltip: {
             borderWidth: 0,

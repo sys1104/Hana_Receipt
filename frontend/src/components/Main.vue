@@ -38,3 +38,8 @@
 
   }
 </script>
+<style>
+  first-section{
+    background-color : lightgray;
+  }
+</style>
