@@ -69,15 +69,16 @@ var saveHistory = function(database, u_num, cate_num, content, price, c_time, wa
       conn.release();
       console.log('실행 sql : %s', exec.sql);
       if (err) {
+        conn.release();
         console.log('sql 수행 중 에러발생.');
         console.dir(err);
-
         callback(err, null);
         return;
       }
       callback(null, result);
     });
     conn.on('error', function(err) {
+      conn.release();
       console.log('데이터베이스 연결 시 에러 발생함');
       console.dir(err);
       callback(err, null);
@@ -142,8 +143,7 @@ var editHistory = function(database, consume_num, u_num, cate_num, content, pric
     console.log('데이터베이스 연결 Thread' + conn.threadId);
     // select consume_num from consume_history
     //conn 객체를 사용해서 sql 실행
-    var exec = conn.query('update consume_history set cate_num = ?, content = ?, price = ?, c_time = ?, wasted =? where u_num = ? and consume_num = ?',
-      [cate_num, content, price, c_time, wasted, u_num, consume_num],
+    var exec = conn.query('update consume_history set cate_num = ?, content = ?, price = ?, c_time = ?, wasted =? where u_num = ? and consume_num = ?', [cate_num, content, price, c_time, wasted, u_num, consume_num],
       function(err, result) {
         //쿼리 작업 수행 후 반드시 연결을 해제 해야 한다.
         conn.release();
@@ -223,15 +223,16 @@ var delHistory = function(database, consume_num, u_num, callback) {
         conn.release();
         console.log('실행 sql : %s', exec.sql);
         if (err) {
+          conn.release();
           console.log('sql 수행 중 에러발생.');
           console.dir(err);
-
           callback(err, null);
           return;
         }
         callback(null, result);
       });
     conn.on('error', function(err) {
+      conn.release();
       console.log('데이터베이스 연결 시 에러 발생함');
       console.dir(err);
       callback(err, null);
@@ -260,13 +261,16 @@ var read_consume_board = function(database, u_num, callback) {
     var exec = conn.query(sql, [u_num], function(err, rows) {
       //select의 결과물은 배열로 들어온다. -rows 변수..
       if (rows.length > 0) {
+        conn.release();
         callback(null, rows);
       } else {
+        conn.release();
         console.log('일치하는 소비내역 없음 --> 길이=0');
         callback(null, null);
       }
     });
     conn.on('error', function(err) {
+      conn.release();
       console.log('데이터베이스 연결 시 에러 발생함');
       console.dir(err);
       callback(err, null);
@@ -387,20 +391,22 @@ var wasted_used = function(database, u_num, start_date, end_date, callback) {
       return;
     }
     console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
-    var exec = conn.query('select cate_num, sum(price) sum_price from consume_history where u_num = ? and wasted = 1 and c_time >= ? and c_time <= ? group by cate_num',
-      [u_num, start_date, end_date],
+    var exec = conn.query('select cate_num, sum(price) sum_price from consume_history where u_num = ? and wasted = 1 and c_time >= ? and c_time <= ? group by cate_num', [u_num, start_date, end_date],
       function(err, rows) {
         //select의 결과물은 배열로 들어온다. rows 변수...
         if (rows.length > 0) {
+          conn.release();
           console.log('********** 카테고리별 낭비금액 rows로 반환 **********');
           console.log(rows);
           callback(null, rows);
         } else {
+          conn.release();
           console.log('********** 사용내역이 없습니다.**********');
           callback(null, null);
         }
       });
     conn.on('error', function(err) {
+      conn.release();
       console.log('********** 데이터베이스 연결 시 에러 발생함 **********');
       console.dir(err);
       callback(err, null);

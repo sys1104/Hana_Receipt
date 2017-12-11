@@ -3,7 +3,6 @@ var request_goal = function(req, res, callback) {
   console.log('********** server-side 목표 리스트 요청 function 호출 **********');
   var database = req.app.get('database');
   var u_num = req.body.u_num; //vue에서 받아와야 함!!!
-
   if (database) {
     list_goal(database, u_num, function(err, rows) {
       if (err) {
@@ -58,6 +57,7 @@ var list_goal = function(database, u_num, callback) {
         conn.release();
         console.log('********** 실행 sql : %s ********** ', exec.sql);
         if (err) {
+          conn.release();
           console.log('********** sql 수행 중 에러발생. ********** ');
           console.dir(err);
           callback(err, null);
@@ -66,6 +66,7 @@ var list_goal = function(database, u_num, callback) {
         callback(null, rows);
       });
     conn.on('error', function(err) {
+      conn.release();
       console.log('********** 데이터베이스 연결 시 에러 발생함 **********');
       console.dir(err);
       callback(err, null);
@@ -139,6 +140,7 @@ var store_goal = function(database, u_num, cate_num, g_price, g_time, g_endtime,
       conn.release();
       console.log('실행 sql : %s', exec.sql);
       if (err) {
+        conn.release();
         console.log('sql 수행 중 에러발생.');
         console.dir(err);
 
@@ -151,6 +153,7 @@ var store_goal = function(database, u_num, cate_num, g_price, g_time, g_endtime,
 
 
     conn.on('error', function(err) {
+      conn.release();
       console.log('데이터베이스 연결 시 에러 발생함');
       console.dir(err);
       callback(err, null);
@@ -230,6 +233,7 @@ var update_goal = function(database, u_num, g_num, cate_num, g_price, g_time, g_
       conn.release();
       console.log('실행 sql : %s', exec.sql);
       if (err) {
+        conn.release();
         console.log('sql 수행 중 에러발생.');
         console.dir(err);
 
@@ -239,6 +243,7 @@ var update_goal = function(database, u_num, g_num, cate_num, g_price, g_time, g_
       callback(null, result);
     });
     conn.on('error', function(err) {
+      conn.release();
       console.log('데이터베이스 연결 시 에러 발생함');
       console.dir(err);
       callback(err, null);
@@ -308,6 +313,7 @@ var remove_goal = function(database, u_num, g_num, callback) {
       conn.release();
       console.log('실행 sql : %s', exec.sql);
       if (err) {
+        conn.release();
         console.log('sql 수행 중 에러발생.');
         console.dir(err);
 
@@ -317,6 +323,7 @@ var remove_goal = function(database, u_num, g_num, callback) {
       callback(null, result);
     });
     conn.on('error', function(err) {
+      conn.release();
       console.log('데이터베이스 연결 시 에러 발생함');
       console.dir(err);
       callback(err, null);

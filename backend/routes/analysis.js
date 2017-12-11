@@ -76,15 +76,18 @@ var cate_used = function(database, u_num, callback) {
       function(err, rows) {
         //select의 결과물은 배열로 들어온다. rows 변수...
         if (rows.length > 0) {
+          conn.release();
           console.log('********** 카테고리별 목표대비 사용금액 rows로 반환 **********');
           console.log(rows);
           callback(null, rows);
         } else {
+          conn.release();
           console.log('********** 사용내역이 없습니다.**********');
           callback(null, null);
         }
       });
     conn.on('error', function(err) {
+      conn.release();
       console.log('********** 데이터베이스 연결 시 에러 발생함 **********');
       console.dir(err);
       callback(err, null);
@@ -108,14 +111,17 @@ var cate_goal = function(database, u_num, callback) {
       function(err, rows2) {
         //select의 결과물은 배열로 들어온다. rows 변수...
         if (rows2.length > 0) {
+          conn.release();
           console.log('********** 카테고리별 목표 사용금액 rows로 반환 **********');
           callback(null, rows2);
         } else {
+          conn.release();
           console.log('********** 사용내역이 없습니다.**********');
           callback(null, null);
         }
       });
     conn.on('error', function(err) {
+      conn.release();
       console.log('********** 데이터베이스 연결 시 에러 발생함 **********');
       console.dir(err);
       callback(err, null);
@@ -197,14 +203,17 @@ var all_used = function(database, u_num, callback) {
       function(err, rows) {
         //select의 결과물은 배열로 들어온다. rows 변수...
         if (rows.length > 0) {
+          conn.release();
           console.log('********** 카테고리별 목표대비 사용금액 rows로 반환 **********');
           callback(null, rows);
         } else {
+          conn.release();
           console.log('********** 사용내역이 없습니다.**********');
           callback(null, null);
         }
       });
     conn.on('error', function(err) {
+      conn.release();
       console.log('********** 데이터베이스 연결 시 에러 발생함 **********');
       console.dir(err);
       callback(err, null);
@@ -229,14 +238,17 @@ var all_goal = function(database, u_num, callback) {
       function(err, rows2) {
         //select의 결과물은 배열로 들어온다. rows 변수...
         if (rows2.length > 0) {
+          conn.release();
           console.log('********** 카테고리별 목표 사용금액 rows로 반환 **********');
           callback(null, rows2);
         } else {
+          conn.release();
           console.log('********** 사용내역이 없습니다.**********');
           callback(null, null);
         }
       });
     conn.on('error', function(err) {
+      conn.release();
       console.log('********** 데이터베이스 연결 시 에러 발생함 **********');
       console.dir(err);
       callback(err, null);
@@ -316,18 +328,22 @@ var compare_user = function(database, u_num, start_date, end_date, callback) {
       return;
     }
     console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
-    var exec = conn.query('select cate_num, sum(price) as sum_price from (select * from consume_history where u_num = ? and c_time >= ? and c_time <= ?) as sub_onsume_history group by cate_num', [u_num, start_date, end_date],
+    var exec = conn.query('select cate_num, sum(price) as sum_price from (select * from consume_history where u_num = ? and c_time >= ? and c_time <= ?) as sub_consume_history group by cate_num', [u_num, start_date, end_date],
       function(err, rows) {
         //select의 결과물은 배열로 들어온다. rows 변수...
         if (rows.length > 0) {
+          conn.release();
           console.log('********** 카테고리별 목표대비 사용금액 rows로 반환 **********');
           callback(null, rows);
         } else {
+          conn.release();
+          conn.end();
           console.log('********** 사용내역이 없습니다.**********');
           callback(null, null);
         }
       });
     conn.on('error', function(err) {
+      conn.release();
       console.log('********** 데이터베이스 연결 시 에러 발생함 **********');
       console.dir(err);
       callback(err, null);
@@ -342,6 +358,7 @@ var compare_other = function(database, start_date, end_date, callback) {
     if (err) {
       if (conn) {
         conn.release();
+        conn.end();
       }
       callback(err, null);
       return;
@@ -351,14 +368,18 @@ var compare_other = function(database, start_date, end_date, callback) {
       function(err, rows2) {
         //select의 결과물은 배열로 들어온다. rows 변수...
         if (rows2.length > 0) {
+          conn.release();
           console.log('********** 카테고리별 총 사용자 평균 사용금액 rows로 반환 **********');
           callback(null, rows2);
         } else {
+          conn.release();
+          conn.end();
           console.log('********** 사용내역이 없습니다.**********');
           callback(null, null);
         }
       });
     conn.on('error', function(err) {
+      conn.release();
       console.log('********** 데이터베이스 연결 시 에러 발생함 **********');
       console.dir(err);
       callback(err, null);
