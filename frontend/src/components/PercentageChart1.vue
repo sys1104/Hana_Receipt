@@ -179,17 +179,19 @@ export default {
                             }
 
                             if (compare_user[i].cate_num == 1) {
-                              self.percentageConfig.graphset[0].series[i].values.push(compare_user[i].sum_price);
+                              self.percentageConfig.graphset[0].series[compare_user[i].cate_num-1].values.push(compare_user[i].sum_price);
                             } else if (compare_user[i].cate_num == 2) {
-                              self.percentageConfig.graphset[0].series[i].values.push(compare_user[i].sum_price);
+                              self.percentageConfig.graphset[0].series[compare_user[i].cate_num-1].values.push(compare_user[i].sum_price);
                             } else if (compare_user[i].cate_num == 3) {
-                              self.percentageConfig.graphset[0].series[i].values.push(compare_user[i].sum_price);
+                              self.percentageConfig.graphset[0].series[compare_user[i].cate_num-1].values.push(compare_user[i].sum_price);
                             } else if (compare_user[i].cate_num == 4) {
-                              self.percentageConfig.graphset[0].series[i].values.push(compare_user[i].sum_price);
+                              self.percentageConfig.graphset[0].series[compare_user[i].cate_num-1].values.push(compare_user[i].sum_price);
+                              console.log(compare_user[i].sum_price + '??????????????????');
                             } else if (compare_user[i].cate_num == 5) {
-                              self.percentageConfig.graphset[0].series[i].values.push(compare_user[i].sum_price);
-                            } else {
-                              self.percentageConfig.graphset[0].series[i].values.push(compare_user[i].sum_price);
+                              self.percentageConfig.graphset[0].series[compare_user[i].cate_num-1].values.push(compare_user[i].sum_price);
+                            } else if (compare_user[i].cate_num == 6){
+                              self.percentageConfig.graphset[0].series[compare_user[i].cate_num-1].values.push(compare_user[i].sum_price);
+                              console.log(compare_user[i].sum_price + '!!!!!!!!!!!!!!!');
                             }
                           }
                           zingchart.render({
