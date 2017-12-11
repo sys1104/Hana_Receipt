@@ -91,7 +91,7 @@
       </div>
     </div>
     <button @click.prevent="goalStore" class="btn btn-success">저장</button>
-  <!-- </div> -->
+  </div>
 </div>
 </template>
 

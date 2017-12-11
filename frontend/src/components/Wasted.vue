@@ -28,11 +28,12 @@
       </table>
       <hr>
   </div>
-
+  
 </div>
 
 </template>
-<script src="http://code.jquery.com/jquery.min.js"></script>
+
+
 <script>
   import axios from 'axios'
 
@@ -59,27 +60,29 @@
         var today = now.getDay();
         var startDate = '';
         var endDate = '';
-        startDate = now.setDate(now.getDate() - (today + 6));
-        startDate = new Date(startDate);
+        if (today != 1) {
+          startDate = now.setDate(now.getDate() - (today + 6));
+          startDate = new Date(startDate);
+        }
         endDate = now.setDate(now.getDate() + 6);
         endDate = new Date(endDate);
         var startDate_date = startDate.getDate();
-        if (startDate_date < 10) {
-          startDate_date = '0' + startDate_date;
+        if(startDate_date < 10){
+          startDate_date = '0'+startDate_date;
         }
         var startDate_month = startDate.getMonth() + 1;
-        if (startDate_month < 10) {
-          startDate_month = '0' + startDate_month;
+        if(startDate_month < 10){
+          startDate_month = '0'+startDate_month;
         }
         var startDate_year = startDate.getFullYear();
         var start_date = startDate_year + '' + startDate_month + '' + startDate_date;
         var endDate_date = endDate.getDate();
-        if (endDate_date < 10) {
-          endDate_date = '0' + endDate_date;
+        if(endDate_date < 10){
+          endDate_date = '0'+endDate_date;
         }
         var endDate_month = endDate.getMonth() + 1;
-        if (endDate_month < 10) {
-          endDate_month = '0' + endDate_month;
+        if(endDate_month < 10){
+          endDate_month = '0' + endDate_month ;
         }
         var endDate_year = endDate.getFullYear();
         var end_date = endDate_year + '' + endDate_month + '' + endDate_date;
@@ -95,6 +98,9 @@
           }
         }).then(function(response) {
           self.results = response.data;
+          // for( var i in self.results){
+          //   self.sum += i.sum_price;
+          // }
           var sum2 = 0;
           for(var i=0; i<self.results.length;i++){
             sum2 += parseInt(self.results[i].sum_price);
