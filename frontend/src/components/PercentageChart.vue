@@ -234,8 +234,6 @@ export default {
           }
         }).then((response) => {
           console.log('********** compare_user_other 응답 받음 **********');
-          console.log(response.data.compare_user);
-          console.log(response.data.compare_other);
           var compare_user = {};
           compare_user = response.data.compare_user;
           var compare_other = {};
@@ -270,10 +268,6 @@ export default {
               self.percentageConfig.graphset[1].series[k].values.push(compare_other[k].avg_price);
             }
           }
-          // compare_user[0].cate_num
-          // compare_user[0].sum_price
-          // compare_other[0].cate_num
-          // compare_other[0].avg_price
           zingchart.render({
             id: 'percentageChart',
             data: self.percentageConfig,
@@ -281,7 +275,7 @@ export default {
             width: '99%'
           });
         });
-      }, 1000);
+      }, 600);
     }
   }
 }

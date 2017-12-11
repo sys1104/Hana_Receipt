@@ -147,16 +147,12 @@ export default {
           }
         }).then((response) => {
           console.log('********** cate_used_goal_money 응답 받음 **********');
-          console.log(response.data.cate_used);
-          console.log(response.data.cate_goal);
           var cate_used = {};
           cate_used = response.data.cate_used;
           var cate_goal = {};
           cate_goal = response.data.cate_goal;
           for (var i = 0; i < cate_used.length; i++) {
             if (cate_used[i].cate_num == 1) {
-              console.log(cate_used[i].sum_price);
-              console.log(cate_goal[i].g_price);
               self.myCategoryConfig.scaleX.labels.push('생활/쇼핑');;
               self.myCategoryConfig.series[0].values.push(Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 10));
             } else if (cate_used[i].cate_num == 2) {
@@ -183,7 +179,7 @@ export default {
             width: '99%'
           });
         });
-      }, 500)
+      }, 300)
     }
   }
 }
