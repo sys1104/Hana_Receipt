@@ -133,7 +133,6 @@ export default {
       // this.u_num = this.$session.getAll();
       console.log('세션 값 확인 ' + this.$session.get('session'));
       var unum = this.$session.get('session');
-      setTimeout(function() {
         axios({
           method: 'post',
           url: 'api/analysis/all_used_goal_money',
@@ -154,7 +153,6 @@ export default {
             width: '99%'
           });
         });
-      }, 0)
     }
   }
 }

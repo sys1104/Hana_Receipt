@@ -20,33 +20,34 @@ var cate_used_goal_money = function(req, res, callback) {
         console.log('********** cate_used **********');
         console.log('********** data.cate_used ' + rows + ' *********');
         data.cate_used = rows;
-      } else {
-        console.log("********** 사용내역 없음 **********");
-      }
-    });
-    cate_goal(database, u_num, function(err, rows2) {
-      if (err) {
-        console.error('********** goal_money 에러 발생 **********' + err.stack);
-        res.writeHead(200, {
-          "Content-Type": 'text/html;charset=utf8'
+        cate_goal(database, u_num, function(err, rows2) {
+          if (err) {
+            console.error('********** goal_money 에러 발생 **********' + err.stack);
+            res.writeHead(200, {
+              "Content-Type": 'text/html;charset=utf8'
+            });
+            res.write('<h2>goal_money 에러 발생</h2>');
+            res.write('<p>' + err.stack + '</p>');
+            res.end();
+            // 에러 처리
+          }
+          if (rows2) {
+            console.log('********** cate_goal ' + rows2 + ' **********');
+            data.cate_goal = rows2;
+            console.log('********** 프론트로 제이슨 형태로 데이터를 보냄 *********');
+            console.log(data.cate_used);
+            console.log(data.cate_goal);
+            res.json(data);
+            res.end();
+          } else {
+            console.log("********** 사용내역 없음 **********");
+          }
         });
-        res.write('<h2>goal_money 에러 발생</h2>');
-        res.write('<p>' + err.stack + '</p>');
-        res.end();
-        // 에러 처리
-      }
-      if (rows2) {
-        console.log('********** cate_goal ' + rows2 + ' **********');
-        data.cate_goal = rows2;
-        console.log('********** 프론트로 제이슨 형태로 데이터를 보냄 *********');
-        console.log(data.cate_used);
-        console.log(data.cate_goal);
-        res.json(data);
-        res.end();
       } else {
         console.log("********** 사용내역 없음 **********");
       }
     });
+
   } else {
     //DB접속에 실패 했을 경우
     res.writeHead(200, {
@@ -142,31 +143,32 @@ var all_used_goal_money = function(req, res, callback) {
       }
       if (rows) {
         data.all_used = rows;
-      } else {
-        console.log("********** 사용내역 없음 **********");
-      }
-    });
-    all_goal(database, u_num, function(err, rows2) {
-      if (err) {
-        console.error('********** goal_money 에러 발생 **********' + err.stack);
-        res.writeHead(200, {
-          "Content-Type": 'text/html;charset=utf8'
+        all_goal(database, u_num, function(err, rows2) {
+          if (err) {
+            console.error('********** goal_money 에러 발생 **********' + err.stack);
+            res.writeHead(200, {
+              "Content-Type": 'text/html;charset=utf8'
+            });
+            res.write('<h2>goal_money 에러 발생</h2>');
+            res.write('<p>' + err.stack + '</p>');
+            res.end();
+            // 에러 처리
+          }
+          if (rows2) {
+            data.all_goal = rows2;
+            console.log(data);
+            console.log('********** all_used_goal_money //' + data + ' **********');
+            res.json(data);
+            res.end();
+          } else {
+            console.log("********** 사용내역 없음 **********");
+          }
         });
-        res.write('<h2>goal_money 에러 발생</h2>');
-        res.write('<p>' + err.stack + '</p>');
-        res.end();
-        // 에러 처리
-      }
-      if (rows2) {
-        data.all_goal = rows2;
-        console.log(data);
-        console.log('********** all_used_goal_money //' + data + ' **********');
-        res.json(data);
-        res.end();
       } else {
         console.log("********** 사용내역 없음 **********");
       }
     });
+
   } else {
     //DB접속에 실패 했을 경우
     res.writeHead(200, {
@@ -191,8 +193,7 @@ var all_used = function(database, u_num, callback) {
       return;
     }
     console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
-    var exec = conn.query('select sum(price) as sum_price from (select * from consume_history where u_num = ? and cate_num in (select cate_num from goal where u_num = ?) and c_time >= (select max(g_time) from goal where u_num = ?) and c_time <= (select max(g_endtime) from goal where u_num = ?)) as sub_goal',
-      [u_num, u_num, u_num, u_num],
+    var exec = conn.query('select sum(price) as sum_price from (select * from consume_history where u_num = ? and cate_num in (select cate_num from goal where u_num = ?) and c_time >= (select max(g_time) from goal where u_num = ?) and c_time <= (select max(g_endtime) from goal where u_num = ?)) as sub_goal', [u_num, u_num, u_num, u_num],
       function(err, rows) {
         //select의 결과물은 배열로 들어온다. rows 변수...
         if (rows.length > 0) {
@@ -266,30 +267,31 @@ var compare_user_other = function(req, res, callback) {
       }
       if (rows) {
         data.compare_user = rows;
-      } else {
-        console.log("********** 사용내역 없음 **********");
-      }
-    });
-    compare_other(database, start_date, end_date, function(err, rows2) {
-      if (err) {
-        console.error('********** goal_money 에러 발생 **********' + err.stack);
-        res.writeHead(200, {
-          "Content-Type": 'text/html;charset=utf8'
+        compare_other(database, start_date, end_date, function(err, rows2) {
+          if (err) {
+            console.error('********** goal_money 에러 발생 **********' + err.stack);
+            res.writeHead(200, {
+              "Content-Type": 'text/html;charset=utf8'
+            });
+            res.write('<h2>goal_money 에러 발생</h2>');
+            res.write('<p>' + err.stack + '</p>');
+            res.end();
+            // 에러 처리
+          }
+          if (rows2) {
+            data.compare_other = rows2;
+            res.json(data);
+            console.log('********** compare_user_other / server-side requested' + data + ' **********');
+            res.end();
+          } else {
+            console.log("********** 사용내역 없음 **********");
+          }
         });
-        res.write('<h2>goal_money 에러 발생</h2>');
-        res.write('<p>' + err.stack + '</p>');
-        res.end();
-        // 에러 처리
-      }
-      if (rows2) {
-        data.compare_other = rows2;
-        res.json(data);
-        console.log('********** compare_user_other / server-side requested' + data + ' **********');
-        res.end();
       } else {
         console.log("********** 사용내역 없음 **********");
       }
     });
+
   } else {
     //DB접속에 실패 했을 경우
     res.writeHead(200, {
@@ -314,8 +316,7 @@ var compare_user = function(database, u_num, start_date, end_date, callback) {
       return;
     }
     console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
-    var exec = conn.query('select cate_num, sum(price) as sum_price from (select * from consume_history where u_num = ? and c_time >= ? and c_time <= ?) as sub_onsume_history group by cate_num',
-      [u_num, start_date, end_date],
+    var exec = conn.query('select cate_num, sum(price) as sum_price from (select * from consume_history where u_num = ? and c_time >= ? and c_time <= ?) as sub_onsume_history group by cate_num', [u_num, start_date, end_date],
       function(err, rows) {
         //select의 결과물은 배열로 들어온다. rows 변수...
         if (rows.length > 0) {
@@ -346,8 +347,7 @@ var compare_other = function(database, start_date, end_date, callback) {
       return;
     }
     console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
-    var exec = conn.query('select cate_num, avg(price) as avg_price from (select * from consume_history where c_time >= ? and c_time <= ?) as sub_consume_history group by cate_num',
-      [start_date, end_date],
+    var exec = conn.query('select cate_num, avg(price) as avg_price from (select * from consume_history where c_time >= ? and c_time <= ?) as sub_consume_history group by cate_num', [start_date, end_date],
       function(err, rows2) {
         //select의 결과물은 배열로 들어온다. rows 변수...
         if (rows2.length > 0) {
