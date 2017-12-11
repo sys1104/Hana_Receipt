@@ -1,13 +1,13 @@
 <template>
   <div id="app">
-  
+
     <navi></navi>
     <custom-header></custom-header>
     <first-section></first-section>
     <second-section></second-section>
     <third-section></third-section>
     <!-- <custom-footer></custom-footer>  -->
-    
+
 
   </div>
 </template>

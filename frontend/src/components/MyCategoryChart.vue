@@ -1,5 +1,23 @@
 <template>
-<div id='myCategoryChart'></div>
+<div>
+  <div id='myCategoryChart'></div>
+  <!-- 현재상태 역순 -->
+  <div class="col-md-3 col-md-offset-2">
+    <ul v-for="(result,index) in results">
+      <li>
+        현재 상태 : {{result}}
+      </li>
+    </ul>
+  </div>
+  <!-- 남은금액 역순 -->
+  <div class="col-md-3 col-md-offset-2">
+    <ul v-for="(result,index) in results2">
+      <li>
+        목표대비 남은 금액 : {{result}}
+      </li>
+    </ul>
+  </div>
+</div>
 </template>
 
 
@@ -11,6 +29,8 @@ import axios from 'axios'
 export default {
   data() {
     return {
+      results : [],
+      results2 : [],
       myCategoryConfig: {
         type: "hbar",
         backgroundColor: "lightgrey",
@@ -128,6 +148,30 @@ export default {
       }
     }
   },
+  methods : {
+    resultComment(result_sum, result_min){
+      console.log('result_sum : ' + result_sum);
+      var re2 = result_sum*10;
+      if(re2 >=0 && re2 <= 20){
+        this.results.push('매우 알뜰');
+        this.results2.push(result_min);
+      }else if(re2 > 20 && re2 <= 40){
+        this.results.push("알뜰");
+        this.results2.push(result_min);
+      }else if(re2 > 40 && re2 <= 60){
+        this.results.push("보통");
+        this.results2.push(result_min);
+      }else if(re2 > 60 && re2 <= 80){
+        this.results.push("위험");
+        this.results2.push(result_min);
+      }else if(re2 > 80 && re2 <= 100){
+        this.results.push("아주위험");
+        this.results2.push(result_min);
+      }
+      console.log(this.results);
+      console.log(this.results2);
+    }
+  },
   created() {
     var self = this;
     var now = new Date();
@@ -167,23 +211,40 @@ export default {
           cate_used = response.data.cate_used;
           var cate_goal = {};
           cate_goal = response.data.cate_goal;
+
+          var result_sum = '';
+          var result_min = '';
           for (var i = 0; i < cate_used.length; i++) {
+            result_sum = Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 10);
             if (cate_used[i].cate_num == 1) {
+              result_min = (cate_goal[i].g_price - cate_used[i].sum_price);
+              console.log(result_min + '리민값');
+              self.resultComment(result_sum, result_min);
               self.myCategoryConfig.scaleX.labels.push('생활/쇼핑');;
               self.myCategoryConfig.series[0].values.push(Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 10));
             } else if (cate_used[i].cate_num == 2) {
+              result_min = (cate_goal[i].g_price - cate_used[i].sum_price);
+              self.resultComment(result_sum, result_min);
               self.myCategoryConfig.scaleX.labels.push('교통');
               self.myCategoryConfig.series[0].values.push(Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 10));
             } else if (cate_used[i].cate_num == 3) {
+              result_min =(cate_goal[i].g_price - cate_used[i].sum_price);
+              self.resultComment(result_sum, result_min);
               self.myCategoryConfig.scaleX.labels.push('식비');
               self.myCategoryConfig.series[0].values.push(Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 10));
             } else if (cate_used[i].cate_num == 4) {
+              result_min =(cate_goal[i].g_price - cate_used[i].sum_price);
+              self.resultComment(result_sum, result_min);
               self.myCategoryConfig.scaleX.labels.push('패션/미용');
               self.myCategoryConfig.series[0].values.push(Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 10));
             } else if (cate_used[i].cate_num == 5) {
+              result_min = (cate_goal[i].g_price - cate_used[i].sum_price);
+              self.resultComment(result_sum, result_min);
               self.myCategoryConfig.scaleX.labels.push('주거/통신');
               self.myCategoryConfig.series[0].values.push(Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 10));
-            } else {
+            } else if (cate_used[i].cate_num == 6){
+              result_min = (cate_goal[i].g_price - cate_used[i].sum_price);
+              self.resultComment(result_sum, result_min);
               self.myCategoryConfig.scaleX.labels.push('기타');
               self.myCategoryConfig.series[0].values.push(Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 10));
             }
