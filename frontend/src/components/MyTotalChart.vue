@@ -1,10 +1,11 @@
 <template>
-<div>
+<div class="row">
   <div class="col-md-6" id='myTotalChart'>
 
   </div>
-  <div class="col-md-6">
-      <h4 style="color:green">{{result}}</h4>
+  <div class="col-md-6" style="margin-bottom:40%">
+    <br><br><br>
+      <h4 style="color:orange"> < {{result}} > </h4>
       <h4>{{u_name}}님은 현재 목표금액 {{goal_price}}원 중 {{now_price}}원을 사용하고 있습니다.</h4>
   </div>
 </div>

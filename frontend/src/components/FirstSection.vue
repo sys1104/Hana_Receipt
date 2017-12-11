@@ -3,6 +3,7 @@
         <br>
 
         <h2 class="text-center text-uppercase text-secondary mb-0">목표금액 : {{results}}</h2>
+        <h5 class="text-center text-uppercase text-secondary mb-0">- 기간 : {{start_date}}~ {{end_date}} -</h5>
         <hr class="star-dark mb-5">
 
           <div class="col-md-12">
@@ -31,6 +32,8 @@ export default {
       return {
         u_num : '',
         results : '',
+        start_date : '',
+        end_date : '',
       }
     },
     components : {
@@ -38,7 +41,27 @@ export default {
         // MyCategoryChart,
         // PercentageChart
     },
+    methods : {
+        getDate(){
+          axios({
+          method: 'post',
+          url: 'api/goal/request_goal',
+          data: {
+            u_num: this.$session.get('session'),
+            request_code : 1
+          }
+        }).then((response) => {
+          console.log('********** request_goal 응답 받음');
+          this.start_date = response.data[0].g_time;
+          this.end_date = response.data[0].g_endtime;
+          // for(var i=0; i<response.length; i++){
+          //   self.results
+          // }
+        });
+        }
+    },
     created() {
+      this.getDate();
       var self = this;
       var now = new Date();
       var today = now.getDay();
@@ -77,54 +100,5 @@ export default {
       });
     }
 }
-// <template id="test">
-//       <!-- Portfolio Grid Section -->
-//     <section class="portfolio" id="portfolio">
-//       <div class="container">
-//         <h2 class="text-center text-uppercase text-secondary mb-0">ㅎㅇ</h2>
-//         <hr class="star-dark mb-5">
-//         <h4 class="text-center">절약 목표는  원 입니다.</h4>
 
-//         <div class="row">
-//           <div class="col-md-4">
-//             <a class="d-block mx-auto" href="#portfolio-modal-2">
-//               <!-- <div class="portfolio-item-caption d-flex position-absolute h-100 w-100"> -->
-//                   <!-- <i class="fa fa-search-plus fa-3x"></i> -->
-//                   <!-- </div> -->
-//               <div>
-//                 <!-- 첫번째 그래프 -->
-//                   <my-total-chart></my-total-chart>
-//               </div>
-//             </a>
-//           </div>
-//           <div class="col-md-4">
-//             <a class="d-block mx-auto" href="#portfolio-modal-2">
-//               <!-- <div class="portfolio-item-caption d-flex position-absolute h-100 w-100"> -->
-//                   <!-- <i class="fa fa-search-plus fa-3x"></i> -->
-//                   <!-- </div> -->
-//               <div>
-//                 <!-- 두번째 그래프 -->
-//                   <my-category-chart></my-category-chart>
-//               </div>
-//             </a>
-//           </div>
-//           <div class="col-md-4">
-//             <a class="d-block mx-auto" href="#portfolio-modal-3">
-//               <!-- <div class="portfolio-item-caption d-flex position-absolute h-100 w-100"> -->
-//                   <!-- <i class="fa fa-search-plus fa-3x"></i> -->
-//               <!-- </div> -->
-//               <div>
-//                 <!-- 세번째 그래프 -->
-//                 <PercentageChart></PercentageChart>
-//               </div>
-//             </a>
-//           </div>
-//         </div>
-//         <div>
-//           <h4> 솔루션 </h4>
-//         </div>
-//       </div>
-
-//     </section>
-// </template>
 </script>
