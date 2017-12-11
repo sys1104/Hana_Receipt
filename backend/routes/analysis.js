@@ -3,9 +3,10 @@ var cate_used_goal_money = function(req, res, callback) {
   console.log('********** server-side 목표대비 사용금액 분석 function 호출 **********');
   var database = req.app.get('database');
   var u_num = req.body.u_num; //vue에서 받아와야 함!!!
+  var start_date = req.body.start_date;
   if (database) {
     var data = {};
-    cate_used(database, u_num, function(err, rows) {
+    cate_used(database, u_num, start_date, function(err, rows) {
       if (err) {
         console.error('********** cate_used 에러 발생 **********' + err.stack);
         res.writeHead(200, {
@@ -20,7 +21,7 @@ var cate_used_goal_money = function(req, res, callback) {
         console.log('********** cate_used **********');
         console.log('********** data.cate_used ' + rows + ' *********');
         data.cate_used = rows;
-        cate_goal(database, u_num, function(err, rows2) {
+        cate_goal(database, u_num, start_date, function(err, rows2) {
           if (err) {
             console.error('********** goal_money 에러 발생 **********' + err.stack);
             res.writeHead(200, {
@@ -61,7 +62,7 @@ var cate_used_goal_money = function(req, res, callback) {
 };
 
 // ========================= server-side 카테고리별 사용금액 분석 function =================== //
-var cate_used = function(database, u_num, callback) {
+var cate_used = function(database, u_num, start_date, callback) {
   console.log('********** server-side cate_used 호출 **********');
   database.pool.getConnection(function(err, conn) { //DB 접속
     if (err) {
@@ -72,7 +73,7 @@ var cate_used = function(database, u_num, callback) {
       return;
     }
     console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
-    var exec = conn.query('select cate_num, sum(price) as sum_price from (select * from consume_history where u_num = ? and cate_num in (select cate_num from goal where u_num = ?) and c_time >= (select max(g_time) from goal where u_num = ?) and c_time <= (select max(g_endtime) from goal where u_num = ?)) as sub_goal group by cate_num', [u_num, u_num, u_num, u_num],
+    var exec = conn.query('select cate_num, sum(price) as sum_price from (select * from consume_history where u_num = ? and cate_num in (select cate_num from goal where u_num = ? and g_time <= ? and g_endtime >= ?) and c_time >= (select max(g_time) from goal where u_num = ? and g_time <= ? and g_endtime >= ?) and c_time <= (select max(g_endtime) from goal where u_num = ? and g_time <= ? and g_endtime >= ?)) as sub_goal group by cate_num', [u_num, u_num, start_date, start_date, u_num, start_date,start_date, u_num, start_date, start_date],
       function(err, rows) {
         //select의 결과물은 배열로 들어온다. rows 변수...
         if (rows.length > 0) {
@@ -96,7 +97,7 @@ var cate_used = function(database, u_num, callback) {
 };
 
 // ========================= server-side 카테고리별 목표 사용금액 분석 function =================== //
-var cate_goal = function(database, u_num, callback) {
+var cate_goal = function(database, u_num, start_date, callback) {
   console.log('********** server-side cate_goal 호출 **********');
   database.pool.getConnection(function(err, conn) { //DB 접속
     if (err) {
@@ -107,7 +108,7 @@ var cate_goal = function(database, u_num, callback) {
       return;
     }
     console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
-    var exec = conn.query('select cate_num, g_price, g_time, g_endtime from goal where u_num = ?', u_num,
+    var exec = conn.query('select cate_num, g_price, g_time, g_endtime from goal where u_num = ? and g_time <= ? and g_endtime >= ?', [u_num, start_date, start_date],
       function(err, rows2) {
         //select의 결과물은 배열로 들어온다. rows 변수...
         if (rows2.length > 0) {
@@ -134,9 +135,10 @@ var all_used_goal_money = function(req, res, callback) {
   console.log('********** server-side 총 항목 목표대비 사용금액 분석 function 호출 **********');
   var database = req.app.get('database');
   var u_num = req.body.u_num;
+  var start_date = req.body.start_date;
   if (database) {
     var data = {};
-    all_used(database, u_num, function(err, rows) {
+    all_used(database, u_num, start_date, function(err, rows) {
       if (err) {
         console.error('********** all_used 에러 발생 **********' + err.stack);
         res.writeHead(200, {
@@ -149,7 +151,7 @@ var all_used_goal_money = function(req, res, callback) {
       }
       if (rows) {
         data.all_used = rows;
-        all_goal(database, u_num, function(err, rows2) {
+        all_goal(database, u_num, start_date, function(err, rows2) {
           if (err) {
             console.error('********** goal_money 에러 발생 **********' + err.stack);
             res.writeHead(200, {
@@ -188,7 +190,7 @@ var all_used_goal_money = function(req, res, callback) {
 };
 
 // ========================= server-side 사용자 총 사용금액 분석 function =================== //
-var all_used = function(database, u_num, callback) {
+var all_used = function(database, u_num, start_date, callback) {
   console.log('********** server-side all_used 호출 **********');
   database.pool.getConnection(function(err, conn) { //DB 접속
     if (err) {
@@ -199,7 +201,7 @@ var all_used = function(database, u_num, callback) {
       return;
     }
     console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
-    var exec = conn.query('select sum(price) as sum_price from (select * from consume_history where u_num = ? and cate_num in (select cate_num from goal where u_num = ?) and c_time >= (select max(g_time) from goal where u_num = ?) and c_time <= (select max(g_endtime) from goal where u_num = ?)) as sub_goal', [u_num, u_num, u_num, u_num],
+    var exec = conn.query('select sum(price) as sum_price from (select * from consume_history where u_num = ? and cate_num in (select cate_num from goal where u_num = ?) and c_time >= (select max(g_time) from goal where u_num = ? and g_time <= ? and g_endtime >= ?) and c_time <= (select max(g_endtime) from goal where u_num = ? and g_time <= ? and g_endtime >= ?)) as sub_goal', [u_num, u_num, u_num, start_date, start_date, u_num, start_date, start_date],
       function(err, rows) {
         //select의 결과물은 배열로 들어온다. rows 변수...
         if (rows.length > 0) {
@@ -222,7 +224,7 @@ var all_used = function(database, u_num, callback) {
 };
 
 // ========================= server-side 총 목표 금액 분석 function =================== //
-var all_goal = function(database, u_num, callback) {
+var all_goal = function(database, u_num, start_date, callback) {
   console.log('********** server-side all_goal 호출 **********');
   database.pool.getConnection(function(err, conn) { //DB 접속
     if (err) {
@@ -233,8 +235,8 @@ var all_goal = function(database, u_num, callback) {
       return;
     }
     console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
-    var exec = conn.query('select sum(g_price) as g_price from goal where u_num = ?',
-      u_num,
+    var exec = conn.query('select sum(g_price) as g_price from goal where u_num = ? and g_time <= ? and g_endtime >= ?',
+      [u_num, start_date, start_date],
       function(err, rows2) {
         //select의 결과물은 배열로 들어온다. rows 변수...
         if (rows2.length > 0) {
