@@ -3,7 +3,7 @@
   <navi></navi>
   <div class="header">소비 관리</div>
   <br>
-  <stories></stories>
+  <consume-history></consume-history>
   <br>
   <div class="table-users" style="width:100%">
   <div class="header">소비내역 저장</div>
@@ -40,7 +40,7 @@
 
 <script>
 import axios from 'axios'
-import Stories from './Stories.vue'
+import ConsumeHistory from './ConsumeHistory.vue'
 import Navi from './Navi.vue'
 export default {
   data: function() {
@@ -55,7 +55,7 @@ export default {
     }
   },
   components: {
-    Stories,
+    ConsumeHistory,
     Navi
   },
   methods: {

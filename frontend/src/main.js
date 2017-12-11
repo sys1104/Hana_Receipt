@@ -11,7 +11,6 @@ import axios from 'axios'
 //라우터 객체에 등록할 컴포넌트 불러오기
 import Login from './components/Login.vue'
 import Register from './components/Register.vue'
-import Stories from './components/Stories.vue'
 import Header from './components/Header.vue'
 import CustomFooter from './components/Footer.vue'
 import StoriesPage from './components/StoriesPage.vue'
@@ -19,9 +18,9 @@ import StoriesAll from './components/StoriesAll.vue'
 import StoriesFamous from './components/StoriesFamous.vue'
 import FirstSection from './components/FirstSection.vue'
 import Main from './components/Main.vue'
-import Storetest from './components/Storetest.vue'
 import ModifyUser from './components/ModifyUser.vue'
 import GoalManagement from './components/GoalManagement.vue'
+import SaveHistory from './components/SaveHistory.vue'
 
 Vue.use(VueRouter)
     // Vue.use(VueResource)
@@ -40,11 +39,6 @@ const routes = [{
             component: Register
         },
         {
-            name: 'stories',
-            path: '/stories',
-            component: Stories
-        },
-        {
             name: 'login',
             path: '/login',
             component: Login
@@ -55,9 +49,9 @@ const routes = [{
             component: FirstSection
         },
         {
-            name: 'store_test',
-            path: '/store_test',
-            component: Storetest
+            name: 'save_history',
+            path: '/save_history',
+            component: SaveHistory
         },
         {
             name: 'modify_user',
@@ -70,21 +64,21 @@ const routes = [{
             component: GoalManagement
         },
 
-        {
-            path: './stories',
-            component: StoriesPage,
-            children: [{
-                    path: '',
-                    name: 'stories.all',
-                    component: StoriesAll
-                },
-                {
-                    path: 'famous',
-                    name: 'stories.famous',
-                    component: StoriesFamous
-                }
-            ]
-        }
+        // {
+        //     path: './stories',
+        //     component: StoriesPage,
+        //     children: [{
+        //             path: '',
+        //             name: 'stories.all',
+        //             component: StoriesAll
+        //         },
+        //         {
+        //             path: 'famous',
+        //             name: 'stories.famous',
+        //             component: StoriesFamous
+        //         }
+        //     ]
+        // }
     ]
     //라우터 객체 생성
 const router = new VueRouter({

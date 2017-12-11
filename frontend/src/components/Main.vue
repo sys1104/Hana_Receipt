@@ -15,7 +15,6 @@
   import Vue from 'vue'
   import Login from './Login'
   import Register from './Register'
-  import Stories from './Stories'
   import FirstSection from './FirstSection'
   import CustomFooter from './Footer'
   import CustomHeader from './Header'
@@ -24,7 +23,6 @@
     name: 'app',
     components: {
       Login,
-      Stories,
       Register,
       FirstSection,
       CustomFooter,
