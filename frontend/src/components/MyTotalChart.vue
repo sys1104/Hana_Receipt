@@ -136,6 +136,22 @@ export default {
   },
   created() {
     var self = this;
+    var now = new Date();
+    var today = now.getDay();
+    var startDate = '';
+    startDate = now.setDate(now.getDate() - (today - 1));
+    startDate = new Date(startDate);
+    var startDate_date = startDate.getDate();
+    if (startDate_date < 10) {
+      startDate_date = '0' + startDate_date;
+    }
+    var startDate_month = startDate.getMonth() + 1;
+    if (startDate_month < 10) {
+      startDate_month = '0' + startDate_month;
+    }
+    var startDate_year = startDate.getFullYear();
+    var start_date = startDate_year + '' + startDate_month + '' + startDate_date;
+    console.log(start_date);
     if (!this.$session.exists()) {
       console.log('********** 세션이 없습니다. **********');
     } else {
@@ -147,7 +163,8 @@ export default {
           method: 'post',
           url: 'api/analysis/all_used_goal_money',
           data: {
-            u_num: unum
+            u_num: unum,
+            start_date: start_date
           }
         }).then((response) => {
           console.log('********** all_used_goal_money 응답 받음 **********');
