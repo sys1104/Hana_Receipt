@@ -1,5 +1,5 @@
 <template>
-<div id="insertConsume" class="table-users" style="width:1000px; display:inline-block;">
+<div id="insertConsume" class="table-users" style="width:1000px; display:inline-block; margin-top:170px">
   <navi></navi>
   <div class="header">소비 관리</div>
   <br>
@@ -19,18 +19,19 @@
      </select>
   </div>
   <div class="form-group" style="col-md-8">
-    <input type="text" placeholder="소비품목 이름" v-model="content" class="form-control" name="content">
+    <input type="text" placeholder="  소비품목 이름" v-model="content" class="form-control" name="content">
   </div>
   <div class="form-group">
-    <input type="text" placeholder="가격" v-model="price" class="form-control" name="price">
+    <input type="text" placeholder="  가격" v-model="price" class="form-control" name="price">
   </div>
   <div class="form-group">
-    <input type="date" placeholder="소비일자 예)20171205" v-model="c_time" class="form-control" name="c_time">
+    <input type="date" placeholder="  소비일자 예)20171205" v-model="c_time" class="form-control" name="c_time">
   </div>
   <!-- <div class="form-group">
     <input type="email" placeholder="낭비체크" v-model="wasted" class="form-control" name="wasted">
   </div> -->
-  <button @click.prevent="requestHistory" class="btn" style="width:150px; background-color:#327a81; color:white; font-weight:bold">저 장</button>
+  <button @click.prevent="requestHistory" class="btn"
+  style="width:150px; background-color:#327a81; color:white; font-weight:bold">저 장</button>
   <br><br>
   </div>
   <br>
