@@ -11,10 +11,10 @@
           </div>
           <div class="col-md-4">
             <!-- 두번째 그래프 -->
-           <my-category-chart></my-category-chart>
+           <!-- <my-category-chart></my-category-chart> -->
           </div>
           <div class="col-md-5">
-           <PercentageChart></PercentageChart>
+           <!-- <PercentageChart></PercentageChart> -->
           </div>
           <div>
         </div>
