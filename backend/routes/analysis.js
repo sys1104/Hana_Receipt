@@ -337,7 +337,6 @@ var compare_user = function(database, u_num, start_date, end_date, callback) {
           callback(null, rows);
         } else {
           conn.release();
-          conn.end();
           console.log('********** 사용내역이 없습니다.**********');
           callback(null, null);
         }
@@ -358,7 +357,7 @@ var compare_other = function(database, start_date, end_date, callback) {
     if (err) {
       if (conn) {
         conn.release();
-        conn.end();
+
       }
       callback(err, null);
       return;
@@ -373,7 +372,7 @@ var compare_other = function(database, start_date, end_date, callback) {
           callback(null, rows2);
         } else {
           conn.release();
-          conn.end();
+
           console.log('********** 사용내역이 없습니다.**********');
           callback(null, null);
         }
