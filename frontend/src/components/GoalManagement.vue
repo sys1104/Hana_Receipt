@@ -44,7 +44,7 @@
       </div>
 <!-- results1[0]!=cate_num.cate_num1 && results1[1]!=cate_num.cate_num1 && results1[2]!=cate_num.cate_num1 && results1[3]!=cate_num.cate_num1 &&results1[4]!=cate_num.cate_num1 && results1[5]!=cate_num.cate_num1 -->
       
-      <div v-if="info1==false"class="form-group" style="width:30%">
+      <div v-if="info1==false"class="form-group" style="width:35%">
         <label class="form-control">생활/쇼핑</label>
         <input type="hidden" v-model="cate_num.cate_num1" class="form-control" value="1" name="cate_num1">
       </div>
@@ -52,7 +52,7 @@
         <input type="text" placeholder=" 목표금액" v-model="g_price.g_price1" class="form-control" name="g_price1">
       </div>
 
-      <div v-if="info2==false"class="form-group" style="width:30%">
+      <div v-if="info2==false"class="form-group" style="width:35%">
         <label class="form-control">교통</label>
         <input type="hidden" v-model="cate_num.cate_num2" class="form-control" value="2" name="cate_num2">
       </div>
@@ -60,7 +60,7 @@
         <input type="text" placeholder=" 목표금액" v-model="g_price.g_price2" class="form-control" name="g_price2">
       </div>
 
-      <div v-if="info3==false"class="form-group" style="width:30%">
+      <div v-if="info3==false"class="form-group" style="width:35%">
         <label class="form-control">식비</label>
         <input type="hidden" v-model="cate_num.cate_num3" class="form-control" value="3" name="cate_num3">
       </div>
@@ -68,7 +68,7 @@
         <input type="text" placeholder=" 목표금액" v-model="g_price.g_price3" class="form-control" name="g_price3">
       </div>
 
-      <div v-if="info4==false"class="form-group" style="width:30%">
+      <div v-if="info4==false"class="form-group" style="width:35%">
         <label class="form-control">패션/미용</label>
         <input type="hidden" v-model="cate_num.cate_num4" class="form-control" value="4" name="cate_num4">
       </div>
@@ -76,7 +76,7 @@
         <input type="text" placeholder=" 목표금액" v-model="g_price.g_price4" class="form-control" name="g_price4">
       </div>
 
-      <div v-if="info5==false"class="form-group" style="width:30%">
+      <div v-if="info5==false"class="form-group" style="width:35%">
         <label class="form-control">주거/통신</label>
         <input type="hidden" v-model="cate_num.cate_num5" class="form-control" value="5" name="cate_num5">
       </div>
@@ -84,7 +84,7 @@
         <input type="text" placeholder=" 목표금액" v-model="g_price.g_price5" class="form-control" name="g_price5">
       </div>
 
-      <div v-if="info6==false"class="form-group" style="width:30%">
+      <div v-if="info6==false"class="form-group" style="width:35%">
         <label class="form-control">미분류</label>
         <input type="hidden" v-model="cate_num.cate_num6" class="form-control" value="6" name="cate_num6">
       </div>
@@ -92,7 +92,9 @@
         <input type="text" placeholder=" 목표금액" v-model="g_price.g_price6" class="form-control" name="g_price6">
       </div>
     </div>
-    <button @click.prevent="goalStore" class="btn" style="width:200px; background-color:#327a81; color:white; font-weight:bold">저장</button>
+    <div>
+    <button @click.prevent="goalStore" class="btn form-control" style="width:60%; background-color:#327a81; color:white; font-weight:bold">저장</button>
+    </div>
     <br>
   </div>
 </div>
@@ -212,7 +214,11 @@ export default {
         cate_num.push(this.cate_num.cate_num6);
         g_price.push(this.g_price.g_price6);
       }
+      if(this.g_price.g_price1<=0 && this.g_price.g_price2<=0 && this.g_price.g_price3<=0 && this.g_price.g_price4<=0 && this.g_price.g_price5<=0 && this.g_price.g_price2<=0){
+        alert('값을 입력하세요')
+      }
 
+      
         axios({
           method: 'post',
           url: 'api/goal/save_goal',

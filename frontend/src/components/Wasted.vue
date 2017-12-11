@@ -12,7 +12,7 @@
 
       <tr class="table-body" v-for="(result,index) in results">
         <td>
-          <select type="button" v-model="result.cate_num" disabled class="form-control">
+          <select style="color:black;" type="button" v-model="result.cate_num" disabled class="form-control">
               <option value="1">생활/쇼핑</option>
               <option value="2">교통</option>
               <option value="3">식비</option>
@@ -26,7 +26,7 @@
       </tr>
       <tr>
         <td></td><br>
-        <p style="font-weight:bold; color:#327a81" class="text-right">총액 : {{sum}}원</p><br></tr>
+        <h3 style="font-weight:bold; color:#327a81; margin-right:12px" class="text-right">총액 : {{sum}}원</h3></tr>
     </table>
     <hr>
   </div>

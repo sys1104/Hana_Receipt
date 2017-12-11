@@ -13,8 +13,8 @@
          <!-- 리스트 화면 -->
          <td v-if="flag==false">{{result.g_time}}</td>
          <td v-if="flag==false">{{result.g_endtime}}</td>
-         <td>
-           <select v-if="flag==false" v-model="result.cate_num" disabled class="form-control">
+         <td v-if="flag==false">
+           <select v-model="result.cate_num" disabled class="form-control">
              <option value="1">생활/쇼핑</option>
              <option value="2">교통</option>
              <option value="3">식비</option>
@@ -24,7 +24,7 @@
             </select>
          </td>
          <td v-if="flag==false">{{result.g_price}}</td>
-         <td><button v-if="flag==false" class="btn btn-primary" @click="editClick(result)">금액수정</button></td>
+         <td v-if="flag==false"><button class="btn btn-primary" @click="editClick(result)">금액수정</button></td>
 
          <!-- ****************수정버튼 클릭시**************** -->
          <td>
@@ -139,7 +139,7 @@
           }).then(function(response) {
             console.log('********** 목표내역 삭제완료 **********');
             // alert('목표내역 삭제가 완료되었습니다');
-            setTimeout("window.location.href = './goal_management'",1000)
+            setTimeout("window.location.href = './goal_management'",0)
           })
         }
     },
