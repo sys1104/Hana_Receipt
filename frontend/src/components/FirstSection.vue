@@ -4,13 +4,13 @@
 
         <h2 class="text-center text-uppercase text-secondary mb-0">목표금액 : {{results}}</h2>
         <hr class="star-dark mb-5">
-        
+
           <div class="col-md-12">
             <!-- 첫번째 그래프 -->
            <my-total-chart></my-total-chart>
           </div>
 
-      
+
       </div>
 </template>
 
@@ -40,11 +40,28 @@ export default {
     },
     created() {
       var self = this;
+      var now = new Date();
+      var today = now.getDay();
+      var startDate = '';
+      startDate = now.setDate(now.getDate() - (today - 1));
+      startDate = new Date(startDate);
+      var startDate_date = startDate.getDate();
+      if (startDate_date < 10) {
+        startDate_date = '0' + startDate_date;
+      }
+      var startDate_month = startDate.getMonth() + 1;
+      if (startDate_month < 10) {
+        startDate_month = '0' + startDate_month;
+      }
+      var startDate_year = startDate.getFullYear();
+      var start_date = startDate_year + '' + startDate_month + '' + startDate_date;
+      console.log(start_date);
       axios({
         method: 'post',
         url: 'api/analysis/all_used_goal_money',
         data: {
-          u_num: this.$session.get('session')
+          u_num: this.$session.get('session'),
+          start_date: start_date
         }
       }).then((response) => {
         console.log('********** all_used_goal_money 응답 받음 => 목표금액합산**********');
