@@ -142,13 +142,10 @@ export default {
           }
         }).then((response) => {
           console.log('********** all_used_goal_money 응답 받음 **********');
-          console.log(response.data.all_used);
-          console.log(response.data.all_goal);
           var all_used = {};
           all_used = response.data.all_used;
           var all_goal = {};
           all_goal = response.data.all_goal;
-          console.log(Math.floor((all_used[0].sum_price) / (all_goal[0].g_price) * 100));
           self.mytotalconfig.graphset[0].series[1].values.push(Math.floor((all_used[0].sum_price) / (all_goal[0].g_price) * 100));
           zingchart.render({
             id: 'myTotalChart',
