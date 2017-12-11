@@ -3,7 +3,7 @@
   <div id='myCategoryChart'></div>
   <!-- 현재상태 역순 -->
   <div class="col-md-3 col-md-offset-2">
-    <ul v-for="(result,index) in results">
+    <ul v-for="(result,index) in results.reverse()">
       <li>
         현재 상태 : {{result}}
       </li>
@@ -11,7 +11,7 @@
   </div>
   <!-- 남은금액 역순 -->
   <div class="col-md-3 col-md-offset-2">
-    <ul v-for="(result,index) in results2">
+    <ul v-for="(result,index) in results2.reverse()">
       <li>
         목표대비 남은 금액 : {{result}}
       </li>
