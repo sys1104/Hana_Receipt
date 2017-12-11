@@ -1,20 +1,20 @@
 <template>
 <div id="goallist" class="table-users" style="width:100%">
     <div class="header">설정한 목표 목록</div>
-      <table class="table-responsive">
+      <table class="table-responsive" style="margin-left:15%">
         <tr>
          <th>시작</th>
          <th>끝</th>
          <th>카테고리</th>
          <th>금액</th>
-         <th colspan="9"></th>
+         <th colspan="20"></th>
         </tr>
         <tr class="table-body" v-for="(result, index) in results">
          <!-- 리스트 화면 -->
          <td v-if="flag==false">{{result.g_time}}</td>
          <td v-if="flag==false">{{result.g_endtime}}</td>
          <td v-if="flag==false">
-           <select v-model="result.cate_num" disabled class="form-control">
+           <select v-model="result.cate_num" disabled class="form-control" style="color:black;">
              <option value="1">생활/쇼핑</option>
              <option value="2">교통</option>
              <option value="3">식비</option>
@@ -24,7 +24,7 @@
             </select>
          </td>
          <td v-if="flag==false">{{result.g_price}}</td>
-         <td v-if="flag==false"><button class="btn btn-primary" @click="editClick(result)">금액수정</button></td>
+         <td v-if="flag==false"><button class="btn btn-primary" @click="editClick(result)" style="margin-left:100%">금액수정</button></td>
 
          <!-- ****************수정버튼 클릭시**************** -->
          <td>

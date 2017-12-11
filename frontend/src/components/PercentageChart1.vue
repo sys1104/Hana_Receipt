@@ -58,7 +58,7 @@ export default {
                           fontColor: "#8e99a9",
                           fontFamily: "Open Sans",
                           fontSize: "20",
-                          text: '나의 평균',
+                          text: '나의 소비내역',
                           align: "center"
                         },
                         plotarea: {
