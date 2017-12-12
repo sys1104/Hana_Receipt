@@ -24,7 +24,8 @@
       </div>
       <div class="form-group">
         <select v-model="u_job" class="form-control" name="u_job" id="u_job" style="width:930px; margin-left:30px" placeholder="직업">
-        <option value="1" selected="직업선택">회사원</option>
+        <option value="">직업 선택</option>
+        <option value="1">회사원</option>
         <option value="2">자영업자</option>
         <option value="3">농축산업자</option>
         <option value="4">공무원</option>
