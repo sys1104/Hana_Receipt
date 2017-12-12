@@ -3,7 +3,7 @@
   <div id='myCategoryChart'></div>
   <!-- 현재상태 역순 -->
   <div class="col-md-3 col-md-offset-2">
-    <ul v-for="(result,index) in results.reverse()">
+    <ul v-for="(result,index) in final_result">
       <li>
         현재 상태 : {{result}}
       </li>
@@ -11,7 +11,7 @@
   </div>
   <!-- 남은금액 역순 -->
   <div class="col-md-3 col-md-offset-2">
-    <ul v-for="(result,index) in results2.reverse()">
+    <ul v-for="(result,index) in final_result2">
       <li>
         목표대비 남은 금액 : {{result}}
       </li>
@@ -31,6 +31,8 @@ export default {
     return {
       results : [],
       results2 : [],
+      final_result : [],
+      final_result2 : [],
       myCategoryConfig: {
         type: "hbar",
         backgroundColor: "lightgrey",
@@ -167,9 +169,18 @@ export default {
       }else if(re2 > 80 && re2 <= 100){
         this.results.push("아주위험");
         this.results2.push(result_min);
+      }else {
+        this.results.push("스튜핏!!");
+        this.results2.push(result_min);
       }
-      console.log(this.results);
-      console.log(this.results2);
+      var test01 = [];
+      var test02 = [];
+      for(var i = this.results.length-1; i > -1; i--){
+        test01.push(this.results[i]);
+        test02.push(this.results2[i]);
+      }
+      this.final_result = test01;
+      this.final_result2 = test02;
     }
   },
   created() {
