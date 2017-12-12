@@ -48,14 +48,14 @@ export default {
                     "text":"카테고리",
                     "font-size":"12px",
                     "font-color":"#9d9d9d",
-                    "x":"0%",
+                    "x":"7%",
                     "y":"12%"
                 },
                 {
                     "text":"사용금액",
                     "font-size":"12px",
                     "font-color":"#9d9d9d",
-                    "x":"30%",
+                    "x":"50%",
                     "y":"12%"
                 }
             ],
@@ -64,7 +64,7 @@ export default {
           visible: false
         },
         "plotarea":{
-                "margin":"60px 20px 20px 60px"
+                "margin":"60px 20px 20px 100px"
             },
         scaleX: {
                 "line-color":"none",
