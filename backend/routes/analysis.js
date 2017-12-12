@@ -45,6 +45,8 @@ var cate_used_goal_money = function(req, res, callback) {
           }
         });
       } else {
+        var data2 = {};
+        res.json(data2);
         console.log("********** 사용내역 없음 **********");
       }
     });
@@ -173,6 +175,8 @@ var all_used_goal_money = function(req, res, callback) {
           }
         });
       } else {
+        var data2 = {};
+        res.json(data2);
         console.log("********** 사용내역 없음 **********");
       }
     });
@@ -303,6 +307,8 @@ var compare_user_other = function(req, res, callback) {
           }
         });
       } else {
+        var data2 = {};
+        res.json(data2);
         console.log("********** 사용내역 없음 **********");
       }
     });

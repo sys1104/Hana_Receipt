@@ -4,7 +4,7 @@
 <div id='percentageChart1'></div>
 <div class="col-md-12 col-md-offset-2">
   <!-- 두번째 그래프 -->
- <h4>{{u_name}}님은 {{category}}에 가장 많은 비용을 지출하고 있습니다.</h4>
+ <h4 v-if="flag == false">{{u_name}}님은 {{category}}에 가장 많은 비용을 지출하고 있습니다.</h4>
 </div>
 </div>
 </template>
@@ -17,6 +17,7 @@ export default {
                 return {
                   u_name : '',
                   category: '',
+                  flag:false,
                   percentageConfig: {
                     // 첫번째 파이
                     graphset:[{
@@ -151,47 +152,51 @@ export default {
                         }).then((response) => {
                           console.log('********** compare_user_other 응답 받음 **********');
                           var compare_user = {};
-                          compare_user = response.data.compare_user;
-                          self.u_name = compare_user[0].u_name;
-                          // console.log('퍼센트차트에서 유네임 : ' + compare_user[0].u_name);
                           var compare_other = {};
-                          compare_other = response.data.compare_other;
+                          if(JSON.stringify(response.data)=='{}'){
+                            console.log('##########값이없다 제이슨데이터####');
+                            self.flag = true;
+                          }else {
+                            compare_user = response.data.compare_user;
+                            self.u_name = compare_user[0].u_name;
+                            compare_other = response.data.compare_other;
 
-                          var temp = -1;
-                          for (var i = 0; i < compare_user.length; i++) {
-                            if(compare_user[i].sum_price > temp){
-                              self.category = compare_user[i].cate_num;
-                              temp = compare_user[i].sum_price;
-                              if(self.category == 1){
-                                self.category = "생활/쇼핑";
-                              }else if(self.category == 2){
-                                self.category = "교통";
-                              }else if(self.category == 3){
-                                self.category = "식비";
-                              }else if(self.category == 4){
-                                self.category = "패션/미용";
-                              }else if(self.category == 5){
-                                self.category = "주거/통신";
-                              }else if(self.category == 6){
-                                self.category = "기타";
+                            var temp = -1;
+                            for (var i = 0; i < compare_user.length; i++) {
+                              if(compare_user[i].sum_price > temp){
+                                self.category = compare_user[i].cate_num;
+                                temp = compare_user[i].sum_price;
+                                if(self.category == 1){
+                                  self.category = "생활/쇼핑";
+                                }else if(self.category == 2){
+                                  self.category = "교통";
+                                }else if(self.category == 3){
+                                  self.category = "식비";
+                                }else if(self.category == 4){
+                                  self.category = "패션/미용";
+                                }else if(self.category == 5){
+                                  self.category = "주거/통신";
+                                }else if(self.category == 6){
+                                  self.category = "기타";
+                                }
+                                console.log(self.category);
                               }
-                              console.log(self.category);
-                            }
 
-                            if (compare_user[i].cate_num == 1) {
-                              self.percentageConfig.graphset[0].series[compare_user[i].cate_num-1].values.push(compare_user[i].sum_price);
-                            } else if (compare_user[i].cate_num == 2) {
-                              self.percentageConfig.graphset[0].series[compare_user[i].cate_num-1].values.push(compare_user[i].sum_price);
-                            } else if (compare_user[i].cate_num == 3) {
-                              self.percentageConfig.graphset[0].series[compare_user[i].cate_num-1].values.push(compare_user[i].sum_price);
-                            } else if (compare_user[i].cate_num == 4) {
-                              self.percentageConfig.graphset[0].series[compare_user[i].cate_num-1].values.push(compare_user[i].sum_price);
-                              console.log(compare_user[i].sum_price + '??????????????????');
-                            } else if (compare_user[i].cate_num == 5) {
-                              self.percentageConfig.graphset[0].series[compare_user[i].cate_num-1].values.push(compare_user[i].sum_price);
-                            } else if (compare_user[i].cate_num == 6){
-                              self.percentageConfig.graphset[0].series[compare_user[i].cate_num-1].values.push(compare_user[i].sum_price);
-                              console.log(compare_user[i].sum_price + '!!!!!!!!!!!!!!!');
+                              if (compare_user[i].cate_num == 1) {
+                                self.percentageConfig.graphset[0].series[compare_user[i].cate_num-1].values.push(compare_user[i].sum_price);
+                              } else if (compare_user[i].cate_num == 2) {
+                                self.percentageConfig.graphset[0].series[compare_user[i].cate_num-1].values.push(compare_user[i].sum_price);
+                              } else if (compare_user[i].cate_num == 3) {
+                                self.percentageConfig.graphset[0].series[compare_user[i].cate_num-1].values.push(compare_user[i].sum_price);
+                              } else if (compare_user[i].cate_num == 4) {
+                                self.percentageConfig.graphset[0].series[compare_user[i].cate_num-1].values.push(compare_user[i].sum_price);
+                                console.log(compare_user[i].sum_price + '??????????????????');
+                              } else if (compare_user[i].cate_num == 5) {
+                                self.percentageConfig.graphset[0].series[compare_user[i].cate_num-1].values.push(compare_user[i].sum_price);
+                              } else if (compare_user[i].cate_num == 6){
+                                self.percentageConfig.graphset[0].series[compare_user[i].cate_num-1].values.push(compare_user[i].sum_price);
+                                console.log(compare_user[i].sum_price + '!!!!!!!!!!!!!!!');
+                              }
                             }
                           }
                           zingchart.render({

@@ -3,7 +3,7 @@
   <div id='myCategoryChart'></div>
   <!-- 현재상태 역순 -->
   <div class="col-md-3 col-md-offset-2">
-    <ul v-for="(result,index) in results.reverse()">
+    <ul v-for="(result,index) in final_result">
       <li>
         현재 상태 : {{result}}
       </li>
@@ -11,7 +11,7 @@
   </div>
   <!-- 남은금액 역순 -->
   <div class="col-md-3 col-md-offset-2">
-    <ul v-for="(result,index) in results2.reverse()">
+    <ul v-for="(result,index) in final_result2">
       <li>
         목표대비 남은 금액 : {{result}}
       </li>
@@ -31,6 +31,8 @@ export default {
     return {
       results : [],
       results2 : [],
+      final_result : [],
+      final_result2 : [],
       myCategoryConfig: {
         type: "hbar",
         backgroundColor: "lightgrey",
@@ -167,9 +169,18 @@ export default {
       }else if(re2 > 80 && re2 <= 100){
         this.results.push("아주위험");
         this.results2.push(result_min);
+      }else {
+        this.results.push("스튜핏!!");
+        this.results2.push(result_min);
       }
-      console.log(this.results);
-      console.log(this.results2);
+      var test01 = [];
+      var test02 = [];
+      for(var i = this.results.length-1; i > -1; i--){
+        test01.push(this.results[i]);
+        test02.push(this.results2[i]);
+      }
+      this.final_result = test01;
+      this.final_result2 = test02;
     }
   },
   created() {
@@ -207,49 +218,54 @@ export default {
           }
         }).then((response) => {
           console.log('********** cate_used_goal_money 응답 받음 **********');
-          var cate_used = {};
-          cate_used = response.data.cate_used;
+
           var cate_goal = {};
           cate_goal = response.data.cate_goal;
+          var cate_used = {};
+          if(JSON.stringify(response.data)=='{}'){
+            console.log('@@@@@@@@@@@@@@@@@@@@값이 없다!!!!!!!!!!!!!!!!!!!!!!!1');
+            self.myCategoryConfig.scaleX.labels.push('소비내역이 없어서');
+            self.myCategoryConfig.series[0].values.push('차트가 제공되지 않습니다.');
+          }else {
+            cate_used = response.data.cate_used;
 
-          var result_sum = '';
-          var result_min = '';
-          for (var i = 0; i < cate_used.length; i++) {
-            result_sum = Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 10);
-            console.log(cate_used[i].cate_num + ' ++++++++++++++++++ ' + (cate_used[i].sum_price / cate_goal[i].g_price));
-            if (cate_used[i].cate_num == 1) {
-              result_min = (cate_goal[i].g_price - cate_used[i].sum_price);
-              console.log(result_min + '리민값');
-              self.resultComment(result_sum, result_min);
-              self.myCategoryConfig.scaleX.labels.push('생활/쇼핑');;
-              self.myCategoryConfig.series[0].values.push(Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 10));
-            } else if (cate_used[i].cate_num == 2) {
-              result_min = (cate_goal[i].g_price - cate_used[i].sum_price);
-              self.resultComment(result_sum, result_min);
-              self.myCategoryConfig.scaleX.labels.push('교통');
-              self.myCategoryConfig.series[0].values.push(Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 10));
-            } else if (cate_used[i].cate_num == 3) {
-              result_min =(cate_goal[i].g_price - cate_used[i].sum_price);
-              self.resultComment(result_sum, result_min);
-              self.myCategoryConfig.scaleX.labels.push('식비');
-              self.myCategoryConfig.series[0].values.push(Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 10));
-            } else if (cate_used[i].cate_num == 4) {
-              result_min =(cate_goal[i].g_price - cate_used[i].sum_price);
-              self.resultComment(result_sum, result_min);
-              self.myCategoryConfig.scaleX.labels.push('패션/미용');
-              self.myCategoryConfig.series[0].values.push(Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 10));
-            } else if (cate_used[i].cate_num == 5) {
-              result_min = (cate_goal[i].g_price - cate_used[i].sum_price);
-              self.resultComment(result_sum, result_min);
-              self.myCategoryConfig.scaleX.labels.push('주거/통신');
-              self.myCategoryConfig.series[0].values.push(Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 10));
-            } else if (cate_used[i].cate_num == 6){
-              result_min = (cate_goal[i].g_price - cate_used[i].sum_price);
-              self.resultComment(result_sum, result_min);
-              self.myCategoryConfig.scaleX.labels.push('기타');
-              self.myCategoryConfig.series[0].values.push(Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 10));
-              console.log('rrrrrrrrrrrrrrrrrrrrrr'+ cate_used[i].sum_price);
-
+            var result_sum = '';
+            var result_min = '';
+            for (var i = 0; i < cate_used.length; i++) {
+              result_sum = Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 10);
+              console.log(cate_used[i].cate_num + ' ++++++++++++++++++ ' + (cate_used[i].sum_price / cate_goal[i].g_price));
+              if (cate_used[i].cate_num == 1) {
+                result_min = (cate_goal[i].g_price - cate_used[i].sum_price);
+                console.log(result_min + '리민값');
+                self.resultComment(result_sum, result_min);
+                self.myCategoryConfig.scaleX.labels.push('생활/쇼핑');
+                self.myCategoryConfig.series[0].values.push(Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 10));
+              } else if (cate_used[i].cate_num == 2) {
+                result_min = (cate_goal[i].g_price - cate_used[i].sum_price);
+                self.resultComment(result_sum, result_min);
+                self.myCategoryConfig.scaleX.labels.push('교통');
+                self.myCategoryConfig.series[0].values.push(Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 10));
+              } else if (cate_used[i].cate_num == 3) {
+                result_min =(cate_goal[i].g_price - cate_used[i].sum_price);
+                self.resultComment(result_sum, result_min);
+                self.myCategoryConfig.scaleX.labels.push('식비');
+                self.myCategoryConfig.series[0].values.push(Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 10));
+              } else if (cate_used[i].cate_num == 4) {
+                result_min =(cate_goal[i].g_price - cate_used[i].sum_price);
+                self.resultComment(result_sum, result_min);
+                self.myCategoryConfig.scaleX.labels.push('패션/미용');
+                self.myCategoryConfig.series[0].values.push(Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 10));
+              } else if (cate_used[i].cate_num == 5) {
+                result_min = (cate_goal[i].g_price - cate_used[i].sum_price);
+                self.resultComment(result_sum, result_min);
+                self.myCategoryConfig.scaleX.labels.push('주거/통신');
+                self.myCategoryConfig.series[0].values.push(Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 10));
+              } else if (cate_used[i].cate_num == 6){
+                result_min = (cate_goal[i].g_price - cate_used[i].sum_price);
+                self.resultComment(result_sum, result_min);
+                self.myCategoryConfig.scaleX.labels.push('기타');
+                self.myCategoryConfig.series[0].values.push(Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 10));
+              }
             }
           }
           zingchart.render({

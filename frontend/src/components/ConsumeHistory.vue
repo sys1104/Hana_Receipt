@@ -31,12 +31,12 @@
          <td v-if="flag==false"><input type="checkbox" v-model="checked" v-if="result.wasted == 1" id="wastedcheck" value="낭비"  disabled/>
          <!-- <span class="glyphicon glyphicon-search"></span> -->
          <!-- <label for="wastedcheck" class="css-label alert-style"/> -->
-         
+
 
          </td>
          <td v-if="flag==false"><button style="width:90px; background-color:#327a81; color:white; font-weight:bold; margin-left=50px" @click="editClick(result)"
              class="btn">수 정</button></td>
-        
+
 
         <!-- 수정버튼 클릭시 -->
          <td v-if="flag==true && (result.consume_num == result3)">
@@ -79,7 +79,7 @@
          </td>
          <td><a v-if="flag==true && (result.consume_num == result3)" @click="editConsume(result)"><i class="icono-check"/></a></td>
          <td><a v-if="flag==true && (result.consume_num == result3)" @click="delConsume(result)"><i class="icono-trash"/></a></td>
-         
+
         </tr>
         </table>
                                                                 <!-- 페이지네이션 -->
@@ -90,7 +90,7 @@
             <button class="btn active" @click="pageto(pageIndex, list_total, page_num)" v-if="nextBtn != 0">다음</button></li>
             </ul>
         </div>
-      
+
   </div>
 </template>
 
@@ -201,7 +201,7 @@
           }).then(function(response) {
             console.log('********** 소비내역 삭제완료 **********');
             alert('소비내역 삭제가 완료되었습니다');
-            setTimeout("window.location.href = './SaveHistory'",0)
+            setTimeout("window.location.href = './save_history'",0)
           })
         }
     },
@@ -436,19 +436,19 @@ table tr:nth-child(2n+1) {
         }
 
         input[type=checkbox].css-checkbox {
-            position: absolute; 
-            overflow: hidden; 
-            clip: rect(0 0 0 0); 
-            height:1px; 
-            width:1px; 
-            margin:-1px; 
+            position: absolute;
+            overflow: hidden;
+            clip: rect(0 0 0 0);
+            height:1px;
+            width:1px;
+            margin:-1px;
             padding:0;
             border:0;
         }
 
         input[type=checkbox].css-checkbox + label.css-label {
             padding-left:20px;
-            height:15px; 
+            height:15px;
             display:inline-block;
             line-height:15px;
             background-repeat:no-repeat;
@@ -477,8 +477,8 @@ table tr:nth-child(2n+1) {
                 }
 
 .check-box{
-    width:30px; 
-    margin-left:34px; 
+    width:30px;
+    margin-left:34px;
     margin-top:20px;
 }
 </style>
