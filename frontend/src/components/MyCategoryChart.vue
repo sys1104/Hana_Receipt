@@ -216,6 +216,7 @@ export default {
           var result_min = '';
           for (var i = 0; i < cate_used.length; i++) {
             result_sum = Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 10);
+            console.log(cate_used[i].cate_num + ' ++++++++++++++++++ ' + (cate_used[i].sum_price / cate_goal[i].g_price));
             if (cate_used[i].cate_num == 1) {
               result_min = (cate_goal[i].g_price - cate_used[i].sum_price);
               console.log(result_min + '리민값');
@@ -247,6 +248,8 @@ export default {
               self.resultComment(result_sum, result_min);
               self.myCategoryConfig.scaleX.labels.push('기타');
               self.myCategoryConfig.series[0].values.push(Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 10));
+              console.log('rrrrrrrrrrrrrrrrrrrrrr'+ cate_used[i].sum_price);
+
             }
           }
           zingchart.render({
