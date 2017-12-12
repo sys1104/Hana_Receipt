@@ -24,8 +24,7 @@
       </div>
       <div class="form-group">
         <select v-model="u_job" class="form-control" name="u_job" id="u_job" style="width:930px; margin-left:30px" placeholder="직업">
-        <option value="">직업 선택</option>
-        <option value="1">회사원</option>
+        <option value="1" selected="직업선택">회사원</option>
         <option value="2">자영업자</option>
         <option value="3">농축산업자</option>
         <option value="4">공무원</option>
@@ -108,9 +107,12 @@ export default {
       var email = this.u_email;
       var job = this.u_job;
       var salary = this.u_salary;
-      if (name == '' || pw == '') {
-        this.errinfo = '';
-        this.classFade = ''
+      // if (name == '' || pw == '') {
+      //   this.errinfo = '';
+      //   this.classFade = ''
+      console.log('렝쓰'+id.length)
+      if(job<=0 || id.length==0 || pw.length==0 || name.length==0 || age.length==0 || phone.length==0 || email.length==0 || salary<=0){
+        alert('필수항목을 입력하세요');
       } else {
         axios({
           method: 'post',
