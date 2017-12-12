@@ -1,9 +1,9 @@
 <template>
 <div class="row">
-  <div class="col-md-6"id='myCategoryChart'></div>
+  <div class="col-md-7"id='myCategoryChart' style="margin-top : 2%"></div>
   <!-- 현재상태 역순 -->
   
-  <div class="col-md-3" style="margin-bottom: 18%;">
+  <div class="col-md-3" style="margin-bottom: 22%;">
     남은 금액
     <br><br>
     <ul v-for="(result,index) in final_result2">
@@ -13,8 +13,18 @@
       </li>
     </ul>
   </div>
+  <div class="col-md-2"">
+    평가
+    <br><br>
+    <ul v-for="(result,index) in final_result">
+      <br>
+      <li id="my-font">
+       <p>{{result}}</p>
+      </li>
+    </ul>
+  </div>  
   <!-- 남은금액 역순 -->
-  <div class="col-md-2" style="margin-bottom: 18%;">
+  <!-- <div class="col-md-2" style="margin-bottom: 18%;">
     평가
     <ul v-for="(result,index) in final_result">
       <li id="my-font">
@@ -22,7 +32,7 @@
         <p>{{result}}</p>
       </li>
     </ul>
-  </div>
+  </div> -->
 </div>
 </template>
 
