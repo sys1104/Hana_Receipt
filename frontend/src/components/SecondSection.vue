@@ -23,7 +23,7 @@
 
 <style scoped>
   #hi{
-    background-color : lightgray;
+    background-color : white;
   }
 </style>
 
