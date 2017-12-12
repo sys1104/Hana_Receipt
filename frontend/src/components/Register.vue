@@ -116,7 +116,7 @@ export default {
           }
           console.log('********** 회원가입완료 **********');
           alert('회원가입이 완료되었습니다');
-          setTimeout("window.location.href = './login'",1000)
+          setTimeout("window.location.href = './login'",0)
         })
       }
     }

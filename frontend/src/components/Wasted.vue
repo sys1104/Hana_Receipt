@@ -3,8 +3,7 @@
   <br>
   <div class="table-users" style="width:100%">
     <div class="header">지난 주 낭비된 금액</div>
-    <table cellspacing="0">
-      <!-- <table class="table table-striped table-hover table-responsive"> -->
+    <table>
       <tr>
         <th>카테고리</th>
         <th>금액</th>
@@ -12,7 +11,7 @@
 
       <tr class="table-body" v-for="(result,index) in results">
         <td>
-          <select style="color:black;" type="button" v-model="result.cate_num" disabled class="form-control">
+          <select style="color:black" type="button" v-model="result.cate_num" disabled class="form-control">
               <option value="1">생활/쇼핑</option>
               <option value="2">교통</option>
               <option value="3">식비</option>
@@ -24,6 +23,7 @@
 
         <td style="text-align:center">{{info = result.sum_price}}</td>
       </tr>
+
       <tr>
         <td></td><br>
         <h3 style="font-weight:bold; color:#327a81; margin-right:12px" class="text-right">총액 : {{sum}}원</h3></tr>
@@ -174,7 +174,6 @@ table td {
 table td:last-child {
   font-size: 0.95em;
   line-height: 1.4;
-  text-align: left;
 }
 
 table th {
@@ -207,8 +206,6 @@ table tr:nth-child(2n+1) {
     clear: both;
     margin-left: 100px;
     padding: 4px 20px 4px 90px;
-    position: relative;
-    text-align: left;
   }
   td:not(:first-child):before {
     color: #91ced4;

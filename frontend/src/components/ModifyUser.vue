@@ -89,7 +89,7 @@ export default {
         }).then(function(response) {
           console.log('********** 회원정보 수정 **********');
           alert('회원정보 수정이 완료되었습니다');
-          setTimeout("window.location.href = './'",1000)
+          setTimeout("window.location.href = './'",0)
       })
     }
   },
@@ -127,7 +127,7 @@ export default {
           // this.u_id = response.data.u_id;
 
           // response.data.u_name = this.u_name;
-          // setTimeout("window.location.href = './modifyUser'",1000)
+          // setTimeout("window.location.href = './modifyUser'",0)
       })
   }
 }

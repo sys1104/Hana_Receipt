@@ -28,12 +28,12 @@
 
          <!-- ****************수정버튼 클릭시**************** -->
          <td>
-           <input class="form-control" name="g_time" v-model='info1=result.g_time'v-if="flag==true && (result3 == result.g_num)" disabled/>
-           <input class="form-control" v-if="flag==true && (result3 != result.g_num)" v-model='result.g_time' disabled/>
+           <input class="form-control" style="text-align:center"  name="g_time" v-model='info1=result.g_time'v-if="flag==true && (result3 == result.g_num)" disabled/>
+           <input class="form-control" style="text-align:center" v-if="flag==true && (result3 != result.g_num)" v-model='result.g_time' disabled/>
          </td>
          <td>
-           <input class="form-control" name="g_endtime" v-model='info2=result.g_endtime' v-if="flag==true && (result3 == result.g_num)" disabled/>
-           <input class="form-control" v-if="flag==true && (result3 != result.g_num)" v-model='result.g_endtime' disabled/>
+           <input class="form-control" style="text-align:center" name="g_endtime" v-model='info2=result.g_endtime' v-if="flag==true && (result3 == result.g_num)" disabled/>
+           <input class="form-control" style="text-align:center" v-if="flag==true && (result3 != result.g_num)" v-model='result.g_endtime' disabled/>
          </td>
          <td>
            <select v-if="flag==true && (result3 == result.g_num)" v-model="result.cate_num" class="form-control" name="cate_num" disabled>
