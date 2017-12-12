@@ -1,6 +1,9 @@
 //설정값을 가지고 있는 모듈
 module.exports = {
     server_port: 3000,
+    plugins: [
+        '~/plugins/vue2-filters'
+    ],
     route_info: [{
             file: './user',
             path: '/api/user/login',
@@ -98,22 +101,22 @@ module.exports = {
             type: 'post'
         },
         {
-          file: './analysis',
-          path: '/api/analysis/cate_used_goal_money',
-          method: 'cate_used_goal_money',
-          type: 'post'
+            file: './analysis',
+            path: '/api/analysis/cate_used_goal_money',
+            method: 'cate_used_goal_money',
+            type: 'post'
         },
         {
-          file: './analysis',
-          path: '/api/analysis/all_used_goal_money',
-          method: 'all_used_goal_money',
-          type: 'post'
+            file: './analysis',
+            path: '/api/analysis/all_used_goal_money',
+            method: 'all_used_goal_money',
+            type: 'post'
         },
         {
-          file: './analysis',
-          path: '/api/analysis/compare_user_other',
-          method: 'compare_user_other',
-          type: 'post'
+            file: './analysis',
+            path: '/api/analysis/compare_user_other',
+            method: 'compare_user_other',
+            type: 'post'
         }
 
     ],

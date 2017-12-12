@@ -4,14 +4,14 @@
 
   </div>
   <div class="col-md-5" style="margin-bottom:10%">
-      <h4 v-if="result=='보통'"style="color:green"> < {{result}} > </h4>
-      <h4 v-else-if="result=='위험'" style="color:orange"> < {{result}} > </h4>
-      <h4 v-else-if="result=='매우위험'" style="color:red"> < {{result}} > </h4>
-      <h4 v-else-if="result=='알뜰'" style="color:green"> < {{result}} > </h4>
-      <h4 v-else-if="result=='매우알뜰'" style="color:green"> < {{result}} > </h4>
-      <h4 v-else-if="result=='스튜핏!!!'" style="color:purple"> < {{result}} > </h4>
+      <h4 v-if="result=='보통'"style="color:green"> < {{result | currency('',0)}} > </h4>
+      <h4 v-else-if="result=='위험'" style="color:orange"> < {{result | currency('',0)}} > </h4>
+      <h4 v-else-if="result=='매우위험'" style="color:red"> < {{result | currency('',0)}} > </h4>
+      <h4 v-else-if="result=='알뜰'" style="color:green"> < {{result | currency('',0)}} > </h4>
+      <h4 v-else-if="result=='매우알뜰'" style="color:green"> < {{result | currency('',0)}} > </h4>
+      <h4 v-else-if="result=='스튜핏!!!'" style="color:purple"> < {{result | currency('',0)}} > </h4>
 
-      <h5>{{u_name}}님은 현재 목표금액 <p>{{goal_price}}원</p> 중 <p>{{now_price}}원</p>을 사용하고 있습니다.</h5>
+      <h5>{{u_name}}님은 현재 목표금액 <p>{{goal_price | currency('',0)}}원</p> 중 <p>{{now_price | currency('',0)}}원</p>을 사용하고 있습니다.</h5>
   </div>
 </div>
 

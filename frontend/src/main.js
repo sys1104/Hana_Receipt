@@ -8,6 +8,8 @@ import VueSession from 'vue-session'
 import VueResource from 'vue-resource'
 //axios
 import axios from 'axios'
+import Vue2Filters from 'vue2-filters'
+import VueCurrencyFilter from 'vue-currency-filter'
 //라우터 객체에 등록할 컴포넌트 불러오기
 import Login from './components/Login.vue'
 import Register from './components/Register.vue'
@@ -18,13 +20,24 @@ import Main from './components/Main.vue'
 import ModifyUser from './components/ModifyUser.vue'
 import GoalManagement from './components/GoalManagement.vue'
 import SaveHistory from './components/SaveHistory.vue'
-
 Vue.use(VueRouter)
     // Vue.use(VueResource)
     // Vue.use(VuePaginator)
 Vue.use(VueSession)
 Vue.use(axios)
-    //사용할 라우터 객체등록
+Vue.use(Vue2Filters)
+    // Vue.use(VueCurrencyFilter)
+    // Vue.use(VueCurrencyFilter, {
+    //     symbol: 'string (default : empty string)',
+    //     thousandsSeparator: 'string (default : ,)',
+    //     fractionCount: 'number (default : 0)',
+    //     fractionSeparator: 'string (default: ",")',
+    //     symbolPosition: 'string (default: front)',
+    //     symbolSpacing: 'boolean (default: true)'
+
+// })
+
+//사용할 라우터 객체등록
 const routes = [{
             name: 'home',
             path: '/',

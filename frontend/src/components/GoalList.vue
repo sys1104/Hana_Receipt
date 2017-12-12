@@ -23,7 +23,7 @@
              <option value="6">미분류</option>
             </select>
          </td>
-         <td v-if="flag==false">{{result.g_price}}</td>
+         <td v-if="flag==false">{{result.g_price | currency('',0)}}</td>
          <td v-if="flag==false"><button class="btn btn-primary" @click="editClick(result)" style="margin-left:100%">금액수정</button></td>
 
          <!-- ****************수정버튼 클릭시**************** -->

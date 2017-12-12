@@ -26,7 +26,7 @@
          </td>
 
          <td v-if="flag==false" style="width:135px">{{result.content}}</td>
-         <td v-if="flag==false">{{result.price}}</td>
+         <td v-if="flag==false">{{result.price | currency('',0)}}</td>
          <td width="120" v-if="flag==false">{{result.c_time}}</td>
          <td v-if="flag==false"><input type="checkbox" v-model="checked" v-if="result.wasted == 1" id="wastedcheck" value="낭비"  disabled/>
          <!-- <span class="glyphicon glyphicon-search"></span> -->
@@ -95,6 +95,7 @@
 </template>
 
 <script>
+    import Vue from 'vue'
     import axios from 'axios'
     export default {
       data: function () {
@@ -203,6 +204,12 @@
             alert('소비내역 삭제가 완료되었습니다');
             setTimeout("window.location.href = './save_history'",0)
           })
+        },
+            function(price) {
+
+            return Number(price).toLocaleString('en');
+            Number(price).toLocaleString('en').split(".")[0];
+
         }
     },
     created(){

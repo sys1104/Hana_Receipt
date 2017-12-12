@@ -1,7 +1,7 @@
 <template id="test">
       <div class="container" id="hi">
         <br>
-        <h2 class="text-center text-uppercase text-secondary mb-0">목표금액 : {{results}}</h2>
+        <h2 class="text-center text-uppercase text-secondary mb-0">목표금액 : {{results | currency('',0)}}</h2>
         <h5 class="text-center text-uppercase text-secondary mb-0">- 기간 : {{start_date}}~ {{end_date}} -</h5>
         <hr class="star-dark mb-5">
 

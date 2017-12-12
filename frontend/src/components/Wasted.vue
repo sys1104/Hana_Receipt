@@ -21,7 +21,7 @@
              </select>
         </td>
 
-        <td style="text-align:center">{{info = result.sum_price}}</td>
+        <td style="text-align:center">{{info = result.sum_price | currency('',0)}}</td>
       </tr>
 
       <tr>

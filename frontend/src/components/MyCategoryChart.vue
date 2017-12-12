@@ -9,7 +9,7 @@
     <ul v-for="(result,index) in final_result2">
       <br>
       <li id="my-font">
-       <p id="my-p">{{result}}</p>
+       <p id="my-p">{{result | currency('',0)}}</p>
       </li>
     </ul>
   </div>
@@ -19,12 +19,12 @@
     <ul v-for="(result,index) in final_result">
       <br>
       <li id="my-font">
-       <p id="my-p" v-if="result=='매우 알뜰'" style="color:green">{{result}}</p>
-       <p id="my-p" v-if="result=='알뜰'" style="color:green">{{result}}</p>
-       <p id="my-p" v-if="result=='보통'" style="color:green">{{result}}</p>
-       <p id="my-p" v-if="result=='위험'" style="color:orange">{{result}}</p>
-       <p id="my-p" v-if="result=='매우 위험'" style="color:red">{{result}}</p>
-       <p id="my-p" v-if="result=='스튜핏!!'" style="color:purple">{{result}}</p>
+       <p id="my-p" v-if="result=='매우 알뜰'" style="color:green">{{result | currency('',0)}}</p>
+       <p id="my-p" v-if="result=='알뜰'" style="color:green">{{result | currency('',0)}}</p>
+       <p id="my-p" v-if="result=='보통'" style="color:green">{{result | currency('',0)}}</p>
+       <p id="my-p" v-if="result=='위험'" style="color:orange">{{result | currency('',0)}}</p>
+       <p id="my-p" v-if="result=='매우 위험'" style="color:red">{{result | currency('',0)}}</p>
+       <p id="my-p" v-if="result=='스튜핏!!'" style="color:purple">{{result | currency('',0)}}</p>
 
 
       </li>
@@ -63,21 +63,21 @@ export default {
                 "text":"나의 카테고리별 금액",
                 "font-family":"Arial",
                 "background-color":"none",
-                "font-color":"#A4A4A4",
+                "font-color":"black",
                 "font-size":"18px"
             },
             "labels":[
                 {
                     "text":"카테고리",
                     "font-size":"12px",
-                    "font-color":"#9d9d9d",
-                    "x":"0%",
+                    "font-color":"#black",
+                    "x":"2%",
                     "y":"12%"
                 },
                 {
                     "text":"사용금액",
                     "font-size":"12px",
-                    "font-color":"#9d9d9d",
+                    "font-color":"black",
                     "x":"50%",
                     "y":"12%"
                 }
@@ -87,7 +87,9 @@ export default {
           visible: false
         },
         "plotarea":{
-                "margin":"60px 20px 20px 100px"
+                "margin-right":"50px",
+                "margin-bottom":"120px",
+                "margin-left":"95px"
             },
         scaleX: {
                 "line-color":"none",
