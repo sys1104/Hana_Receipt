@@ -4,15 +4,9 @@
           
         <br>
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-12">
             <!-- 첫번째 그래프 -->
            <my-category-chart></my-category-chart>
-          </div>
-          <div class="col-md-6">
-            <!-- 두번째 그래프 -->
-          </div>
-          <div class="col-md-5">
-           <!-- <PercentageChart></PercentageChart> -->
           </div>
           <div>
         </div>
@@ -50,7 +44,7 @@ export default {
 </script>
 
 <style scoped>
-    #second-section{
-        background-color:lightGrey;
+    #hi{
+        background-color:#FAFAFA;
     }
 </style>

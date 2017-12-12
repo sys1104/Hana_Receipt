@@ -201,7 +201,7 @@
           }).then(function(response) {
             console.log('********** 소비내역 삭제완료 **********');
             alert('소비내역 삭제가 완료되었습니다');
-            setTimeout("window.location.href = './SaveHistory'",0)
+            setTimeout("window.location.href = './save_history'",0)
           })
         }
     },

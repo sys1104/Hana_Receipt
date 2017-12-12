@@ -3,10 +3,15 @@
   <div class="col-md-7" id='myTotalChart'>
 
   </div>
-  <div class="col-md-5" style="margin-bottom:40%">
-    <br><br><br>
-      <h4 style="color:orange"> < {{result}} > </h4>
-      <h4>{{u_name}}님은 현재 목표금액 {{goal_price}}원 중 {{now_price}}원을 사용하고 있습니다.</h4>
+  <div class="col-md-5" style="margin-bottom:10%">
+      <h4 v-if="result=='보통'"style="color:green"> < {{result}} > </h4>
+      <h4 v-else-if="result=='위험'" style="color:orange"> < {{result}} > </h4>
+      <h4 v-else-if="result=='매우위험'" style="color:red"> < {{result}} > </h4>
+      <h4 v-else-if="result=='알뜰'" style="color:green"> < {{result}} > </h4>
+      <h4 v-else-if="result=='매우알뜰'" style="color:green"> < {{result}} > </h4>
+      <h4 v-else-if="result=='스튜핏!!!'" style="color:purple"> < {{result}} > </h4>
+            
+      <h5>{{u_name}}님은 현재 목표금액 <p>{{goal_price}}원</p> 중 <p>{{now_price}}원</p>을 사용하고 있습니다.</h5>
   </div>
 </div>
 
@@ -182,7 +187,10 @@ export default {
                         self.result = "위험";
                       }else if((Math.floor((all_used[0].sum_price) / (all_goal[0].g_price) * 100)) > 80 && (Math.floor((all_used[0].sum_price) / (all_goal[0].g_price) * 100)) <= 100){
                         self.result = "매우 위험";
+                      }else if((Math.floor((all_used[0].sum_price) / (all_goal[0].g_price) * 100)) > 100){
+                        self.result = "스튜핏!!!";
                       }
+                      
                       self.goal_price = all_goal[0].g_price;
                       self.now_price = all_used[0].sum_price;
                       self.u_name = all_goal[0].u_name;
@@ -198,3 +206,14 @@ export default {
               }
 }
 </script>
+<style scoped>
+p{
+  font-size: 50px;
+  font-style: italic;
+  color:orange;
+}
+h4{
+  font-size: 65px;
+}
+
+</style>

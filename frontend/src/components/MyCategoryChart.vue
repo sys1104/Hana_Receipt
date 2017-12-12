@@ -1,19 +1,25 @@
 <template>
-<div>
-  <div id='myCategoryChart'></div>
+<div class="row">
+  <div class="col-md-6"id='myCategoryChart'></div>
   <!-- 현재상태 역순 -->
-  <div class="col-md-3 col-md-offset-2">
-    <ul v-for="(result,index) in final_result">
-      <li>
-        현재 상태 : {{result}}
+  
+  <div class="col-md-3" style="margin-bottom: 18%;">
+    남은 금액
+    <br><br>
+    <ul v-for="(result,index) in final_result2">
+      <br>
+      <li id="my-font">
+       <p>{{result}}</p>
       </li>
     </ul>
   </div>
   <!-- 남은금액 역순 -->
-  <div class="col-md-3 col-md-offset-2">
-    <ul v-for="(result,index) in final_result2">
-      <li>
-        목표대비 남은 금액 : {{result}}
+  <div class="col-md-2" style="margin-bottom: 18%;">
+    평가
+    <ul v-for="(result,index) in final_result">
+      <li id="my-font">
+        <br>
+        <p>{{result}}</p>
       </li>
     </ul>
   </div>
@@ -48,7 +54,7 @@ export default {
                     "text":"카테고리",
                     "font-size":"12px",
                     "font-color":"#9d9d9d",
-                    "x":"7%",
+                    "x":"0%",
                     "y":"12%"
                 },
                 {
@@ -321,7 +327,7 @@ export default {
             id: 'myCategoryChart',
             data: self.myCategoryConfig,
             height: '70%',
-            width: '99%'
+            width: '100%'
           });
         });
       }, 300);
@@ -329,3 +335,13 @@ export default {
   }
 }
 </script>
+<style scoped>
+#my-font{
+  font-size: 30px;
+  
+}
+p{
+  color:orange;
+  font-size:30px;
+}
+</style>
