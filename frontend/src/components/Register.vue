@@ -86,6 +86,7 @@ export default {
       u_id: '',
       u_pw: '',
       u_name: '',
+      u_age: '',
       u_phone: '',
       u_email: '',
       u_job: '',
