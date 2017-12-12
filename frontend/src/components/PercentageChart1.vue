@@ -4,7 +4,7 @@
 <div id='percentageChart1'></div>
 <div class="col-md-12 col-md-offset-2">
   <!-- 두번째 그래프 -->
- <h4>{{u_name}}님은 {{category}}에 가장 많은 비용을 지출하고 있습니다.</h4>
+ <h4>{{u_name}}님은 <p><{{category}}></p>에 가장 많은 비용을 지출하고 있습니다.</h4>
 </div>
 </div>
 </template>
@@ -208,6 +208,10 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 @import 'https://fonts.googleapis.com/css?family=Open+Sans';
+p{
+  font-size : 50px;
+  color:orange;
+}
 </style>
