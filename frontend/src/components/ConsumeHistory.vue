@@ -1,7 +1,7 @@
 <template>
   <div id="stories" class="table-users" style="width:100%">
     <div class="header">소비내역 목록</div>
-      <table class="table">
+      <table class="table table-responsible">
         <tr class="table-users">
          <!-- <td>소비번호</td> -->
          <th>카테고리</th>
@@ -301,16 +301,17 @@ table tr:nth-child(2n+1) {
         display: block;
     }
     td:first-child {
-        position: absolute;
-        top: 50%;
-        -webkit-transform: translateY(-50%);
-        transform: translateY(-50%);
+        /* position: absolute; */
+        /* top: 50%; */
+        /* -webkit-transform: translateY(-50%); */
+        /* transform: translateY(-50%); */
         width: 100px;
+        content:'카테고리';
     }
     td:not(:first-child) {
         clear: both;
-        margin-left: 100px;
-        padding: 4px 20px 4px 90px;
+        margin-left: 15px;
+        padding: 4px 25px 4px 90px;
         position: relative;
         text-align: left;
     }
@@ -322,20 +323,42 @@ table tr:nth-child(2n+1) {
         position: absolute;
     }
     td:nth-child(2):before {
-        content: 'Name:';
+        content: '내용:';
+        position: relative;
     }
+    td:nth-child(2) {
+        padding-left:10px;
+        position: relative;
+        
+    }    
     td:nth-child(3):before {
-        content: 'Email:';
+        content: '금액:';
+        position: relative;
+        
     }
+    td:nth-child(3) {
+        padding-left:10px;
+        position: relative;
+        
+    }        
     td:nth-child(4):before {
-        content: 'Phone:';
+        content: '날짜:';
+        position: relative;
+
     }
+    td:nth-child(4) {
+        padding-left:10px;
+    }    
     td:nth-child(5):before {
-        content: 'Comments:';
+        content: '낭비체크:';
+    }
+    td:nth-child(6){
+        text-align: left;
     }
     tr {
-        padding: 10px 0;
+        padding: 0px 0;
         position: relative;
+        margin : 10px;
     }
     tr:first-child {
         display: none;

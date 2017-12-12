@@ -1,7 +1,7 @@
 <template>
 <div id="goallist" class="table-users" style="width:100%">
     <div class="header">설정한 목표 목록</div>
-      <table class="table-responsive" style="margin-left:15%">
+      <table class="table-responsive" style="">
         <tr>
          <th>시작</th>
          <th>끝</th>
