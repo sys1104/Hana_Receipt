@@ -125,6 +125,7 @@ var signup = function(req, res, callback) {
     var paramPw = req.body.u_pw;
     var paramName = req.body.u_name;
     var paramAge = req.body.u_age;
+    var paramGender = req.body.u_gender;
     var paramPhone = req.body.u_phone;
     var paramEmail = req.body.u_email;
     var paramJob = req.body.u_job;
@@ -133,7 +134,7 @@ var signup = function(req, res, callback) {
     //database --> true : DB에 접근할 수 있는 상태
     if (database) {
         var axios = require('axios');
-        addUser(database, paramId, paramPw, paramName, paramAge, paramPhone, paramEmail, paramJob, paramSalary, function(err, result) {
+        addUser(database, paramId, paramPw, paramName, paramAge, paramGender, paramPhone, paramEmail, paramJob, paramSalary, function(err, result) {
             if (err) {
                 //addUser에서 에러 콜백 발생
                 console.log('addUser에서 에러 콜백 발생')
@@ -170,7 +171,7 @@ var signup = function(req, res, callback) {
 };
 
 // ============================= 사용자추가 function ============================//
-var addUser = function(database, id, pwd, name, age, phone, email, job, salary, callback) {
+var addUser = function(database, id, pwd, name, age, gender, phone, email, job, salary, callback) {
     console.log('********** server-side addUser 호출됨 **********');
     var crypto = require('crypto');
     var salt = Math.round((new Date().valueOf() * Math.random())) + "";
@@ -193,6 +194,7 @@ var addUser = function(database, id, pwd, name, age, phone, email, job, salary, 
             u_pw: hashpass,
             u_name: name,
             u_age: age,
+            u_gender: gender,
             u_phone: phone,
             u_email: email,
             u_job: job,

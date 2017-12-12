@@ -17,6 +17,13 @@
         <input type="text" style="width:930px; margin-left:30px" placeholder="나이" v-model="u_age" class="form-control" name="u_age" id="u_age">
       </div>
       <div class="form-group">
+        <select v-model="u_gender" class="form-control" name="u_gender" id="u_gender" style="width:930px; margin-left:30px" placeholder="성별">
+        <option value="">성별 선택</option>
+        <option value="1">남자</option>
+        <option value="2">여자</option>
+        </select>
+      </div>
+      <div class="form-group">
         <input type="text" style="width:930px; margin-left:30px" placeholder="휴대폰번호" v-model="u_phone" class="form-control" name="u_phone" id="u_phone">
       </div>
       <div class="form-group">
@@ -25,13 +32,13 @@
       <div class="form-group">
         <select v-model="u_job" class="form-control" name="u_job" id="u_job" style="width:930px; margin-left:30px" placeholder="직업">
         <option value="">직업 선택</option>
-        <option value="1">회사원</option>
-        <option value="2">자영업자</option>
-        <option value="3">농축산업자</option>
-        <option value="4">공무원</option>
-        <option value="5">학생</option>
-        <option value="6">주부</option>
-        <option value="7">기타</option>
+        <option value="회사원">회사원</option>
+        <option value="자영업자">자영업자</option>
+        <option value="농축산업자">농축산업자</option>
+        <option value="공무원">공무원</option>
+        <option value="학생">학생</option>
+        <option value="주부">주부</option>
+        <option value="기타">기타</option>
         </select>
       </div>
       <div class="form-group">
@@ -88,6 +95,7 @@ export default {
       u_pw: '',
       u_name: '',
       u_age: '',
+      u_gender: '',
       u_phone: '',
       u_email: '',
       u_job: '',
@@ -104,6 +112,7 @@ export default {
       var pw = this.u_pw;
       var name = this.u_name;
       var age = this.u_age;
+      var gender = this.u_gender;
       var phone = this.u_phone;
       var email = this.u_email;
       var job = this.u_job;
@@ -111,8 +120,7 @@ export default {
       // if (name == '' || pw == '') {
       //   this.errinfo = '';
       //   this.classFade = ''
-      console.log('렝쓰'+id.length)
-      if(job<=0 || id.length==0 || pw.length==0 || name.length==0 || age.length==0 || phone.length==0 || email.length==0 || salary<=0){
+      if(job<=0 || id.length==0 || pw.length==0 || name.length==0 || age.length==0 || gender.length==0 || phone.length==0 || email.length==0 || salary<=0){
         alert('필수항목을 입력하세요');
       } else {
         axios({
@@ -123,6 +131,7 @@ export default {
             u_pw: pw,
             u_name: name,
             u_age: age,
+            u_gender: gender,
             u_phone: phone,
             u_email: email,
             u_job: job,
