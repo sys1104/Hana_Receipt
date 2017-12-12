@@ -29,7 +29,7 @@ export default {
       u_name : '',
       mytotalconfig: {
         graphset: [{
-          
+
               type: "gauge",
               globals: {
                 fontSize: 25
@@ -117,7 +117,7 @@ export default {
                     // {
                     //   rule:'%v > 80 && %v <= 100',
                     //   backgroundColor:'red'
-                    // }  
+                    // }
                   ]
                 }
               },
@@ -126,7 +126,7 @@ export default {
                   values : [], // starting value
                   backgroundColor:'black',
                   indicator:[],
-                  animation:{  
+                  animation:{
                     effect:1,
                     method:1,
                     sequence:6,
