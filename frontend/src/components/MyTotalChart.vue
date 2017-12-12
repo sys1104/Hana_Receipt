@@ -96,7 +96,7 @@ export default {
                   rules:[
                     {
                       rule:'%v > -20 && %v <= 0',
-                      backgroundColor:'black'
+                      backgroundColor:'green'
                     } ,
                     {
                       rule:'%v > 0 && %v <= 20',
@@ -125,7 +125,7 @@ export default {
                 {
                   values : [], // starting value
                   backgroundColor:'black',
-                  indicator:[],
+                  indicator:[10,10,10,10,0.75],
                   animation:{
                     effect:1,
                     method:1,
