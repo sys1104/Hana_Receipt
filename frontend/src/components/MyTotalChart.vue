@@ -10,7 +10,7 @@
       <h4 v-else-if="result=='알뜰'" style="color:green"> < {{result}} > </h4>
       <h4 v-else-if="result=='매우알뜰'" style="color:green"> < {{result}} > </h4>
       <h4 v-else-if="result=='스튜핏!!!'" style="color:purple"> < {{result}} > </h4>
-            
+
       <h5>{{u_name}}님은 현재 목표금액 <p>{{goal_price}}원</p> 중 <p>{{now_price}}원</p>을 사용하고 있습니다.</h5>
   </div>
 </div>
@@ -140,22 +140,19 @@ export default {
           },
               created() {
                 var self = this;
-                var now = new Date();
-                var today = now.getDay();
-                var startDate = '';
-                startDate = now.setDate(now.getDate() - (today - 1));
-                startDate = new Date(startDate);
-                var startDate_date = startDate.getDate();
-                if (startDate_date < 10) {
-                  startDate_date = '0' + startDate_date;
+                var date = new Date();
+                var year = date.getFullYear();
+                var month = new String(date.getMonth()+1);
+                var day = new String(date.getDate());
+                // 한자리수일 경우 0을 채워준다.
+                if(month.length == 1){
+                  month = "0" + month;
                 }
-                var startDate_month = startDate.getMonth() + 1;
-                if (startDate_month < 10) {
-                  startDate_month = '0' + startDate_month;
+                if(day.length == 1){
+                  day = "0" + day;
                 }
-                var startDate_year = startDate.getFullYear();
-                var start_date = startDate_year + '' + startDate_month + '' + startDate_date;
-                console.log(start_date);
+                var start_date = year + '' + month + '' + day;
+                console.log('myTotalChart start_date 날짜는 ' + start_date);
                 if (!this.$session.exists()) {
                   console.log('********** 세션이 없습니다. **********');
                 } else {
@@ -190,7 +187,7 @@ export default {
                       }else if((Math.floor((all_used[0].sum_price) / (all_goal[0].g_price) * 100)) > 100){
                         self.result = "스튜핏!!!";
                       }
-                      
+
                       self.goal_price = all_goal[0].g_price;
                       self.now_price = all_used[0].sum_price;
                       self.u_name = all_goal[0].u_name;

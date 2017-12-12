@@ -2,7 +2,7 @@
 <div class="row">
   <div class="col-md-8"id='myCategoryChart' style="margin-top : 2%"></div>
   <!-- 현재상태 역순 -->
-  
+
   <div class="col-md-2" style="margin-bottom: 22%;">
     남은 금액
     <br><br>
@@ -25,11 +25,11 @@
        <p id="my-p" v-if="result=='위험'" style="color:orange">{{result}}</p>
        <p id="my-p" v-if="result=='매우 위험'" style="color:red">{{result}}</p>
        <p id="my-p" v-if="result=='스튜핏!!'" style="color:purple">{{result}}</p>
-       
-       
+
+
       </li>
     </ul>
-  </div>  
+  </div>
   <!-- 남은금액 역순 -->
   <!-- <div class="col-md-2" style="margin-bottom: 18%;">
     평가
@@ -251,22 +251,19 @@ export default {
   },
   created() {
     var self = this;
-    var now = new Date();
-    var today = now.getDay();
-    var startDate = '';
-    startDate = now.setDate(now.getDate() - (today - 1));
-    startDate = new Date(startDate);
-    var startDate_date = startDate.getDate();
-    if (startDate_date < 10) {
-      startDate_date = '0' + startDate_date;
+    var date = new Date();
+    var year = date.getFullYear();
+    var month = new String(date.getMonth()+1);
+    var day = new String(date.getDate());
+    // 한자리수일 경우 0을 채워준다.
+    if(month.length == 1){
+      month = "0" + month;
     }
-    var startDate_month = startDate.getMonth() + 1;
-    if (startDate_month < 10) {
-      startDate_month = '0' + startDate_month;
+    if(day.length == 1){
+      day = "0" + day;
     }
-    var startDate_year = startDate.getFullYear();
-    var start_date = startDate_year + '' + startDate_month + '' + startDate_date;
-    console.log(start_date);
+    var start_date = year + '' + month + '' + day;
+    console.log('myCategoryChart start_date는 ' + start_date);
     if (!this.$session.exists()) {
       console.log('********** 세션이 없습니다. **********');
     } else {
@@ -355,10 +352,10 @@ export default {
 <style scoped>
 #my-font{
   font-size: 30px;
-  
+
 }
 #my-p{
-  
+
   font-size:30px;
 }
 </style>

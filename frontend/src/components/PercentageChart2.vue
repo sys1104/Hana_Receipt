@@ -108,36 +108,22 @@ export default {
                       // this.u_num = this.$session.getAll();
                       console.log('세션 값 확인 ' + this.$session.get('session'));
                       var unum = this.$session.get('session');
-                      var now = new Date();
-                      var today = now.getDay();
-                      var startDate = '';
-                      var endDate = '';
-                      startDate = now.setDate(now.getDate() - (today + 6));
-                      startDate = new Date(startDate);
-                      endDate = now.setDate(now.getDate() + 7);
-                      endDate = new Date(endDate);
-                      var startDate_date = startDate.getDate();
-                      if (startDate_date < 10) {
-                        startDate_date = '0' + startDate_date;
+                      var date = new Date();
+                      var year = date.getFullYear();
+                      var month = new String(date.getMonth()+1);
+                      var day = new String(date.getDate());
+                      // 한자리수일 경우 0을 채워준다.
+                      if(month.length == 1){
+                        month = "0" + month;
                       }
-                      var startDate_month = startDate.getMonth() + 1;
-                      if (startDate_month < 10) {
-                        startDate_month = '0' + startDate_month;
+                      if(day.length == 1){
+                        day = "0" + day;
                       }
-                      var startDate_year = startDate.getFullYear();
-                      var start_date = startDate_year + '' + startDate_month + '' + startDate_date;
-                      var endDate_date = endDate.getDate();
-                      if (endDate_date < 10) {
-                        endDate_date = '0' + endDate_date;
-                      }
-                      var endDate_month = endDate.getMonth() + 1;
-                      if (endDate_month < 10) {
-                        endDate_month = '0' + endDate_month;
-                      }
-                      var endDate_year = endDate.getFullYear();
-                      var end_date = endDate_year + '' + endDate_month + '' + endDate_date;
-                      console.log('!!!!!!!!!!!!!!!!!!!!!!!!!' + start_date);
-                      console.log('!!!!!!!!!!!!!!!!!!!!!!!!!' + end_date);
+                      var start_date = year + '' + month + '' + day;
+                      var end_date = start_date;
+                      start_date = start_date - 7;
+                      console.log('percentage2 start_date 날짜는 ' + start_date);
+                      console.log('percentage2 end_date 날짜는 ' + end_date);
                       setTimeout(function() {
                         axios({
                           method: 'post',
