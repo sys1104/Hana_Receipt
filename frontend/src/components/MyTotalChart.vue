@@ -5,7 +5,7 @@
   </div>
   <div class="col-md-5" style="margin-bottom:40%">
     <br><br><br>
-      <h4 style="color:orange"> < {{result}} > </h4>
+      <h4 style="color:orange">  {{result}}  </h4>
       <h4>{{u_name}}님은 현재 목표금액 {{goal_price}}원 중 {{now_price}}원을 사용하고 있습니다.</h4>
   </div>
 </div>
@@ -24,7 +24,7 @@ export default {
       u_name : '',
       mytotalconfig: {
         graphset: [{
-          
+
               type: "gauge",
               globals: {
                 fontSize: 25
@@ -112,7 +112,7 @@ export default {
                     // {
                     //   rule:'%v > 80 && %v <= 100',
                     //   backgroundColor:'red'
-                    // }  
+                    // }
                   ]
                 }
               },
@@ -121,7 +121,7 @@ export default {
                   values : [], // starting value
                   backgroundColor:'black',
                   indicator:[],
-                  animation:{  
+                  animation:{
                     effect:1,
                     method:1,
                     sequence:6,
