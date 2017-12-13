@@ -30,6 +30,37 @@ var card_benefit_search = function(database, result_benefit_priority, callback) 
   });
 };
 
+var card_benefit_search_check = function(database, result_benefit_priority, callback) {
+  console.log('********** card_benefit_search_check 호출 (학생 또는 20살 미만) **********');
+  database.pool.getConnection(function(err, conn) {
+    if (err) {
+      if (conn) {
+        conn.release();
+      }
+      callback(err, null);
+      return;
+    }
+    //체크카드는 값 : 0 , 신용카드는 값 : 1
+    var sql = 'select * from card where card_benefit like ? and card_check = 0';
+    var exec = conn.query(sql, '%' + result_benefit_priority + '%', function(err, rows) {
+      if (rows.length > 0) {
+        conn.release();
+        callback(null, rows);
+      } else {
+        conn.release();
+        console.log('-----like로 일치하는 카드 없음!!22222');
+        callback(null, null);
+      }
+    });
+    conn.on('error', function(err) {
+      conn.release();
+      console.log('데이터베이스 연결 시 에러 발생함');
+      console.dir(err);
+      callback(err, null);
+    });
+  });
+};
+
 var user_benefit_search = function(database, u_num, card_benefit, callback) {
   console.log('********** user_benefit_search 호출 **********');
   database.pool.getConnection(function(err, conn) {
@@ -88,43 +119,89 @@ var card_benefit_list = function(req, res, callback) {
         console.log('최종 베네핏 우선순위 1위 : ' + result_benefit_priority[0]);
         console.log('최종 베네핏 우선순위 2위 : ' + result_benefit_priority[1]);
         console.log('최종 베네핏 우선순위 3위 : ' + result_benefit_priority[2]);
-        card_benefit_search(database, result_benefit_priority[0], function(err, rows2) {
-          if (err) {
-            console.error('********** user_benefit_search 에러 발생 **********' + err.stack);
-            res.writeHead(200, {
-              "Content-Type": 'text/html;charset=utf8'
-            });
-            res.write('<h2>goal_money 에러 발생</h2>');
-            res.write('<p>' + err.stack + '</p>');
-            res.end();
-          }
+        console.log('유잡은 : ' + rows[0].u_job);
+        console.log('나이은 : ' + rows[0].u_age);
 
-          if (rows2) {
-            console.log('********** card_benefit_search메소드 -> row2값 있음 **********');
-            console.log('디비에서 뽑아온 카드 갯수 : ' + rows2.length);
-            var match_card = [];
-            if(rows2.length > 3){
-              for(var p=0; p<rows2.length; p++){
-                if(rows2[p].card_benefit.match(result_benefit_priority[1])){
-                  match_card.push(rows2[p]);
-                }
-                console.log('----------뽑자--------' + rows2[p].card_benefit);
-              }
-              console.log('두번째 우선순위까지 매치된 카드 : ' + match_card);
-            }else if(rows2.length <= 3){
-              console.log('-----rows2 갯수가 3이하라서 그냥 json(data)보내요!----------')
-              data = rows2;
-              res.json(data);
+        if(rows[0].u_job == '학생' || rows[0].u_age < 20){
+          card_benefit_search_check(database, result_benefit_priority[0], function(err, rows2) {
+            if (err) {
+              console.error('********** user_benefit_search 에러 발생 **********' + err.stack);
+              res.writeHead(200, {
+                "Content-Type": 'text/html;charset=utf8'
+              });
+              res.write('<h2>goal_money 에러 발생</h2>');
+              res.write('<p>' + err.stack + '</p>');
               res.end();
             }
-            data = match_card;
-            console.log('********** 프론트로 제이슨 형태로 데이터를 보냄 *********');
-            res.json(data);
-            res.end();
-          } else {
-            console.log("********** DB에서 찾아온 카드~~ 없음용 **********");
-          }
-        }); //card_benefit_search 끝
+
+            if (rows2) {
+              console.log('********** card_benefit_search메소드 -> row2값 있음 **********');
+              console.log('디비에서 뽑아온 카드 갯수 check카드 : ' + rows2.length);
+              console.log(rows2[0].card_check);
+              console.log(rows2[1].card_check);
+              var match_card2 = [];
+              if(rows2.length > 3){
+                for(var p=0; p<rows2.length; p++){
+                  if(rows2[p].card_benefit.match(result_benefit_priority[1])){
+                    match_card2.push(rows2[p]);
+                  }
+                  console.log('----------뽑자--------' + rows2[p].card_benefit);
+                }
+                console.log('두번째 우선순위까지 매치된 카드 : ' + match_card2);
+                data = match_card2;
+                console.log('********** 프론트로 제이슨 형태로 데이터를 보냄 (체크카드)*********');
+                res.json(data);
+                res.end();
+              }else if(rows2.length <= 3){
+                console.log('-----rows2 갯수가 3이하라서 그냥 json(data)보내요!체크카드----------')
+                data = rows2;
+                res.json(data);
+                res.end();
+              }
+
+            } else {
+              console.log("********** DB에서 찾아온 카드~~ 없음용 **********");
+            }
+          }); //card_benefit_search_check 끝
+        }else{
+          card_benefit_search(database, result_benefit_priority[0], function(err, rows2) {
+            if (err) {
+              console.error('********** user_benefit_search 에러 발생 **********' + err.stack);
+              res.writeHead(200, {
+                "Content-Type": 'text/html;charset=utf8'
+              });
+              res.write('<h2>goal_money 에러 발생</h2>');
+              res.write('<p>' + err.stack + '</p>');
+              res.end();
+            }
+
+            if (rows2) {
+              console.log('********** card_benefit_search메소드 -> row2값 있음 **********');
+              console.log('디비에서 뽑아온 카드 갯수 : ' + rows2.length);
+              var match_card = [];
+              if(rows2.length > 3){
+                for(var p=0; p<rows2.length; p++){
+                  if(rows2[p].card_benefit.match(result_benefit_priority[1])){
+                    match_card.push(rows2[p]);
+                  }
+                  console.log('----------뽑자--------' + rows2[p].card_benefit);
+                }
+                console.log('두번째 우선순위까지 매치된 카드 : ' + match_card);
+              }else if(rows2.length <= 3){
+                console.log('-----rows2 갯수가 3이하라서 그냥 json(data)보내요!----------')
+                data = rows2;
+                res.json(data);
+                res.end();
+              }
+              data = match_card;
+              console.log('********** 프론트로 제이슨 형태로 데이터를 보냄 *********');
+              res.json(data);
+              res.end();
+            } else {
+              console.log("********** DB에서 찾아온 카드~~ 없음용 **********");
+            }
+          }); //card_benefit_search 끝
+        }
       } else {
         console.log('rows없음');
         var data2 = {};
