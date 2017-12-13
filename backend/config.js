@@ -22,6 +22,12 @@ module.exports = {
             method: 'signup',
             type: 'post'
         },
+        {
+            file: './user',
+            path: '/api/user/dup_check',
+            method: 'dupCheck',
+            type: 'post'
+        },
         // {
         //     file: './ajax_user',
         //     path: '/api/user/user_dup_check',
