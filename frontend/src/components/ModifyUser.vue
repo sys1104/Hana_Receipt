@@ -2,38 +2,41 @@
 
 <div class="table-users" id="register" style="width:1000px; display:inline-block; margin-top:200px">
     <navi></navi>
-      <div class="header">회원정보 수정</div>
-      <br>
-      <div class="form-group">
-        <p class="text-left" style="margin-left:20px">아이디 </p>
-        <input type="text" style="width:930px; margin-left:30px" placeholder="아이디" v-model="u_id" class="form-control" name="u_id" disabled>
+    <br>
+    <h3>회원정보 수정</h3>
+     <br>
+      <img src="img/invoice.png" style="height:200px; margin-bottom:50px">
+      <br><br>
+      <div class="form-group" style=" margin-right:10px">
+        <p class="text-left" style="margin-left:20px;display:inline-block">아이디 </p>
+        <input type="text" style="width:790px; margin-left:28px;display:inline-block" placeholder="아이디" v-model="u_id" class="form-control" name="u_id" disabled>
       </div>
       <!-- <div class="form-group">
         <input type="password" placeholder="패스워드" v-model="u_pw" class="form-control" name="u_pw">
       </div> -->
       <div class="form-group">
-        <p class="text-left" style="margin-left:20px">이름 </p>
-        <input type="text" style="width:930px; margin-left:30px" placeholder="이름" v-model="u_name" class="form-control" name="u_name" disabled>
+        <p class="text-left" style="margin-left:20px; display:inline-block">이름 </p>
+        <input type="text" style="width:790px; margin-left:30px;display:inline-block" placeholder="이름" v-model="u_name" class="form-control" name="u_name" disabled>
       </div>
       <div class="form-group">
-        <p class="text-left" style="margin-left:20px">휴대폰 번호 </p>
-        <input type="text" style="width:930px; margin-left:30px" placeholder="휴대폰번호" v-model="u_phone" class="form-control" name="u_phone">
+        <p class="text-left" style="margin-left:-12px;display:inline-block">휴대폰 번호 </p>
+        <input type="text" style="width:790px; margin-left:10px;display:inline-block" placeholder="휴대폰번호" v-model="u_phone" class="form-control" name="u_phone">
       </div>
       <div class="form-group">
-        <p class="text-left" style="margin-left:20px">이메일 </p>
-        <input type="email" style="width:930px; margin-left:30px" placeholder="이메일" v-model="u_email" class="form-control" name="u_email">
+        <p class="text-left" style="margin-left:20px;display:inline-block">이메일 </p>
+        <input type="email" style="width:790px; margin-left:19px;display:inline-block" placeholder="이메일" v-model="u_email" class="form-control" name="u_email">
       </div>
       <div class="form-group">
-        <p class="text-left" style="margin-left:20px">직업 </p>
-        <input type="text" style="width:930px; margin-left:30px" placeholder="직업" v-model="u_job" class="form-control" name="u_job">
+        <p class="text-left" style="margin-left:20px;display:inline-block">직업 </p>
+        <input type="text" style="width:790px; margin-left:30px;display:inline-block" placeholder="직업" v-model="u_job" class="form-control" name="u_job">
       </div>
       <div class="form-group">
-        <p class="text-left" style="margin-left:20px">연봉</p>
-        <input type="number" style="width:930px; margin-left:30px" placeholder="연봉" v-model="u_salary" class="form-control" name="u_salary">
+        <p class="text-left" style="margin-left:20px;display:inline-block">연봉</p>
+        <input type="number" style="width:790px; margin-left:30px;display:inline-block" placeholder="연봉" v-model="u_salary" class="form-control" name="u_salary">
       </div>
-      <br>
-      <button @click.prevent="modifyUser" class="btn" style="width:200px; background-color:#327a81; color:white; font-weight:bold">수 정</button>
       <br><br>
+      <button @click.prevent="modifyUser" class="btn" style="width:300px; background-color:#327a81; color:white; font-weight:bold">수 정</button>
+      <br><br><br>
       <!-- <famous :stories="stories"></famous> -->
       <!-- <famous></famous> -->
     </div>
@@ -133,53 +136,51 @@ export default {
 }
 </script>
 <style scoped>
-.box-container{
-        border-style: solid;
-        border-width: 2px;
-        padding: 10px;
-    }
-    .table-header{
-        font-size: 20px;
-        font-weight: bold;
-    }
-    .table-color{
-        background-color: lightgrey;
-    }
+      .box-container{
+                  border-style: solid;
+                  border-width: 2px;
+                  padding: 10px;
+              }
+              .table-header{
+                  font-size: 20px;
+                  font-weight: bold;
+              }
 
-body {
-    background-color: #91ced4;
-}
+              body {
+                  background-color: #fafafa;
+              }
 
-body * {
-    box-sizing: border-box;
-}
+              body * {
+                  box-sizing: border-box;
+              }
 
-.header {
-    background-color: #327a81;
-    color: white;
-    font-size: 1.5em;
-    padding: 1rem;
-    text-align: center;
-    text-transform: uppercase;
-}
+              .header {
+                  background-color: #fafafa;
+                  color: #fafafa;
+                  font-size: 1.5em;
+                  padding: 1rem;
+                  text-align: center;
+                  text-transform: uppercase;
+              }
 
-.table-users {
-    border: 1px solid #327a81;
-    border-radius: 10px;
-    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
-    max-width: calc(100% - 2em);
-    margin: 1em auto;
-    overflow: hidden;
-    width: 800px;
-}
+              .table-users {
+                  border: 1px solid #fafafa;
+                  border-radius: 10px;
+                  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+                  max-width: calc(100% - 2em);
+                  margin: 1em auto;
+                  overflow: hidden;
+                  width: 800px;
+                  background-color: #FAFAFA
+              }
 
-.form-group{
-  display: inline-block;
-  vertical-align: middle
-}
-
-input::-webkit-input-placeholder {
-  color: #2C3E50;
-  }
-
+              .table-users {
+                      border: none;
+                      box-shadow: none;
+                      overflow: visible;
+                  }
+              
+              input::-webkit-input-placeholder {
+                  color: #2C3E50;
+              }
 </style>

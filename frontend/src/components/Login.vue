@@ -3,14 +3,11 @@
   <navi></navi>
       <h3>하나 영수증</h3><br>
       <img src="img/invoice.png" style="height:200px; margin-bottom:50px">
-      <!-- <div style="display:inline-block; width:600px"> -->
         <div style="width:600px; margin-left:140px">
-    <!-- <div class="form-group" style="width:400px;display:inline-block;margin-right:30px"> -->
       <div class="form-group" style="width:500px">
       <input @keydown.enter="login" type="text" placeholder="아이디" v-model="u_id" class="form-control fui-user" name="u_id">
       <input @keydown.enter="login" type="password" placeholder="패스워드" v-model="u_pw" class="form-control" name="u_pw" style="margin-top:10px">
     </div>
-    <!-- <div class="form-group" style="width:100px; display:inline-block; margin-right:65px"> -->
     <div class="form-group" style="width:500px">
       <button @click="login" style="width:500px; height:50px;font-size:20px" class="btn btn-danger">로그인</button>  
     </div>

@@ -49,7 +49,7 @@
       <div class="form-group">
         <input type="number" style="width:930px; margin-left:30px" placeholder="연봉" v-model="u_salary" class="form-control" name="u_salary" id="u_salary">
       </div>
-      <button @click.prevent="addUser" class="btn" style="width:200px; background-color:#327a81; color:white; font-weight:bold">가입</button>
+      <button @click.prevent="addUser" class="btn" style="width:300px; background-color:#327a81; color:white; font-weight:bold">가입</button>
       <br><br>
       <!-- <famous :stories="stories"></famous> -->
       <!-- <famous></famous> -->
