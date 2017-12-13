@@ -22,6 +22,12 @@ module.exports = {
             method: 'signup',
             type: 'post'
         },
+        {
+            file: './user',
+            path: '/api/user/dup_check',
+            method: 'dupCheck',
+            type: 'post'
+        },
         // {
         //     file: './ajax_user',
         //     path: '/api/user/user_dup_check',
@@ -117,6 +123,12 @@ module.exports = {
             path: '/api/analysis/compare_user_other',
             method: 'compare_user_other',
             type: 'post'
+        },
+        {
+          file: './card',
+          path: '/api/card/card_benefit_list',
+          method: 'card_benefit_list',
+          type: 'post'
         }
 
     ],
