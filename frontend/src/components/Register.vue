@@ -175,11 +175,11 @@ export default {
         font-weight: bold;
     }
     .table-color{
-        background-color: lightgrey;
+        background-color: fafafa;
     }
 
 body {
-    background-color: #91ced4;
+    background-color: #fafafa;
 }
 
 body * {
@@ -187,8 +187,8 @@ body * {
 }
 
 .header {
-    background-color: #327a81;
-    color: white;
+    background-color: #fafafa;
+    color: #fafafa;
     font-size: 1.5em;
     padding: 1rem;
     text-align: center;
@@ -196,14 +196,14 @@ body * {
 }
 
 .table-users {
-    border: 1px solid lightgrey;
+    border: 1px solid fafafa;
     border-radius: 10px;
     box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
     max-width: calc(100% - 2em);
     margin: 1em auto;
     overflow: hidden;
     width: 800px;
-    background-color: lightgrey;
+    background-color: fafafa;
 }
 
 .form-group{
