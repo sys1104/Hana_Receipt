@@ -1,15 +1,16 @@
 <template>
-
 <div class="table-users" id="register" style="width:1000px; display:inline-block; margin-top:200px">
     <navi></navi>
-    <div class="header">회원가입</div>
+      <h3>회원가입</h3><br>
+      <img src="img/invoice.png" style="height:200px; margin-bottom:50px">
     <br>
-      <div class="form-group">
-        <input type="text" style="width:830px; margin-left:30px" placeholder="아이디" v-model="u_id" class="form-control" name="u_id" id="u_id" >
-      </div>
-      <div class="form-group">
+      <div class="form-group" style=" margin-right:10px">
+        <input type="text" style="width:830px; display:inline-block;" placeholder="아이디" v-model="u_id" class="form-control" name="u_id" id="u_id" >
         <button @click.prevent="dupCheck" class="btn" style="background-color:#327a81; color:white; font-weight:bold">중복 체크</button>  
       </div>
+      <!-- <div class="form-group">
+        
+      </div> -->
 
       <div class="form-group">
         <input type="password" style="width:930px; margin-left:30px" placeholder="패스워드" v-model="u_pw" class="form-control" name="u_pw" id="u_pw">
@@ -165,58 +166,51 @@ export default {
 </script>
 
 <style scoped>
-.box-container{
-        border-style: solid;
-        border-width: 2px;
-        padding: 10px;
-    }
-    .table-header{
-        font-size: 20px;
-        font-weight: bold;
-    }
-    .table-color{
-        background-color: fafafa;
-    }
+      .box-container{
+                  border-style: solid;
+                  border-width: 2px;
+                  padding: 10px;
+              }
+              .table-header{
+                  font-size: 20px;
+                  font-weight: bold;
+              }
 
-body {
-    background-color: #fafafa;
-}
+              body {
+                  background-color: #fafafa;
+              }
 
-body * {
-    box-sizing: border-box;
-}
+              body * {
+                  box-sizing: border-box;
+              }
 
-.header {
-    background-color: #fafafa;
-    color: #fafafa;
-    font-size: 1.5em;
-    padding: 1rem;
-    text-align: center;
-    text-transform: uppercase;
-}
+              .header {
+                  background-color: #fafafa;
+                  color: #fafafa;
+                  font-size: 1.5em;
+                  padding: 1rem;
+                  text-align: center;
+                  text-transform: uppercase;
+              }
 
-.table-users {
-    border: 1px solid fafafa;
-    border-radius: 10px;
-    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
-    max-width: calc(100% - 2em);
-    margin: 1em auto;
-    overflow: hidden;
-    width: 800px;
-    background-color: fafafa;
-}
+              .table-users {
+                  border: 1px solid #fafafa;
+                  border-radius: 10px;
+                  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+                  max-width: calc(100% - 2em);
+                  margin: 1em auto;
+                  overflow: hidden;
+                  width: 800px;
+                  background-color: #FAFAFA
+              }
 
-.form-group{
-  display: inline-block;
-  vertical-align: middle
-}
-
-.input{
-  text-align: center;
-}
-
-input::-webkit-input-placeholder {
-  color: #2C3E50;
-  }
-
+              .table-users {
+                      border: none;
+                      box-shadow: none;
+                      overflow: visible;
+                  }
+              
+              input::-webkit-input-placeholder {
+                  color: #2C3E50;
+              }
 </style>
