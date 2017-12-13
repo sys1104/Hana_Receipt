@@ -54,14 +54,15 @@ export default {
       content: '',
       price: '',
       c_time: '',
-      wasted: '0'
+      wasted: '0',
+      today: '',
     }
   },
   components: {
     ConsumeHistory,
     Navi
   },
-  methods: {
+  methods: {    
     requestHistory() {
       console.log('********** front-end requestHistory 호출 **********');
       var u_num = this.$session.get('session');
@@ -72,7 +73,10 @@ export default {
       var wasted = this.wasted;
       if(cate_num<1 || content.length<1 || price<=0){
           alert('데이터를 입력하세요')
-      }else{
+      }else if(c_time>this.today){
+        alert('오늘 ('+this.today+')일 이하의 데이터만 입력 가능합니다.');
+      }
+      else{
         axios({
           method: 'post',
           url: 'api/consume_history/requestHistory',
@@ -105,6 +109,8 @@ export default {
             }
             console.log(yyyy + '-'+ mm + '-' + dd);
             this.c_time = yyyy + '-'+ mm + '-' + dd;
+            this.today = yyyy + '-'+ mm + '-' + dd;
+            
         }
   },
   created(){

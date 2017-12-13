@@ -120,7 +120,8 @@
           nextBtn:{},
           page_total:{},
           checked:true,
-          testflag:false
+          testflag:false,
+          today:''
         }
       },
       components:{
@@ -161,7 +162,12 @@
           if((this.checked == true && this.wasted == 0)){
             wasted = 1;
           }
+          
           console.log('wasted값 : '+wasted)
+          if(c_time>this.today){
+              alert('오늘 ('+this.today+')일 이하의 데이터만 입력 가능합니다.');
+          }
+          else{
             axios({
               method: 'post',
               url: 'api/consume_history/updateHistory',
@@ -178,6 +184,8 @@
               console.log('********** 소비내역 수정완료 **********');
               setTimeout("window.location.href = './save_history'",0)
             })
+          }
+
         },
         //수정 클릭시 실행되는 function
         editClick(result) {
@@ -210,9 +218,26 @@
             return Number(price).toLocaleString('en');
             Number(price).toLocaleString('en').split(".")[0];
 
+        },
+        getToday(){
+            console.log('getToday!')
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth()+1; //January is 0!
+            var yyyy = today.getFullYear();
+            if(dd<10) {
+            dd='0'+dd
+            }
+            if(mm<10) {
+                mm='0'+mm
+            }
+            console.log('히스토리 투데이' +yyyy + '-'+ mm + '-' + dd);
+            this.today = yyyy + '-'+ mm + '-' + dd;
+            
         }
     },
     created(){
+        this.getToday();
         console.log('stories Created()')
         var self  = this;
 
