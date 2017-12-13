@@ -1,15 +1,3 @@
-// CREATE TABLE card
-// (
-//     `card_num`      INT            NOT NULL    AUTO_INCREMENT,
-//     `card_name`     VARCHAR(45)    NULL,
-//     `card_check`    INT            NULL,
-//     `domestic`      INT            NULL,
-//     `card_img`      VARCHAR(100)    NULL,
-//     `card_benefit`  VARCHAR(255)    NULL,
-//     `card_life`     INT    NULL,
-//     PRIMARY KEY (card_num)
-// );
-
 // ==================== 카드 혜택별 조회 function ==================== //
 var card_benefit_search = function(database, result_benefit_priority, callback) {
   console.log('********** card_benefit_search 호출 **********');
@@ -24,13 +12,12 @@ var card_benefit_search = function(database, result_benefit_priority, callback) 
     //칼럼명을 배열로 만들기
     var sql = 'select * from card where card_benefit like ?';
     var exec = conn.query(sql, '%' + result_benefit_priority + '%', function(err, rows) {
-      //select의 결과물은 배열로 들어온다. -rows 변수..
       if (rows.length > 0) {
         conn.release();
         callback(null, rows);
       } else {
         conn.release();
-        console.log('일치하는 카드 없음!!');
+        console.log('-----like로 일치하는 카드 없음!!');
         callback(null, null);
       }
     });
@@ -53,11 +40,9 @@ var user_benefit_search = function(database, u_num, card_benefit, callback) {
       callback(err, null);
       return;
     }
-    //칼럼명을 배열로 만들기
     // select * from consume_history where u_num  = ? and c_time <= curdate() and c_time >= DATE_SUB(curdate(), INTERVAL 31 DAY)
     var sql = 'select A.cate_num, sum(price) as sum_price, B.u_job as u_job, B.u_age as u_age, B.u_gender as u_gender from (select * from consume_history where u_num = ? and c_time <= curdate() and c_time >= DATE_SUB(curdate(), INTERVAL 31 DAY)) as A, user B where A.u_num = B.u_num group by cate_num';
     var exec = conn.query(sql, u_num, function(err, rows) {
-      //select의 결과물은 배열로 들어온다. -rows 변수..
       if (rows.length > 0) {
         conn.release();
         callback(null, rows);
@@ -78,7 +63,6 @@ var user_benefit_search = function(database, u_num, card_benefit, callback) {
 
 var card_benefit_list = function(req, res, callback) {
   console.log('********** card_benefit_list 호출 **********');
-  //database --> true : DB에 접근 할 수 있는 상태
   var database = req.app.get('database');
   var u_num = req.body.u_num;
   var card_benefit = req.body.card_benefit;
@@ -88,7 +72,7 @@ var card_benefit_list = function(req, res, callback) {
     user_benefit_search(database, u_num, card_benefit, function(err, rows) {
 
       if (err) {
-        console.error('card검색 중 에러발생 ' + err.stack);
+        console.error('카드 검색 중 에러발생 ' + err.stack);
         res.writeHead(200, {
           "Content-Type": 'text/html;charset=utf8'
         });
@@ -98,8 +82,12 @@ var card_benefit_list = function(req, res, callback) {
       }
       if (rows) {
         var result_benefit_priority = [];
+        //cate_num, sum_price, u_job, u_age, u_gender를 담은 rows를 메소드 인자로 넣어준다.
+        //benefit_value메소드를 통해 상위 3개의 세부 카테고리명을 리턴 받는다.
         result_benefit_priority = benefit_value(rows);  //우선순위 구하는 메소드 호출
         console.log('최종 베네핏 우선순위 1위 : ' + result_benefit_priority[0]);
+        console.log('최종 베네핏 우선순위 2위 : ' + result_benefit_priority[1]);
+        console.log('최종 베네핏 우선순위 3위 : ' + result_benefit_priority[2]);
         card_benefit_search(database, result_benefit_priority[0], function(err, rows2) {
           if (err) {
             console.error('********** user_benefit_search 에러 발생 **********' + err.stack);
@@ -109,30 +97,34 @@ var card_benefit_list = function(req, res, callback) {
             res.write('<h2>goal_money 에러 발생</h2>');
             res.write('<p>' + err.stack + '</p>');
             res.end();
-            // 에러 처리
           }
+
           if (rows2) {
-            console.log('********** card_benefit_search ' + rows2 + ' **********');
-            if(rows2.length > 1){
-              for(var p=1; p<3; p++){
-                console.log(rows2[p]);
-                // rows2.card_benefit.search(result_benefit_priority[p]);
-                // console.log('!!!!!!!!!!!!!!!!!!!!!!----- : ' + rows2.card_benefit.search(result_benefit_priority[p]));
+            console.log('********** card_benefit_search메소드 -> row2값 있음 **********');
+            console.log('디비에서 뽑아온 카드 갯수 : ' + rows2.length);
+            var match_card = [];
+            if(rows2.length > 3){
+              for(var p=0; p<rows2.length; p++){
+                if(rows2[p].card_benefit.match(result_benefit_priority[1])){
+                  match_card.push(rows2[p]);
+                }
+                console.log('----------뽑자--------' + rows2[p].card_benefit);
               }
+              console.log('두번째 우선순위까지 매치된 카드 : ' + match_card);
+            }else if(rows2.length <= 3){
+              console.log('-----rows2 갯수가 3이하라서 그냥 json(data)보내요!----------')
+              data = rows2;
+              res.json(data);
+              res.end();
             }
-            // data.cate_goal = rows2;
+            data = match_card;
             console.log('********** 프론트로 제이슨 형태로 데이터를 보냄 *********');
-            console.log(data.cate_used);
-            console.log(data.cate_goal);
             res.json(data);
             res.end();
           } else {
-            console.log("********** 찾아온 카드~~ 없음 **********");
+            console.log("********** DB에서 찾아온 카드~~ 없음용 **********");
           }
-        });
-        // console.log('-------user_benefit_search ---- rows있음 ---------');
-        // data = rows;
-        // res.json(data);
+        }); //card_benefit_search 끝
       } else {
         console.log('rows없음');
         var data2 = {};
@@ -151,7 +143,7 @@ var card_benefit_list = function(req, res, callback) {
   }
 };
 
-// ==================== 혜택별 카드추천 function==================== //
+// ==================== 혜택별 카드추천 우선순위 function==================== //
 var benefit_value = function(rows){
   console.log('----------benefit_value 메소드 호출--------------');
   //카테고리별 가중치
@@ -235,7 +227,7 @@ var benefit_value = function(rows){
     }
   }
   var value2 = 50;
-  console.log('카테랑 : ' + result_cate +' 가격비율 : '+ result_priority + ' 직업은 : ' + u_job + ' 테스트로 마트값 : ' + mart);
+  console.log('카테랑 : ' + result_cate +' 가격비율 : '+ result_priority + ' 직업은 : ' + u_job + ' 테스트로 마트값 : ' + hospi);
 
   //직업별 가중치
   if(u_job == '회사원'){
@@ -476,24 +468,28 @@ var benefit_value = function(rows){
   }
   var total_result = [];
   var count = 0;
+  //1)카테고리별 2)직업별 3)성별,연령별 --> 세부 카테고리별 합산을 total_result배열에 저장
   total_result = [refuel, mart, edu, movie, shop, travel, hospi, transport, communi, coffee];
   console.log('토탈 리절트 : ' + total_result);
   var temp = -1;
   var temp2 = -1;
   var priority = [];
+
+  //10개의 세부 카테고리 중 상위 3개 뽑아내는 이중for문
   for(var r=0; r<3; r++){
     for(var y=0; y<total_result.length; y++){
-      // temp2 = total_result[y];
       if(total_result[y] > temp){
         temp = total_result[y];
         result_priority = temp;
-        // total_result[y] = 0;
         count = y;
         console.log('y 값 : ' + y);
         console.log('temp 값 : ' + temp);
       }
     }
-    console.log('토탈 리절트 [카운트] : ' + total_result[count]);
+    // console.log('토탈 리절트 [카운트] : ' + total_result[count]);
+    //위 y-for문을 돌고나와서 count 인덱스에 있는 값이 가장 큰 값이므로 if문을 통해 이름화 시킨다.
+    //그 후 그 인덱스 자리의 값을 0으로 만들고 temp=-1로 리셋.
+    //그럼 다시 y-for문을 돌며 가장 큰 값(실질적으로는 두번 째 큰값)을 찾는다.. 반복 (총 3회)
     if(count == 0){
       priority.push('주유');
     }else if (count == 1) {
@@ -518,11 +514,10 @@ var benefit_value = function(rows){
     total_result[count] = 0;
     temp = -1;
   }
-  // total_result.pop(count);
   console.log('최종 우선순위 : ' + result_priority);
   console.log('다시 토탈 리절트 : ' + total_result);
   console.log('priority 3위까지 : ' + priority);
-
+  //상위 3가지 세부 카테고리를 배열에 담아 리턴한다.
   return priority;
 };
 module.exports.card_benefit_list = card_benefit_list;
