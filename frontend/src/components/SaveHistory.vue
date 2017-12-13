@@ -10,6 +10,7 @@
     <br>
     <div class="form-group">
         <select v-model="cate_num" class="form-control" name="cate_num">
+        <option value="">카테고리 입력</option>
         <option value="1">생활/쇼핑</option>
         <option value="2">교통</option>
         <option value="3">식비</option>
