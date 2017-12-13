@@ -6,6 +6,8 @@
     <first-section></first-section>
     <second-section></second-section>
     <third-section></third-section>
+    <card-benefit></card-benefit>
+
     <!-- <custom-footer></custom-footer>  -->
 
 
@@ -23,6 +25,7 @@
   import CustomFooter from './Footer'
   import CustomHeader from './Header'
   import Navi from './Navi'
+  import CardBenefit from './CardBenefit'
   export default {
     name: 'app',
     components: {
@@ -33,7 +36,8 @@
       ThirdSection,
       CustomFooter,
       CustomHeader,
-      Navi
+      Navi,
+      CardBenefit
     },
 
   }
