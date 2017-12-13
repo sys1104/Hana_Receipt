@@ -134,20 +134,32 @@ export default {
                             end_date: end_date
                           }
                         }).then((response) => {
+
                           console.log('********** compare_user_other 응답 받음 **********');
                           var compare_user = {};
                           compare_user = response.data.compare_user;
                           var compare_other = {};
                           compare_other = response.data.compare_other;
-
+                          // console.log('스타트데이트 : ' +start_date);
+                          // console.log('엔드데이트 : ' +end_date);                          
+                          // console.log('★★★★★★★★★★★'+compare_other[0].cate_num);
+                          // console.log('★★★★★★★★★★★★★★'+compare_other[0].avg_price);
+                          // console.log('★★★★★★★★★★★'+compare_other[1].cate_num);
+                          // console.log('★★★★★★★★★★★★★★'+compare_other[1].avg_price);                          
+                          // console.log('★★★★★★★★★★★'+compare_other[2].cate_num);
+                          // console.log('★★★★★★★★★★★★★★'+compare_other[2].avg_price);
+                          // console.log('★★★★★★★★★★★'+compare_other[3].cate_num);
+                          // console.log('★★★★★★★★★★★★★★'+compare_other[3].avg_price);
+                          // console.log('★★★★★★★★★★★'+compare_other[4].cate_num);
+                          // console.log('★★★★★★★★★★★★★★'+compare_other[4].avg_price);                                                                              
                           var temp = -1;
                           for (var k = 0; k < compare_other.length; k++) {
-                            if(compare_other[k].avg_price > temp){
-                              self.category = compare_other[k].cate_num;
-                              temp = compare_other[k].avg_price;
-                              if(self.category == 1){
+                            if(compare_other[k].avg_price > temp){ //50000,19125,
+                              self.category = compare_other[k].cate_num; //1,2
+                              temp = compare_other[k].avg_price; //19125,50000
+                              if(self.category == 1){ 
                                 self.category = "생활/쇼핑";
-                              }else if(self.category == 2){
+                              }else if(self.category == 2){ //here
                                 self.category = "교통";
                               }else if(self.category == 3){
                                 self.category = "식비";
@@ -158,21 +170,21 @@ export default {
                               }else if(self.category == 6){
                                 self.category = "기타";
                               }
-                              console.log(self.category);
+                              console.log(self.category); //'생활/쇼핑'
                             }
 
                             if (compare_other[k].cate_num == 1) {
-                              self.percentageConfig.graphset[0].series[k].values.push(compare_other[k].avg_price);
+                              self.percentageConfig.graphset[0].series[compare_other[k].cate_num-1].values.push(compare_other[k].avg_price); //'생활/쇼핑'
                             } else if (compare_other[k].cate_num == 2) {
-                              self.percentageConfig.graphset[0].series[k].values.push(compare_other[k].avg_price);
+                              self.percentageConfig.graphset[0].series[compare_other[k].cate_num-1].values.push(compare_other[k].avg_price); //'교통'
                             } else if (compare_other[k].cate_num == 3) {
-                              self.percentageConfig.graphset[0].series[k].values.push(compare_other[k].avg_price);
+                              self.percentageConfig.graphset[0].series[compare_other[k].cate_num-1].values.push(compare_other[k].avg_price);
                             } else if (compare_other[k].cate_num == 4) {
-                              self.percentageConfig.graphset[0].series[k].values.push(compare_other[k].avg_price);
+                              self.percentageConfig.graphset[0].series[compare_other[k].cate_num-1].values.push(compare_other[k].avg_price);
                             } else if (compare_other[k].cate_num == 5) {
-                              self.percentageConfig.graphset[0].series[k].values.push(compare_other[k].avg_price);
-                            } else {
-                              self.percentageConfig.graphset[0].series[k].values.push(compare_other[k].avg_price);
+                              self.percentageConfig.graphset[0].series[compare_other[k].cate_num-1].values.push(compare_other[k].avg_price);
+                            } else if (compare_other[k].cate_num == 6) {
+                              self.percentageConfig.graphset[0].series[compare_other[k].cate_num-1].values.push(compare_other[k].avg_price);
                             }
                           }
                           zingchart.render({
