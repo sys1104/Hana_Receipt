@@ -122,6 +122,7 @@ var card_benefit_list = function(req, res, callback) {
         console.log('유잡은 : ' + rows[0].u_job);
         console.log('나이은 : ' + rows[0].u_age);
 
+        //학생이거나 미성년자면 체크카드만 나오게함.(if~else 구문 사용)
         if(rows[0].u_job == '학생' || rows[0].u_age < 20){
           card_benefit_search_check(database, result_benefit_priority[0], function(err, rows2) {
             if (err) {
