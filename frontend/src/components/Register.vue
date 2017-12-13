@@ -102,6 +102,7 @@ export default {
         alert('필수항목을 입력하세요');
       }else if(this.dup_chk==true) {
         alert('중복된 아이디가 있습니다.');
+        this.dup_chk=-1;
       }else if(this.dup_chk==-1){
         alert('아이디 중복 체크를 해주세요');
       }
