@@ -98,6 +98,93 @@ var authUser = function(database, id, password, callback) {
     });
 };
 
+// ============================= 아이디 중복 체크 호출 function ============================//
+var dupCheck = function(req, res, callback) {
+    console.log('********** server-side login 호출 **********');
+    var database = req.app.get('database');
+    var paramId = req.body.u_id || req.query.u_id;
+    if (database) {
+        var axios = require('axios');
+        //사용자 인증 함수 호출 authUser
+        chkDup(database, paramId, function(err, rows) {
+            if (err) {
+                console.error('********** 로그인 중 에러 발생 **********' + err.stack);
+                res.writeHead(200, {
+                    "Content-Type": 'text/html;charset=utf8'
+                });
+                res.write('<h2>로그인 도중 데이터베이스 에러 발생</h2>');
+                res.write('<p>' + err.stack + '</p>');
+                res.end();
+            } // 에러 처리
+            if (rows) {
+                var data = {
+                    dup_check: true
+                };
+                // data = rows[0].u_num;
+                res.json(data);
+                console.log(data);
+                res.end();
+                console.log("********** 중복 아이디 있음 **********");
+            } else {
+                var data = {
+                    dup_check: false
+                };
+                res.json(data);
+                console.log(data);
+                res.end();
+                console.log("********** 중복 아이디 없음 **********");
+            }
+
+        });
+    } else {
+        //DB접속에 실패 했을 경우
+        res.writeHead(200, {
+            "Content-Type": 'text/html;charset=utf8'
+        });
+        res.write('<h1>데이터베이스 연결 실패</h1>');
+        res.write('<div><p>DB에 연결 하지 못했습니다</p></div>');
+        res.write("<br/><a href='/public/login2.html'>다시 로그인</a>");
+        res.end();
+    }
+};
+
+
+// ============================= 아이디 중복 검사 function ============================//
+var chkDup = function(database, id, callback) {
+    console.log('********** server-side authUser 호출 **********');
+    var crypto = require('crypto'); //암호화 모듈 호출
+    database.pool.getConnection(function(err, conn) { //DB 접속
+        if (err) {
+            if (conn) {
+                conn.release();
+            }
+            callback(err, null);
+            return;
+        }
+        console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
+        var tablename = 'user';
+        //물음표가 두개 연속으로 붙으면 컬럼이나 테이블 이름을 뜻한다
+        var exec = conn.query('select u_id from user where u_id=?', id, function(err, rows) {
+            //select의 결과물은 배열로 들어온다. rows 변수...
+            if (rows.length > 0) {
+                conn.release();
+                console.log('********** 일치하는 사용자의 아이디는 ' + rows[0].u_id + '**********');
+                callback(null, rows);
+
+            } else {
+                conn.release();
+                console.log('********** 일치하는 사용자가 없습니다. **********');
+                callback(null, null);
+            }
+        });
+        conn.on('error', function(err) {
+            conn.release();
+            console.log('********** 데이터베이스 연결 시 에러 발생함 **********');
+            console.dir(err);
+            callback(err, null);
+        });
+    });
+};
 
 // ============================= 로그아웃 function ============================//
 var logout = function(req, res, callback) {
@@ -221,12 +308,12 @@ var addUser = function(database, id, pwd, name, age, gender, phone, email, job, 
             // res.end();
 
         });
-        conn.on('error', function(err) {
-            conn.release();
-            console.log('**********  데이터베이스 연결 시 에러 발생함 ********** ');
-            console.dir(err);
-            callback(err, null);
-        });
+        // conn.on('error', function(err) {
+        //     conn.release();
+        //     console.log('**********  데이터베이스 연결 시 에러 발생함 ********** ');
+        //     console.dir(err);
+        //     callback(err, null);
+        // });
     });
 };
 
@@ -519,5 +606,5 @@ module.exports.logout = logout;
 module.exports.signup = signup;
 module.exports.showUser = showUser;
 module.exports.modifyUser = modifyUser;
-// module.exports.leaveUser = leaveUser;
+module.exports.dupCheck = dupCheck;
 // module.exports.loadContents = loadContents;

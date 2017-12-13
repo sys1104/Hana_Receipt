@@ -5,8 +5,12 @@
     <div class="header">회원가입</div>
     <br>
       <div class="form-group">
-        <input type="text" style="width:930px; margin-left:30px" placeholder="아이디" v-model="u_id" class="form-control" name="u_id" id="u_id">
+        <input type="text" style="width:830px; margin-left:30px" placeholder="아이디" v-model="u_id" class="form-control" name="u_id" id="u_id" >
       </div>
+      <div class="form-group">
+        <button @click.prevent="dupCheck" class="btn" style="background-color:#327a81; color:white; font-weight:bold">중복 체크</button>  
+      </div>
+
       <div class="form-group">
         <input type="password" style="width:930px; margin-left:30px" placeholder="패스워드" v-model="u_pw" class="form-control" name="u_pw" id="u_pw">
       </div>
@@ -61,33 +65,6 @@ import axios from 'axios'
 import Navi from './Navi.vue'
 import ajax from 'ajax'
 
-// $(document).ready(function() {
-// $(function() {
-//   //#id에서 포커스가 벗어나면
-//   $("#u_id").blur(function() {
-//     //userInput에 들어 있는 내용을 토대로
-//     // querystring 생성
-//     var userInput = $(this);
-//     var param = $(userInput).serialize();
-//     console.log(param);
-//     //ajax 통신 시작
-//     $.ajax({
-//       url: '/api/user/user_dup_check',
-//       data: param,
-//       dataType: 'json',
-//       type: 'get',
-//       success: function(data) {
-//         if (data.msg === 'ok') {
-//           $(userInput).css('border', '1px solid green');
-//         } else {
-//           $(userInput).css('border', '1px solid red');
-//           window.alert('이미 사용중인 아이디입니다.');
-//         }
-//       }
-//     });
-//   });
-// });
-
 export default {
   data: function() {
     return {
@@ -99,7 +76,8 @@ export default {
       u_phone: '',
       u_email: '',
       u_job: '',
-      u_salary: ''
+      u_salary: '',
+      dup_chk : -1
     }
   },
   components: {
@@ -122,7 +100,13 @@ export default {
       //   this.classFade = ''
       if(job<=0 || id.length==0 || pw.length==0 || name.length==0 || age.length==0 || gender.length==0 || phone.length==0 || email.length==0 || salary<=0){
         alert('필수항목을 입력하세요');
-      } else {
+      }else if(this.dup_chk==true) {
+        alert('중복된 아이디가 있습니다.');
+      }else if(this.dup_chk==-1){
+        alert('아이디 중복 체크를 해주세요');
+      }
+      //필수항목 입력, 아이디 중복체크 O , 중복아이디 X
+      else if(this.dup_chk==false) {
         axios({
           method: 'post',
           url: 'api/user/signup',
@@ -146,7 +130,31 @@ export default {
           setTimeout("window.location.href = './login'",0)
         })
       }
-    }
+    },
+    dupCheck() {
+      console.log('********** front-end dupCheck() 호출 **********');
+      var id = this.u_id;
+      var self = this;
+      if(id.length>0){
+      axios({
+          method: 'post',
+          url: 'api/user/dup_check',
+          data: {
+            u_id: id,
+          }
+        }).then(function(response) {
+          if(response.data.dup_check==true){
+            alert('중복된 아이디가 있습니다.');
+            self.dup_chk = response.data.dup_check;
+          }else if(response.data.dup_check==false){
+            alert('중복된 아이디가 없습니다.');
+            self.dup_chk = response.data.dup_check;
+          }
+        })
+      }else{
+        alert('아이디를 입력하세요');
+      }
+    }    
   },
   // props:['stories'],
   created() {
