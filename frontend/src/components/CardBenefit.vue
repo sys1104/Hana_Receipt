@@ -11,34 +11,34 @@
 ); -->
 <template>
 <div id="cardbenefitlist" class="table-users container" style="width:100%">
-  <h2>----------------------------------------------</h2>
+  
   <h2>카드추천</h2>
-    <table>
-      <tr>
+  <br><br>
+      <!-- <tr>
         <th>이미지</th>
         <th>카드이름</th>
         <th>체크/신용</th>
         <th>국내/해외</th>
         <th colspan="20">혜택</th>
-      </tr>
-      <tr class="table-body" v-for="(result, index) in results2" v-if="flag == false">
-        <td><a :href="cardUrl[index]"><img :src="imgPath[index]" /></a></td>
-        <td>{{result.card_name}}</td>
-        <td>
-          <select v-model="result.card_check" disabled class="form-control" style="color:black;">
-            <option value="0">체크</option>
-            <option value="1">신용</option>
-          </select>
-        </td>
-        <td>
-          <select v-model="result.domestic" disabled class="form-control" style="color:black;">
-            <option value="0">국내</option>
-            <option value="1">국내/해외</option>
-          </select>
-        </td>
-        <td>{{result.card_benefit}}</td>
-      </tr>
-    </table>
+      </tr> -->
+  <div class="row">  
+      <div class="col-md-4" v-for="(result, index) in results2" v-if="flag == false">
+        <a :href="cardUrl[index]"><img :src="imgPath[index]" /></a>
+        <h6>{{result.card_name}}</h6>
+          <div class="row">
+          <p class="btn btn-danger"v-if="result.card_check==0">체크</p>
+          <p style="margin-left:40px; margin-right:10px" class="btn btn-danger"v-if="result.card_check==1">신용</p>
+          <p class="btn btn-primary" v-if="result.domestic==0">국내</p>
+          <p class="btn btn-primary" v-if="result.domestic==1">국내/해외</p>       
+          </div>
+          <hr>
+        <h5><p style="font-size : 40px; color:orange">혜택</p>{{result.card_benefit}}</h5>
+        <hr>
+      </div>
+      <!-- <div class="col-md-4">
+        <p>ㅎㅇ</p>
+      </div> -->
+  </div>          
 </div>
 </template>
 
