@@ -125,6 +125,12 @@ module.exports = {
             type: 'post'
         },
         {
+            file: './analysis',
+            path: '/api/analysis/used_month',
+            method: 'used_month',
+            type: 'post'
+        },
+        {
           file: './card',
           path: '/api/card/card_benefit_list',
           method: 'card_benefit_list',
