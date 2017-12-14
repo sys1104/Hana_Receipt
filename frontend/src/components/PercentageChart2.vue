@@ -110,18 +110,30 @@ export default {
                       var unum = this.$session.get('session');
                       var date = new Date();
                       var year = date.getFullYear();
-                      var month = new String(date.getMonth()+1);
+                      var month = new String(date.getMonth() + 1);
                       var day = new String(date.getDate());
                       // 한자리수일 경우 0을 채워준다.
-                      if(month.length == 1){
+                      if (month.length == 1) {
                         month = "0" + month;
                       }
-                      if(day.length == 1){
+                      if (day.length == 1) {
                         day = "0" + day;
                       }
                       var start_date = year + '' + month + '' + day;
                       var end_date = start_date;
-                      start_date = start_date - 7;
+                      var daysago = 7;
+                      start_date = new Date(date - (3600000 * 24 * daysago));
+                      var year2 = start_date.getFullYear();
+                      var month2 = new String(start_date.getMonth() + 1);
+                      var day2 = new String(start_date.getDate());
+                      // 한자리수일 경우 0을 채워준다.
+                      if (month2.length == 1) {
+                        month2 = "0" + month2;
+                      }
+                      if (day2.length == 1) {
+                        day2 = "0" + day2;
+                      }
+                      start_date = year2 + '' + month2 + '' + day2;
                       console.log('percentage2 start_date 날짜는 ' + start_date);
                       console.log('percentage2 end_date 날짜는 ' + end_date);
                       setTimeout(function() {
@@ -141,23 +153,23 @@ export default {
                           var compare_other = {};
                           compare_other = response.data.compare_other;
                           // console.log('스타트데이트 : ' +start_date);
-                          // console.log('엔드데이트 : ' +end_date);                          
+                          // console.log('엔드데이트 : ' +end_date);
                           // console.log('★★★★★★★★★★★'+compare_other[0].cate_num);
                           // console.log('★★★★★★★★★★★★★★'+compare_other[0].avg_price);
                           // console.log('★★★★★★★★★★★'+compare_other[1].cate_num);
-                          // console.log('★★★★★★★★★★★★★★'+compare_other[1].avg_price);                          
+                          // console.log('★★★★★★★★★★★★★★'+compare_other[1].avg_price);
                           // console.log('★★★★★★★★★★★'+compare_other[2].cate_num);
                           // console.log('★★★★★★★★★★★★★★'+compare_other[2].avg_price);
                           // console.log('★★★★★★★★★★★'+compare_other[3].cate_num);
                           // console.log('★★★★★★★★★★★★★★'+compare_other[3].avg_price);
                           // console.log('★★★★★★★★★★★'+compare_other[4].cate_num);
-                          // console.log('★★★★★★★★★★★★★★'+compare_other[4].avg_price);                                                                              
+                          // console.log('★★★★★★★★★★★★★★'+compare_other[4].avg_price);
                           var temp = -1;
                           for (var k = 0; k < compare_other.length; k++) {
                             if(compare_other[k].avg_price > temp){ //50000,19125,
                               self.category = compare_other[k].cate_num; //1,2
                               temp = compare_other[k].avg_price; //19125,50000
-                              if(self.category == 1){ 
+                              if(self.category == 1){
                                 self.category = "생활/쇼핑";
                               }else if(self.category == 2){ //here
                                 self.category = "교통";

@@ -111,18 +111,30 @@ export default {
                       var unum = this.$session.get('session');
                       var date = new Date();
                       var year = date.getFullYear();
-                      var month = new String(date.getMonth()+1);
+                      var month = new String(date.getMonth() + 1);
                       var day = new String(date.getDate());
                       // 한자리수일 경우 0을 채워준다.
-                      if(month.length == 1){
+                      if (month.length == 1) {
                         month = "0" + month;
                       }
-                      if(day.length == 1){
+                      if (day.length == 1) {
                         day = "0" + day;
                       }
                       var start_date = year + '' + month + '' + day;
                       var end_date = start_date;
-                      start_date = start_date - 7;
+                      var daysago = 7;
+                      start_date = new Date(date - (3600000 * 24 * daysago));
+                      var year2 = start_date.getFullYear();
+                      var month2 = new String(start_date.getMonth() + 1);
+                      var day2 = new String(start_date.getDate());
+                      // 한자리수일 경우 0을 채워준다.
+                      if (month2.length == 1) {
+                        month2 = "0" + month2;
+                      }
+                      if (day2.length == 1) {
+                        day2 = "0" + day2;
+                      }
+                      start_date = year2 + '' + month2 + '' + day2;
                       console.log('percentage start_date 날짜는 ' + start_date);
                       console.log('percentage end_date 날짜는 ' + end_date);
                       setTimeout(function() {

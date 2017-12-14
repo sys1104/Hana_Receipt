@@ -92,7 +92,7 @@ export default {
         },
         scaleX: {
           "line-color": "none",
-          "labels": [],
+          "labels": ['생활/쇼핑', '교통', '식비', '패션/미용', '주거/통신', '기타'],
           "tick": {
             "visible": false
           },
@@ -295,7 +295,7 @@ export default {
             for (var i = 0; i < cate_goal.length; i++) {
               for (var k = 0; k < cate_used.length; k++) {
                 if (cate_goal[i].cate_num == 1) {
-                  self.myCategoryConfig.scaleX.labels.push('생활/쇼핑');
+
                   self.resultComment(100, cate_goal[i].g_price);
                   if (cate_goal[i].cate_num == cate_used[k].cate_num) {
                     self.myCategoryConfig.series[1].values.push(Math.floor((cate_used[k].sum_price / cate_goal[i].g_price) * 100));
@@ -310,7 +310,7 @@ export default {
                   }
                   self.myCategoryConfig.series[0].values.push(100);
                 } else if (cate_goal[i].cate_num == 2) {
-                  self.myCategoryConfig.scaleX.labels.push('교통');
+
                   if (cate_goal[i].cate_num == cate_used[k].cate_num) {
                     self.myCategoryConfig.series[1].values.push(Math.floor((cate_used[k].sum_price / cate_goal[i].g_price) * 100));
                     result_sum = Math.floor((cate_used[k].sum_price / cate_goal[i].g_price) * 100);
@@ -325,7 +325,7 @@ export default {
                   self.myCategoryConfig.series[0].values.push(100);
                 } else if (cate_goal[i].cate_num == 3) {
                   self.resultComment(100, cate_goal[i].g_price);
-                  self.myCategoryConfig.scaleX.labels.push('식비');
+
                   if (cate_goal[i].cate_num == cate_used[k].cate_num) {
                     self.myCategoryConfig.series[1].values.push(Math.floor((cate_used[k].sum_price / cate_goal[i].g_price) * 100));
                     result_sum = Math.floor((cate_used[k].sum_price / cate_goal[i].g_price) * 100);
@@ -341,7 +341,7 @@ export default {
                   self.myCategoryConfig.series[0].values.push(100);
                 } else if (cate_goal[i].cate_num == 4) {
                   self.resultComment(100, cate_goal[i].g_price);
-                  self.myCategoryConfig.scaleX.labels.push('패션/미용');
+
                   if (cate_goal[i].cate_num == cate_used[k].cate_num) {
                     self.myCategoryConfig.series[1].values.push(Math.floor((cate_used[k].sum_price / cate_goal[i].g_price) * 100));
                     result_sum = Math.floor((cate_used[k].sum_price / cate_goal[i].g_price) * 100);
@@ -356,7 +356,7 @@ export default {
                   self.myCategoryConfig.series[0].values.push(100);
                 } else if (cate_goal[i].cate_num == 5) {
                   self.resultComment(100, cate_goal[i].g_price);
-                  self.myCategoryConfig.scaleX.labels.push('주거/통신');
+
                   if (cate_goal[i].cate_num == cate_used[k].cate_num) {
                     self.myCategoryConfig.series[1].values.push(Math.floor((cate_used[k].sum_price / cate_goal[i].g_price) * 100));
                     result_sum = Math.floor((cate_used[k].sum_price / cate_goal[i].g_price) * 100);
@@ -371,7 +371,7 @@ export default {
                   self.myCategoryConfig.series[0].values.push(100);
                 } else if (cate_goal[i].cate_num == 6) {
                   self.resultComment(100, cate_goal[i].g_price);
-                  self.myCategoryConfig.scaleX.labels.push('기타');
+
                   if (cate_goal[i].cate_num == cate_used[k].cate_num) {
                     self.myCategoryConfig.series[1].values.push(Math.floor((cate_used[k].sum_price / cate_goal[i].g_price) * 100));
                     result_sum = Math.floor((cate_used[k].sum_price / cate_goal[i].g_price) * 100);
