@@ -1,6 +1,6 @@
 <template>
 <div class="row">
-  <div class="col-md-8"id='myCategoryChart' style="margin-top : 2%"></div>
+  <div class="col-md-8" id='myCategoryChart' style="margin-top : 2%"></div>
   <!-- 현재상태 역순 -->
 
   <div class="col-md-2" style="margin-bottom: 22%;">
@@ -9,7 +9,7 @@
     <ul v-for="(result,index) in final_result2">
       <br>
       <li id="my-font">
-       <p id="my-p">{{result | currency('',0)}}</p>
+        <p id="my-p">{{result | currency('',0)}}</p>
       </li>
     </ul>
   </div>
@@ -19,12 +19,12 @@
     <ul v-for="(result,index) in final_result">
       <br>
       <li id="my-font">
-       <p id="my-p" v-if="result=='매우 알뜰'" style="color:green">{{result | currency('',0)}}</p>
-       <p id="my-p" v-if="result=='알뜰'" style="color:green">{{result | currency('',0)}}</p>
-       <p id="my-p" v-if="result=='보통'" style="color:green">{{result | currency('',0)}}</p>
-       <p id="my-p" v-if="result=='위험'" style="color:orange">{{result | currency('',0)}}</p>
-       <p id="my-p" v-if="result=='매우 위험'" style="color:red">{{result | currency('',0)}}</p>
-       <p id="my-p" v-if="result=='스튜핏!!'" style="color:purple">{{result | currency('',0)}}</p>
+        <p id="my-p" v-if="result=='매우 알뜰'" style="color:green">{{result | currency('',0)}}</p>
+        <p id="my-p" v-if="result=='알뜰'" style="color:green">{{result | currency('',0)}}</p>
+        <p id="my-p" v-if="result=='보통'" style="color:green">{{result | currency('',0)}}</p>
+        <p id="my-p" v-if="result=='위험'" style="color:orange">{{result | currency('',0)}}</p>
+        <p id="my-p" v-if="result=='매우 위험'" style="color:red">{{result | currency('',0)}}</p>
+        <p id="my-p" v-if="result=='스튜핏!!'" style="color:purple">{{result | currency('',0)}}</p>
 
 
       </li>
@@ -52,163 +52,159 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      results : [],
-      results2 : [],
-      final_result : [],
-      final_result2 : [],
+      results: [],
+      results2: [],
+      final_result: [],
+      final_result2: [],
       myCategoryConfig: {
         type: "hbar",
-        "font-family":"Arial",
-            "title":{
-                "text":"나의 카테고리별 금액",
-                "font-family":"Arial",
-                "background-color":"none",
-                "font-color":"black",
-                "font-size":"18px"
-            },
-            "labels":[
-                {
-                    "text":"카테고리",
-                    "font-size":"12px",
-                    "font-color":"#black",
-                    "x":"2%",
-                    "y":"12%"
-                },
-                {
-                    "text":"사용금액",
-                    "font-size":"12px",
-                    "font-color":"black",
-                    "x":"50%",
-                    "y":"12%"
-                }
-            ],
+        "font-family": "Arial",
+        "title": {
+          "text": "나의 카테고리별 금액",
+          "font-family": "Arial",
+          "background-color": "none",
+          "font-color": "black",
+          "font-size": "18px"
+        },
+        "labels": [{
+            "text": "카테고리",
+            "font-size": "12px",
+            "font-color": "#black",
+            "x": "2%",
+            "y": "12%"
+          },
+          {
+            "text": "사용금액",
+            "font-size": "12px",
+            "font-color": "black",
+            "x": "50%",
+            "y": "12%"
+          }
+        ],
         backgroundColor: "none",
         tooltip: {
           visible: false
         },
-        "plotarea":{
-                "margin-right":"50px",
-                "margin-bottom":"120px",
-                "margin-left":"95px"
-            },
+        "plotarea": {
+          "margin-right": "50px",
+          "margin-bottom": "120px",
+          "margin-left": "95px"
+        },
         scaleX: {
-                "line-color":"none",
-                "labels":[],
-                "tick":{
-                    "visible":false
-                },
-                "guide":{
-                    "visible":false
-                },
-                "item":{
-                    "font-size":"14px",
-                    "padding-right":"20px",
-                    "auto-align":true,
-                    "rules":[
-                        {
-                            "rule":"%i==0",
-                            "font-color":"#FA8452"
-                        },
-                        {
-                            "rule":"%i==1",
-                            "font-color":"#FCAE48"
-                        },
-                        {
-                            "rule":"%i==2",
-                            "font-color":"#FCCC65"
-                        },
-                        {
-                            "rule":"%i==3",
-                            "font-color":"#A0BE4A"
-                        },
-                        {
-                            "rule":"%i==4",
-                            "font-color":"#6FA6DF"
-                        },
-                        {
-                            "rule":"%i==5",
-                            "font-color":"#E85D6F"
-                        }
-                    ]
-                }
-            },
-        scaleY:{
-                "visible":false,
-                "guide":{
-                    "visible":false
-                }
-            },
-       "plot":{
-                "bars-overlap":"100%",
-                "borderRadius":8
-            },
-            // "plotarea":{
-            //     "margin":"60px 20px 20px 140px"
-            // },
-        series: [
-          {
+          "line-color": "none",
+          "labels": [],
+          "tick": {
+            "visible": false
+          },
+          "guide": {
+            "visible": false
+          },
+          "item": {
+            "font-size": "14px",
+            "padding-right": "20px",
+            "auto-align": true,
+            "rules": [{
+                "rule": "%i==0",
+                "font-color": "#FA8452"
+              },
+              {
+                "rule": "%i==1",
+                "font-color": "#FCAE48"
+              },
+              {
+                "rule": "%i==2",
+                "font-color": "#FCCC65"
+              },
+              {
+                "rule": "%i==3",
+                "font-color": "#A0BE4A"
+              },
+              {
+                "rule": "%i==4",
+                "font-color": "#6FA6DF"
+              },
+              {
+                "rule": "%i==5",
+                "font-color": "#E85D6F"
+              }
+            ]
+          }
+        },
+        scaleY: {
+          "visible": false,
+          "guide": {
+            "visible": false
+          }
+        },
+        "plot": {
+          "bars-overlap": "100%",
+          "borderRadius": 8
+        },
+        // "plotarea":{
+        //     "margin":"60px 20px 20px 140px"
+        // },
+        series: [{
 
             //목표금액
-           // values: [], //배열 형식으로 지정해야함
+            // values: [], //배열 형식으로 지정해야함
 
-                    "values":[],
-                    "bar-width":"40px",
-                    "background-color":"#f2f2f2",
-                    "border-color": "#e8e3e3",
-                    "border-width":2,
-                    "fill-angle":90,
-                    //  "value-box":{
-                    //     "placement":"top-out",
-                    //     "padding":"200px",
-                    //     "text":"목표 %v원",
-                    //     "decimals":0,
-                    //     "font-color":"#A4A4A4",
-                    //     "font-size":"14px",
-                    //     "alpha":0.6
-                    // },
-                    "tooltip":{
-                        "visible":false
-                    }
+            "values": [],
+            "bar-width": "40px",
+            "background-color": "#f2f2f2",
+            "border-color": "#e8e3e3",
+            "border-width": 2,
+            "fill-angle": 90,
+            //  "value-box":{
+            //     "placement":"top-out",
+            //     "padding":"200px",
+            //     "text":"목표 %v원",
+            //     "decimals":0,
+            //     "font-color":"#A4A4A4",
+            //     "font-size":"14px",
+            //     "alpha":0.6
+            // },
+            "tooltip": {
+              "visible": false
+            }
           },
           {
-             // 사용금액
+            // 사용금액
             values: [], //배열 형식으로 지정해야함
-            "bar-width":"32px",
-                    "max-trackers":0,
-                    "value-box":{
-                        "placement":"top-out",
-                        "text":"%v %",
-                        "decimals":0,
-                        "font-color":"#A4A4A4",
-                        "font-size":"14px",
-                        "alpha":0.6
-                    },
-                    "rules":[
-                        {
-                            "rule":"%i==0",
-                            "background-color":"#FA8452"
-                        },
-                        {
-                            "rule":"%i==1",
-                            "background-color":"#FCAE48"
-                        },
-                        {
-                            "rule":"%i==2",
-                            "background-color":"#FCCC65"
-                        },
-                        {
-                            "rule":"%i==3",
-                            "background-color":"#A0BE4A"
-                        },
-                        {
-                            "rule":"%i==4",
-                            "background-color":"#6FA6DF"
-                        },
-                        {
-                            "rule":"%i==5",
-                            "background-color":"#E85D6F"
-                        }
-                    ]
+            "bar-width": "32px",
+            "max-trackers": 0,
+            "value-box": {
+              "placement": "top-out",
+              "text": "%v %",
+              "decimals": 0,
+              "font-color": "#A4A4A4",
+              "font-size": "14px",
+              "alpha": 0.6
+            },
+            "rules": [{
+                "rule": "%i==0",
+                "background-color": "#FA8452"
+              },
+              {
+                "rule": "%i==1",
+                "background-color": "#FCAE48"
+              },
+              {
+                "rule": "%i==2",
+                "background-color": "#FCCC65"
+              },
+              {
+                "rule": "%i==3",
+                "background-color": "#A0BE4A"
+              },
+              {
+                "rule": "%i==4",
+                "background-color": "#6FA6DF"
+              },
+              {
+                "rule": "%i==5",
+                "background-color": "#E85D6F"
+              }
+            ]
           },
           // {
 
@@ -218,32 +214,32 @@ export default {
     }
   },
 
-  methods : {
-    resultComment(result_sum, result_min){
+  methods: {
+    resultComment(result_sum, result_min) {
       console.log('result_sum : ' + result_sum);
       var re2 = result_sum;
-      if(re2 >=0 && re2 <= 20){
+      if (re2 >= 0 && re2 <= 20) {
         this.results.push('매우 알뜰');
         this.results2.push(result_min);
-      }else if(re2 > 20 && re2 <= 40){
+      } else if (re2 > 20 && re2 <= 40) {
         this.results.push("알뜰");
         this.results2.push(result_min);
-      }else if(re2 > 40 && re2 <= 60){
+      } else if (re2 > 40 && re2 <= 60) {
         this.results.push("보통");
         this.results2.push(result_min);
-      }else if(re2 > 60 && re2 <= 80){
+      } else if (re2 > 60 && re2 <= 80) {
         this.results.push("위험");
         this.results2.push(result_min);
-      }else if(re2 > 80 && re2 <= 100){
+      } else if (re2 > 80 && re2 <= 100) {
         this.results.push("아주위험");
         this.results2.push(result_min);
-      }else {
+      } else {
         this.results.push("스튜핏!!");
         this.results2.push(result_min);
       }
       var test01 = [];
       var test02 = [];
-      for(var i = this.results.length-1; i > -1; i--){
+      for (var i = this.results.length - 1; i > -1; i--) {
         test01.push(this.results[i]);
         test02.push(this.results2[i]);
       }
@@ -255,13 +251,13 @@ export default {
     var self = this;
     var date = new Date();
     var year = date.getFullYear();
-    var month = new String(date.getMonth()+1);
+    var month = new String(date.getMonth() + 1);
     var day = new String(date.getDate());
     // 한자리수일 경우 0을 채워준다.
-    if(month.length == 1){
+    if (month.length == 1) {
       month = "0" + month;
     }
-    if(day.length == 1){
+    if (day.length == 1) {
       day = "0" + day;
     }
     var start_date = year + '' + month + '' + day;
@@ -287,57 +283,117 @@ export default {
           var cate_goal = {};
           cate_goal = response.data.cate_goal;
           var cate_used = {};
-          if(JSON.stringify(response.data)=='{}'){
+          if (JSON.stringify(response.data) == '{}') {
             console.log('@@@@@@@@@@@@@@@@@@@@값이 없다!!!!!!!!!!!!!!!!!!!!!!!1');
             self.myCategoryConfig.scaleX.labels.push('소비내역이 없어서');
             self.myCategoryConfig.series[0].values.push('차트가 제공되지 않습니다.');
-          }else {
+          } else {
             cate_used = response.data.cate_used;
-
             var result_sum = '';
             var result_min = '';
-            for (var i = 0; i < cate_used.length; i++) {
-              result_sum = Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 100);
-              console.log(cate_used[i].cate_num + ' ++++++++++++++++++ ' + (cate_used[i].sum_price / cate_goal[i].g_price));
-              if (cate_used[i].cate_num == 1) {
-                result_min = (cate_goal[i].g_price - cate_used[i].sum_price);
-                console.log(result_min + '리민값');
-                self.resultComment(result_sum, result_min);
-                self.myCategoryConfig.scaleX.labels.push('생활/쇼핑');
-                self.myCategoryConfig.series[1].values.push(Math.floor((cate_used[i].sum_price / cate_goal[i].g_price)*100));
-                self.myCategoryConfig.series[0].values.push(100);
-              } else if (cate_used[i].cate_num == 2) {
-                result_min = (cate_goal[i].g_price - cate_used[i].sum_price);
-                self.resultComment(result_sum, result_min);
-                self.myCategoryConfig.scaleX.labels.push('교통');
-                self.myCategoryConfig.series[1].values.push(Math.floor((cate_used[i].sum_price / cate_goal[i].g_price)*100));
-                self.myCategoryConfig.series[0].values.push(100);
-              } else if (cate_used[i].cate_num == 3) {
-                result_min =(cate_goal[i].g_price - cate_used[i].sum_price);
-                self.resultComment(result_sum, result_min);
-                self.myCategoryConfig.scaleX.labels.push('식비');
-                self.myCategoryConfig.series[1].values.push(Math.floor((cate_used[i].sum_price / cate_goal[i].g_price)*100));
-                self.myCategoryConfig.series[0].values.push(100);
-              } else if (cate_used[i].cate_num == 4) {
-                result_min =(cate_goal[i].g_price - cate_used[i].sum_price);
-                self.resultComment(result_sum, result_min);
-                self.myCategoryConfig.scaleX.labels.push('패션/미용');
-                self.myCategoryConfig.series[1].values.push(Math.floor((cate_used[i].sum_price / cate_goal[i].g_price)*100));
-                self.myCategoryConfig.series[0].values.push(100);
-              } else if (cate_used[i].cate_num == 5) {
-                result_min = (cate_goal[i].g_price - cate_used[i].sum_price);
-                self.resultComment(result_sum, result_min);
-                self.myCategoryConfig.scaleX.labels.push('주거/통신');
-                self.myCategoryConfig.series[1].values.push(Math.floor((cate_used[i].sum_price / cate_goal[i].g_price)*100));
-                self.myCategoryConfig.series[0].values.push(100);
-              } else if (cate_used[i].cate_num == 6){
-                result_min = (cate_goal[i].g_price - cate_used[i].sum_price);
-                self.resultComment(result_sum, result_min);
-                self.myCategoryConfig.scaleX.labels.push('기타');
-                self.myCategoryConfig.series[1].values.push(Math.floor((cate_used[i].sum_price / cate_goal[i].g_price)*100));
-                self.myCategoryConfig.series[0].values.push(100);
+
+            for (var i = 0; i < cate_goal.length; i++) {
+              for (var k = 0; k < cate_used.length; k++) {
+                if (cate_goal[i].cate_num == 1) {
+                  self.myCategoryConfig.scaleX.labels.push('생활/쇼핑');
+                  self.resultComment(100, cate_goal[i].g_price);
+                  if (cate_goal[i].cate_num == cate_used[k].cate_num) {
+                    self.myCategoryConfig.series[1].values.push(Math.floor((cate_used[k].sum_price / cate_goal[i].g_price) * 100));
+                    result_sum = Math.floor((cate_used[k].sum_price / cate_goal[i].g_price) * 100);
+                    console.log(cate_used[k].cate_num + ' ++++++++++++++++++ ' + (cate_used[k].sum_price / cate_goal[i].g_price));
+                    result_min = (cate_goal[i].g_price - cate_used[k].sum_price);
+                    if (result_min)
+                      console.log(result_min + '리민값');
+                    self.resultComment(result_sum, result_min);
+                  } else {
+                    self.myCategoryConfig.series[1].values.push(0);
+                  }
+                  self.myCategoryConfig.series[0].values.push(100);
+                } else if (cate_goal[i].cate_num == 2) {
+                  self.myCategoryConfig.scaleX.labels.push('교통');
+                  if (cate_goal[i].cate_num == cate_used[k].cate_num) {
+                    self.myCategoryConfig.series[1].values.push(Math.floor((cate_used[k].sum_price / cate_goal[i].g_price) * 100));
+                    result_sum = Math.floor((cate_used[k].sum_price / cate_goal[i].g_price) * 100);
+                    console.log(cate_used[k].cate_num + ' ++++++++++++++++++ ' + (cate_used[k].sum_price / cate_goal[i].g_price));
+                    result_min = (cate_goal[i].g_price - cate_used[k].sum_price);
+                    if (result_min)
+                      console.log(result_min + '리민값');
+                    self.resultComment(result_sum, result_min);
+                  } else {
+                    self.myCategoryConfig.series[1].values.push(0);
+                  }
+                  self.myCategoryConfig.series[0].values.push(100);
+                } else if (cate_goal[i].cate_num == 3) {
+                  self.resultComment(100, cate_goal[i].g_price);
+                  self.myCategoryConfig.scaleX.labels.push('식비');
+                  if (cate_goal[i].cate_num == cate_used[k].cate_num) {
+                    self.myCategoryConfig.series[1].values.push(Math.floor((cate_used[k].sum_price / cate_goal[i].g_price) * 100));
+                    result_sum = Math.floor((cate_used[k].sum_price / cate_goal[i].g_price) * 100);
+                    console.log(cate_used[k].cate_num + ' ++++++++++++++++++ ' + (cate_used[k].sum_price / cate_goal[i].g_price));
+                    result_min = (cate_goal[i].g_price - cate_used[k].sum_price);
+                    if (result_min)
+                      console.log(result_min + '리민값');
+                    self.resultComment(result_sum, result_min);
+                  } else {
+                    console.log('*******************************');
+                    self.myCategoryConfig.series[1].values.push(0);
+                  }
+                  self.myCategoryConfig.series[0].values.push(100);
+                } else if (cate_goal[i].cate_num == 4) {
+                  self.resultComment(100, cate_goal[i].g_price);
+                  self.myCategoryConfig.scaleX.labels.push('패션/미용');
+                  if (cate_goal[i].cate_num == cate_used[k].cate_num) {
+                    self.myCategoryConfig.series[1].values.push(Math.floor((cate_used[k].sum_price / cate_goal[i].g_price) * 100));
+                    result_sum = Math.floor((cate_used[k].sum_price / cate_goal[i].g_price) * 100);
+                    console.log(cate_used[k].cate_num + ' ++++++++++++++++++ ' + (cate_used[k].sum_price / cate_goal[i].g_price));
+                    result_min = (cate_goal[i].g_price - cate_used[k].sum_price);
+                    if (result_min)
+                      console.log(result_min + '리민값');
+                    self.resultComment(result_sum, result_min);
+                  } else {
+                    self.myCategoryConfig.series[1].values.push(0);
+                  }
+                  self.myCategoryConfig.series[0].values.push(100);
+                } else if (cate_goal[i].cate_num == 5) {
+                  self.resultComment(100, cate_goal[i].g_price);
+                  self.myCategoryConfig.scaleX.labels.push('주거/통신');
+                  if (cate_goal[i].cate_num == cate_used[k].cate_num) {
+                    self.myCategoryConfig.series[1].values.push(Math.floor((cate_used[k].sum_price / cate_goal[i].g_price) * 100));
+                    result_sum = Math.floor((cate_used[k].sum_price / cate_goal[i].g_price) * 100);
+                    console.log(cate_used[k].cate_num + ' ++++++++++++++++++ ' + (cate_used[k].sum_price / cate_goal[i].g_price));
+                    result_min = (cate_goal[i].g_price - cate_used[k].sum_price);
+                    if (result_min)
+                      console.log(result_min + '리민값');
+                    self.resultComment(result_sum, result_min);
+                  } else {
+                    self.myCategoryConfig.series[1].values.push(0);
+                  }
+                  self.myCategoryConfig.series[0].values.push(100);
+                } else if (cate_goal[i].cate_num == 6) {
+                  self.resultComment(100, cate_goal[i].g_price);
+                  self.myCategoryConfig.scaleX.labels.push('기타');
+                  if (cate_goal[i].cate_num == cate_used[k].cate_num) {
+                    self.myCategoryConfig.series[1].values.push(Math.floor((cate_used[k].sum_price / cate_goal[i].g_price) * 100));
+                    result_sum = Math.floor((cate_used[k].sum_price / cate_goal[i].g_price) * 100);
+                    console.log(cate_used[k].cate_num + ' ++++++++++++++++++ ' + (cate_used[k].sum_price / cate_goal[i].g_price));
+                    result_min = (cate_goal[i].g_price - cate_used[k].sum_price);
+                    if (result_min)
+                      console.log(result_min + '리민값');
+                    self.resultComment(result_sum, result_min);
+                  } else {
+                    self.myCategoryConfig.series[1].values.push(0);
+                  }
+                  self.myCategoryConfig.series[0].values.push(100);
+                }
               }
+
+
+
+
             }
+
+
+
           }
           zingchart.render({
             id: 'myCategoryChart',
@@ -352,12 +408,13 @@ export default {
 }
 </script>
 <style scoped>
-#my-font{
+#my-font {
   font-size: 30px;
 
 }
-#my-p{
 
-  font-size:30px;
+#my-p {
+
+  font-size: 30px;
 }
 </style>
