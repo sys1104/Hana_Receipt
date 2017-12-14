@@ -6,7 +6,7 @@
   <first-section></first-section>
   <second-section></second-section>
   <third-section></third-section>
-  <fourth-section></fourth-section>
+  <!-- <fourth-section></fourth-section> -->
   <card-benefit v-if="$session.exists() == true"></card-benefit>
 
   <!-- <custom-footer></custom-footer>  -->

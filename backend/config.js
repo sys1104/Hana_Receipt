@@ -137,6 +137,12 @@ module.exports = {
             type: 'post'
         },
         {
+            file: './analysis',
+            path: '/api/analysis/word_cloud_history',
+            method: 'word_cloud_history',
+            type: 'post'
+        },
+        {
             file: './card',
             path: '/api/card/card_benefit_list',
             method: 'card_benefit_list',

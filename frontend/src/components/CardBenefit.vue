@@ -58,8 +58,7 @@
           card_img:'',
           card_benefit:'',
           flag:false,
-          result3 : '',
-          flag : false,
+          result3 : ''
         }
       },
       components:{
@@ -99,7 +98,7 @@
               }
             }else{
               console.log('CardBenefit Vue에서 제이슨데이타 받은게 없어요@@@@@');
-              flag = true;
+              self.flag = true;
             }
           })
       }
