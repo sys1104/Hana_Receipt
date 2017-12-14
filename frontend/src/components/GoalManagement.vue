@@ -32,15 +32,18 @@
     
     <!-- class="row" 추가 -->
     <div class="form-group" v-if="flag==false">
-      <div v-if="info0==false" class="form-group" style="width:30%" >
+      <div v-if="info0==false" class="form-group" style="width:35%" >
         <label class="form-control">목표기간</label>
         <!-- <input type="hidden" v-model="cate_num" class="form-control" value="1" name="cate_num"> -->
       </div>
-      <div v-if="info0==false" class="form-group" style="width:25%">
-        <input type="text" placeholder="시작날짜" v-model="g_time" class="form-control" name="g_time" style="text-align:center">
+      <div v-if="info0==false" class="form-group" style="width:23%">
+        <input type="date" placeholder="시작날짜" v-model="g_time" class="form-control" name="g_time" style="text-align:center">
       </div>
-      <div v-if="info0==false" class="form-group" style="width:25%">
-        <input type="text" placeholder="마지막날짜" v-model="g_endtime" class="form-control" name="g_endtime" style="text-align:center">
+      <div v-if="info0==false" class="form-group" style="width:3%">
+        <p style="font-size:30px; margin-top:15px">~</p>
+      </div>
+      <div v-if="info0==false" class="form-group" style="width:23%">
+        <input type="date" placeholder="마지막날짜" v-model="g_endtime" class="form-control" name="g_endtime" style="text-align:center">
       </div>
 <!-- results1[0]!=cate_num.cate_num1 && results1[1]!=cate_num.cate_num1 && results1[2]!=cate_num.cate_num1 && results1[3]!=cate_num.cate_num1 &&results1[4]!=cate_num.cate_num1 && results1[5]!=cate_num.cate_num1 -->
       
@@ -220,6 +223,9 @@ export default {
         //입력 값이 0보다 커야함
       }else if(this.g_price.g_price1<=0 && this.g_price.g_price2<=0 && this.g_price.g_price3<=0 && this.g_price.g_price4<=0 && this.g_price.g_price5<=0 && this.g_price.g_price2<=0){
         alert('양수만 입력 가능합니다');
+
+      }else if(this.g_time >= this.g_endtime){
+        alert('종료일은 시작일 이후만 입력 가능합니다.');
       }else{
         axios({
           method: 'post',
@@ -242,6 +248,7 @@ export default {
         console.log('getToday!')
         var today = new Date();
         var dd = today.getDate();
+        var ddNext = today.getDate()+1;
         var mm = today.getMonth()+1; //January is 0!
         var yyyy = today.getFullYear();
         if(dd<10) {
@@ -252,6 +259,7 @@ export default {
         }
         console.log(yyyy + '-'+ mm + '-' + dd);
         this.g_time = yyyy + '-'+ mm + '-' + dd;
+        this.g_endtime = yyyy + '-'+ mm + '-' + ddNext;
       }
 
   },

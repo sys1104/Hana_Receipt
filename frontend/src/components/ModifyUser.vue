@@ -80,7 +80,11 @@ export default {
       var salary = this.u_salary;
       var num = this.$session.get('session');
       console.log('폰 샘플데이터 '+phone)
-      axios({
+      if(name.length<=0 || phone.length<=0 || email.length<=0 || job.length<=0 || salary.length<=0)
+      {
+        alert('데이터를 입력하세요');
+      }else{
+        axios({
           method: 'post',
           url: 'api/user/modifyUser',
           data: {
@@ -95,7 +99,9 @@ export default {
           console.log('********** 회원정보 수정 **********');
           alert('회원정보 수정이 완료되었습니다');
           setTimeout("window.location.href = './'",0)
-      })
+      })        
+      }
+
     },
     deleteAccount(){
       var num = this.$session.get('session');
