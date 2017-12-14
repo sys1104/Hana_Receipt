@@ -214,11 +214,13 @@ export default {
         cate_num.push(this.cate_num.cate_num6);
         g_price.push(this.g_price.g_price6);
       }
-      if(this.g_price.g_price1<=0 && this.g_price.g_price2<=0 && this.g_price.g_price3<=0 && this.g_price.g_price4<=0 && this.g_price.g_price5<=0 && this.g_price.g_price2<=0){
-        alert('값을 입력하세요')
-      }
-
-      
+      //입력 값이 없으면
+      if(g_price.length<=0){
+        alert('값을 입력하세요');
+        //입력 값이 0보다 커야함
+      }else if(this.g_price.g_price1<=0 && this.g_price.g_price2<=0 && this.g_price.g_price3<=0 && this.g_price.g_price4<=0 && this.g_price.g_price5<=0 && this.g_price.g_price2<=0){
+        alert('양수만 입력 가능합니다');
+      }else{
         axios({
           method: 'post',
           url: 'api/goal/save_goal',
@@ -234,6 +236,7 @@ export default {
           // alert('목표내역 저장 완료되었습니다');
           setTimeout("window.location.href = './goal_management'",0)
         })
+      }
     },
       getToday(){
         console.log('getToday!')

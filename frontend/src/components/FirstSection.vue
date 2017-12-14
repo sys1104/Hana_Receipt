@@ -1,8 +1,8 @@
 <template id="test">
 <div>
-      <div v-show="$session.exists() == false" class="container">
+      <div v-if="$session.exists() == false" class="container">
         <br><br>
-        <h4>하나 영수증 프로세스</h4><br><br>
+        <!-- <h4>하나 영수증 프로세스</h4><br><br> -->
         <div class="row">
         <!-- <div class="col-md-4">
           <img src="img/check2.png" style="height:150px; margin-bottom:50px">
@@ -34,7 +34,7 @@
         </div>
         </div>
       </div>
-        <div v-show="$session.exists() == true" class="container" id="hi">
+        <div v-if="$session.exists() == true" class="container" id="hi">
         <br>
         <h2 class="text-center text-uppercase text-secondary mb-0">목표금액 : {{results | currency('',0)}}</h2>
         <h5 class="text-center text-uppercase text-secondary mb-0">- 기간 : {{start_date}}~ {{end_date}} -</h5>
