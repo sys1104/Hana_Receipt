@@ -11,7 +11,7 @@
 ); -->
 <template>
 <div id="cardbenefitlist" class="table-users container" style="width:100%">
-  
+  <hr>
   <h2>카드추천</h2>
   <br><br>
       <!-- <tr>
@@ -24,16 +24,17 @@
   <div class="row">  
       <div class="col-md-4" v-for="(result, index) in results2" v-if="flag == false">
         <a :href="cardUrl[index]"><img :src="imgPath[index]" /></a>
-        <h6>{{result.card_name}}</h6>
-          <div class="row">
-          <p class="btn btn-danger"v-if="result.card_check==0">체크</p>
-          <p style="margin-left:40px; margin-right:10px" class="btn btn-danger"v-if="result.card_check==1">신용</p>
+        <h6 style="height:50px;">{{result.card_name}}</h6>
+          <div>
+          <p style="margin-left:10px; margin-right:10px" class="btn btn-danger"v-if="result.card_check==0">체크</p>
+          <p style="margin-left:10px; margin-right:10px" class="btn btn-danger"v-if="result.card_check==1">신용</p>
           <p class="btn btn-primary" v-if="result.domestic==0">국내</p>
           <p class="btn btn-primary" v-if="result.domestic==1">국내/해외</p>       
           </div>
           <hr>
-        <h5><p style="font-size : 40px; color:orange">혜택</p>{{result.card_benefit}}</h5>
-        <hr>
+        <div class="">
+        <h5 class="text-center" style="height:150px;"><p style="font-size : 40px; color:orange;">혜택</p>{{result.card_benefit}}</h5>
+        </div>
       </div>
       <!-- <div class="col-md-4">
         <p>ㅎㅇ</p>

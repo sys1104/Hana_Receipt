@@ -19,12 +19,12 @@
     <ul v-for="(result,index) in final_result">
       <br>
       <li id="my-font">
-       <p id="my-p" v-if="result=='매우 알뜰'" style="color:green">{{result | currency('',0)}}</p>
-       <p id="my-p" v-if="result=='알뜰'" style="color:green">{{result | currency('',0)}}</p>
-       <p id="my-p" v-if="result=='보통'" style="color:green">{{result | currency('',0)}}</p>
-       <p id="my-p" v-if="result=='위험'" style="color:orange">{{result | currency('',0)}}</p>
-       <p id="my-p" v-if="result=='매우 위험'" style="color:red">{{result | currency('',0)}}</p>
-       <p id="my-p" v-if="result=='스튜핏!!'" style="color:purple">{{result | currency('',0)}}</p>
+       <p id="my-p" v-if="result=='매우 알뜰'" style="color:green">{{result}}</p>
+       <p id="my-p" v-if="result=='알뜰'" style="color:green">{{result}}</p>
+       <p id="my-p" v-if="result=='보통'" style="color:green">{{result}}</p>
+       <p id="my-p" v-if="result=='위험'" style="color:orange">{{result}}</p>
+       <p id="my-p" v-if="result=='매우 위험'" style="color:red">{{result}}</p>
+       <p id="my-p" v-if="result=='스튜핏!!'" style="color:purple">{{result}}</p>
 
 
       </li>
@@ -222,20 +222,25 @@ export default {
     resultComment(result_sum, result_min){
       console.log('result_sum : ' + result_sum);
       var re2 = result_sum;
+      //0~20
       if(re2 >=0 && re2 <= 20){
         this.results.push('매우 알뜰');
         this.results2.push(result_min);
+      //21~40  
       }else if(re2 > 20 && re2 <= 40){
         this.results.push("알뜰");
         this.results2.push(result_min);
+      //41~60  
       }else if(re2 > 40 && re2 <= 60){
         this.results.push("보통");
         this.results2.push(result_min);
+      //61~80
       }else if(re2 > 60 && re2 <= 80){
         this.results.push("위험");
         this.results2.push(result_min);
+      //81~100  
       }else if(re2 > 80 && re2 <= 100){
-        this.results.push("아주위험");
+        this.results.push("매우 위험");
         this.results2.push(result_min);
       }else {
         this.results.push("스튜핏!!");
@@ -296,17 +301,18 @@ export default {
 
             var result_sum = '';
             var result_min = '';
-            for (var i = 0; i < cate_used.length; i++) {
+            for (var i = 0; i < cate_goal.length; i++) {
               result_sum = Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 100);
               console.log(cate_used[i].cate_num + ' ++++++++++++++++++ ' + (cate_used[i].sum_price / cate_goal[i].g_price));
-              if (cate_used[i].cate_num == 1) {
+              console.log('ㅎㅇ!!' + cate_goal.length);
+              if (cate_used[i].cate_num == 1 && cate_goal[i].g_price > 1) {  
                 result_min = (cate_goal[i].g_price - cate_used[i].sum_price);
                 console.log(result_min + '리민값');
                 self.resultComment(result_sum, result_min);
                 self.myCategoryConfig.scaleX.labels.push('생활/쇼핑');
-                self.myCategoryConfig.series[1].values.push(Math.floor((cate_used[i].sum_price / cate_goal[i].g_price)*100));
+                self.myCategoryConfig.series[1].values.push(Math.floor((0  / cate_goal[i].g_price)*100)); //cate_used[i].sum_price
                 self.myCategoryConfig.series[0].values.push(100);
-              } else if (cate_used[i].cate_num == 2) {
+              } else if (cate_used[i].cate_num == 2 || cate_goal[i].g_price > 1) {
                 result_min = (cate_goal[i].g_price - cate_used[i].sum_price);
                 self.resultComment(result_sum, result_min);
                 self.myCategoryConfig.scaleX.labels.push('교통');
