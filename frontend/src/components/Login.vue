@@ -1,16 +1,17 @@
 <template>
-<div id="login" class="table-users" style="margin-top:200px">
+<div id="login" class="table-users" style="margin-top:200px; width:800px">
   <navi></navi>
-      <br><br>
-      <img src="img/invoice.png" style="height:200px">
-      <br><br><p style="color:black; font-weight:bold; font-size:30px">Welcome to Hana Receipt</p><br>
-    <div class="form-group form-horizontal" style="margin-left:50px;width:650px">
+      <h3>하나 영수증</h3><br>
+      <img src="img/invoice.png" style="height:200px; margin-bottom:50px">
+        <div style="width:600px; margin-left:140px">
+      <div class="form-group" style="width:500px">
       <input @keydown.enter="login" type="text" placeholder="아이디" v-model="u_id" class="form-control fui-user" name="u_id">
+      <input @keydown.enter="login" type="password" placeholder="패스워드" v-model="u_pw" class="form-control" name="u_pw" style="margin-top:10px">
     </div>
-    <div class="form-group" style="margin-left:50px;width:650px">
-      <input @keydown.enter="login" type="password" placeholder="패스워드" v-model="u_pw" class="form-control" name="u_pw">
+    <div class="form-group" style="width:500px">
+      <button @click="login" style="width:500px; height:50px;font-size:20px" class="btn btn-danger">로그인</button>  
     </div>
-    <button @click="login" style="width:300px; font-size:20px; margin-top:50px; margin-bottom:20px" class="btn btn-success">Log in</button>
+    </div>
   </div>
 </template>
 
@@ -91,7 +92,7 @@ export default {
         }
 
         body {
-            background-color: white;
+            background-color: #fafafa;
         }
 
         body * {
@@ -100,7 +101,7 @@ export default {
 
         .header {
             background-color: #327a81;
-            color: white;
+            color: #fafafa;
             font-size: 1.5em;
             padding: 1rem;
             text-align: center;
@@ -108,14 +109,14 @@ export default {
         }
 
         .table-users {
-            border: 1px solid lightgrey;
+            border: 1px solid #fafafa;
             border-radius: 10px;
             box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
             max-width: calc(100% - 2em);
             margin: 1em auto;
             overflow: hidden;
             width: 800px;
-            background-color: #1ABC9C
+            background-color: #FAFAFA
         }
 
         .table-users {

@@ -1,5 +1,40 @@
 <template id="test">
-      <div class="container" id="hi">
+<div>
+      <div v-if="$session.exists() == false" class="container">
+        <br><br>
+        <!-- <h4>하나 영수증 프로세스</h4><br><br> -->
+        <div class="row">
+        <!-- <div class="col-md-4">
+          <img src="img/check2.png" style="height:150px; margin-bottom:50px">
+          <h6>회원가입 및 로그인</h6>
+          <p>하나 영수증 홈페이지에서 회원가입 및 로그인을 완료합니다.</p>
+        </div> -->
+        <div class="row">
+          <img src="img/invoice2.png" style="height:180px; width:200px">
+          <img src="img/arrow1.png" style="height:80px; margin-left:50px; margin-right:50px; margin-top:50px">
+          <img src="img/calendar2.png" style="height:180px; width:200px">
+          <img src="img/arrow1.png" style="height:80px; margin-left:50px; margin-right:50px; margin-top:50px">
+          <img src="img/creditcard2.png" style="height:180px; width:200px">
+        </div>
+        <div class="row" style="margin-top:50px">
+          <div>
+          <h6>소비 관리</h6>
+          <p><span style="font-weight:bold">하나 영수증</span>을 작성한 후<br><span style="font-weight:bold">카테고리 별 소비내역</span>을 확인합니다.
+          <br>소비내역에서 <span style="font-weight:bold">낭비</span>된다고 생각하는<br>항목을 체크할 수 있습니다.</p> 
+          </div>
+        <div style="margin-left:90px">
+          <h6>목표 관리</h6>
+          <p>낭비된 카테고리를 확인한 후 카테고리별 <br> <span style="font-weight:bold">기간에 따른 목표 금액</span>을 설정합니다.
+          <br>목표 설정에 따른 목표금액 및 사용금액을 <br> 그래프로 확인할 수 있습니다.</p>
+        </div>
+        <div style="margin-left:130px">
+          <h6>카드 추천</h6>
+          <p>사용자의 소비 카테고리를 분석하여<br><span style="font-weight:bold">각 혜택에 따라 적합한 카드</span>를<br>추천받을 수 있습니다.</p>
+          </div>
+        </div>
+        </div>
+      </div>
+        <div v-if="$session.exists() == true" class="container" id="hi">
         <br>
         <h2 class="text-center text-uppercase text-secondary mb-0">목표금액 : {{results | currency('',0)}}</h2>
         <h5 class="text-center text-uppercase text-secondary mb-0">- 기간 : {{start_date}}~ {{end_date}} -</h5>
@@ -10,13 +45,20 @@
            <my-total-chart></my-total-chart>
           </div>
 
-
       </div>
+</div>
 </template>
 
-<style>
+<style scoped>
   #hi{
     background-color : white;
+  }
+  p{
+    font-size:15px;
+    color:black;
+  }
+  h6{
+    font-weight: bold;
   }
 </style>
 

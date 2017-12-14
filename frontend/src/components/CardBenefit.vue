@@ -10,10 +10,35 @@
     PRIMARY KEY (card_num)
 ); -->
 <template>
-<div id="cardbenefitlist" class="table-users" style="width:100%">
-  <ul v-for="result in results">
-    <li>{{result}}</li>
-  </ul>
+<div id="cardbenefitlist" class="table-users container" style="width:100%">
+  <h2>----------------------------------------------</h2>
+  <h2>카드추천</h2>
+    <table>
+      <tr>
+        <th>이미지</th>
+        <th>카드이름</th>
+        <th>체크/신용</th>
+        <th>국내/해외</th>
+        <th colspan="20">혜택</th>
+      </tr>
+      <tr class="table-body" v-for="(result, index) in results2">
+        <td><img :src="imgPath[index]" /></td>
+        <td>{{result.card_name}}</td>
+        <td>
+          <select v-model="result.card_check" disabled class="form-control" style="color:black;">
+            <option value="0">체크</option>
+            <option value="1">신용</option>
+          </select>
+        </td>
+        <td>
+          <select v-model="result.domestic" disabled class="form-control" style="color:black;">
+            <option value="0">국내</option>
+            <option value="1">국내/해외</option>
+          </select>
+        </td>
+        <td>{{result.card_benefit}}</td>
+      </tr>
+    </table>
 </div>
 </template>
 
@@ -22,7 +47,9 @@
     export default {
       data: function () {
         return {
+          imgPath : [],
           results:'',
+          results2:[],
           card_num:'',
           card_name:'',
           card_check:'',
@@ -36,55 +63,7 @@
       components:{
       },
       methods :{
-        // // 수정 후 완료클릭시 실행되는 function
-        // editGoal(result) {
-        //   console.log('********** front-end editGoal 호출 **********');
-        //   var g_num = result.g_num;
-        //   var u_num = result.u_num;
-        //   var cate_num = result.cate_num;
-        //   var g_price = result.g_price;
-        //   var g_time = result.g_time;
-        //   var g_endtime = result.g_endtime;
-        //     axios({
-        //       method: 'post',
-        //       url: 'api/goal/edit_goal',
-        //       data: {
-        //         g_num:g_num,
-        //         u_num:u_num,
-        //         cate_num: cate_num,
-        //         g_price: g_price,
-        //         g_time: g_time,
-        //         g_endtime: g_endtime
-        //       }
-        //     }).then(function(response) {
-        //       console.log('********** 목표내역 수정완료 **********');
-        //     //   alert('목표내역 수정이 완료되었습니다');
-        //       setTimeout("window.location.href = './goal_management'",0)
-        //     })
-        // },
-        // //수정 클릭시 실행되는 function
-        // editClick(result) {
-        //   console.log('********** front-end editClick 호출 **********');
-        //   this.flag=true;
-        //   this.result3 = result.g_num;
-        // },
-        // //삭제 클릭시 실행되는 function
-        // deleteGoal(result) {
-        //   var g_num = result.g_num;
-        //   var unum = result.u_num;
-        //   axios({
-        //     method: 'post',
-        //     url: 'api/goal/delete_goal',
-        //     data: {
-        //       g_num:g_num,
-        //       u_num:unum
-        //     }
-        //   }).then(function(response) {
-        //     console.log('********** 목표내역 삭제완료 **********');
-        //     // alert('목표내역 삭제가 완료되었습니다');
-        //     setTimeout("window.location.href = './goal_management'",0)
-        //   })
-        // }
+
     },
     created(){
         console.log('CardBenefit Created()')
@@ -98,7 +77,19 @@
         }
       }).then(function (response) {
             self.results = response.data;
-            // self.list_total = Number(response.data.length);
+            if(response.data.length > 3){
+              for(var i=0; i<3; i++){
+                self.imgPath.push("img/card_img/"+response.data[i].card_img);
+                self.results2.push(response.data[i]);
+                console.log('이미지패쓰 : ' + self.imgPath[i]);
+              }
+            }else{
+              for(var j=0; j<response.data.length; j++){
+                self.imgPath.push("img/card_img/"+response.data[j].card_img);
+                self.results2.push(response.data[j]);
+                console.log('else이미지패쓰 : ' + self.imgPath[j]);
+              }
+            }
           })
       }
     }

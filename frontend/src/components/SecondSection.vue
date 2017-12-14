@@ -1,5 +1,6 @@
 <template id="second-section">
-      <div class="container-fluid" id="hi">
+      
+      <div v-show="$session.exists() == true" class="container-fluid" id="hi">
           <div class="container">
           
         <br>

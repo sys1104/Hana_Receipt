@@ -1,6 +1,6 @@
 <template>
 <div class="row">
-  <div class="col-md-8" id='myCategoryChart' style="margin-top : 2%"></div>
+  <div class="col-md-8" id='myCategoryChart' style=""></div>
   <!-- 현재상태 역순 -->
 
   <div class="col-md-2" style="margin-bottom: 22%;">
@@ -14,17 +14,16 @@
     </ul>
   </div>
   <div class="col-md-2">
-    평가
     <br><br>
     <ul v-for="(result,index) in final_result">
       <br>
       <li id="my-font">
-        <p id="my-p" v-if="result=='매우 알뜰'" style="color:green">{{result | currency('',0)}}</p>
-        <p id="my-p" v-if="result=='알뜰'" style="color:green">{{result | currency('',0)}}</p>
-        <p id="my-p" v-if="result=='보통'" style="color:green">{{result | currency('',0)}}</p>
-        <p id="my-p" v-if="result=='위험'" style="color:orange">{{result | currency('',0)}}</p>
-        <p id="my-p" v-if="result=='매우 위험'" style="color:red">{{result | currency('',0)}}</p>
-        <p id="my-p" v-if="result=='스튜핏!!'" style="color:purple">{{result | currency('',0)}}</p>
+       <p id="my-p" v-if="result=='매우 알뜰'" style="color:green">{{result}}</p>
+       <p id="my-p" v-if="result=='알뜰'" style="color:green">{{result}}</p>
+       <p id="my-p" v-if="result=='보통'" style="color:green">{{result}}</p>
+       <p id="my-p" v-if="result=='위험'" style="color:orange">{{result}}</p>
+       <p id="my-p" v-if="result=='매우 위험'" style="color:red">{{result}}</p>
+       <p id="my-p" v-if="result=='스튜핏!!'" style="color:purple">{{result}}</p>
 
 
       </li>
@@ -58,29 +57,30 @@ export default {
       final_result2: [],
       myCategoryConfig: {
         type: "hbar",
-        "font-family": "Arial",
-        "title": {
-          "text": "나의 카테고리별 금액",
-          "font-family": "Arial",
-          "background-color": "none",
-          "font-color": "black",
-          "font-size": "18px"
-        },
-        "labels": [{
-            "text": "카테고리",
-            "font-size": "12px",
-            "font-color": "#black",
-            "x": "2%",
-            "y": "12%"
-          },
-          {
-            "text": "사용금액",
-            "font-size": "12px",
-            "font-color": "black",
-            "x": "50%",
-            "y": "12%"
-          }
-        ],
+        "font-family":"Arial",
+            "title":{
+                "text":"나의 카테고리별 금액<br>",
+                "font-family":"Arial",
+                "background-color":"none",
+                "font-color":"#2C3E50",
+                "font-size":"25px"
+            },
+            "labels":[
+                {
+                    "text":"카테고리",
+                    "font-size":"15px",
+                    "font-color":"black",
+                    "x":"1%",
+                    "y":"12%"
+                },
+                {
+                    "text":"사용금액",
+                    "font-size":"15px",
+                    "font-color":"black",
+                    "x":"50%",
+                    "y":"12%"
+                }
+            ],
         backgroundColor: "none",
         tooltip: {
           visible: false
