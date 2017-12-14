@@ -36,7 +36,7 @@
                     <!-- 로그인 후 목표설정 O-->
         <div v-if="$session.exists() == true && !results =='' " class="container" id="hi">
         <br>
-        <h2 class="text-center text-uppercase text-secondary mb-0">목표금액 : {{results | currency('',0)}}</h2>
+        <h2 class="text-center text-uppercase text-secondary mb-0">목표금액 : {{results | currency('',0)}}원</h2>
         <h5 class="text-center text-uppercase text-secondary mb-0">- 기간 : {{start_date}}~ {{end_date}} -</h5>
         <hr class="star-dark mb-5">
         <div class="row">
@@ -53,7 +53,8 @@
         <br>
         <h2 class="text-center">목표금액</h2>
         <!-- <h5 class="text-center text-uppercase text-secondary mb-0">- 기간 : {{start_date}}~ {{end_date}} -</h5> -->
-        <hr class="star-dark mb-5">
+        <!-- <hr class="star-dark mb-5"> -->
+        <br>
         <div class="row">
           <div class="col-md-7">
                 <my-total-chart></my-total-chart>
@@ -176,9 +177,9 @@ export default {
         self.results = all_goal[0].g_price;
         console.log('목표금액 합산 : ' + self.results);
 
-         self.goal_price = all_goal[0].g_price;
-                      self.now_price = all_used[0].sum_price;
-                      self.u_name = all_goal[0].u_name;
+        self.goal_price = all_goal[0].g_price;
+        self.now_price = all_used[0].sum_price;
+        self.u_name = all_goal[0].u_name;
 
 
       });

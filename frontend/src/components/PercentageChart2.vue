@@ -4,7 +4,7 @@
 <div id='percentageChart2'></div>
 <div class="col-md-12 col-md-offset-2">
   <!-- 두번째 그래프 -->
- <h4>다른 이용자는 <p><{{category}}></p>에 가장 많은 비용을 지출하고 있습니다.</h4>
+ <h5>다른 이용자 <p><{{category}}></p>에 많은 비용을 지출하고 있습니다</h5>
 </div>
 </div>
 </template>

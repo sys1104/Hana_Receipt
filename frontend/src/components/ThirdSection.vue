@@ -1,7 +1,11 @@
 <template id="second-section">
-      <div v-show="$session.exists() == true" class="container-fluid" id="hi">
+      <div v-if="$session.exists() == true" class="container-fluid" id="hi">
         <br>
       <div class="container">
+        <h2 class="text-center">소비내역 비교하기</h2>
+          <!-- <hr class="star-dark mb-5"> -->
+          <br>
+          <br>
         <div class="row">
           <div class="col-md-6">
             <!-- 첫번째 그래프 -->
