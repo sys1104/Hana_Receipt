@@ -6,7 +6,6 @@
         <br>
         <div class="row">
           <div class="col-md-12">
-            <!-- 첫번째 그래프 -->
            <my-category-chart></my-category-chart>
           </div>
           <div>

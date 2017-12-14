@@ -26,7 +26,7 @@
 
       <tr>
         <td></td><br>
-        <h3 style="font-weight:bold; color:#327a81; margin-right:12px" class="text-right">총액 : {{sum}}원</h3></tr>
+        <h3 style="font-weight:bold; color:#327a81; margin-right:12px" class="text-right">총액 : {{sum | currency('',0)}}원</h3></tr>
     </table>
     <hr>
   </div>

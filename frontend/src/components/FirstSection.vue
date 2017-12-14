@@ -34,7 +34,7 @@
       </div>
       
                     <!-- 로그인 후 목표설정 O-->
-        <div v-if="$session.exists() == true && !results.length > 0" class="container" id="hi">
+        <div v-if="$session.exists() == true && !results =='' " class="container" id="hi">
         <br>
         <h2 class="text-center text-uppercase text-secondary mb-0">목표금액 : {{results | currency('',0)}}</h2>
         <h5 class="text-center text-uppercase text-secondary mb-0">- 기간 : {{start_date}}~ {{end_date}} -</h5>
