@@ -1,11 +1,10 @@
 <template>
 <div class="row">
-  <div class="col-md-7" id='myTotalChart'>
-
+  <div class="col-md-12" id='myTotalChart'>
   </div>
-  <div class="col-md-5" style="margin-bottom:10%">
-    <h5>{{u_name}}님은 현재 목표금액 <p>{{goal_price | currency('',0)}}원</p> 중 <p>{{now_price | currency('',0)}}원</p>을 사용하고 있습니다.</h5>
-  </div>
+  <!-- <div class="col-md-5" style="margin-bottom:10%">
+       <h5>{{u_name}}님은 현재 목표금액 <p>{{goal_price | currency('',0)}}원</p> 중 <p>{{now_price | currency('',0)}}원</p>을 사용하고 있습니다.</h5>
+  </div> -->
 </div>
 
 </template>
@@ -14,138 +13,138 @@
 // 나의 목표 금액 그래프
 import axios from 'axios'
 export default {
-  data() {
-    return {
-      result : '',
-      goal_price : '',
-      now_price : '',
-      u_name : '',
-      mytotalconfig: {
-        graphset: [{
+              data() {
+                return {
+                  result : '',
+                  goal_price : '',
+                  now_price : '',
+                  u_name : '',
+                  mytotalconfig: {
+                    graphset: [{
 
-              type: "gauge",
-              globals: {
-                fontSize: 25
-              },
-              plotarea:{
-                marginTop:60
-              },
-              plot:{
-                size:'100%',
-                valueBox: {
-                  placement: 'center',
-                  text:'%v', //default
-                  fontSize:30,
-                  rules:[
-                    {
-                      rule: '%v > 0 && %v <= 20',
-                      text: '%v%<br><br>매우 알뜰',
-                      color : 'green'
-                    },
-                    {
-                      rule: '%v > 20 && %v <= 40',
-                      text: '%v%<br><br>알뜰',
-                      color : '#29B6F6'
-                    },
-                    {
-                      rule: '%v > 40 && %v <= 60',
-                      text: '%v%<br><br>보통',
-                      color : '#FFA726'
-                    },
-                    {
-                      rule: '%v > 60 && %v <= 80',
-                      text: '%v%<br><br>위험',
-                      color : '#EF5350'
-                    },
-                    {
-                      rule: '%v > 80 && 100 >= %v',
-                      text: '%v%<br><br>매우 위험',
-                      color : 'red'
-                    },
-                    // {
-                    //   rule: '%v=100',
-                    //   text: '%v%<br><br>매우 위험',
-                    //   color : 'purple'
-                    // },
-                    {
-                      rule: '%v>100',
-                      text: '100% 초과',
-                      color : 'purple'
-                    }
-                  ]
-                }
-              },
-              tooltip:{
-                borderRadius:5
-              },
-              scaleR:{
-                aperture:180,
-                minValue:0,
-                maxValue:100,
-                step:20,
-                center:{
-                  visible:false
-                },
-                tick:{
-                  visible:false
-                },
-                item:{
-                  offsetR:0,
-                  rules:[
-                    {
-                      // rule:'%i == 4',
-                      // offsetX:0
-                    }
-                  ]
-                },
-                // labels:['20','40','60','80','100'],
-                ring:{
-                  size:50,
-                  rules:[
-                    {
-                      rule:'%v > -20 && %v <= 0',
-                      backgroundColor:'green'
-                    } ,
-                    {
-                      rule:'%v > 0 && %v <= 20',
-                      backgroundColor:'#29B6F6'
-                    },
-                    {
-                      rule:'%v > 20 && %v <= 40',
-                      backgroundColor:'#FFA726'
-                    },
-                    {
-                      rule:'%v > 40 && %v <= 60',
-                      backgroundColor:'#EF5350'
-                    },
-                    {
-                      rule:'%v > 60 && %v <= 80',
-                      backgroundColor:'red'
-                    },
-                    // {
-                    //   rule:'%v > 80 && %v <= 100',
-                    //   backgroundColor:'red'
-                    // }
-                  ]
-                }
-              },
-              series : [
-                {
-                  values : [], // starting value
-                  backgroundColor:'black',
-                  indicator:[10,10,10,10,0.75],
-                  animation:{
-                    effect:1,
-                    method:1,
-                    sequence:6,
-                    speed: 800
-                },
-                }
-              ]
-                }]
-              }
-            }
-          },
+                          type: "gauge",
+                          globals: {
+                            fontSize: 25
+                          },
+                          plotarea:{
+                            marginTop:60
+                          },
+                          plot:{
+                            size:'100%',
+                            valueBox: {
+                              placement: 'center',
+                              text:'%v', //default
+                              fontSize:30,
+                              rules:[
+                                {
+                                  rule: '%v > 0 && %v <= 20',
+                                  text: '%v%<br><br>매우 알뜰',
+                                  color : 'green'
+                                },
+                                {
+                                  rule: '%v > 20 && %v <= 40',
+                                  text: '%v%<br><br>알뜰',
+                                  color : '#29B6F6'
+                                },
+                                {
+                                  rule: '%v > 40 && %v <= 60',
+                                  text: '%v%<br><br>보통',
+                                  color : '#FFA726'
+                                },
+                                {
+                                  rule: '%v > 60 && %v <= 80',
+                                  text: '%v%<br><br>위험',
+                                  color : '#EF5350'
+                                },
+                                {
+                                  rule: '%v > 80 && 100 >= %v',
+                                  text: '%v%<br><br>매우 위험',
+                                  color : 'red'
+                                },
+                                // {
+                                //   rule: '%v=100',
+                                //   text: '%v%<br><br>매우 위험',
+                                //   color : 'purple'
+                                // },
+                                {
+                                  rule: '%v>100',
+                                  text: '100% 초과',
+                                  color : 'purple'
+                                }
+                              ]
+                            }
+                          },
+                          tooltip:{
+                            borderRadius:5
+                          },
+                          scaleR:{
+                            aperture:180,
+                            minValue:0,
+                            maxValue:100,
+                            step:20,
+                            center:{
+                              visible:false
+                            },
+                            tick:{
+                              visible:false
+                            },
+                            item:{
+                              offsetR:0,
+                              rules:[
+                                {
+                                  // rule:'%i == 4',
+                                  // offsetX:0
+                                }
+                              ]
+                            },
+                            // labels:['20','40','60','80','100'],
+                            ring:{
+                              size:50,
+                              rules:[
+                                {
+                                  rule:'%v > -20 && %v <= 0',
+                                  backgroundColor:'green'
+                                } ,
+                                {
+                                  rule:'%v > 0 && %v <= 20',
+                                  backgroundColor:'#29B6F6'
+                                },
+                                {
+                                  rule:'%v > 20 && %v <= 40',
+                                  backgroundColor:'#FFA726'
+                                },
+                                {
+                                  rule:'%v > 40 && %v <= 60',
+                                  backgroundColor:'#EF5350'
+                                },
+                                {
+                                  rule:'%v > 60 && %v <= 80',
+                                  backgroundColor:'red'
+                                },
+                                // {
+                                //   rule:'%v > 80 && %v <= 100',
+                                //   backgroundColor:'red'
+                                // }
+                              ]
+                            }
+                          },
+                          series : [
+                            {
+                              values : [], // starting value
+                              backgroundColor:'black',
+                              indicator:[10,10,10,10,0.75],
+                              animation:{
+                                effect:1,
+                                method:1,
+                                sequence:6,
+                                speed: 800
+                            },
+                            }
+                          ]
+                            }]
+                          }
+                        }
+                      },
               created() {
                 var self = this;
                 var date = new Date();
@@ -183,7 +182,7 @@ export default {
                       all_goal = response.data.all_goal;
                       var used_goal = ((all_used[0].sum_price) / (all_goal[0].g_price) * 100);
                       if(used_goal > 100){
-                        used_goal=100;
+                        used_goal=101;
                       }
                       self.mytotalconfig.graphset[0].series[0].values.push(Math.floor(used_goal));
                       // if((Math.floor((all_used[0].sum_price) / (all_goal[0].g_price) * 100)) >=0 && (Math.floor((all_used[0].sum_price) / (all_goal[0].g_price) * 100)) <= 20){
@@ -215,14 +214,3 @@ export default {
               }
 }
 </script>
-    <style scoped>
-    p{
-      font-size: 50px;
-      font-style: italic;
-      color:orange;
-    }
-    h4{
-      font-size: 60px;
-    }
-
-    </style>

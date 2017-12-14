@@ -56,7 +56,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
     #a_head:before{
       content:attr(data-text);
       position:absolute;

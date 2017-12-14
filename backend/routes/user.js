@@ -316,7 +316,80 @@ var addUser = function(database, id, pwd, name, age, gender, phone, email, job, 
         // });
     });
 };
+// ============================= 회원탈퇴 호출 function ============================//
+var deleteAccount = function(req, res, callback) {
+    console.log('********** server-side deleteUser 호출 **********');
+    var database = req.app.get('database');
+    var paramUnum = req.body.u_num || req.query.u_num;
+    if (database) {
+        var axios = require('axios');
+        //사용자 인증 함수 호출 authUser
+        delAccount(database, paramUnum, function(err, rows) {
+            if (err) {
+                console.error('********** 회원탈퇴 중 에러 발생 **********' + err.stack);
+                res.writeHead(200, {
+                    "Content-Type": 'text/html;charset=utf8'
+                });
+                res.write('<h2>로그인 도중 데이터베이스 에러 발생</h2>');
+                res.write('<p>' + err.stack + '</p>');
+                res.end();
 
+            } // 에러 처리
+            if (rows) {
+                console.log('delUser 정상적으로 수행됨!!');
+                res.end();
+            }
+
+        });
+    } else {
+        //DB접속에 실패 했을 경우
+        res.writeHead(200, {
+            "Content-Type": 'text/html;charset=utf8'
+        });
+        res.write('<h1>데이터베이스 연결 실패</h1>');
+        res.write('<div><p>DB에 연결 하지 못했습니다</p></div>');
+        res.write("<br/><a href='/public/login2.html'>다시 로그인</a>");
+        res.end();
+    }
+};
+
+
+// ============================= 회원탈퇴 function ============================//
+var delAccount = function(database, num, callback) {
+    console.log('********** server-side delUser 호출 **********');
+    database.pool.getConnection(function(err, conn) { //DB 접속
+        if (err) {
+            if (conn) {
+                conn.release();
+            }
+            callback(err, null);
+            return;
+        }
+        console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
+        var tablename = 'user';
+        //물음표가 두개 연속으로 붙으면 컬럼이나 테이블 이름을 뜻한다
+        var exec = conn.query('delete from user where u_num=?', num, function(err, rows) {
+            if (rows) {
+                console.log('delUser 수행완료');
+                conn.release();
+                callback(null, rows);
+
+            }
+            if (err) {
+                // console.log('********** sql 수행 중 에러발생. ********** ');
+                // console.dir(err);
+                callback(err, null);
+                return;
+            }
+        });
+        conn.on('error', function(err) {
+            conn.release();
+            console.log('********** 데이터베이스 연결 시 에러 발생함 **********');
+            console.dir(err);
+            callback(err, null);
+        });
+    });
+};
 // ======================= 회원정보 출력 function =================== //
 var showUser = function(req, res, callback) {
     console.log('********** server-side showUser 호출됨 **********');
@@ -607,4 +680,5 @@ module.exports.signup = signup;
 module.exports.showUser = showUser;
 module.exports.modifyUser = modifyUser;
 module.exports.dupCheck = dupCheck;
+module.exports.deleteAccount = deleteAccount;
 // module.exports.loadContents = loadContents;

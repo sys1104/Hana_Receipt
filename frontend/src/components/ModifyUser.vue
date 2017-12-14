@@ -35,7 +35,9 @@
         <input type="number" style="width:790px; margin-left:30px;display:inline-block" placeholder="연봉" v-model="u_salary" class="form-control" name="u_salary">
       </div>
       <br><br>
-      <button @click.prevent="modifyUser" class="btn" style="width:300px; background-color:#327a81; color:white; font-weight:bold">수 정</button>
+      <button @click.prevent="modifyUser" class="btn" style="width:200px; background-color:#327a81; color:white; font-weight:bold; margin-right:50px;">수 정</button>
+      <button @click.prevent="deleteAccount" class="btn" style="width:200px; background-color:red; color:white; font-weight:bold">탈퇴</button>
+      
       <br><br><br>
       <!-- <famous :stories="stories"></famous> -->
       <!-- <famous></famous> -->
@@ -94,6 +96,26 @@ export default {
           alert('회원정보 수정이 완료되었습니다');
           setTimeout("window.location.href = './'",0)
       })
+    },
+    deleteAccount(){
+      var num = this.$session.get('session');
+      var self = this;
+      if(confirm('정말 탈퇴하시겠습니까?')){
+         axios({
+          method: 'post',
+          url: 'api/user/delete_account',
+          data: {
+            u_num: num,
+          }
+        }).then(function(response) {
+          console.log('********** 회원탈퇴 완료**********');
+          alert('회원탈퇴 완료!');
+          self.$session.destroy();
+          console.log('세션 확인' + self.$session.get('session'));
+          setTimeout("window.location.href = './'",0)
+          })        
+      }
+         
     }
   },
   // props:['stories'],
