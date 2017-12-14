@@ -21,7 +21,7 @@
         <th>국내/해외</th>
         <th colspan="20">혜택</th>
       </tr>
-      <tr class="table-body" v-for="(result, index) in results2">
+      <tr class="table-body" v-for="(result, index) in results2" v-if="flag == false">
         <td><a :href="cardUrl[index]"><img :src="imgPath[index]" /></a></td>
         <td>{{result.card_name}}</td>
         <td>
@@ -58,7 +58,8 @@
           card_img:'',
           card_benefit:'',
           flag:false,
-          result3 : ''
+          result3 : '',
+          flag : false,
         }
       },
       components:{
@@ -79,6 +80,7 @@
       }).then(function (response) {
             self.results = response.data;
             if(response.data.length > 3){
+              console.log('CardBenefit Vue에서 데이터 길이가 3보다 커요@@@@@');
               for(var i=0; i<3; i++){
                 self.imgPath.push("img/card_img/"+response.data[i].card_img);
                 self.cardUrl.push(response.data[i].card_url);
@@ -86,14 +88,18 @@
                 console.log('이미지패쓰 : ' + self.imgPath[i]);
                 console.log('카드URL : ' + self.cardUrl[i]);
               }
-            }else{
+            }else if(response.data.length <= 3 && response.data.length > 0){
+              console.log('CardBenefit Vue에서 데이터 길이가 3보다 작아요@@@@@');
               for(var j=0; j<response.data.length; j++){
                 self.imgPath.push("img/card_img/"+response.data[j].card_img);
-                self.cardUrl.push(response.data[i].card_url);
+                self.cardUrl.push(response.data[j].card_url);
                 self.results2.push(response.data[j]);
                 console.log('else이미지패쓰 : ' + self.imgPath[j]);
-                console.log('else카드URL : ' + self.cardUrl[i]);
+                console.log('else카드URL : ' + self.cardUrl[j]);
               }
+            }else{
+              console.log('CardBenefit Vue에서 제이슨데이타 받은게 없어요@@@@@');
+              flag = true;
             }
           })
       }
