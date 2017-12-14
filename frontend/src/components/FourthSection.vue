@@ -1,18 +1,13 @@
 <template id="fourth-section">
-      <div class="container-fluid" id="hi">
-          <div class="container">
-
-        <br>
-        <div class="row">
-          <div class="col-md-12">
-            <!-- 첫번째 그래프 -->
-           <my-used-month></my-used-month>
-          </div>
-          <div>
-        </div>
-        </div>
-        </div>
+  <div class="container">
+    <br>
+      <!-- <div>
+        <my-used-month></my-used-month>
+      </div> -->
+      <div>
+        <word-cloud></word-cloud>
       </div>
+  </div>
 </template>
 
 <style scoped>
@@ -25,6 +20,7 @@
 import axios from 'axios'
 // import MyTotalChart from './MyTotalChart.vue'
 import MyUsedMonth from './MyUsedMonth.vue'
+import WordCloud from './WordCloud.vue'
 // import PercentageChart from './PercentageChart.vue'
 
 export default {
@@ -37,6 +33,7 @@ export default {
     components : {
         // MyTotalChart,
         MyUsedMonth,
+        WordCloud
         // PercentageChart
     },
 
