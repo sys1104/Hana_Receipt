@@ -16,6 +16,8 @@
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
     "crypto": "^1.0.1",
+    "d3": "^4.12.0",
+    "d3.layout.cloud": "^1.2.0",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
     "express-error-handler": "^1.1.0",
