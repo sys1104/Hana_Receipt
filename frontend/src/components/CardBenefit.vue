@@ -22,7 +22,7 @@
         <th colspan="20">혜택</th>
       </tr>
       <tr class="table-body" v-for="(result, index) in results2">
-        <td><img :src="imgPath[index]" /></td>
+        <td><a :href="cardUrl[index]"><img :src="imgPath[index]" /></a></td>
         <td>{{result.card_name}}</td>
         <td>
           <select v-model="result.card_check" disabled class="form-control" style="color:black;">
@@ -48,6 +48,7 @@
       data: function () {
         return {
           imgPath : [],
+          cardUrl : [],
           results:'',
           results2:[],
           card_num:'',
@@ -80,14 +81,18 @@
             if(response.data.length > 3){
               for(var i=0; i<3; i++){
                 self.imgPath.push("img/card_img/"+response.data[i].card_img);
+                self.cardUrl.push(response.data[i].card_url);
                 self.results2.push(response.data[i]);
                 console.log('이미지패쓰 : ' + self.imgPath[i]);
+                console.log('카드URL : ' + self.cardUrl[i]);
               }
             }else{
               for(var j=0; j<response.data.length; j++){
                 self.imgPath.push("img/card_img/"+response.data[j].card_img);
+                self.cardUrl.push(response.data[i].card_url);
                 self.results2.push(response.data[j]);
                 console.log('else이미지패쓰 : ' + self.imgPath[j]);
+                console.log('else카드URL : ' + self.cardUrl[i]);
               }
             }
           })
