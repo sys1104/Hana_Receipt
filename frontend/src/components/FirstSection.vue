@@ -20,7 +20,7 @@
           <div>
           <h6>소비 관리</h6>
           <p><span style="font-weight:bold">하나 영수증</span>을 작성한 후<br><span style="font-weight:bold">카테고리 별 소비내역</span>을 확인합니다.
-          <br>소비내역에서 <span style="font-weight:bold">낭비</span>된다고 생각하는<br>항목을 체크할 수 있습니다.</p> 
+          <br>소비내역에서 <span style="font-weight:bold">낭비</span>된다고 생각하는<br>항목을 체크할 수 있습니다.</p>
           </div>
         <div style="margin-left:90px">
           <h6>목표 관리</h6>
@@ -102,24 +102,20 @@ export default {
         }
     },
     created() {
-      this.getDate();
       var self = this;
-      var now = new Date();
-      var today = now.getDay();
-      var startDate = '';
-      startDate = now.setDate(now.getDate() - (today - 1));
-      startDate = new Date(startDate);
-      var startDate_date = startDate.getDate();
-      if (startDate_date < 10) {
-        startDate_date = '0' + startDate_date;
+      var date = new Date();
+      var year = date.getFullYear();
+      var month = new String(date.getMonth() + 1);
+      var day = new String(date.getDate());
+      // 한자리수일 경우 0을 채워준다.
+      if (month.length == 1) {
+        month = "0" + month;
       }
-      var startDate_month = startDate.getMonth() + 1;
-      if (startDate_month < 10) {
-        startDate_month = '0' + startDate_month;
+      if (day.length == 1) {
+        day = "0" + day;
       }
-      var startDate_year = startDate.getFullYear();
-      var start_date = startDate_year + '' + startDate_month + '' + startDate_date;
-      console.log(start_date);
+      var start_date = year + '' + month + '' + day;
+      console.log('펄스트섹션의 스타트 데이트 값 -------: ' + start_date);
       axios({
         method: 'post',
         url: 'api/analysis/all_used_goal_money',
@@ -131,11 +127,9 @@ export default {
         console.log('********** all_used_goal_money 응답 받음 => 목표금액합산**********');
         var all_used = {};
         all_used = response.data.all_used;
+        console.log('섬프값 : ' + all_used[0].sum_price);
         var all_goal = {};
         all_goal = response.data.all_goal;
-        // for(var i=0; i<response.length; i++){
-        //   self.results
-        // }
         self.results = all_goal[0].g_price;
         console.log('목표금액 합산 : ' + self.results);
       });
