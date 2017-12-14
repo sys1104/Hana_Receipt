@@ -58,9 +58,19 @@ export default {
                       color : '#EF5350'
                     },
                     {
-                      rule: '%v > 80 && %v < 100',
+                      rule: '%v > 80 && 100 >= %v',
                       text: '%v%<br><br>매우 위험',
                       color : 'red'
+                    },
+                    // {
+                    //   rule: '%v=100',
+                    //   text: '%v%<br><br>매우 위험',
+                    //   color : 'purple'
+                    // },
+                    {
+                      rule: '%v>100',
+                      text: '100% 초과',
+                      color : 'purple'
                     }
                   ]
                 }
@@ -171,7 +181,11 @@ export default {
                       all_used = response.data.all_used;
                       var all_goal = {};
                       all_goal = response.data.all_goal;
-                      self.mytotalconfig.graphset[0].series[0].values.push(Math.floor((all_used[0].sum_price) / (all_goal[0].g_price) * 100));
+                      var used_goal = ((all_used[0].sum_price) / (all_goal[0].g_price) * 100);
+                      if(used_goal > 100){
+                        used_goal=100;
+                      }
+                      self.mytotalconfig.graphset[0].series[0].values.push(Math.floor(used_goal));
                       // if((Math.floor((all_used[0].sum_price) / (all_goal[0].g_price) * 100)) >=0 && (Math.floor((all_used[0].sum_price) / (all_goal[0].g_price) * 100)) <= 20){
                       //   self.result = "매우 알뜰";
                       // }else if((Math.floor((all_used[0].sum_price) / (all_goal[0].g_price) * 100)) > 20 && (Math.floor((all_used[0].sum_price) / (all_goal[0].g_price) * 100)) <= 40){
@@ -201,14 +215,14 @@ export default {
               }
 }
 </script>
-<style scoped>
-p{
-  font-size: 50px;
-  font-style: italic;
-  color:orange;
-}
-h4{
-  font-size: 60px;
-}
+    <style scoped>
+    p{
+      font-size: 50px;
+      font-style: italic;
+      color:orange;
+    }
+    h4{
+      font-size: 60px;
+    }
 
-</style>
+    </style>
