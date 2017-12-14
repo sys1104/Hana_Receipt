@@ -28,6 +28,12 @@ module.exports = {
             method: 'dupCheck',
             type: 'post'
         },
+        {
+            file: './user',
+            path: '/api/user/delete_account',
+            method: 'deleteAccount',
+            type: 'post'
+        },
         // {
         //     file: './ajax_user',
         //     path: '/api/user/user_dup_check',
@@ -131,10 +137,10 @@ module.exports = {
             type: 'post'
         },
         {
-          file: './card',
-          path: '/api/card/card_benefit_list',
-          method: 'card_benefit_list',
-          type: 'post'
+            file: './card',
+            path: '/api/card/card_benefit_list',
+            method: 'card_benefit_list',
+            type: 'post'
         }
 
     ],
