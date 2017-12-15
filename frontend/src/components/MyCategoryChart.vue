@@ -58,42 +58,50 @@ export default {
       final_result2 : [],
       myCategoryConfig: {
         type: "hbar",
-        "font-family":"Arial",
-            "title":{
-                "text":"나의 카테고리별 금액",
-                "font-family":"Arial",
-                "background-color":"none",
-                "font-color":"black",
-                "font-size":"18px"
-            },
-            "labels":[
-                {
-                    "text":"카테고리",
-                    "font-size":"12px",
-                    "font-color":"#black",
-                    "x":"2%",
-                    "y":"12%"
-                },
-                {
-                    "text":"사용금액",
-                    "font-size":"12px",
-                    "font-color":"black",
-                    "x":"50%",
-                    "y":"12%"
-                }
-            ],
+        // "font-family":"Arial",
+        //     "title":{
+        //         "text":"나의 카테고리별 금액",
+        //         "font-family":"Arial",
+        //         "background-color":"none",
+        //         "font-color":"black",
+        //         "font-size":"18px"
+        //     },
+        //     "labels":[
+        //         {
+        //             "text":"카테고리",
+        //             "font-size":"12px",
+        //             "font-color":"#black",
+        //             "x":"2%",
+        //             "y":"12%"
+        //         },
+        //         {
+        //             "text":"사용금액",
+        //             "font-size":"12px",
+        //             "font-color":"black",
+        //             "x":"50%",
+        //             "y":"12%"
+        //         }
+        //     ],
         backgroundColor: "none",
         tooltip: {
           visible: false
         },
         "plotarea":{
                 "margin-right":"50px",
-                "margin-bottom":"120px",
+                // "margin-bottom":"120px",
                 "margin-left":"95px"
             },
         scaleX: {
                 "line-color":"none",
                 "labels":[],
+                // value:[
+                //   {
+                //     final_result
+                //   },
+                //   {
+                //     final_result2
+                //   }
+                // ],
                 "tick":{
                     "visible":false
                 },
@@ -138,14 +146,14 @@ export default {
                     "visible":false
                 }
             },
-       "plot":{
-                "bars-overlap":"100%",
-                "borderRadius":8
-            },
-            // "plotarea":{
-            //     "margin":"60px 20px 20px 140px"
-            // },
-        series: [
+          "plot":{
+                    "bars-overlap":"100%",
+                    "borderRadius":8
+                },
+                // "plotarea":{
+                //     "margin":"60px 20px 20px 140px"
+                // },
+      series: [
           {
 
             //목표금액
@@ -179,7 +187,7 @@ export default {
                         "placement":"top-out",
                         "text":"%v %",
                         "decimals":0,
-                        "font-color":"#A4A4A4",
+                        "font-color":"black",
                         "font-size":"14px",
                         "alpha":0.6
                     },
@@ -246,6 +254,8 @@ export default {
         this.results.push("스튜핏!!");
         this.results2.push(result_min);
       }
+      console.log("확인!!!!!!!!!!!!!!!!!re2"+re2);
+      console.log("확인!!!!!!!!!!!!!!!!!min"+result_min);
       var test01 = [];
       var test02 = [];
       for(var i = this.results.length-1; i > -1; i--){
