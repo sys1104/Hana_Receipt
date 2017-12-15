@@ -340,12 +340,10 @@ var wastedList = function(req, res, callback) {
     var database = req.app.get('database');
     var u_num = req.body.u_num; //vue에서 받아와야 함!!!
     var start_date = Number(req.body.start_date); //front단에서 오늘 기준으로 주일의 시작
-    var end_date = Number(req.body.end_date); //front단에서 오늘 기준으로 주일의 마지막날로 정의한 것을 받아옴
     console.log('start_date 값 : ' + start_date);
-    console.log('end_date 값 : ' + end_date);
     if (database) {
 
-        wasted_used(database, u_num, start_date, end_date, function(err, rows) {
+        wasted_used(database, u_num, start_date, function(err, rows) {
             if (err) {
                 console.error('********** cate_used 에러 발생 **********' + err.stack);
                 res.writeHead(200, {
@@ -380,7 +378,7 @@ var wastedList = function(req, res, callback) {
 };
 
 // ========================= server-side 카테고리별 사용금액 분석 function =================== //
-var wasted_used = function(database, u_num, start_date, end_date, callback) {
+var wasted_used = function(database, u_num, start_date, callback) {
     console.log('********** server-side wasted_used 호출 **********');
     database.pool.getConnection(function(err, conn) { //DB 접속
         if (err) {
@@ -391,7 +389,7 @@ var wasted_used = function(database, u_num, start_date, end_date, callback) {
             return;
         }
         console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
-        var exec = conn.query('select cate_num, sum(price) sum_price from consume_history where u_num = ? and wasted = 1 and c_time >= ? and c_time <= ? group by cate_num', [u_num, start_date, end_date],
+        var exec = conn.query('select cate_num, sum(price) sum_price from consume_history where u_num = ? and wasted = 1 and c_time >= (select max(g_time) from goal where u_num = ?) and c_time <= ? group by cate_num', [u_num, u_num, start_date],
             function(err, rows) {
                 //select의 결과물은 배열로 들어온다. rows 변수...
                 if (rows.length > 0) {

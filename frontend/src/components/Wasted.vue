@@ -57,43 +57,25 @@ export default {
   },
   created() {
     var self = this;
-    var now = new Date();
-    var today = now.getDay();
-    var startDate = '';
-    var endDate = '';
-    startDate = now.setDate(now.getDate() - (today + 6));
-    startDate = new Date(startDate);
-    endDate = now.setDate(now.getDate() + 6);
-    endDate = new Date(endDate);
-    var startDate_date = startDate.getDate();
-    if (startDate_date < 10) {
-      startDate_date = '0' + startDate_date;
+    var date = new Date();
+    var year = date.getFullYear();
+    var month = new String(date.getMonth() + 1);
+    var day = new String(date.getDate());
+    // 한자리수일 경우 0을 채워준다.
+    if (month.length == 1) {
+      month = "0" + month;
     }
-    var startDate_month = startDate.getMonth() + 1;
-    if (startDate_month < 10) {
-      startDate_month = '0' + startDate_month;
+    if (day.length == 1) {
+      day = "0" + day;
     }
-    var startDate_year = startDate.getFullYear();
-    var start_date = startDate_year + '' + startDate_month + '' + startDate_date;
-    var endDate_date = endDate.getDate();
-    if (endDate_date < 10) {
-      endDate_date = '0' + endDate_date;
-    }
-    var endDate_month = endDate.getMonth() + 1;
-    if (endDate_month < 10) {
-      endDate_month = '0' + endDate_month;
-    }
-    var endDate_year = endDate.getFullYear();
-    var end_date = endDate_year + '' + endDate_month + '' + endDate_date;
+    var start_date = year + '' + month + '' + day;
     console.log(start_date);
-    console.log(end_date);
     axios({
       method: 'post',
       url: 'api/consume_history/wastedList',
       data: {
         u_num: this.$session.get('session'),
-        start_date: start_date,
-        end_date: end_date
+        start_date: start_date
       }
     }).then(function(response) {
       self.results = response.data;
@@ -102,6 +84,7 @@ export default {
       // }
       var sum2 = 0;
       for (var i = 0; i < self.results.length; i++) {
+        console.log('wasted.vue' + self.results[i].sum_price);
         sum2 += parseInt(self.results[i].sum_price);
       }
       self.sum = sum2;
