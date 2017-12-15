@@ -21,7 +21,7 @@
         <th>국내/해외</th>
         <th colspan="20">혜택</th>
       </tr> -->
-  <div class="row">  
+  <div class="row">
       <div class="col-md-4" v-for="(result, index) in results2" v-if="flag == false">
         <a :href="cardUrl[index]"><img :src="imgPath[index]" /></a>
         <h6 style="height:50px;">{{result.card_name}}</h6>
@@ -29,7 +29,7 @@
           <p style="margin-left:10px; margin-right:10px" class="btn btn-danger"v-if="result.card_check==0">체크</p>
           <p style="margin-left:10px; margin-right:10px" class="btn btn-danger"v-if="result.card_check==1">신용</p>
           <p class="btn btn-primary" v-if="result.domestic==0">국내</p>
-          <p class="btn btn-primary" v-if="result.domestic==1">국내/해외</p>       
+          <p class="btn btn-primary" v-if="result.domestic==1">국내/해외</p>
           </div>
           <hr>
         <div class="">
@@ -39,7 +39,7 @@
       <!-- <div class="col-md-4">
         <p>ㅎㅇ</p>
       </div> -->
-  </div>          
+  </div>
 </div>
 </template>
 
@@ -85,8 +85,8 @@
                 self.imgPath.push("img/card_img/"+response.data[i].card_img);
                 self.cardUrl.push(response.data[i].card_url);
                 self.results2.push(response.data[i]);
-                console.log('이미지패쓰 : ' + self.imgPath[i]);
-                console.log('카드URL : ' + self.cardUrl[i]);
+                // console.log('이미지패쓰 : ' + self.imgPath[i]);
+                // console.log('카드URL : ' + self.cardUrl[i]);
               }
             }else if(response.data.length <= 3 && response.data.length > 0){
               console.log('CardBenefit Vue에서 데이터 길이가 3보다 작아요@@@@@');
@@ -94,8 +94,8 @@
                 self.imgPath.push("img/card_img/"+response.data[j].card_img);
                 self.cardUrl.push(response.data[j].card_url);
                 self.results2.push(response.data[j]);
-                console.log('else이미지패쓰 : ' + self.imgPath[j]);
-                console.log('else카드URL : ' + self.cardUrl[j]);
+                // console.log('else이미지패쓰 : ' + self.imgPath[j]);
+                // console.log('else카드URL : ' + self.cardUrl[j]);
               }
             }else{
               console.log('CardBenefit Vue에서 제이슨데이타 받은게 없어요@@@@@');

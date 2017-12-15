@@ -43,19 +43,13 @@
               }
             }
           }
-          // console.log('wResult 값 : ' + wResult);
-          // console.log('cResult 값 : ' + cResult);
           let index = 0;
           function showRandom (index){
-            // console.log('index는 : ' + index);
-            // console.log('cResult[index] 값은? : ' + cResult[index]);
             return cResult[index];
           }
 
           let index2 = 0;
           function showWord (index2){
-            // console.log('index2는 : ' + index2);
-            // console.log('wResult[index2] 값은? : ' + wResult[index2]);
             return wResult[index2];
           }
 
@@ -173,7 +167,7 @@
 
             var wordresult = [];
             for(var j=0; j<response.data.length; j++){
-              console.log(self.results[j].content);
+              // console.log(self.results[j].content);
               wordresult.push(self.results[j].content);
             }
 
@@ -189,7 +183,7 @@
                 }
               }
               result_word.push([response.data[k].content, count]);
-              console.log('=====%%%%====' + result_word[k]);
+              // console.log('=====%%%%====' + result_word[k]);
               // result_cnt.push(count);
             }
 
@@ -206,8 +200,8 @@
 
               for(var v=0; v<cnt_result.length; v++){
                 if(JSON.stringify(result_word[f])==JSON.stringify(cnt_result[v])){
-                  console.log('cnt_result[v] 값 : ' + cnt_result[v]);
-                  console.log('result_word[f] 값 : ' + result_word[f]);
+                  // console.log('cnt_result[v] 값 : ' + cnt_result[v]);
+                  // console.log('result_word[f] 값 : ' + result_word[f]);
                   chkflag = true;
                 }
               }
@@ -215,7 +209,7 @@
                 cnt_result.push(result_word[f]);
               }
             }
-            console.log('cnt_result 값@@@@@ : ' + cnt_result);
+            // console.log('cnt_result 값@@@@@ : ' + cnt_result);
             self.showWordCloud(cnt_result);
           })
       }
