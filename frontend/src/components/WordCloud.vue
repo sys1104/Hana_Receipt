@@ -1,8 +1,7 @@
 <template>
-<div id="wordcloudlist" class="table-users container" style="width:100%">
-  <h2>----------------------------------------------</h2>
-  <h2>워드클라우드</h2>
-  <div id="wordvalue" style="background-color:#FAFAFA;">
+<div id="wordcloudlist" class="container" style="width:70%">
+  
+  <div id="wordvalue">
 
   </div>
 </div>

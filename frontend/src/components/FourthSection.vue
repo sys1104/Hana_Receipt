@@ -6,10 +6,11 @@
       <!-- <div>
         <my-used-month></my-used-month>
       </div> -->
-    <img src="img/brain.png" style="width:70%; height:30%"></img>
-    <div style="position: absolute">
+    
+    <div  style="position: absolute">
         <word-cloud></word-cloud>
     </div>
+    <img src="img/brain.png" style="width:70%; height:30%"></img>
       <!-- <div>
         <word-cloud></word-cloud>
       </div> -->
