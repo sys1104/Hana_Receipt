@@ -27,12 +27,13 @@
     <br>
     <goal-list></goal-list>
     <br>
+    <div class="table-users" style="width:100%">
     <div class="header">목표 저장</div>
     <br>
     
     <!-- class="row" 추가 -->
     <div class="form-group" v-if="flag==false">
-      <div v-if="info0==false" class="form-group" style="width:35%" >
+      <div v-if="info0==false" class="form-group" style="width:35%;" >
         <label class="form-control">목표기간</label>
         <!-- <input type="hidden" v-model="cate_num" class="form-control" value="1" name="cate_num"> -->
       </div>
@@ -42,9 +43,18 @@
       <div v-if="info0==false" class="form-group" style="width:3%">
         <p style="font-size:30px; margin-top:15px">~</p>
       </div>
-      <div v-if="info0==false" class="form-group" style="width:23%">
+      <!-- <div class="row" style="width:25%"> -->
+      <div v-if="info0==false" class="form-group" style="width:23%; margin-top:-30px">
+        <button class="btn ab c">일주일 후</button>
+         <button class="btn ab c">한달 후</button>
         <input type="date" placeholder="마지막날짜" v-model="g_endtime" class="form-control" name="g_endtime" style="text-align:center">
       </div>
+      <!-- <div v-if="info0==false" class="form-group" style="width:4%; margin-right:16px">
+         <button class="btn ab c">일주일 후</button>
+         <button class="btn ab c">한달 후</button>
+       </div> -->
+       
+      <!-- </div> -->
 <!-- results1[0]!=cate_num.cate_num1 && results1[1]!=cate_num.cate_num1 && results1[2]!=cate_num.cate_num1 && results1[3]!=cate_num.cate_num1 &&results1[4]!=cate_num.cate_num1 && results1[5]!=cate_num.cate_num1 -->
       
       <div v-if="info1==false"class="form-group" style="width:35%">
@@ -96,10 +106,13 @@
       </div>
     </div>
     <div>
-    <button @click.prevent="goalStore" class="btn form-control" style="width:60%; background-color:#327a81; color:white; font-weight:bold">저장</button>
+      <br>
+    <button @click.prevent="goalStore" class="btn c form-control" style="width:60%;">저장</button>
     </div>
     <br>
   </div>
+  <br>
+</div>
 </div>
 </template>
 
@@ -348,4 +361,17 @@ input::-webkit-input-placeholder {
   color: #2C3E50;
   }
 
+.ab{
+  width:104px;
+  height:28px;
+  font-size:13px;
+  text-align: center;
+  margin-bottom:5px;
+}
+
+.c{
+   background-color:#327a81;
+   color:white;
+   font-weight:bold
+}
 </style>

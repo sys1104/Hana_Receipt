@@ -1,5 +1,5 @@
 <template id="fourth-section">
-  <div class="container">
+  <div v-show="$session.exists() == true" class="container">
     <br>
       <!-- <div>
         <my-used-month></my-used-month>
