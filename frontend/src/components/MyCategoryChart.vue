@@ -1,35 +1,36 @@
 <template>
-<div class="row">
-  <div class="col-md-8"><p id="my1-p">카테고리별 금액</p><div id='myCategoryChart' style="margin-bottom: 0%; margin-top:-10%" ></div></div>
+<!-- <div> -->
+  <div class="col-md-12">
+  <div class="row">
+  <div id='myCategoryChart' class="col-md-8">
+    <p id="my1-p">카테고리별 금액</p>
+  </div>
+  <!-- style="margin-bottom: 0%; margin-top:-10%" -->
    <!-- style="margin-bottom: -14%;" -->
    <!-- style="margin-top:2%" -->
   <!-- 현재상태 역순 -->
 
-  <div class="col-md-2" style="margin-bottom: -50%;">
+  <div class="col-md-2">
+    <br>
     <p id="my1-p">남은 금액</p>
     <ul v-for="(result,index) in final_result2">
-      <br>
-      <li id="my-font">
-       <p id="my-p1" v-if="final_result2.length==1" style="margin-top:110px;">{{result | currency('',0)}} 원</p>
+      <li id="my-font" >
+       <p id="my-p1">{{result | currency('',0)}}</p>
       </li>
     </ul>
   </div>
-
-  <div class="col-md-2" style="margin-bottom: -50%;">
+ <!-- style="margin-bottom: -50%;" -->
+  <div class="col-md-2">
+    <br>
     <p id="my1-p">평가</p>
     <ul v-for="(result,index) in final_result">
-      <br>
       <li id="my-font">
        <p id="my-p2" v-if="result=='매우 알뜰'" style="color:green">{{result}}</p>
        <p id="my-p2" v-if="result=='알뜰'" style="color:green">{{result}}</p>
        <p id="my-p2" v-if="result=='보통'" style="color:green">{{result}}</p>
        <p id="my-p2" v-if="result=='위험'" style="color:orange">{{result}}</p>
-       <p id="my-p2" v-if="result=='매우 위험' && final_result.length==2" style="color:red; margin-top:50px;">{{result}}</p>
-       <p id="my-p2" v-if="result=='매우 위험' && final_result.length==1" style="color:red; margin-top:110px;">{{result}}</p>
-
+       <p id="my-p2" v-if="result=='매우 위험'" style="color:red">{{result}}</p>
        <p id="my-p2" v-if="result=='스튜핏!!'" style="color:purple">{{result}}</p>
-
-
       </li>
     </ul>
   </div>
@@ -43,7 +44,9 @@
       </li>
     </ul>
   </div> -->
-</div>
+  </div>
+  </div>
+<!-- </div> -->
 </template>
 
 
@@ -89,11 +92,6 @@ export default {
         tooltip: {
           visible: false
         },
-        "plotarea":{
-                "margin-right":"50px",
-                "margin-bottom":"70px",
-                "margin-left":"95px"
-            },
         scaleX: {
                 "line-color":"none",
                 "labels":[],
@@ -105,7 +103,7 @@ export default {
                 },
                 "item":{
                     "font-size":"14px",
-                    "padding-right":"20px",
+                    // "padding-right":"20px",
                     "auto-align":true,
                     "rules":[
                         {
@@ -143,12 +141,14 @@ export default {
             },
           "plot":{
                     "bars-overlap":"100%",
-                    "borderRadius":8,
-                    "bar-space":"50px"
+                    "borderRadius":8
                 },
-                "plotarea":{
-                    "margin":"50px -50px -100px 90px"
-                },
+          "plotarea":
+           //top right bottom left
+            { 
+                    "margin" :"20px 20px auto 70px"
+                    // "margin":"100px 10px -200px 70px"
+           },
       series: [
           {
                  //목표금액
@@ -283,7 +283,6 @@ export default {
       }
       this.final_result = test01;
       this.final_result2 = test02;
-
     }
   },
   created() {
@@ -376,12 +375,14 @@ export default {
             }
 
           }
+
           zingchart.render({
             id: 'myCategoryChart',
             data: self.myCategoryConfig,
             height: '70%',
             width: '100%'
           });
+
         });
       }, 300);
     }
@@ -396,13 +397,11 @@ export default {
 #my-p1{
 
   font-size:22px;
-  line-height: 1.4em;
   font-weight: bold;
 }
 #my-p2{
 
   font-size:22px;
-  line-height: 1.4em;
   font-weight: bold;
 }
 #my1-p{

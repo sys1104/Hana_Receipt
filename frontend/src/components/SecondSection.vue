@@ -6,8 +6,13 @@
           
         <br>
           <div v-if="$session.exists() == true && goal_price != null" class="row">
+            
             <div class="col-md-12">
+              <br>
+            <h2 class="text-center">카테고리별 소비 내역</h2>
+              <br>
                 <my-category-chart></my-category-chart>
+                <br>
             </div>
           </div>
         </div>

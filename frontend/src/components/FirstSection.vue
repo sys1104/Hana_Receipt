@@ -38,7 +38,7 @@
         <br>
         <h2 class="text-center text-uppercase text-secondary mb-0">목표금액 : {{results | currency('',0)}}원</h2>
         <h5 class="text-center text-uppercase text-secondary mb-0">- 기간 : {{start_date}}~ {{end_date}} -</h5>
-        <hr class="star-dark mb-5">
+        <!-- <hr class="star-dark mb-5"> -->
         <div class="row">
           <div class="col-md-7">
                 <my-total-chart></my-total-chart>
