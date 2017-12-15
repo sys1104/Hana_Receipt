@@ -7,7 +7,12 @@
   </div>
 </div>
 </template>
-
+<style>
+    @font-face {
+        font-family: 'overwatch';
+        src: url('/fonts/koverwatch.ttf');
+    }
+</style>
 <script>
     import axios from 'axios'
     export default {
@@ -95,7 +100,7 @@
                   //Entering words
                   cloud.enter()
                       .append("text")
-                      .style("font-family", "Impact")
+                      .style("font-family", "overwatch")
                       .style("fill", function(d, i) { return fill(i); })
                       .style("fill-opacity", .5)
                       .attr("text-anchor", "middle")
