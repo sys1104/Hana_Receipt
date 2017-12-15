@@ -10,7 +10,7 @@
     <ul v-for="(result,index) in final_result2">
       <br>
       <li id="my-font">
-       <p id="my-p1">{{result | currency('',0)}} 원</p>
+       <p id="my-p1" v-if="final_result2.length==1" style="margin-top:110px;">{{result | currency('',0)}} 원</p>
       </li>
     </ul>
   </div>
@@ -24,7 +24,9 @@
        <p id="my-p2" v-if="result=='알뜰'" style="color:green">{{result}}</p>
        <p id="my-p2" v-if="result=='보통'" style="color:green">{{result}}</p>
        <p id="my-p2" v-if="result=='위험'" style="color:orange">{{result}}</p>
-       <p id="my-p2" v-if="result=='매우 위험'" style="color:red">{{result}}</p>
+       <p id="my-p2" v-if="result=='매우 위험' && final_result.length==2" style="color:red; margin-top:50px;">{{result}}</p>
+       <p id="my-p2" v-if="result=='매우 위험' && final_result.length==1" style="color:red; margin-top:110px;">{{result}}</p>
+
        <p id="my-p2" v-if="result=='스튜핏!!'" style="color:purple">{{result}}</p>
 
 
