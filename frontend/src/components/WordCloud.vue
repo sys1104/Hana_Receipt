@@ -23,16 +23,73 @@
       },
       methods :{
         showWordCloud(wordresult){
+
+          var wResult = [];
+          var cResult = [];
+
+          var lala = [];
+          lala = wordresult;
+
+          var a = {};
+          var b = [];
+
+
+          for(var m=0; m<lala.length; m++){
+            // var jaja = keke.split(',');
+            for(var n=0; n<2; n++){
+              if(n == 0){
+                wResult.push(lala[m][0]);
+              }else if(n == 1){
+                cResult.push(lala[m][1]);
+              }
+            }
+          }
+
+          console.log('wResult 값 : ' + wResult);
+          console.log('cResult 값 : ' + cResult);
+
+          // for(var m=0; m<lala.length; m++){
+          //   // keke = lala[m].join('/');
+          //   // var jaja = keke.split(',');
+          //   for(var n=0; n<2; n++){
+          //     console.log('lala[m] : '+ lala[m][n]);
+          //     if(n == 0){
+          //       a.text = lala[m][0];
+          //     }else if(n == 1){
+          //       a.size = 10 + lala[m][1]*10;
+          //     }
+          //   }
+          //   b.push(a);
+          //   console.log('b는 ? : ' + b[m].text);
+          // }
+
+          let index = 0;
+          function showRandom (index){
+            console.log('index는 : ' + index);
+            console.log('cResult[index] 값은? : ' + cResult[index]);
+            return cResult[index];
+          }
+
+          let index2 = 0;
+          function showWord (index2){
+            console.log('index2는 : ' + index2);
+            console.log('wResult[index2] 값은? : ' + wResult[index2]);
+            return wResult[index2];
+          }
+          // console.log('ddddddddddddd@@@@@@ : ' + showRandom(index++)*2);
+
           var fill = function(i){ return d3.schemeCategory20b[i];};
           var layout = d3.layout.cloud()
-              .size([700, 500])
-              .words(wordresult.map(function(d) {
-                  return {text: d, size: 10 + Math.random() * 200, test: "haha"};
-                }))
+              .size([1000, 900])
+              // .words(b)
+                .words(wResult.map(function(d) {
+                    return {text: d, size: setTimeout(showRandom(index++),0)*2, test: "haha"};
+                  }))
                 .padding(5)
+                // function() { return ~~(Math.random() * 2) * 90; }
                 .rotate(function() { return ~~(Math.random() * 2) * 90; })
                 .font("Impact")
-                .fontSize(function(d) { return d.size; })
+                .fontSize(function(d) { return showRandom(index2++)*20; })
                 .on("end", draw);
 
                 layout.start();
@@ -59,10 +116,6 @@
     },
     mounted(){
       console.log('WordCloud Mounted()');
-      //d3 워드크라우드 자바스크립트 코드
-
-
-
       //axios 부분
       var self  = this;
         axios({
@@ -73,13 +126,53 @@
         }
       }).then(function (response) {
             self.results = response.data;
+
             var wordresult = [];
             for(var j=0; j<response.data.length; j++){
               console.log(self.results[j].content);
               wordresult.push(self.results[j].content);
             }
 
-            self.showWordCloud(wordresult);
+            //각 품목이름별 갯수
+            var result_word = [];
+            var result_cnt = [];
+            var count = 0;
+            for(var k=0; k<response.data.length; k++){
+              count = 0;
+              for(var y=0; y<response.data.length; y++){
+                if(response.data[k].content == response.data[y].content){
+                  count++;
+                }
+              }
+              result_word.push([response.data[k].content, count]);
+              console.log('=====%%%%====' + result_word[k]);
+              // result_cnt.push(count);
+            }
+
+            //중복배열 제거
+            var cnt = 0;
+            var cnt_result = [];
+            var chkflag = false;
+            for(var f=0; f<result_word.length; f++){
+              chkflag = false;
+              if(cnt_result.length == 0){
+                cnt_result.push(result_word[f]);
+                continue;
+              }
+
+              for(var v=0; v<cnt_result.length; v++){
+                if(JSON.stringify(result_word[f])==JSON.stringify(cnt_result[v])){
+                  console.log('cnt_result[v] 값 : ' + cnt_result[v]);
+                  console.log('result_word[f] 값 : ' + result_word[f]);
+                  chkflag = true;
+                }
+              }
+              if(chkflag == false){
+                cnt_result.push(result_word[f]);
+              }
+            }
+            console.log('cnt_result 값@@@@@ : ' + cnt_result);
+            self.showWordCloud(cnt_result);
           })
       }
     }
