@@ -1,13 +1,20 @@
 <template id="fourth-section">
-  <div v-show="$session.exists() == true" class="container">
+<div v-show="$session.exists() == true" id='hi'>
+  <div class="container">
     <br>
+  <h2>워드클라우드</h2>
       <!-- <div>
         <my-used-month></my-used-month>
       </div> -->
-      <div>
+    <img src="img/brain.png" style="width:70%; height:30%"></img>
+    <div style="position: absolute">
         <word-cloud></word-cloud>
-      </div>
+    </div>
+      <!-- <div>
+        <word-cloud></word-cloud>
+      </div> -->
   </div>
+</div>
 </template>
 
 <style scoped>

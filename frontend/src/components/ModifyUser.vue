@@ -9,14 +9,14 @@
       <br><br>
       <div class="form-group" style=" margin-right:10px">
         <p class="text-left" style="margin-left:20px;display:inline-block">아이디 </p>
-        <input type="text" style="width:790px; margin-left:28px;display:inline-block" placeholder="아이디" v-model="u_id" class="form-control" name="u_id" disabled>
+        <input type="text" style="width:790px; margin-left:28px;display:inline-block; color:#2C3E50; font-weight:bold" placeholder="아이디" v-model="u_id" class="form-control" name="u_id" disabled>
       </div>
       <!-- <div class="form-group">
         <input type="password" placeholder="패스워드" v-model="u_pw" class="form-control" name="u_pw">
       </div> -->
       <div class="form-group">
         <p class="text-left" style="margin-left:20px; display:inline-block">이름 </p>
-        <input type="text" style="width:790px; margin-left:30px;display:inline-block" placeholder="이름" v-model="u_name" class="form-control" name="u_name" disabled>
+        <input type="text" style="width:790px; margin-left:30px;display:inline-block; color:#2C3E50; font-weight:bold" placeholder="이름" v-model="u_name" class="form-control" name="u_name" disabled>
       </div>
       <div class="form-group">
         <p class="text-left" style="margin-left:-12px;display:inline-block">휴대폰 번호 </p>

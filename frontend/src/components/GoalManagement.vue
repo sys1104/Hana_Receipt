@@ -45,8 +45,8 @@
       </div>
       <!-- <div class="row" style="width:25%"> -->
       <div v-if="info0==false" class="form-group" style="width:23%; margin-top:-30px">
-        <button class="btn ab c">일주일 후</button>
-         <button class="btn ab c">한달 후</button>
+        <button @click="week()" class="btn ab c">일주일 후</button>
+         <button  class="btn ab c">한달 후</button>
         <input type="date" placeholder="마지막날짜" v-model="g_endtime" class="form-control" name="g_endtime" style="text-align:center">
       </div>
       <!-- <div v-if="info0==false" class="form-group" style="width:4%; margin-right:16px">
@@ -111,7 +111,7 @@
     </div>
     <br>
   </div>
-  <br>
+  <br>  
 </div>
 </div>
 </template>

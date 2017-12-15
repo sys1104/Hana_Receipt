@@ -80,7 +80,7 @@ export default {
   }
 }
 </script>
-<style>
+<style >
         .box-container{
             border-style: solid;
             border-width: 2px;
