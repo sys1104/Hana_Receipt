@@ -338,7 +338,7 @@ export default {
                 console.log(result_min + '리민값');
                 self.resultComment(result_sum, result_min);
                 self.myCategoryConfig.scaleX.labels.push('생활/쇼핑');
-                self.myCategoryConfig.series[1].values.push(Math.floor((cate_used[i].sum_price  / cate_goal[i].g_price)*100)); //
+                self.myCategoryConfig.series[1].values.push(Math.floor((cate_used[i].sum_price  / cate_goal[i].g_price)*100)); //cate_used[i].sum_price
                 self.myCategoryConfig.series[0].values.push(100);
               } else if (cate_used[i].cate_num == 2 && cate_goal[i].g_price > 1) {
                 result_min = (cate_goal[i].g_price - cate_used[i].sum_price);
