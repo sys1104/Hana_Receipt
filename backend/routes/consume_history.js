@@ -389,7 +389,7 @@ var wasted_used = function(database, u_num, start_date, callback) {
             return;
         }
         console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
-        var exec = conn.query('select cate_num, sum(price) sum_price from consume_history where u_num = ? and wasted = 1 and c_time >= (select max(g_time) from goal where u_num = ?) and c_time <= ? group by cate_num', [u_num, u_num, start_date],
+        var exec = conn.query('select cate_num, sum(price) sum_price from consume_history where u_num = ? and wasted = 1 and c_time >= (select max(g_time) from goal where u_num = ? and g_endtime <= ?) and c_time <= ? group by cate_num', [u_num, u_num, start_date, start_date],
             function(err, rows) {
                 //select의 결과물은 배열로 들어온다. rows 변수...
                 if (rows.length > 0) {
