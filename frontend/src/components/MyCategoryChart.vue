@@ -11,8 +11,8 @@
   <!-- 현재상태 역순 -->
 
   <div class="col-md-2">
-    <br>
     <p id="my1-p">남은 금액</p>
+    <br>
     <ul v-for="(result,index) in final_result2">
       <li id="my-font" >
        <p id="my-p1">{{result | currency('',0)}}</p>
@@ -21,8 +21,8 @@
   </div>
  <!-- style="margin-bottom: -50%;" -->
   <div class="col-md-2">
-    <br>
     <p id="my1-p">평가</p>
+        <br>
     <ul v-for="(result,index) in final_result">
       <li id="my-font">
        <p id="my-p2" v-if="result=='매우 알뜰'" style="color:green">{{result}}</p>
