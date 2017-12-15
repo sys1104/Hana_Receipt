@@ -1,30 +1,31 @@
 <template>
 <div class="row">
-  <div class="col-md-8"id='myCategoryChart' style="margin-top : 2%"></div>
+  <div class="col-md-8"><p id="my1-p">카테고리별 금액</p><div id='myCategoryChart' style="margin-bottom: 0%; margin-top:-10%" ></div></div>
+   <!-- style="margin-bottom: -14%;" -->
+   <!-- style="margin-top:2%" -->
   <!-- 현재상태 역순 -->
 
-  <div class="col-md-2" style="margin-bottom: 22%;">
-    남은 금액
-    <br><br>
+  <div class="col-md-2" style="margin-bottom: -50%;">
+    <p id="my1-p">남은 금액</p>
     <ul v-for="(result,index) in final_result2">
       <br>
       <li id="my-font">
-       <p id="my-p">{{result | currency('',0)}}</p>
+       <p id="my-p1">{{result | currency('',0)}} 원</p>
       </li>
     </ul>
   </div>
-  <div class="col-md-2">
-    평가
-    <br><br>
+
+  <div class="col-md-2" style="margin-bottom: -50%;">
+    <p id="my1-p">평가</p>
     <ul v-for="(result,index) in final_result">
       <br>
       <li id="my-font">
-       <p id="my-p" v-if="result=='매우 알뜰'" style="color:green">{{result}}</p>
-       <p id="my-p" v-if="result=='알뜰'" style="color:green">{{result}}</p>
-       <p id="my-p" v-if="result=='보통'" style="color:green">{{result}}</p>
-       <p id="my-p" v-if="result=='위험'" style="color:orange">{{result}}</p>
-       <p id="my-p" v-if="result=='매우 위험'" style="color:red">{{result}}</p>
-       <p id="my-p" v-if="result=='스튜핏!!'" style="color:purple">{{result}}</p>
+       <p id="my-p2" v-if="result=='매우 알뜰'" style="color:green">{{result}}</p>
+       <p id="my-p2" v-if="result=='알뜰'" style="color:green">{{result}}</p>
+       <p id="my-p2" v-if="result=='보통'" style="color:green">{{result}}</p>
+       <p id="my-p2" v-if="result=='위험'" style="color:orange">{{result}}</p>
+       <p id="my-p2" v-if="result=='매우 위험'" style="color:red">{{result}}</p>
+       <p id="my-p2" v-if="result=='스튜핏!!'" style="color:purple">{{result}}</p>
 
 
       </li>
@@ -58,14 +59,14 @@ export default {
       final_result2 : [],
       myCategoryConfig: {
         type: "hbar",
-        // "font-family":"Arial",
-        //     "title":{
-        //         "text":"나의 카테고리별 금액",
-        //         "font-family":"Arial",
-        //         "background-color":"none",
-        //         "font-color":"black",
-        //         "font-size":"18px"
-        //     },
+        "font-family":"Arial",
+            // "title":{
+            //     "text":"나의 카테고리별 금액",
+            //     "font-family":"Arial",
+            //     "background-color":"none",
+            //     "font-color":"black",
+            //     "font-size":"25px",
+            // },
         //     "labels":[
         //         {
         //             "text":"카테고리",
@@ -88,20 +89,12 @@ export default {
         },
         "plotarea":{
                 "margin-right":"50px",
-                // "margin-bottom":"120px",
+                "margin-bottom":"70px",
                 "margin-left":"95px"
             },
         scaleX: {
                 "line-color":"none",
                 "labels":[],
-                // value:[
-                //   {
-                //     final_result
-                //   },
-                //   {
-                //     final_result2
-                //   }
-                // ],
                 "tick":{
                     "visible":false
                 },
@@ -141,32 +134,30 @@ export default {
                 }
             },
         scaleY:{
-                "visible":false,
+                "visible":true,
                 "guide":{
-                    "visible":false
+                    "visible":true
                 }
             },
           "plot":{
                     "bars-overlap":"100%",
-                    "borderRadius":8
+                    "borderRadius":8,
+                    "bar-space":"50px"
                 },
-                // "plotarea":{
-                //     "margin":"60px 20px 20px 140px"
-                // },
+                "plotarea":{
+                    "margin":"50px -50px -100px 90px"
+                },
       series: [
           {
-
-            //목표금액
-           // values: [], //배열 형식으로 지정해야함
-
+                 //목표금액
                     "values":[],
-                    "bar-width":"40px",
+                    "bar-width":"35px",
                     "background-color":"#f2f2f2",
                     "border-color": "#e8e3e3",
                     "border-width":2,
                     "fill-angle":90,
                     //  "value-box":{
-                    //     "placement":"top-out",
+                    //     "placement":"left",
                     //     "padding":"200px",
                     //     "text":"목표 %v원",
                     //     "decimals":0,
@@ -219,7 +210,35 @@ export default {
                     ]
           },
           // {
-
+          //      // 문자열
+          //   values: [], //배열 형식으로 지정해야함
+          //           "value-box":{
+          //               "placement":"over",
+          //               "text":"%v",
+          //               "font-color":"red",
+          //               "font-size":"14px",
+          //               "alpha":0.6
+          //           },
+          //           "rules":[
+          //               {
+          //                   "rule":"%i==0",
+          //               },
+          //               {
+          //                   "rule":"%i==1",
+          //               },
+          //               {
+          //                   "rule":"%i==2",
+          //               },
+          //               {
+          //                   "rule":"%i==3",
+          //               },
+          //               {
+          //                   "rule":"%i==4",
+          //               },
+          //               {
+          //                   "rule":"%i==5",
+          //               }
+          //           ]
           // }
         ]
       }
@@ -254,8 +273,6 @@ export default {
         this.results.push("스튜핏!!");
         this.results2.push(result_min);
       }
-      console.log("확인!!!!!!!!!!!!!!!!!re2"+re2);
-      console.log("확인!!!!!!!!!!!!!!!!!min"+result_min);
       var test01 = [];
       var test02 = [];
       for(var i = this.results.length-1; i > -1; i--){
@@ -264,6 +281,7 @@ export default {
       }
       this.final_result = test01;
       this.final_result2 = test02;
+
     }
   },
   created() {
@@ -320,7 +338,7 @@ export default {
                 console.log(result_min + '리민값');
                 self.resultComment(result_sum, result_min);
                 self.myCategoryConfig.scaleX.labels.push('생활/쇼핑');
-                self.myCategoryConfig.series[1].values.push(Math.floor((0  / cate_goal[i].g_price)*100)); //cate_used[i].sum_price
+                self.myCategoryConfig.series[1].values.push(Math.floor((cate_used[i].sum_price  / cate_goal[i].g_price)*100)); //
                 self.myCategoryConfig.series[0].values.push(100);
               } else if (cate_used[i].cate_num == 2 && cate_goal[i].g_price > 1) {
                 result_min = (cate_goal[i].g_price - cate_used[i].sum_price);
@@ -354,6 +372,7 @@ export default {
                 self.myCategoryConfig.series[0].values.push(100);
               }
             }
+
           }
           zingchart.render({
             id: 'myCategoryChart',
@@ -372,8 +391,24 @@ export default {
   font-size: 30px;
 
 }
-#my-p{
+#my-p1{
 
-  font-size:30px;
+  font-size:22px;
+  line-height: 1.4em;
+  font-weight: bold;
 }
+#my-p2{
+
+  font-size:22px;
+  line-height: 1.4em;
+  font-weight: bold;
+}
+#my1-p{
+  color:black;
+  font-weight: bold;
+  font-size:25px;
+}
+/* .em{
+  line-height:1.1em;
+} */
 </style>

@@ -221,7 +221,7 @@ export default {
       if(g_price.length<=0){
         alert('값을 입력하세요');
         //입력 값이 0보다 커야함
-      }else if(this.g_price.g_price1<=0 && this.g_price.g_price2<=0 && this.g_price.g_price3<=0 && this.g_price.g_price4<=0 && this.g_price.g_price5<=0 && this.g_price.g_price2<=0){
+      }else if(this.g_price.g_price1<=0 && this.g_price.g_price2<=0 && this.g_price.g_price3<=0 && this.g_price.g_price4<=0 && this.g_price.g_price5<=0 && this.g_price.g_price6<=0){
         alert('양수만 입력 가능합니다');
 
       }else if(this.g_time >= this.g_endtime){

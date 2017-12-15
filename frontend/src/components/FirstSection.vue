@@ -172,13 +172,18 @@ export default {
         var all_used = {};
         all_used = response.data.all_used;
         console.log('섬프값 : ' + all_used[0].sum_price);
+
         var all_goal = {};
         all_goal = response.data.all_goal;
         self.results = all_goal[0].g_price;
         console.log('목표금액 합산 : ' + self.results);
-
+        
         self.goal_price = all_goal[0].g_price;
         self.now_price = all_used[0].sum_price;
+        if(self.now_price==null){
+          self.now_price = 0;
+        }
+        
         self.u_name = all_goal[0].u_name;
 
 
