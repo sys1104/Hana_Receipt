@@ -2,7 +2,7 @@
 <div id="wordcloudlist" class="table-users container" style="width:100%">
   <h2>----------------------------------------------</h2>
   <h2>워드클라우드</h2>
-  <div id="wordvalue">
+  <div id="wordvalue" style="background-color:#FAFAFA;">
 
   </div>
 </div>
@@ -26,16 +26,10 @@
 
           var wResult = [];
           var cResult = [];
-
           var lala = [];
           lala = wordresult;
 
-          var a = {};
-          var b = [];
-
-
           for(var m=0; m<lala.length; m++){
-            // var jaja = keke.split(',');
             for(var n=0; n<2; n++){
               if(n == 0){
                 wResult.push(lala[m][0]);
@@ -44,74 +38,119 @@
               }
             }
           }
-
-          console.log('wResult 값 : ' + wResult);
-          console.log('cResult 값 : ' + cResult);
-
-          // for(var m=0; m<lala.length; m++){
-          //   // keke = lala[m].join('/');
-          //   // var jaja = keke.split(',');
-          //   for(var n=0; n<2; n++){
-          //     console.log('lala[m] : '+ lala[m][n]);
-          //     if(n == 0){
-          //       a.text = lala[m][0];
-          //     }else if(n == 1){
-          //       a.size = 10 + lala[m][1]*10;
-          //     }
-          //   }
-          //   b.push(a);
-          //   console.log('b는 ? : ' + b[m].text);
-          // }
-
+          // console.log('wResult 값 : ' + wResult);
+          // console.log('cResult 값 : ' + cResult);
           let index = 0;
           function showRandom (index){
-            console.log('index는 : ' + index);
-            console.log('cResult[index] 값은? : ' + cResult[index]);
+            // console.log('index는 : ' + index);
+            // console.log('cResult[index] 값은? : ' + cResult[index]);
             return cResult[index];
           }
 
           let index2 = 0;
           function showWord (index2){
-            console.log('index2는 : ' + index2);
-            console.log('wResult[index2] 값은? : ' + wResult[index2]);
+            // console.log('index2는 : ' + index2);
+            // console.log('wResult[index2] 값은? : ' + wResult[index2]);
             return wResult[index2];
           }
-          // console.log('ddddddddddddd@@@@@@ : ' + showRandom(index++)*2);
 
+          //워드클라우드 디자인 및 사용
+          var width = 1000,
+              height = 850;
           var fill = function(i){ return d3.schemeCategory20b[i];};
-          var layout = d3.layout.cloud()
-              .size([1000, 900])
-              // .words(b)
-                .words(wResult.map(function(d) {
-                    return {text: d, size: setTimeout(showRandom(index++),0)*2, test: "haha"};
-                  }))
-                .padding(5)
-                // function() { return ~~(Math.random() * 2) * 90; }
-                .rotate(function() { return ~~(Math.random() * 2) * 90; })
-                .font("Impact")
-                .fontSize(function(d) { return showRandom(index2++)*20; })
-                .on("end", draw);
+          var svg = d3.select("#wordvalue").append("svg")
+              .attr("width", width)
+              .attr("height", height);
+          d3.csv(wResult, function (data) {
+              showCloud(data)
+              setInterval(function(){
+                    index = 0;
+                    index2 = 0;
+                   showCloud(data)
+              },3000)
+          });
 
-                layout.start();
+          var svg = d3.select("svg")
+                      .append("g")
+                      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
 
-                function draw(words) {
-                  d3.select("#wordvalue").append("svg")
-                  .attr("width", layout.size()[0])
-                  .attr("height", layout.size()[1])
-                  .append("g")
-                  .attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")")
-                  .selectAll("text")
-                  .data(words)
-                  .enter().append("text")
-                  .style("font-size", function(d) { return d.size + "px"; })
-                  .style("font-family", "Impact")
-                  .style("fill", function(d, i) { return fill(i); })
-                  .attr("text-anchor", "middle")
-                  .attr("transform", function(d) {
-                    return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
-                  })
-                  .text(function(d) { return d.text; });
-                }
+
+          function showCloud(data) {
+              d3.layout.cloud().size([width, height])
+                  //클라우드 레이아웃에 데이터 전달
+                  .words(wResult.map(function(d) {
+                      return {text: d, size: setTimeout(showRandom(index++),0)*2, test: "haha"};
+                    }))
+                  // function() { return ~~(Math.random() * 2) * 90; }
+                  .rotate(0)
+                  .font("Impact")
+                  //스케일로 각 단어의 크기를 설정
+                  .fontSize(function(d) { return showRandom(index2++)*20; })
+                  //클라우드 레이아웃을 초기화 > end이벤트 발생 > 연결된 함수 작동
+                  .on("end", draw)
+                  .start();
+
+              function draw(words) {
+                  var cloud = svg.selectAll("text").data(words)
+                  //Entering words
+                  cloud.enter()
+                      .append("text")
+                      .style("font-family", "Impact")
+                      .style("fill", function(d, i) { return fill(i); })
+                      .style("fill-opacity", .5)
+                      .attr("text-anchor", "middle")
+                      .attr('font-size', function(d) { return d.size + "px"; })
+                      .text(function (d) {
+                          return d.text;
+                      });
+                  cloud
+                      .transition()
+                      .duration(600)
+                      .style("font-size", function (d) {
+                          return d.size + "px";
+                      })
+                      .attr("transform", function (d) {
+                          return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+                      })
+                      .style("fill-opacity", 1);
+              }
+          }
+
+          // var fill = function(i){ return d3.schemeCategory20b[i];};
+          // var layout = d3.layout.cloud()
+          //     .size([1000, 900])
+          //     // .words(b)
+          //       .words(wResult.map(function(d) {
+          //           return {text: d, size: setTimeout(showRandom(index++),0)*2, test: "haha"};
+          //         }))
+          //       .padding(5)
+          //       // function() { return ~~(Math.random() * 2) * 90; }
+          //       .rotate(function() { return ~~(Math.random() * 2) * 90; })
+          //       .font("Impact")
+          //       // function(d) { return d.size; }
+          //       .fontSize(function(d) { return showRandom(index2++)*20; })
+          //       .on("end", draw);
+          //
+          //       layout.start();
+          //
+          //       function draw(words) {
+          //         d3.select("#wordvalue").append("svg")
+          //         .attr("width", layout.size()[0])
+          //         .attr("height", layout.size()[1])
+          //         .append("g")
+          //         .attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")")
+          //         .selectAll("text")
+          //         .data(words)
+          //         .enter().append("text")
+          //         .style("font-size", function(d) { return d.size + "px"; })
+          //         .style("font-family", "Impact")
+          //         .style("fill", function(d, i) { return fill(i); })
+          //         .attr("text-anchor", "middle")
+          //         .attr("transform", function(d) {
+          //           return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+          //         })
+          //         .text(function(d) { return d.text; });
+          //       }
         }
     },
     mounted(){
