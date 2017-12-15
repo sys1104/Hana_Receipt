@@ -379,7 +379,7 @@ export default {
           zingchart.render({
             id: 'myCategoryChart',
             data: self.myCategoryConfig,
-            height: '70%',
+            height: '75%',
             width: '100%'
           });
 
