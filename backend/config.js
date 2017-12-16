@@ -144,6 +144,12 @@ module.exports = {
         },
         {
             file: './analysis',
+            path: '/api/analysis/compare_user_other_job',
+            method: 'compare_user_other_job',
+            type: 'post'
+        },
+        {
+            file: './analysis',
             path: '/api/analysis/used_month',
             method: 'used_month',
             type: 'post'

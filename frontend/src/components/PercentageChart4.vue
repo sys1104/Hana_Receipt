@@ -1,7 +1,7 @@
 
 <template>
 <div>
-<div id='percentageChart3'></div>
+<div id='percentageChart4'></div>
 <div class="col-md-12 col-md-offset-2">
   <!-- 두번째 그래프 -->
  <h5>다른 이용자는 <p><{{category}}></p>에 많은 비용을 지출하고 있습니다</h5>
@@ -139,7 +139,7 @@ export default {
                       setTimeout(function() {
                         axios({
                           method: 'post',
-                          url: 'api/analysis/compare_user_other_genderAge',
+                          url: 'api/analysis/compare_user_other_job',
                           data: {
                             u_num: unum,
                             start_date: start_date,
@@ -152,28 +152,8 @@ export default {
                           // compare_user = response.data.compare_user;
                           var compare_other = {};
                           compare_other = response.data.compare_other;
+                          self.percentageConfig.graphset[0].subtitle.text = compare_other[0].u_job + ' 사람의 평균 소비내역';
 
-                          var gender = '';
-
-                          if(compare_other[0].u_gender==1){
-                            gender = '남자';
-                          }
-                          else{
-                            gender = '여자';
-                          }
-                          self.percentageConfig.graphset[0].subtitle.text = Number(compare_other[0].u_age) + '대 ' + gender + ' 평균 소비내역'
-                          // console.log('스타트데이트 : ' +start_date);
-                          // console.log('엔드데이트 : ' +end_date);
-                          // console.log('★★★★★★★★★★★'+compare_other[0].cate_num);
-                          // console.log('★★★★★★★★★★★★★★'+compare_other[0].avg_price);
-                          // console.log('★★★★★★★★★★★'+compare_other[1].cate_num);
-                          // console.log('★★★★★★★★★★★★★★'+compare_other[1].avg_price);
-                          // console.log('★★★★★★★★★★★'+compare_other[2].cate_num);
-                          // console.log('★★★★★★★★★★★★★★'+compare_other[2].avg_price);
-                          // console.log('★★★★★★★★★★★'+compare_other[3].cate_num);
-                          // console.log('★★★★★★★★★★★★★★'+compare_other[3].avg_price);
-                          // console.log('★★★★★★★★★★★'+compare_other[4].cate_num);
-                          // console.log('★★★★★★★★★★★★★★'+compare_other[4].avg_price);
                           var temp = -1;
                           for (var k = 0; k < compare_other.length; k++) {
                             if(compare_other[k].avg_price > temp){ //50000,19125,
@@ -210,7 +190,7 @@ export default {
                             }
                           }
                           zingchart.render({
-                            id: 'percentageChart3',
+                            id: 'percentageChart4',
                             data: self.percentageConfig,
                             height: '430px',
                             width: '430px'
