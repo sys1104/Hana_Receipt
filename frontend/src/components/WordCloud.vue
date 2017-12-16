@@ -54,7 +54,7 @@
 
           //워드클라우드 디자인 및 사용
           var width = 1000,
-              height = 850;
+              height = 600;
           var fill = function(i){ return d3.schemeCategory20b[i];};
           var svg = d3.select("#wordvalue").append("svg")
               .attr("width", width)
