@@ -292,7 +292,7 @@ export default {
 
             var result_sum = '';
             var result_min = '';
-            for (var i = 0; i < cate_used.length; i++) {
+            for (var i = 0; i < cate_goal.length; i++) {
               console.log('-----테스트 카테유즈드 섬프 : ' + cate_used[i].sum_price);
               // result_sum = Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 100);
               console.log(cate_used[i].cate_num + ' ++++++++++++++++++ ' + (cate_used[i].sum_price / cate_goal[i].g_price));

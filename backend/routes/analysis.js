@@ -73,7 +73,7 @@ var cate_used = function(database, u_num, start_date, callback) {
       return;
     }
     console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
-    var exec = conn.query('select cate_num, sum(price) as sum_price from (select * from consume_history where u_num = ? and cate_num in (select cate_num from goal where u_num = ? and g_time <= ? and g_endtime >= ?) and c_time >= (select max(g_time) from goal where u_num = ? and g_time <= ? and g_endtime >= ?) and c_time <= (select max(g_endtime) from goal where u_num = ? and g_time <= ? and g_endtime >= ?)) as sub_goal group by cate_num order by cate_num', [u_num, u_num, start_date, start_date, u_num, start_date, start_date, u_num, start_date, start_date],
+    var exec = conn.query('select cate_num, sum(price) as sum_price from (select * from consume_history where u_num = ? and cate_num in (select cate_num from goal where u_num = ? and g_time = (select max(g_time) from goal where u_num = ?) and g_endtime = (select max(g_endtime) from goal where u_num = ?) and c_time >= (select max(g_time) from goal where u_num = ? and g_time <= ? and g_endtime >= ?) and c_time <= (select max(g_endtime) from goal where u_num = ? and g_time <= ? and g_endtime >= ?))) as sub_goal group by cate_num order by cate_num;', [u_num, u_num, u_num, u_num, u_num, start_date, start_date, u_num, start_date, start_date],
       function(err, rows) {
         //select의 결과물은 배열로 들어온다. rows 변수...
         if (rows.length > 0) {
@@ -109,7 +109,7 @@ var cate_goal = function(database, u_num, start_date, callback) {
     }
     console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
     // select cate_num, g_price, g_time, g_endtime from goal where u_num = ? and g_time <= ? and g_endtime >= ? and cate_num in (select cate_num from consume_history where u_num = ? and c_time >= (select max(g_time) from goal where u_num = ?) and c_time <= (select max(g_endtime) from goal where u_num =?)) order by cate_num
-    var exec = conn.query('select cate_num, g_price, g_time, g_endtime from goal where u_num = ? and g_time <= ? and g_endtime >= ? and (cate_num, g_time) in (select cate_num, c_time as g_time from consume_history where u_num = ? and c_time >= (select max(g_time) from goal where u_num = ?) and c_time <= (select max(g_endtime) from goal where u_num =?)) order by cate_num', [u_num, start_date, start_date, u_num, u_num, u_num],
+    var exec = conn.query('select cate_num, g_price, g_time, g_endtime from goal where u_num = ? and g_time <= ? and g_endtime >= ? and cate_num in (select cate_num from consume_history where u_num = ? and c_time >= (select max(g_time) from goal where u_num = ?) and c_time <= (select max(g_endtime) from goal where u_num = ?)) order by cate_num', [u_num, start_date, start_date, u_num, u_num, u_num],
       function(err, rows2) {
         //select의 결과물은 배열로 들어온다. rows 변수...
         if (rows2.length > 0) {
@@ -569,7 +569,6 @@ var compare_other_genderAge = function(database, u_num, start_date, end_date, ca
 //     });
 //   });
 // };
-
 
 
 

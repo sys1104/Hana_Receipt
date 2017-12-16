@@ -2,7 +2,7 @@
 <div>
   <br>
   <div class="table-users" style="width:100%">
-    <div class="header">지난 주 낭비된 금액</div>
+    <div class="header">지난 목표기간 동안 낭비된 금액</div>
     <table>
       <tr>
         <th>카테고리</th>
