@@ -470,7 +470,7 @@ var compare_other_genderAge = function(database, u_num, start_date, end_date, ca
     }
     console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
     // select cate_num, sum(price) as sum_price from (select * from consume_history where u_num = ? and c_time >= ? and c_time <= ?) as sub_consume_history group by cate_num
-    var exec = conn.query('select cate_num, avg(sum_price) as avg_price from (select u_num, cate_num, sum(price) as sum_price from consume_history where c_time >= ? and c_time <= ? and u_num in (select u_num from user where u_gender = (select u_gender from user where u_num = ?) and u_age >= (select left((select u_age from user where u_num = ?),1) * 10) and u_age <= (select left((select u_age from user where u_num = ?),1) * 10 + 10)) group by u_num, cate_num) as sub_consume_history group by cate_num', [start_date, end_date, u_num, u_num, u_num],
+    var exec = conn.query('select cate_num, avg(sum_price) as avg_price, left((select u_age from user where u_num = ?),1) * 10 as u_age, (select u_gender from user where u_num = ?) as u_gender from (select u_num, cate_num, sum(price) as sum_price from consume_history where c_time >= ? and c_time <= ? and u_num in (select u_num from user where u_gender = (select u_gender from user where u_num = ?) and u_age >= (select left((select u_age from user where u_num = ?),1) * 10) and u_age <= (select left((select u_age from user where u_num = ?),1) * 10 + 10)) group by u_num, cate_num) as sub_consume_history group by cate_num', [u_num, u_num, start_date, end_date, u_num, u_num, u_num],
       function(err, rows) {
         //select의 결과물은 배열로 들어온다. rows 변수...
         if (rows.length > 0) {
@@ -495,85 +495,81 @@ var compare_other_genderAge = function(database, u_num, start_date, end_date, ca
 
 
 // ========================= server-side 소득 분위에 따른 평균 비교분석 function =================== //
-// var compare_user_other_salary = function(req, res, callback) {
-//   console.log('********** server-side 다른 사람과 평균 비교분석 compare_user_other function 호출 **********');
-//   var database = req.app.get('database');
-//   var u_num = req.body.u_num; //vue에서 받아와야 함!!!
-//   var start_date = req.body.start_date; //front단에서 오늘 기준으로 주일의 시작
-//   var end_date = req.body.end_date; //front단에서 오늘 기준으로 주일의 마지막날로 정의한 것을 받아옴
-//   if (database) {
-//     var data = {};
-//     compare_other_salary(database, u_num, start_date, end_date, function(err, rows) {
-//       if (err) {
-//         console.error('********** all_used 에러 발생 **********' + err.stack);
-//         res.writeHead(200, {
-//           "Content-Type": 'text/html;charset=utf8'
-//         });
-//         res.write('<h2>cate_used 에러 발생</h2>');
-//         res.write('<p>' + err.stack + '</p>');
-//         res.end();
-//         // 에러 처리
-//       }
-//       if (rows) {
-//         data.compare_other = rows;
-//         res.json(data);
-//         console.log('********** compare_user_other / server-side requested' + data + ' **********');
-//         res.end();
-//       } else {
-//         console.log("********** 사용내역 없음 **********");
-//       }
-//     });
-//   } else {
-//     //DB접속에 실패 했을 경우
-//     res.writeHead(200, {
-//       "Content-Type": 'text/html;charset=utf8'
-//     });
-//     res.write('<h1>데이터베이스 연결 실패</h1>');
-//     res.write('<div><p>DB에 연결 하지 못했습니다</p></div>');
-//     res.write("<br/><a href='/public/login2.html'>다시 로그인</a>");
-//     res.end();
-//   }
-// };
+var compare_user_other_job = function(req, res, callback) {
+  console.log('********** server-side 다른 사람과 평균 비교분석 compare_user_other function 호출 **********');
+  var database = req.app.get('database');
+  var u_num = req.body.u_num; //vue에서 받아와야 함!!!
+  var start_date = req.body.start_date; //front단에서 오늘 기준으로 주일의 시작
+  var end_date = req.body.end_date; //front단에서 오늘 기준으로 주일의 마지막날로 정의한 것을 받아옴
+  if (database) {
+    var data = {};
+    compare_other_job(database, u_num, start_date, end_date, function(err, rows) {
+      if (err) {
+        console.error('********** all_used 에러 발생 **********' + err.stack);
+        res.writeHead(200, {
+          "Content-Type": 'text/html;charset=utf8'
+        });
+        res.write('<h2>cate_used 에러 발생</h2>');
+        res.write('<p>' + err.stack + '</p>');
+        res.end();
+        // 에러 처리
+      }
+      if (rows) {
+        data.compare_other = rows;
+        res.json(data);
+        console.log('********** compare_user_other / server-side requested' + data + ' **********');
+        res.end();
+      } else {
+        console.log("********** 사용내역 없음 **********");
+      }
+    });
+  } else {
+    //DB접속에 실패 했을 경우
+    res.writeHead(200, {
+      "Content-Type": 'text/html;charset=utf8'
+    });
+    res.write('<h1>데이터베이스 연결 실패</h1>');
+    res.write('<div><p>DB에 연결 하지 못했습니다</p></div>');
+    res.write("<br/><a href='/public/login2.html'>다시 로그인</a>");
+    res.end();
+  }
+};
 
 // ========================= server-side 사용자 총 카테고리별 사용금액 분석 function =================== //
-// var compare_other_salary = function(database, u_num, start_date, end_date, callback) {
-//   console.log('********** server-side compare_user 호출 **********');
-//   database.pool.getConnection(function(err, conn) { //DB 접속
-//     if (err) {
-//       if (conn) {
-//         conn.release();
-//       }
-//       callback(err, null);
-//       return;
-//     }
-//     console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
-//     // select cate_num, sum(price) as sum_price from (select * from consume_history where u_num = ? and c_time >= ? and c_time <= ?) as sub_consume_history group by cate_num
-//     var exec = conn.query('select cate_num, avg(sum_price) as avg_price from (select u_num, cate_num, sum(price) as sum_price from consume_history where c_time >= ? and c_time <= ? and u_num = (select u_num from user where u_gender = (select u_gender from user where u_num = ?) and u_age >= (select left((select u_age from user where u_num = ?),1) * 10) and u_age <= (select left((select u_age from user where u_num = ?),1) * 10 + 10)) group by u_num, cate_num) as sub_consume_history group by cate_num', [start_date, end_date, u_num, u_num, u_num],
-//       function(err, rows) {
-//         //select의 결과물은 배열로 들어온다. rows 변수...
-//         if (rows.length > 0) {
-//           conn.release();
-//           console.log('********** 카테고리별 목표대비 사용금액 rows로 반환 **********');
-//           callback(null, rows);
-//         } else {
-//           conn.release();
-//           console.log('********** 사용내역이 없습니다.**********');
-//           callback(null, null);
-//         }
-//       });
-//     conn.on('error', function(err) {
-//       conn.release();
-//       console.log('********** 데이터베이스 연결 시 에러 발생함 **********');
-//       console.dir(err);
-//       callback(err, null);
-//     });
-//   });
-// };
-
-
-
-
-
+var compare_other_job = function(database, u_num, start_date, end_date, callback) {
+  console.log('********** server-side compare_user 호출 **********');
+  database.pool.getConnection(function(err, conn) { //DB 접속
+    if (err) {
+      if (conn) {
+        conn.release();
+      }
+      callback(err, null);
+      return;
+    }
+    console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
+    // select cate_num, sum(price) as sum_price from (select * from consume_history where u_num = ? and c_time >= ? and c_time <= ?) as sub_consume_history group by cate_num
+    var exec = conn.query('select cate_num, avg(sum_price) as avg_price, (select u_job from user where u_num = ?) as u_job from (select u_num, cate_num, sum(price) as sum_price from consume_history where c_time >= ? and c_time <= ? and u_num in (select u_num from user where u_job = (select u_job from user where u_num = ?)) group by u_num, cate_num) as sub_consume_history group by cate_num',
+    [u_num, start_date, end_date, u_num],
+      function(err, rows) {
+        //select의 결과물은 배열로 들어온다. rows 변수...
+        if (rows.length > 0) {
+          conn.release();
+          console.log('********** 카테고리별 목표대비 사용금액 rows로 반환 **********');
+          callback(null, rows);
+        } else {
+          conn.release();
+          console.log('********** 사용내역이 없습니다.**********');
+          callback(null, null);
+        }
+      });
+    conn.on('error', function(err) {
+      conn.release();
+      console.log('********** 데이터베이스 연결 시 에러 발생함 **********');
+      console.dir(err);
+      callback(err, null);
+    });
+  });
+};
 
 
 
@@ -737,5 +733,6 @@ module.exports.all_used_goal_money = all_used_goal_money;
 module.exports.compare_user_user = compare_user_user;
 module.exports.compare_user_other = compare_user_other;
 module.exports.compare_user_other_genderAge = compare_user_other_genderAge;
+module.exports.compare_user_other_job = compare_user_other_job;
 module.exports.used_month = used_month;
 module.exports.word_cloud_history = word_cloud_history;
