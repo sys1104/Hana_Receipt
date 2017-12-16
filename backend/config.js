@@ -126,8 +126,20 @@ module.exports = {
         },
         {
             file: './analysis',
+            path: '/api/analysis/compare_user_user',
+            method: 'compare_user_user',
+            type: 'post'
+        },
+        {
+            file: './analysis',
             path: '/api/analysis/compare_user_other',
             method: 'compare_user_other',
+            type: 'post'
+        },
+        {
+            file: './analysis',
+            path: '/api/analysis/compare_user_other_genderAge',
+            method: 'compare_user_other_genderAge',
             type: 'post'
         },
         {

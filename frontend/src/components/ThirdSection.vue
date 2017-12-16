@@ -12,7 +12,7 @@
           </div>
           <div class="col-md-6">
             <!-- 두번째 그래프 -->
-            <percentage-chart2></percentage-chart2>
+            <percentage-chart3></percentage-chart3>
           </div>
           <!-- <div>
         </div> -->
@@ -31,7 +31,7 @@ import axios from 'axios'
 // import MyCategoryChart from './MyCategoryChart.vue'
 import PercentageChart1 from './PercentageChart1.vue'
 import PercentageChart2 from './PercentageChart2.vue'
-
+import PercentageChart3 from './PercentageChart3.vue'
 export default {
     data() {
       return {
@@ -43,7 +43,8 @@ export default {
         // MyTotalChart,
         // MyCategoryChart,
         PercentageChart1,
-        PercentageChart2
+        PercentageChart2,
+        PercentageChart3
     },
 
 }

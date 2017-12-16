@@ -1,7 +1,7 @@
 
 <template>
 <div>
-<div id='percentageChart2'></div>
+<div id='percentageChart3'></div>
 <div class="col-md-12 col-md-offset-2">
   <!-- 두번째 그래프 -->
  <h5>다른 이용자 <p><{{category}}></p>에 많은 비용을 지출하고 있습니다</h5>
@@ -139,7 +139,7 @@ export default {
                       setTimeout(function() {
                         axios({
                           method: 'post',
-                          url: 'api/analysis/compare_user_other',
+                          url: 'api/analysis/compare_user_other_genderAge',
                           data: {
                             u_num: unum,
                             start_date: start_date,
@@ -200,7 +200,7 @@ export default {
                             }
                           }
                           zingchart.render({
-                            id: 'percentageChart2',
+                            id: 'percentageChart3',
                             data: self.percentageConfig,
                             height: '430px',
                             width: '430px'

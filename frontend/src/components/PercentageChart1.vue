@@ -140,7 +140,7 @@ export default {
                       setTimeout(function() {
                         axios({
                           method: 'post',
-                          url: 'api/analysis/compare_user_other',
+                          url: 'api/analysis/compare_user_user',
                           data: {
                             u_num: unum,
                             start_date: start_date,
@@ -152,8 +152,8 @@ export default {
                           compare_user = response.data.compare_user;
                           self.u_name = compare_user[0].u_name;
                           // console.log('퍼센트차트에서 유네임 : ' + compare_user[0].u_name);
-                          var compare_other = {};
-                          compare_other = response.data.compare_other;
+                          // var compare_other = {};
+                          // compare_other = response.data.compare_other;
 
                           var temp = -1;
                           for (var i = 0; i < compare_user.length; i++) {
