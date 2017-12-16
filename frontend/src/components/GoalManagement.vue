@@ -199,6 +199,7 @@ export default {
       var u_num = this.u_num;
       var cate_num = [];
       var g_price = [];
+      var self= this;
       if(this.info0 == true){
         var g_time = this.resultsStart;
         var g_endtime = this.resultsEnd;
@@ -230,13 +231,19 @@ export default {
         cate_num.push(this.cate_num.cate_num6);
         g_price.push(this.g_price.g_price6);
       }
+      var sub=this.g_endtime - this.g_time;
+      var gTimeDay = this.g_time.substr(8,2);
+      var endTimeDay = this.g_endtime.substr(8,2);
+      var subDay = endTimeDay-gTimeDay;
+     
       //입력 값이 없으면
       if(g_price.length<=0){
         alert('값을 입력하세요');
         //입력 값이 0보다 커야함
       }else if(this.g_price.g_price1<=0 && this.g_price.g_price2<=0 && this.g_price.g_price3<=0 && this.g_price.g_price4<=0 && this.g_price.g_price5<=0 && this.g_price.g_price6<=0){
         alert('양수만 입력 가능합니다');
-
+      }else if(subDay<=1){
+        alert('목표 기간은 최소 2일 이후부터 설정 가능합니다')
       }else if(this.g_time >= this.g_endtime){
         alert('종료일은 시작일 이후만 입력 가능합니다.');
       }else{
