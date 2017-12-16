@@ -46,7 +46,7 @@
       <!-- <div class="row" style="width:25%"> -->
       <div v-if="info0==false" class="form-group" style="width:23%; margin-top:-30px">
         <button @click="week()" class="btn ab c">일주일 후</button>
-         <button  class="btn ab c">한달 후</button>
+         <button @click="month()" class="btn ab c">한달 후</button>
         <input type="date" placeholder="마지막날짜" v-model="g_endtime" class="form-control" name="g_endtime" style="text-align:center">
       </div>
       <!-- <div v-if="info0==false" class="form-group" style="width:4%; margin-right:16px">
@@ -273,6 +273,48 @@ export default {
         console.log(yyyy + '-'+ mm + '-' + dd);
         this.g_time = yyyy + '-'+ mm + '-' + dd;
         this.g_endtime = yyyy + '-'+ mm + '-' + ddNext;
+      },
+      week(){
+        console.log('week');
+        var today = new Date();
+        var dd = today.getDate();
+        var ddNextWeek = today.getDate()+7;
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+        if(dd<10) {
+          dd='0'+dd
+        }
+        if(mm<10) {
+          mm='0'+mm
+        }
+        this.g_endtime = yyyy + '-'+ mm + '-' + ddNextWeek;
+      },
+      month(){
+        console.log('month');
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var mmNextMonth = today.getMonth()+1;
+        var mmNextYear = today.getFullYear();
+        var yyyy = today.getFullYear();
+        if(dd<10) {
+          dd='0'+dd
+        }
+        if(mm<10) {
+          mm='0'+mm
+        }
+        if(mmNextMonth==12){
+          mmNextYear+=1;
+          mmNextMonth='0'+1
+          this.g_time = yyyy + '-'+ mm + '-' + dd;
+          this.g_endtime = mmNextYear + '-'+ mmNextMonth + '-' + dd;
+        }else{
+        this.g_time = yyyy + '-'+ mm + '-' + dd;
+        this.g_endtime = yyyy + '-'+ mmNextMonth + '-' + dd;
+        }
+        console.log(mmNextMonth);
+        console.log(yyyy + '-'+ mm + '-' + dd);
+        
       }
 
   },
