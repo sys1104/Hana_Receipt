@@ -4,7 +4,7 @@
 <div id='percentageChart2'></div>
 <div class="col-md-12 col-md-offset-2">
   <!-- 두번째 그래프 -->
- <h5>다른 이용자 <p><{{category}}></p>에 많은 비용을 지출하고 있습니다</h5>
+ <h5>다른 이용자는 <p><{{category}}></p>에 많은 비용을 지출하고 있습니다</h5>
 </div>
 </div>
 </template>
@@ -57,7 +57,7 @@ export default {
                           fontColor: "#8e99a9",
                           fontFamily: "Open Sans",
                           fontSize: "20",
-                          text: '이용자 평균 소비내역',
+                          text: '전체 이용자 평균 소비내역',
                           align: "center"
                         },
                         plotarea: {
