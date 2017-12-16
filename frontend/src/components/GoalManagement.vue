@@ -30,7 +30,7 @@
     <div class="table-users" style="width:100%">
     <div class="header">목표 저장</div>
     <br>
-    
+
     <!-- class="row" 추가 -->
     <div class="form-group" v-if="flag==false">
       <div v-if="info0==false" class="form-group" style="width:35%;" >
@@ -53,10 +53,10 @@
          <button class="btn ab c">일주일 후</button>
          <button class="btn ab c">한달 후</button>
        </div> -->
-       
+
       <!-- </div> -->
 <!-- results1[0]!=cate_num.cate_num1 && results1[1]!=cate_num.cate_num1 && results1[2]!=cate_num.cate_num1 && results1[3]!=cate_num.cate_num1 &&results1[4]!=cate_num.cate_num1 && results1[5]!=cate_num.cate_num1 -->
-      
+
       <div v-if="info1==false"class="form-group" style="width:35%">
         <label class="form-control">생활/쇼핑</label>
         <input type="hidden" v-model="cate_num.cate_num1" class="form-control" value="1" name="cate_num1">
@@ -111,7 +111,7 @@
     </div>
     <br>
   </div>
-  <br>  
+  <br>
 </div>
 </div>
 </template>
@@ -276,45 +276,66 @@ export default {
       },
       week(){
         console.log('week');
-        var today = new Date();
-        var dd = today.getDate();
-        var ddNextWeek = today.getDate()+7;
-        var mm = today.getMonth()+1; //January is 0!
-        var yyyy = today.getFullYear();
-        if(dd<10) {
-          dd='0'+dd
+        console.log(this.g_endtime);
+        var year = this.g_endtime.substring(0,4);
+        var month = this.g_endtime.substring(5,7);
+        var day = this.g_endtime.substring(8,10);
+        if (month.length == 1) {
+          month = "0" + month;
         }
-        if(mm<10) {
-          mm='0'+mm
+        if (day.length == 1) {
+          day = "0" + day;
         }
-        this.g_endtime = yyyy + '-'+ mm + '-' + ddNextWeek;
+        var start_date = ''+month+'/'+day+'/'+year+'';
+        var date = new Date(start_date);
+        console.log(date);
+        var end_date = start_date;
+        var daysago = 7;
+        var start_date = new Date(date.setDate(date.getDate()+daysago));
+        var year2 = start_date.getFullYear();
+        var month2 = new String(start_date.getMonth() + 1);
+        var day2 = new String(start_date.getDate());
+        // 한자리수일 경우 0을 채워준다.
+        if (month2.length == 1) {
+          month2 = "0" + month2;
+        }
+        if (day2.length == 1) {
+          day2 = "0" + day2;
+        }
+        start_date = year2 + '' + month2 + '' + day2;
+        this.g_endtime = year2 + '-'+ month2 + '-' + day2;
       },
       month(){
-        console.log('month');
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth()+1; //January is 0!
-        var mmNextMonth = today.getMonth()+1;
-        var mmNextYear = today.getFullYear();
-        var yyyy = today.getFullYear();
-        if(dd<10) {
-          dd='0'+dd
+        console.log('week');
+        console.log(this.g_endtime);
+        var year = this.g_endtime.substring(0,4);
+        var month = this.g_endtime.substring(5,7);
+        var day = this.g_endtime.substring(8,10);
+        if (month.length == 1) {
+          month = "0" + month;
         }
-        if(mm<10) {
-          mm='0'+mm
+        if (day.length == 1) {
+          day = "0" + day;
         }
-        if(mmNextMonth==12){
-          mmNextYear+=1;
-          mmNextMonth='0'+1
-          this.g_time = yyyy + '-'+ mm + '-' + dd;
-          this.g_endtime = mmNextYear + '-'+ mmNextMonth + '-' + dd;
-        }else{
-        this.g_time = yyyy + '-'+ mm + '-' + dd;
-        this.g_endtime = yyyy + '-'+ mmNextMonth + '-' + dd;
+        var start_date = ''+month+'/'+day+'/'+year+'';
+        var date = new Date(start_date);
+        console.log(date);
+        var end_date = start_date;
+        var daysago = 30;
+        var start_date = new Date(date.setDate(date.getDate()+daysago));
+        var year2 = start_date.getFullYear();
+        var month2 = new String(start_date.getMonth() + 1);
+        var day2 = new String(start_date.getDate());
+        // 한자리수일 경우 0을 채워준다.
+        if (month2.length == 1) {
+          month2 = "0" + month2;
         }
-        console.log(mmNextMonth);
-        console.log(yyyy + '-'+ mm + '-' + dd);
-        
+        if (day2.length == 1) {
+          day2 = "0" + day2;
+        }
+        start_date = year2 + '' + month2 + '' + day2;
+        this.g_endtime = year2 + '-'+ month2 + '-' + day2;
+
       }
 
   },
