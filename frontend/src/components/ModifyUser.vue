@@ -163,7 +163,7 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style>
       .box-container{
                   border-style: solid;
                   border-width: 2px;
