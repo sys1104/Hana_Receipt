@@ -3,7 +3,7 @@
   <div class="container">
     <br>
   <h2>워드클라우드</h2>
-  <div>
+      <div>
         <word-cloud></word-cloud>
       </div>
       <!-- <div>

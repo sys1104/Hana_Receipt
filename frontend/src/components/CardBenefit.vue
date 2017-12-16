@@ -12,7 +12,7 @@
 <template>
 <div id="cardbenefitlist" class="table-users container" style="width:100%">
   <hr>
-  <h2>카드추천</h2>
+  <h2>내게 맞는 카드</h2>
   <br><br>
       <!-- <tr>
         <th>이미지</th>
