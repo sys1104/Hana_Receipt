@@ -1,5 +1,5 @@
 <template>
-<div id="wordcloudlist" class="container" style="width:70%">
+<div id="wordcloudlist" >
   
   <div id="wordvalue">
 

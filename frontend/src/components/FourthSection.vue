@@ -3,17 +3,14 @@
   <div class="container">
     <br>
   <h2>워드클라우드</h2>
+  <div>
+        <word-cloud></word-cloud>
+      </div>
       <!-- <div>
         <my-used-month></my-used-month>
       </div> -->
-    
-    <div  style="position: absolute">
-        <word-cloud></word-cloud>
-    </div>
-    <img src="img/brain.png" style="width:70%; height:30%"></img>
-      <!-- <div>
-        <word-cloud></word-cloud>
-      </div> -->
+   
+      
   </div>
 </div>
 </template>
