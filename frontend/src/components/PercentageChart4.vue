@@ -152,7 +152,7 @@ export default {
                           // compare_user = response.data.compare_user;
                           var compare_other = {};
                           compare_other = response.data.compare_other;
-                          self.percentageConfig.graphset[0].subtitle.text = compare_other[0].u_job + ' 사람의 평균 소비내역';
+                          self.percentageConfig.graphset[0].subtitle.text = compare_other[0].u_job + ' 직업군의 평균 소비내역';
 
                           var temp = -1;
                           for (var k = 0; k < compare_other.length; k++) {
