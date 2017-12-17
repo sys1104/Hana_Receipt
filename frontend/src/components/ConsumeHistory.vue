@@ -28,7 +28,7 @@
          <td v-if="flag==false" style="width:135px">{{result.content}}</td>
          <td v-if="flag==false">{{result.price | currency('',0)}}</td>
          <td width="120" v-if="flag==false">{{result.c_time}}</td>
-         <td v-if="flag==false"><input class="check-box2" type="checkbox" v-model="checked" v-if="result.wasted == 1" id="wastedcheck" value="낭비"  disabled/>
+         <td v-if="flag==false"><i class="icono-check"  v-if="result.wasted == 1" id="wastedcheck" value="낭비"  disabled/>
          <!-- <span class="glyphicon glyphicon-search"></span> -->
          <!-- <label for="wastedcheck" class="css-label alert-style"/> -->
          
