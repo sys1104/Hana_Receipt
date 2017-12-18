@@ -97,8 +97,7 @@ var updateHistory = function(req, res, callback) {
     var paramWasted = req.body.wasted;
     //database --> true : DB에 접근할 수 있는 상태
     if (database) {
-        var axios = require('axios');
-        //editHistory 메소드를 호출함으로써 DB에 값 수정 후 callback
+        //editHistory 메소드를 호출함으로써 DB에 소비내역 값 수정 후 callback
         editHistory(database, paramConsumenum, paramUnum, paramCatenum, paramContent, paramPrice, paramCtime, paramWasted, function(err, result) {
             if (err) {
                 throw err;
