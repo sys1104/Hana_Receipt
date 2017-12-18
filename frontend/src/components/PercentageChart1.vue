@@ -122,7 +122,7 @@ export default {
                       }
                       var start_date = year + '' + month + '' + day;
                       var end_date = start_date;
-                      var daysago = 7;
+                      var daysago = 30;
                       start_date = new Date(date - (3600000 * 24 * daysago));
                       var year2 = start_date.getFullYear();
                       var month2 = new String(start_date.getMonth() + 1);
