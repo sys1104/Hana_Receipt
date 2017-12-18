@@ -126,8 +126,7 @@ export default {
           method: 'post',
           url: 'api/goal/request_goal',
           data: {
-            u_num: this.$session.get('session'),
-            request_code : 1
+            u_num: this.$session.get('session')
           }
         }).then((response) => {
           console.log('********** request_goal 응답 받음');

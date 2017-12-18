@@ -1,14 +1,12 @@
 // ========================= server-side 목표 리스트 요청 function =================== //
 var request_goal = function(req, res, callback) {
-    console.log('********** server-side 목표 리스트 요청 function 호출 **********');
+    console.log('********** server-side request_goal(목표리스트) 호출 **********');
     var database = req.app.get('database');
-    var u_num = req.body.u_num; //vue에서 받아와야 함!!!
-    //req_code에 따라 쿼리가 달라짐
-    var req_code = req.body.request_code || 0;
-    console.log('req_code ' + req_code);
+    var u_num = req.body.u_num;
     if (database) {
       var data = {};
-        list_goal(database, u_num, req_code, function(err, rows) {
+      //list_goal 메소드를 호출함으로써 DB 조회 후 목표 리스트 callback
+        list_goal(database, u_num, function(err, rows) {
             if (err) {
                 console.error('********** list_goal 에러 발생 **********' + err.stack);
                 res.writeHead(200, {
@@ -20,13 +18,14 @@ var request_goal = function(req, res, callback) {
                 // 에러 처리
             }
             if (rows) {
+              //기간 동안 목표가 있으면 rows 값 있음
                 data = rows;
                 res.json(data);
-                console.log('********** data json 형태로 Wasted.vue로 보냄 **********');
-                console.log(data);
+                console.log('********** data json 형태로 list_goal메소드 rows 보냄 **********');
                 res.end();
             } else {
-                console.log("********** list_goal 없음! 사용내역 없음 **********");
+              //기간 동안 목표가 없으면 rows 값 없음
+                console.log("********** list_goal 없음! data = {}; **********");
                 data = {};
                 res.json(data);
                 res.end();
@@ -39,13 +38,12 @@ var request_goal = function(req, res, callback) {
         });
         res.write('<h1>데이터베이스 연결 실패</h1>');
         res.write('<div><p>DB에 연결 하지 못했습니다</p></div>');
-        res.write("<br/><a href='/public/login2.html'>다시 로그인</a>");
         res.end();
     }
 };
 
 // ========================= server-side 목표리스트 출력 function =================== //
-var list_goal = function(database, u_num, req_code, callback) {
+var list_goal = function(database, u_num, callback) {
     console.log('********** server-side wasted_used 호출 **********');
     database.pool.getConnection(function(err, conn) { //DB 접속
         if (err) {
@@ -55,19 +53,11 @@ var list_goal = function(database, u_num, req_code, callback) {
             callback(err, null);
             return;
         }
-        console.log('req_code', req_code);
-        console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
-        // 'select * from goal where u_num = ?'
-        if (req_code == 1) {
-            var query = 'select substring(g_time,1,10) g_time ,substring(g_endtime,1,10) g_endtime from goal where g_endtime in (select max(g_endtime) max_endtime from goal where u_num = ?) and u_num=? and g_endtime > curdate()'
-        } else {
-            var query = 'select g_num, u_num, cate_num, g_price, substring(g_time,1,10) g_time, substring(g_endtime,1,10) g_endtime from goal where g_endtime in (select max(g_endtime) max_endtime from goal where u_num = ?) and g_endtime > curdate() and u_num=?'
-        }
+        //conn 객체를 사용해서 sql 실행 (목표 조회 쿼리문)
+        var query = 'select g_num, u_num, cate_num, g_price, substring(g_time,1,10) g_time, substring(g_endtime,1,10) g_endtime from goal where g_endtime in (select max(g_endtime) max_endtime from goal where u_num = ?) and g_endtime > curdate() and u_num=?';
         var exec = conn.query(query, [u_num, u_num],
             function(err, rows) {
-                //select의 결과물은 배열로 들어온다. rows 변수...
                 conn.release();
-                console.log('********** 실행 sql : %s ********** ', exec.sql);
                 if (err) {
                     conn.release();
                     console.log('********** sql 수행 중 에러발생. ********** ');
@@ -86,7 +76,6 @@ var list_goal = function(database, u_num, req_code, callback) {
     });
 };
 
-
 // ==================== 목표 저장 파라미터 전달 function ==================== //
 var save_goal = function(req, res, callback) {
     console.log('********** server-side save_goal 호출됨 **********');
@@ -97,14 +86,12 @@ var save_goal = function(req, res, callback) {
     var g_time = req.body.g_time;
     var g_endtime = req.body.g_endtime;
     if (database) {
-        var axios = require('axios');
+        //store_goal 메소드를 호출함으로써 DB에 목표 저장 후 callback
         store_goal(database, u_num, cate_num, g_price, g_time, g_endtime, function(err, result) {
             if (err) {
                 throw err;
             }
             if (result) {
-                console.dir(result);
-                //일단 메인으로 redirect
                 res.redirect('http://localhost:8080');
             } else {
                 res.writeHead(200, {
@@ -121,7 +108,6 @@ var save_goal = function(req, res, callback) {
         });
         res.write('<h1>데이터베이스 연결 실패</h1>');
         res.write('<div><p>DB에 연결 하지 못했습니다</p></div>');
-        res.write("<br/><a href='/public/adduser.html'>다시 가입하기</a>");
         res.end();
     }
 };
@@ -139,31 +125,25 @@ var store_goal = function(database, u_num, cate_num, g_price, g_time, g_endtime,
             callback(err, null);
             return;
         }
-        console.log('데이터베이스 연결 Thread' + conn.threadId);
-        console.log('카테넘렝쓰! : ' + cate_num.length);
-        //inserts배열에 넘겨받은 값들 push
+        //inserts배열에 넘겨받은 카테고리 별 목표 값들 push
         var inserts = [];
         for (var i = 0; i < cate_num.length; i++) {
             inserts.push([u_num, cate_num[i], g_price[i], g_time, g_endtime]);
         }
-
+        //conn 객체를 사용해서 sql 실행 (목표 저장 쿼리문)
         var exec = conn.query({ sql: 'insert into goal(u_num, cate_num, g_price, g_time, g_endtime) values ?', values: [inserts] }, function(err, result) {
             //쿼리 작업 수행 후 반드시 연결을 해제 해야 한다.
             conn.release();
-            console.log('실행 sql : %s', exec.sql);
+            // console.log('실행 sql : %s', exec.sql);
             if (err) {
                 conn.release();
                 console.log('sql 수행 중 에러발생.');
                 console.dir(err);
-
                 callback(err, null);
                 return;
             }
             callback(null, result);
         });
-
-
-
         conn.on('error', function(err) {
             conn.release();
             console.log('데이터베이스 연결 시 에러 발생함');
@@ -172,7 +152,6 @@ var store_goal = function(database, u_num, cate_num, g_price, g_time, g_endtime,
         });
     });
 };
-
 
 // ==================== 목표내역 수정 파라미터 전달 function ==================== //
 var edit_goal = function(req, res, callback) {
@@ -185,20 +164,18 @@ var edit_goal = function(req, res, callback) {
     var g_time = req.body.g_time;
     var g_endtime = req.body.g_endtime;
     if (database) {
-        var axios = require('axios');
+        //update_goal 메소드를 호출함으로써 DB에 목표 값 수정 후 callback
         update_goal(database, u_num, g_num, cate_num, g_price, g_time, g_endtime, function(err, result) {
             if (err) {
                 throw err;
             }
             if (result) {
-                console.dir(result);
-                //일단 메인으로 redirect
                 res.redirect('http://localhost:8080');
             } else {
                 res.writeHead(200, {
                     "Content-Type": 'text/html;charset=utf8'
                 });
-                res.write('<h1>소비내역 추가 실패</h1>');
+                res.write('<h1>목표내역 수정 실패</h1>');
                 res.end();
             }
         });
@@ -209,14 +186,13 @@ var edit_goal = function(req, res, callback) {
         });
         res.write('<h1>데이터베이스 연결 실패</h1>');
         res.write('<div><p>DB에 연결 하지 못했습니다</p></div>');
-        res.write("<br/><a href='/public/adduser.html'>다시 가입하기</a>");
         res.end();
     }
 };
 
 // ==================== 목표 DB 저장 function ==================== //
 var update_goal = function(database, u_num, g_num, cate_num, g_price, g_time, g_endtime, callback) {
-    console.log('********** server-side saveHistory 호출됨 **********');
+    console.log('********** server-side update_goal 호출됨 **********');
     //pool에서 커넥션 객체 가져오기
     database.pool.getConnection(function(err, conn) {
         if (err) {
@@ -227,22 +203,11 @@ var update_goal = function(database, u_num, g_num, cate_num, g_price, g_time, g_
             callback(err, null);
             return;
         }
-        console.log('데이터베이스 연결 Thread' + conn.threadId);
-        //삽입할 데이터를 객체로 만들기 앞: DB컬럼명, 뒤: 파라미터로 받아온 컬럼명
-        var data = {
-            u_num: u_num,
-            cate_num: cate_num,
-            g_price: g_price,
-            g_time: g_time,
-            g_endtime: g_endtime,
-            g_num: g_num
-        };
-        //conn 객체를 사용해서 sql 실행
-        //set 모든 컬럼에 집어넣는 문법
+        //conn 객체를 사용해서 sql 실행 (목표내역 수정 쿼리문)
         var exec = conn.query('update goal set cate_num=?,g_price=?,g_time=?,g_endtime=? where u_num = ? and g_num=?', [cate_num, g_price, g_time, g_endtime, u_num, g_num], function(err, result) {
             //쿼리 작업 수행 후 반드시 연결을 해제 해야 한다.
             conn.release();
-            console.log('실행 sql : %s', exec.sql);
+            // console.log('실행 sql : %s', exec.sql);
             if (err) {
                 conn.release();
                 console.log('sql 수행 중 에러발생.');
@@ -264,25 +229,23 @@ var update_goal = function(database, u_num, g_num, cate_num, g_price, g_time, g_
 
 // ==================== 목표내역 삭제 파라미터 전달 function ==================== //
 var delete_goal = function(req, res, callback) {
-    console.log('********** server-side edit_goal 호출됨 **********');
+    console.log('********** server-side delete_goal 호출됨 **********');
     var database = req.app.get('database');
     var u_num = req.body.u_num;
     var g_num = req.body.g_num;
     if (database) {
-        var axios = require('axios');
+      //remove_goal 메소드를 호출함으로써 DB 목표 값 삭제 후 callback
         remove_goal(database, u_num, g_num, function(err, result) {
             if (err) {
                 throw err;
             }
             if (result) {
-                console.dir(result);
-                //일단 메인으로 redirect
                 res.redirect('http://localhost:8080');
             } else {
                 res.writeHead(200, {
                     "Content-Type": 'text/html;charset=utf8'
                 });
-                res.write('<h1>소비내역 삭제 실패</h1>');
+                res.write('<h1>목표 삭제 실패</h1>');
                 res.end();
             }
         });
@@ -293,7 +256,6 @@ var delete_goal = function(req, res, callback) {
         });
         res.write('<h1>데이터베이스 연결 실패</h1>');
         res.write('<div><p>DB에 연결 하지 못했습니다</p></div>');
-        res.write("<br/><a href='/public/adduser.html'>다시 가입하기</a>");
         res.end();
     }
 };
@@ -311,14 +273,7 @@ var remove_goal = function(database, u_num, g_num, callback) {
             callback(err, null);
             return;
         }
-        console.log('데이터베이스 연결 Thread' + conn.threadId);
-        //삽입할 데이터를 객체로 만들기 앞: DB컬럼명, 뒤: 파라미터로 받아온 컬럼명
-        var data = {
-            u_num: u_num,
-            g_num: g_num,
-        };
-        //conn 객체를 사용해서 sql 실행
-        //set 모든 컬럼에 집어넣는 문법
+        //conn 객체를 사용해서 sql 실행 (목표 삭제 쿼리문)
         var exec = conn.query('delete from goal where u_num = ? and g_num = ?', [u_num, g_num], function(err, result) {
             //쿼리 작업 수행 후 반드시 연결을 해제 해야 한다.
             conn.release();
@@ -327,7 +282,6 @@ var remove_goal = function(database, u_num, g_num, callback) {
                 conn.release();
                 console.log('sql 수행 중 에러발생.');
                 console.dir(err);
-
                 callback(err, null);
                 return;
             }
@@ -342,6 +296,7 @@ var remove_goal = function(database, u_num, g_num, callback) {
     });
 };
 
+//모듈 exports
 module.exports.request_goal = request_goal;
 module.exports.save_goal = save_goal;
 module.exports.edit_goal = edit_goal;
