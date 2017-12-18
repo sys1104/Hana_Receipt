@@ -3,7 +3,7 @@
 <div>
   <br>
   <div class="table-users" style="width:100%">
-    <div class="header">지난 목표기간 동안 낭비된 금액</div>
+    <div v-model="period" class="header">{{period}}</div>
     <table>
       <tr>
         <th>카테고리</th>
@@ -43,7 +43,8 @@ export default {
     return {
       results: '',
       info: {},
-      sum: ''
+      sum: '',
+      period:''
     }
   },
   methods: {
@@ -82,6 +83,8 @@ export default {
       }
       // sum ==> 지난 목표기간에 낭비된 소비내역 합산
       self.sum = sum2;
+
+      // self.period =
     })
   }
 }
