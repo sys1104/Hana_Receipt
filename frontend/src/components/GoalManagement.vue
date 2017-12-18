@@ -208,8 +208,9 @@ export default {
         g_price.push(this.g_price.g_price6);
       }
       var sub=this.g_endtime - this.g_time;
-      var gTimeDay = this.g_time.substr(8,2);
-      var endTimeDay = this.g_endtime.substr(8,2);
+      //날짜 값에서 '-'문자 제거
+      var gTimeDay = this.g_time.replace(/\-/g,'');
+      var endTimeDay = this.g_endtime.replace(/\-/g,'');
       var subDay = endTimeDay-gTimeDay;
 
       //입력 값이 없으면
@@ -218,10 +219,10 @@ export default {
         //입력 값이 0보다 커야함
       }else if(this.g_price.g_price1<=0 && this.g_price.g_price2<=0 && this.g_price.g_price3<=0 && this.g_price.g_price4<=0 && this.g_price.g_price5<=0 && this.g_price.g_price6<=0){
         alert('양수만 입력 가능합니다');
-      }else if(subDay<=1){
-        alert('목표 기간은 최소 2일 이후부터 설정 가능합니다')
       }else if(this.g_time >= this.g_endtime){
         alert('종료일은 시작일 이후만 입력 가능합니다.');
+      }else if(subDay<=1){
+        alert('목표 기간은 최소 2일 이후부터 설정 가능합니다')
       }else{
         axios({
           method: 'post',
@@ -235,12 +236,11 @@ export default {
           }
         }).then(function(response) {
           console.log('********** 목표내역 저장완료 **********');
-          // alert('목표내역 저장 완료되었습니다');
           setTimeout("window.location.href = './goal_management'",0)
         })
       }
     },
-    //날짜 변환 메소드
+    //오늘 날짜 구하는 메소드
       getToday(){
         console.log('********** front-end getToday 호출 **********')
         var today = new Date();
