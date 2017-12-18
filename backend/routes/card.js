@@ -1,6 +1,6 @@
 // ==================== 카드 혜택별 조회 function ==================== //
 var card_benefit_search = function(database, result_benefit_priority, callback) {
-  console.log('********** card_benefit_search 호출 **********');
+  console.log('********** server-side card_benefit_search 호출 **********');
   database.pool.getConnection(function(err, conn) {
     if (err) {
       if (conn) {
@@ -17,19 +17,19 @@ var card_benefit_search = function(database, result_benefit_priority, callback) 
         callback(null, rows);
       } else {
         conn.release();
-        console.log('-----like로 일치하는 카드 없음!!');
+        console.log('********** 1차 우선 혜택 일치하는 내용 없음 **********');
         callback(null, null);
       }
     });
     conn.on('error', function(err) {
       conn.release();
-      console.log('데이터베이스 연결 시 에러 발생함');
+      console.log('********** 데이터베이스 연결 시 에러 발생함 **********');
       console.dir(err);
       callback(err, null);
     });
   });
 };
-
+// ==================== 혜택기반 체크카드 검색 function ==================== //
 var card_benefit_search_check = function(database, result_benefit_priority, callback) {
   console.log('********** card_benefit_search_check 호출 (학생 또는 20살 미만) **********');
   database.pool.getConnection(function(err, conn) {
@@ -48,7 +48,7 @@ var card_benefit_search_check = function(database, result_benefit_priority, call
         callback(null, rows);
       } else {
         conn.release();
-        console.log('-----like로 일치하는 카드 없음!!22222');
+        console.log('********** 1차 우선 혜택 일치하는 내용 없음 **********');
         callback(null, null);
       }
     });
@@ -60,7 +60,7 @@ var card_benefit_search_check = function(database, result_benefit_priority, call
     });
   });
 };
-
+// ==================== 혜택기반 신용카드 검색 function ==================== //
 var user_benefit_search = function(database, u_num, card_benefit, callback) {
   console.log('********** user_benefit_search 호출 **********');
   database.pool.getConnection(function(err, conn) {
@@ -71,27 +71,26 @@ var user_benefit_search = function(database, u_num, card_benefit, callback) {
       callback(err, null);
       return;
     }
-    // select * from consume_history where u_num  = ? and c_time <= curdate() and c_time >= DATE_SUB(curdate(), INTERVAL 31 DAY)
-    var sql = 'select A.cate_num, sum(price) as sum_price, B.u_job as u_job, B.u_age as u_age, B.u_gender as u_gender from (select * from consume_history where u_num = ? and c_time <= curdate() and c_time >= DATE_SUB(curdate(), INTERVAL 31 DAY)) as A, user B where A.u_num = B.u_num group by cate_num';
+    var sql = 'select A.cate_num, sum(price) as sum_price, B.u_job as u_job, B.u_age as u_age, B.u_gender as u_gender from (select * from consume_history where u_num = ? and c_time <= curdate() and c_time >= DATE_SUB(curdate(), INTERVAL 30 DAY)) as A, user B where A.u_num = B.u_num group by cate_num';
     var exec = conn.query(sql, u_num, function(err, rows) {
       if (rows.length > 0) {
         conn.release();
         callback(null, rows);
       } else {
         conn.release();
-        console.log('일치하는 사용자와 카테고리 없음!!');
+        console.log('********** 일치하는 사용자와 카테고리 없음 **********');
         callback(null, null);
       }
     });
     conn.on('error', function(err) {
       conn.release();
-      console.log('데이터베이스 연결 시 에러 발생함');
+      console.log('********** 데이터베이스 연결 시 에러 발생함 **********');
       console.dir(err);
       callback(err, null);
     });
   });
 };
-
+// ==================== 카드 추천 알고리즘 function ==================== //
 var card_benefit_list = function(req, res, callback) {
   console.log('********** card_benefit_list 호출 **********');
   var database = req.app.get('database');
@@ -116,11 +115,11 @@ var card_benefit_list = function(req, res, callback) {
         //cate_num, sum_price, u_job, u_age, u_gender를 담은 rows를 메소드 인자로 넣어준다.
         //benefit_value메소드를 통해 상위 3개의 세부 카테고리명을 리턴 받는다.
         result_benefit_priority = benefit_value(rows); //우선순위 구하는 메소드 호출
-        console.log('최종 베네핏 우선순위 1위 : ' + result_benefit_priority[0]);
-        console.log('최종 베네핏 우선순위 2위 : ' + result_benefit_priority[1]);
-        console.log('최종 베네핏 우선순위 3위 : ' + result_benefit_priority[2]);
-        console.log('유잡은 : ' + rows[0].u_job);
-        console.log('나이은 : ' + rows[0].u_age);
+        console.log('********** 최종 혜택 우선순위 1위 : ' + result_benefit_priority[0] + ' **********');
+        console.log('********** 최종 혜택 우선순위 2위 : ' + result_benefit_priority[1] + ' **********');
+        console.log('********** 최종 혜택 우선순위 3위 : ' + result_benefit_priority[2] + ' **********');
+        console.log('********** 직업은 : ' + rows[0].u_job + ' **********');
+        console.log('********** 나이는 : ' + rows[0].u_age + ' **********');
 
         //학생이거나 미성년자면 체크카드만 나오게함.(if~else 구문 사용)
         if (rows[0].u_job == '학생' || rows[0].u_age < 20) {
@@ -137,7 +136,7 @@ var card_benefit_list = function(req, res, callback) {
 
             if (rows2) {
               console.log('********** card_benefit_search메소드 -> row2값 있음 **********');
-              console.log('디비에서 뽑아온 카드 갯수 check카드 : ' + rows2.length);
+              console.log('********** DB에서 검색된 check카드 개수 : ' + rows2.length + ' **********');
               console.log(rows2[0].card_check);
               console.log(rows2[1].card_check);
               var match_card2 = [];
@@ -146,22 +145,21 @@ var card_benefit_list = function(req, res, callback) {
                   if (rows2[p].card_benefit.match(result_benefit_priority[1])) {
                     match_card2.push(rows2[p]);
                   }
-                  console.log('----------뽑자--------' + rows2[p].card_benefit);
+                  console.log('********** 체크카드 혜택' + rows2[p].card_benefit + ' **********');
                 }
                 console.log('두번째 우선순위까지 매치된 카드 : ' + match_card2);
                 data = match_card2;
-                console.log('********** 프론트로 제이슨 형태로 데이터를 보냄 (체크카드)*********');
+                console.log('********** 프론트로 제이슨 형태로 데이터를 보냄(체크카드) *********');
                 res.json(data);
                 res.end();
               } else if (rows2.length <= 3) {
-                console.log('-----rows2 갯수가 3이하라서 그냥 json(data)보내요!체크카드----------')
+                console.log('********* rows2 갯수가 3이하, json(data)보냄(체크카드) *********');
                 data = rows2;
                 res.json(data);
                 res.end();
               }
-
             } else {
-              console.log("********** DB에서 찾아온 카드~~ 없음용 **********");
+              console.log('********** DB에서 검색된 카드 없음 **********');
             }
           }); //card_benefit_search_check 끝
         } else {
@@ -178,18 +176,18 @@ var card_benefit_list = function(req, res, callback) {
 
             if (rows2) {
               console.log('********** card_benefit_search메소드 -> row2값 있음 **********');
-              console.log('디비에서 뽑아온 카드 갯수 : ' + rows2.length);
+              console.log('********** DB에서 검색된 check카드 개수: ' + rows2.length + ' **********');
               var match_card = [];
               if (rows2.length > 3) {
                 for (var p = 0; p < rows2.length; p++) {
                   if (rows2[p].card_benefit.match(result_benefit_priority[1])) {
                     match_card.push(rows2[p]);
                   }
-                  console.log('----------뽑자--------' + rows2[p].card_benefit);
+                  console.log('********** 신용카드 혜택: ' + rows2[p].card_benefit + ' **********');
                 }
-                console.log('두번째 우선순위까지 매치된 카드 : ' + match_card);
+                console.log('두번째 우선순위까지 매치된 카드: ' + match_card + ' **********');
               } else if (rows2.length <= 3) {
-                console.log('-----rows2 갯수가 3이하라서 그냥 json(data)보내요!----------')
+                console.log('********* rows2 갯수가 3이하, json(data)보냄(신용카드) *********');
                 data = rows2;
                 res.json(data);
                 res.end();
@@ -199,12 +197,12 @@ var card_benefit_list = function(req, res, callback) {
               res.json(data);
               res.end();
             } else {
-              console.log("********** DB에서 찾아온 카드~~ 없음용 **********");
+              console.log('********** DB에서 검색된 카드 없음 **********');
             }
           }); //card_benefit_search 끝
         }
       } else {
-        console.log('rows없음');
+        console.log('********** rows없음 **********');
         var data2 = {};
         res.json(data2);
       }
@@ -223,26 +221,18 @@ var card_benefit_list = function(req, res, callback) {
 
 // ==================== 혜택별 카드추천 우선순위 function==================== //
 var benefit_value = function(rows) {
-  console.log('----------benefit_value 메소드 호출--------------');
+  console.log('********** benefit_value 메소드 호출 **********');
   //카테고리별 가중치
   var sum = 0; //sum_price 총합
   var result = [];
   var result2 = [];
   var result_cate = ''; //제일 비중 큰 카테고리명(또는 번호)
   var result_priority = ''; //제일 비중 큰 카테고리의 수치
-  var u_job = ''; //직업명 알아오기
-  var u_age = ''; //나이 알아오기
-  var u_gender = ''; //성별 알아오기
   for (var i = 0; i < rows.length; i++) {
     sum += rows[i].sum_price;
-    u_job = rows[i].u_job;
+    result.push(rows[i].cate_num);
+    result2.push((rows[i].sum_price / sum) * 100);
   }
-  for (var j = 0; j < rows.length; j++) {
-    result.push(rows[j].cate_num);
-    result2.push((rows[j].sum_price / sum) * 100);
-  }
-
-  // var temp = -1;
   var refuel = 0,
     mart = 0,
     edu = 0,
@@ -252,27 +242,284 @@ var benefit_value = function(rows) {
     hospi = 0,
     transport = 0,
     communi = 0,
-    coffee = 0,
-    value1 = 50;
+    coffee = 0;
+
+  var value_salaryman = 50;
+  var value_tradespeople = 52;
+  var value_farmer = 53;
+  var value_civil = 53;
+  var value_student = 53;
+  var value_housewife = 53;
+  var value_other = 50;
+  //직업별 가중치
+  if (rows[0].u_job == '회사원') {
+    refuel += value_salaryman * 1.8;
+    mart += value_salaryman * 1.5;
+    edu += value_salaryman * 1.2;
+    movie += value_salaryman * 1.3;
+    shop += value_salaryman * 1.8;
+    travel += value_salaryman * 1.1;
+    hospi += value_salaryman;
+    transport += value_salaryman * 1.9;
+    communi += value_salaryman * 1.8;
+    coffee += value_salaryman * 1.8;
+  } else if (rows[0].u_job == '자영업') {
+    refuel += value_tradespeople * 1.8;
+    mart += value_tradespeople * 1.7;
+    edu += value_tradespeople * 1.2;
+    movie += value_tradespeople * 1.1;
+    shop += value_tradespeople * 1.5;
+    travel += value_tradespeople * 1.0;
+    hospi += value_tradespeople * 1.1;
+    transport += value_tradespeople * 1.6;
+    communi += value_tradespeople * 1.9;
+    coffee += value_tradespeople * 1.2;
+  } else if (rows[0].u_job == '농축산업') {
+    refuel += value_farmer * 1.9;
+    mart += value_farmer * 1.9;
+    edu += value_farmer * 1.2;
+    movie += value_farmer;
+    shop += value_farmer * 1.5;
+    travel += value_farmer * 1.1;
+    hospi += value_farmer * 1.7;
+    transport += value_farmer * 1.4;
+    communi += value_farmer * 1.5;
+    coffee += value_farmer * 1.2;
+  } else if (rows[0].u_job == '공무원') {
+    refuel += value_civil * 1.6;
+    mart += value_civil * 1.8;
+    edu += value_civil * 1.8;
+    movie += value_civil * 1.2;
+    shop += value_civil * 1.8;
+    travel += value_civil * 1.2;
+    hospi += value_civil * 1.1;
+    transport += value_civil * 1.6;
+    communi += value_civil * 1.8;
+    coffee += value_civil * 1.2;
+  } else if (rows[0].u_job == '학생') {
+    refuel += value_student;
+    mart += value_student * 1.3;
+    edu += value_student * 1.8;
+    movie += value_student * 1.6;
+    shop += value_student * 1.8;
+    travel += value_student * 1.3;
+    hospi += value_student * 1.1;
+    transport += value_student * 1.8;
+    communi += value_student * 1.6;
+    coffee += value_student * 1.4;
+  } else if (rows[0].u_job == '주부') {
+    refuel += value_housewife * 1.5;
+    mart += value_housewife * 2.0;
+    edu += value_housewife * 1.8;
+    movie += value_housewife * 1.3;
+    shop += value_housewife * 1.9;
+    travel += value_housewife * 1.2;
+    hospi += value_housewife * 1.4;
+    transport += value_housewife * 1.5;
+    communi += value_housewife * 1.6;
+    coffee += value_housewife * 1.8;
+  } else if (rows[0].u_job == '기타') {
+    refuel += value_other;
+    mart += value_other;
+    edu += value_other;
+    movie += value_other;
+    shop += value_other;
+    travel += value_other;
+    hospi += value_other;
+    transport += value_other;
+    communi += value_other;
+    coffee += value_other;
+  }
+
+  //성별과 연령별 가중치
+  var value_men10 = 50;
+  var value_men20 = 50;
+  var value_men30 = 52;
+  var value_men40 = 53;
+  var value_men50 = 54;
+  var value_men60 = 54;
+  var value_men70 = 54;
+  var value_women10 = 50;
+  var value_women20 = 50;
+  var value_women30 = 52;
+  var value_women40 = 53;
+  var value_women50 = 54;
+  var value_women60 = 54;
+  var value_women70 = 54;
+  if (rows[0].u_age >= 10 && rows[0].u_age < 20 && (rows[0].u_gender == 1)) {
+    refuel += value_men10 * 1;
+    mart += value_men10 * 1.6;
+    edu += value_men10 * 1.8;
+    movie += value_men10 * 1.6;
+    shop += value_men10 * 1.5;
+    travel += value_men10 * 1.1;
+    hospi += value_men10 * 1.1;
+    transport += value_men10 * 1.7;
+    communi += value_men10 * 1.7;
+    coffee += value_men10 * 1.7;
+  } else if (rows[0].u_age >= 20 && rows[0].u_age < 30 && (rows[0].u_gender == 1)) {
+    refuel += value_men20 * 1.2;
+    mart += value_men20 * 1.7;
+    edu += value_men20 * 1.5;
+    movie += value_men20 * 1.5;
+    shop += value_men20 * 1.7;
+    travel += value_men20 * 1.2;
+    hospi += value_men20 * 1.1;
+    transport += value_men20 * 1.9;
+    communi += value_men20 * 1.9;
+    coffee += value_men20 * 1.6;
+  } else if (rows[0].u_age >= 30 && rows[0].u_age < 40 && (rows[0].u_gender == 1)) {
+    refuel += value_men30 * 2.0;
+    mart += value_men30 * 1.7;
+    edu += value_men30 * 1.4;
+    movie += value_men30 * 1.4;
+    shop += value_men30 * 1.6;
+    travel += value_men30 * 1.2;
+    hospi += value_men30 * 1.2;
+    transport += value_men30 * 1.7;
+    communi += value_men30 * 1.7;
+    coffee += value_men30 * 1.5;
+  } else if (rows[0].u_age >= 40 && rows[0].u_age < 50 && (rows[0].u_gender == 1)) {
+    refuel += value_men40 * 2.2;
+    mart += value_men40 * 1.7;
+    edu += value_men40 * 1.5;
+    movie += value_men40 * 1.4;
+    shop += value_men40 * 1.7;
+    travel += value_men40 * 1.4;
+    hospi += value_men40 * 1.2;
+    transport += value_men40 * 1.8;
+    communi += value_men40 * 1.9;
+    coffee += value_men40 * 1.6;
+  } else if (rows[0].u_age >= 50 && rows[0].u_age < 60 && (rows[0].u_gender == 1)) {
+    refuel += value_men50 * 2.1;
+    mart += value_men50 * 1.7;
+    edu += value_men50 * 1.3;
+    movie += value_men50 * 1.5;
+    shop += value_men50 * 1.7;
+    travel += value_men50 * 1.5;
+    hospi += value_men50 * 1.3;
+    transport += value_men50 * 1.7;
+    communi += value_men50 * 1.8;
+    coffee += value_men50 * 1.5;
+  } else if (rows[0].u_age >= 60 && rows[0].u_age < 70 && (rows[0].u_gender == 1)) {
+    refuel += value_men60 * 1.8;
+    mart += value_men60 * 1.8;
+    edu += value_men60 * 1.1;
+    movie += value_men60 * 1.2;
+    shop += value_men60 * 1.7;
+    travel += value_men60 * 1.7;
+    hospi += value_men60 * 1.8;
+    transport += value_men60 * 1.3;
+    communi += value_men60 * 1.8;
+    coffee += value_men60 * 1.5;
+  } else if (rows[0].u_age >= 70 && (rows[0].u_gender == 1)) {
+    refuel += value_men70 * 1;
+    mart += value_men70 * 1.6;
+    edu += value_men70 * 1.5;
+    movie += value_men70 * 1.7;
+    shop += value_men70 * 1.7;
+    travel += value_men70 * 1.7;
+    hospi += value_men70 * 1.9;
+    transport += value_men70 * 1.2;
+    communi += value_men70 * 1.4;
+    coffee += value_men70 * 1.5;
+  } else if (rows[0].u_age >= 10 && rows[0].u_age < 20 && (rows[0].u_gender == 2)) {
+    refuel += value_women10 * 1;
+    mart += value_women10 * 1.6;
+    edu += value_women10 * 1.5;
+    movie += value_women10 * 1.7;
+    shop += value_women10 * 1.6;
+    travel += value_women10 * 1.1;
+    hospi += value_women10 * 1.1;
+    transport += value_women10 * 1.9;
+    communi += value_women10 * 1.9;
+    coffee += value_women10 * 1.9;
+  } else if (rows[0].u_age >= 20 && rows[0].u_age < 30 && (rows[0].u_gender == 2)) {
+    refuel += value_women20 * 1.1;
+    mart += value_women20 * 1.6;
+    edu += value_women20 * 1.6;
+    movie += value_women20 * 1.8;
+    shop += value_women20 * 1.9;
+    travel += value_women20 * 1.2;
+    hospi += value_women20 * 1.1;
+    transport += value_women20 * 1.9;
+    communi += value_women20 * 1.9;
+    coffee += value_women20 * 1.9;
+  } else if (rows[0].u_age >= 30 && rows[0].u_age < 40 && (rows[0].u_gender == 2)) {
+    refuel += value_women30 * 1.2;
+    mart += value_women30 * 1.9;
+    edu += value_women30 * 1.5;
+    movie += value_women30 * 1.6;
+    shop += value_women30 * 2.0;
+    travel += value_women30 * 1.2;
+    hospi += value_women30 * 1.2;
+    transport += value_women30 * 1.9;
+    communi += value_women30 * 1.9;
+    coffee += value_women30 * 1.9;
+  } else if (rows[0].u_age >= 40 && rows[0].u_age < 50 && (rows[0].u_gender == 2)) {
+    refuel += value_women40 * 1.4;
+    mart += value_women40 * 2.0;
+    edu += value_women40 * 1.6;
+    movie += value_women40 * 1.5;
+    shop += value_women40 * 1.9;
+    travel += value_women40 * 1.4;
+    hospi += value_women40 * 1.4;
+    transport += value_women40 * 1.9;
+    communi += value_women40 * 1.8;
+    coffee += value_women40 * 1.9;
+  } else if (rows[0].u_age >= 50 && rows[0].u_age < 60 && (rows[0].u_gender == 2)) {
+    refuel += value_women50 * 1.5;
+    mart += value_women50 * 2.0;
+    edu += value_women50 * 1.6;
+    movie += value_women50 * 1.5;
+    shop += value_women50 * 1.8;
+    travel += value_women50 * 1.5;
+    hospi += value_women50 * 1.5;
+    transport += value_women50 * 1.8;
+    communi += value_women50 * 1.7;
+    coffee += value_women50 * 1.9;
+  } else if (rows[0].u_age >= 60 && rows[0].u_age < 70 && (rows[0].u_gender == 2)) {
+    refuel += value_women60 * 1.1;
+    mart += value_women60 * 1.9;
+    edu += value_women60 * 1.1;
+    movie += value_women60 * 1.3;
+    shop += value_women60 * 1.6;
+    travel += value_women60 * 1.5;
+    hospi += value_women60 * 1.8;
+    transport += value_women60 * 1.2;
+    communi += value_women60 * 1.3;
+    coffee += value_women60 * 1.7;
+  } else if (rows[0].u_age >= 70 && (rows[0].u_gender == 2)) {
+    refuel += value_women70 * 1.1;
+    mart += value_women70 * 1.8;
+    edu += value_women70 * 1.1;
+    movie += value_women70 * 1.2;
+    shop += value_women70 * 1.5;
+    travel += value_women70 * 1.5;
+    hospi += value_women70 * 1.8;
+    transport += value_women70 * 1.2;
+    communi += value_women70 * 1.2;
+    coffee += value_women70 * 1.7;
+  }
+
   for (var k = 0; k < result.length; k++) {
-    console.log('이거슨 리절트 : ' + result[k]);
-    console.log('이거슨 리절트2 : ' + result2[k]);
+    console.log('********** 혜택 결과: ' + result[k] + ' **********');
+    console.log('********** 혜택 결과: ' + result2[k] + ' **********');
     if (result[k] == 1) {
       result_cate = "생활/쇼핑";
-      refuel += result2[k] * 1.7;
-      mart += result2[k] * 1.8;
+      refuel += result2[k] * 1.6;
+      mart += result2[k] * 1.7;
       edu += result2[k] * 1.6;
       movie += result2[k] * 1.5;
-      shop += result2[k] * 1.9;
+      shop += result2[k] * 1.8;
       communi += result2[k] * 1.5;
-      travel += result2[k] * 1.5;
+      travel += result2[k] * 1.4;
       transport += result2[k] * 1.2;
       coffee += result2[k] * 1.6;
       hospi += result2[k] * 1.5;
-    }
-    if (result[k] == 2) {
+    } else if (result[k] == 2) {
       result_cate = "교통";
-      refuel += result2[k] * 1.1;
+      refuel += result2[k] * 1.7;
       mart += result2[k] * 1.3;
       edu += result2[k] * 1.2;
       movie += result2[k] * 1.4;
@@ -282,44 +529,43 @@ var benefit_value = function(rows) {
       transport += result2[k] * 2.0;
       coffee += result2[k] * 1.4;
       hospi += result2[k] * 1.4;
-    }
-    if (result[k] == 3) {
+    } else if (result[k] == 3) {
       result_cate = "식비";
-      refuel += result2[k] * 1.5;
+      refuel += result2[k] * 1.6;
       mart += result2[k] * 1.9;
-      edu += result2[k] * 1.2;
+      edu += result2[k] * 1.3;
       movie += result2[k] * 1.3;
       shop += result2[k] * 1.5;
       communi += result2[k] * 1.3;
       travel += result2[k] * 1.2;
       transport += result2[k] * 1.4;
-      travel += result2[k] * 1.2;
       coffee += result2[k] * 1.6;
       hospi += result2[k] * 1.5;
-    }
-    if (result[k] == 4) {
+    } else if (result[k] == 4) {
       result_cate = "패션/미용";
-      refuel += result2[k] * 1.1;
+      refuel += result2[k] * 1.2;
       mart += result2[k] * 1.8;
       edu += result2[k] * 1.6;
       movie += result2[k] * 1.5;
       shop += result2[k] * 1.7;
-      communi += result2[k] * 1.8;
-      travel += result2[k] * 1.7;
+      communi += result2[k] * 1.4;
+      travel += result2[k] * 1.6;
       transport += result2[k] * 1.5;
-      coffee += result2[k] * 1.8;
+      coffee += result2[k] * 1.7;
       hospi += result2[k] * 1.2;
-    }
-    if (result[k] == 5) {
+    } else if (result[k] == 5) {
       result_cate = "주거/통신";
       refuel += result2[k] * 1.4;
       mart += result2[k] * 1.6;
       edu += result2[k] * 1.5;
       movie += result2[k] * 1.3;
+      shop += result2[k] * 1.2;
       communi += result2[k] * 1.8;
-      hospi += result2[k] * 1.3;
-    }
-    if (result[k] == 6) {
+      travel += result2[k] * 1.3;
+      transport += result2[k] * 1.3;
+      coffee += result2[k] * 1.2;
+      hospi += result2[k] * 1.2;
+    } else if (result[k] == 6) {
       result_cate = "기타";
       refuel += result2[k];
       mart += result2[k];
@@ -327,256 +573,18 @@ var benefit_value = function(rows) {
       movie += result2[k];
       shop += result2[k];
       travel += result2[k];
+      transport += result2[k];
       hospi += result2[k];
       communi += result2[k];
       coffee += result2[k];
     }
   }
-  var value2 = 50;
-  console.log('카테랑 : ' + result_cate + ' 가격비율 : ' + result_priority + ' 직업은 : ' + u_job + ' 테스트로 마트값 : ' + hospi);
 
-  //직업별 가중치
-  if (u_job == '회사원') {
-    refuel += value2 * 1.8;
-    mart += value2 * 1.5;
-    edu += value2 * 1.2;
-    movie += value2 * 1.3;
-    shop += value2 * 1.8;
-    travel += value2 * 1.1;
-    hospi += value2;
-    transport += value2 * 1.9;
-    communi += value2 * 1.8;
-    coffee += value2 * 1.8;
-  } else if (u_job == '자영업') {
-    refuel += value2 * 1.8;
-    mart += value2 * 1.7;
-    edu += value2 * 1.2;
-    movie += value2 * 1.1;
-    shop += value2 * 1.8;
-    travel += value2;
-    hospi += value2 * 1.1;
-    transport += value2 * 1.6;
-    communi += value2 * 1.9;
-    coffee += value2 * 1.2;
-  } else if (u_job == '농축산업') {
-    refuel += value2 * 1.9;
-    mart += value2 * 1.9;
-    edu += value2 * 1.2;
-    movie += value2;
-    shop += value2 * 1.5;
-    travel += value2 * 1.1;
-    hospi += value2 * 1.7;
-    transport += value2 * 1.4;
-    communi += value2 * 1.5;
-    coffee += value2 * 1.2;
-  } else if (u_job == '공무원') {
-    refuel += value2 * 1.6;
-    mart += value2 * 1.8;
-    edu += value2 * 1.8;
-    movie += value2 * 1.2;
-    shop += value2 * 1.8;
-    travel += value2 * 1.2;
-    hospi += value2 * 1.1;
-    transport += value2 * 1.6;
-    communi += value2 * 1.8;
-    coffee += value2 * 1.2;
-  } else if (u_job == '학생') {
-    refuel += value2;
-    mart += value2 * 1.3;
-    edu += value2 * 1.8;
-    movie += value2 * 1.6;
-    shop += value2 * 1.8;
-    travel += value2 * 1.3;
-    hospi += value2 * 1.1;
-    transport += value2 * 1.8;
-    communi += value2 * 1.6;
-    coffee += value2 * 1.4;
-  } else if (u_job == '주부') {
-    refuel += value2 * 1.5;
-    mart += value2 * 2.0;
-    edu += value2 * 1.8;
-    movie += value2 * 1.3;
-    shop += value2 * 1.9;
-    travel += value2 * 1.2;
-    hospi += value2 * 1.4;
-    transport += value2 * 1.5;
-    communi += value2 * 1.6;
-    coffee += value2 * 1.8;
-  } else if (u_job == '기타') {
-    refuel += value2;
-    mart += value2;
-    edu += value2;
-    movie += value2;
-    shop += value2;
-    travel += value2;
-    hospi += value2;
-    transport += value2;
-    communi += value2;
-    coffee += value2;
-  }
-
-  //성별과 연령별 가중치
-  var value3 = 30;
-  if (u_age >= 10 && u_age < 20 && (u_gender == 1)) {
-    refuel += value3 * 1;
-    mart += value3 * 1.6;
-    edu += value3 * 1.8;
-    movie += value3 * 1.6;
-    shop += value3 * 1.5;
-    travel += value3 * 1.1;
-    hospi += value3 * 1.1;
-    transport += value3 * 1.7;
-    communi += value3 * 1.7;
-    coffee += value3 * 1.7;
-  } else if (u_age >= 20 && u_age < 30 && (u_gender == 1)) {
-    refuel += value3 * 1.2;
-    mart += value3 * 1.7;
-    edu += value3 * 1.5;
-    movie += value3 * 1.5;
-    shop += value3 * 1.7;
-    travel += value3 * 1.2;
-    hospi += value3 * 1.1;
-    transport += value3 * 1.9;
-    communi += value3 * 1.9;
-    coffee += value3 * 1.7;
-  } else if (u_age >= 30 && u_age < 40 && (u_gender == 1)) {
-    refuel += value3 * 1.9;
-    mart += value3 * 1.7;
-    edu += value3 * 1.4;
-    movie += value3 * 1.4;
-    shop += value3 * 1.7;
-    travel += value3 * 1.2;
-    hospi += value3 * 1.2;
-    transport += value3 * 1.9;
-    communi += value3 * 1.9;
-    coffee += value3 * 1.7;
-  } else if (u_age >= 40 && u_age < 50 && (u_gender == 1)) {
-    refuel += value3 * 2.0;
-    mart += value3 * 1.7;
-    edu += value3 * 1.5;
-    movie += value3 * 1.4;
-    shop += value3 * 1.7;
-    travel += value3 * 1.4;
-    hospi += value3 * 1.2;
-    transport += value3 * 1.8;
-    communi += value3 * 1.9;
-    coffee += value3 * 1.6;
-  } else if (u_age >= 50 && u_age < 60 && (u_gender == 1)) {
-    refuel += value3 * 2.0;
-    mart += value3 * 1.7;
-    edu += value3 * 1.3;
-    movie += value3 * 1.5;
-    shop += value3 * 1.7;
-    travel += value3 * 1.5;
-    hospi += value3 * 1.3;
-    transport += value3 * 1.7;
-    communi += value3 * 1.8;
-    coffee += value3 * 1.5;
-  } else if (u_age >= 60 && u_age < 70 && (u_gender == 1)) {
-    refuel += value3 * 1.8;
-    mart += value3 * 1.8;
-    edu += value3 * 1.1;
-    movie += value3 * 1.2;
-    shop += value3 * 1.7;
-    travel += value3 * 1.7;
-    hospi += value3 * 1.8;
-    transport += value3 * 1.3;
-    communi += value3 * 1.8;
-    coffee += value3 * 1.5;
-  } else if (u_age >= 70 && (u_gender == 1)) {
-    refuel += value3 * 1;
-    mart += value3 * 1.6;
-    edu += value3 * 1.5;
-    movie += value3 * 1.7;
-    shop += value3 * 1.7;
-    travel += value3 * 1.7;
-    hospi += value3 * 1.9;
-    transport += value3 * 1.2;
-    communi += value3 * 1.4;
-    coffee += value3 * 1.5;
-  } else if (u_age >= 10 && u_age < 20 && (u_gender == 2)) {
-    refuel += value3 * 1;
-    mart += value3 * 1.6;
-    edu += value3 * 1.5;
-    movie += value3 * 1.7;
-    shop += value3 * 1.6;
-    travel += value3 * 1.1;
-    hospi += value3 * 1.1;
-    transport += value3 * 1.9;
-    communi += value3 * 1.9;
-    coffee += value3 * 1.9;
-  } else if (u_age >= 20 && u_age < 30 && (u_gender == 2)) {
-    refuel += value3 * 1.1;
-    mart += value3 * 1.6;
-    edu += value3 * 1.6;
-    movie += value3 * 1.8;
-    shop += value3 * 1.9;
-    travel += value3 * 1.2;
-    hospi += value3 * 1.1;
-    transport += value3 * 1.9;
-    communi += value3 * 1.9;
-    coffee += value3 * 1.9;
-  } else if (u_age >= 30 && u_age < 40 && (u_gender == 2)) {
-    refuel += value3 * 1.2;
-    mart += value3 * 1.9;
-    edu += value3 * 1.5;
-    movie += value3 * 1.6;
-    shop += value3 * 2.0;
-    travel += value3 * 1.2;
-    hospi += value3 * 1.2;
-    transport += value3 * 1.9;
-    communi += value3 * 1.9;
-    coffee += value3 * 1.9;
-  } else if (u_age >= 40 && u_age < 50 && (u_gender == 2)) {
-    refuel += value3 * 1.4;
-    mart += value3 * 2.0;
-    edu += value3 * 1.6;
-    movie += value3 * 1.5;
-    shop += value3 * 1.9;
-    travel += value3 * 1.4;
-    hospi += value3 * 1.4;
-    transport += value3 * 1.9;
-    communi += value3 * 1.8;
-    coffee += value3 * 1.9;
-  } else if (u_age >= 50 && u_age < 60 && (u_gender == 2)) {
-    refuel += value3 * 1.5;
-    mart += value3 * 2.0;
-    edu += value3 * 1.6;
-    movie += value3 * 1.5;
-    shop += value3 * 1.8;
-    travel += value3 * 1.5;
-    hospi += value3 * 1.5;
-    transport += value3 * 1.8;
-    communi += value3 * 1.7;
-    coffee += value3 * 1.9;
-  } else if (u_age >= 60 && u_age < 70 && (u_gender == 2)) {
-    refuel += value3 * 1.1;
-    mart += value3 * 1.9;
-    edu += value3 * 1.1;
-    movie += value3 * 1.3;
-    shop += value3 * 1.6;
-    travel += value3 * 1.5;
-    hospi += value3 * 1.8;
-    transport += value3 * 1.2;
-    communi += value3 * 1.3;
-    coffee += value3 * 1.7;
-  } else if (u_age >= 70 && (u_gender == 2)) {
-    refuel += value3 * 1.1;
-    mart += value3 * 1.8;
-    edu += value3 * 1.1;
-    movie += value3 * 1.2;
-    shop += value3 * 1.5;
-    travel += value3 * 1.5;
-    hospi += value3 * 1.8;
-    transport += value3 * 1.2;
-    communi += value3 * 1.2;
-    coffee += value3 * 1.7;
-  }
   var total_result = [];
   var count = 0;
   //1)카테고리별 2)직업별 3)성별,연령별 --> 세부 카테고리별 합산을 total_result배열에 저장
   total_result = [refuel, mart, edu, movie, shop, travel, hospi, transport, communi, coffee];
-  console.log('토탈 리절트 : ' + total_result);
+  console.log('********** 총 합 결과 : ' + total_result + ' **********');
   var temp = -1;
   var temp2 = -1;
   var priority = [];
@@ -620,9 +628,9 @@ var benefit_value = function(rows) {
     total_result[count] = 0;
     temp = -1;
   }
-  console.log('최종 우선순위 : ' + result_priority);
-  console.log('다시 토탈 리절트 : ' + total_result);
-  console.log('priority 3위까지 : ' + priority);
+  console.log('********** 최종 우선순위 : ' + result_priority + ' **********');
+  console.log('********** total_result : ' + total_result + '**********');
+  console.log('********** priority 3위까지 : ' + priority + '**********');
   //상위 3가지 세부 카테고리를 배열에 담아 리턴한다.
   return priority;
 };
