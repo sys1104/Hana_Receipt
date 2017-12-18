@@ -1,5 +1,5 @@
 <template>
-  <!-- 낭비된 금액 표시 (지난 목표 기간) -->
+<!-- 낭비된 금액 표시 (지난 목표 기간) -->
 <div>
   <br>
   <div class="table-users" style="width:100%">
@@ -44,11 +44,10 @@ export default {
       results: '',
       info: {},
       sum: '',
-      period:''
+      period: '목표 내역이 없습니다.'
     }
   },
-  methods: {
-  },
+  methods: {},
   created() {
     var self = this;
     //날짜 구하기위한 코드
@@ -74,17 +73,22 @@ export default {
         start_date: start_date
       }
     }).then(function(response) {
-      self.results = response.data;
-      var sum2 = 0;
-      //각 카테고리별 낭비된 금액 합산
-      for (var i = 0; i < self.results.length; i++) {
-        console.log('wasted.vue' + self.results[i].sum_price);
-        sum2 += parseInt(self.results[i].sum_price);
+      try {
+        self.results = response.data.wasted;
+        var sum2 = 0;
+        //각 카테고리별 낭비된 금액 합산
+        for (var i = 0; i < self.results.length; i++) {
+          console.log('******** wasted.vue ' + self.results[i].sum_price + ' *********');
+          sum2 += parseInt(self.results[i].sum_price);
+        }
+        // sum ==> 지난 목표기간에 낭비된 소비내역 합산
+        self.sum = sum2;
+        var period = {};
+        period = response.data.period;
+        self.period = '목표 기간 ' + response.data.period[0].max_gtime.substring(0, 10) + ' ~ ' + response.data.period[0].max_gendtime.substring(0, 10) + ' 동안 낭비된 금액';
+      } catch (e) {
+        console.log('목표 내역이 없습니다.');
       }
-      // sum ==> 지난 목표기간에 낭비된 소비내역 합산
-      self.sum = sum2;
-
-      // self.period =
     })
   }
 }
@@ -259,7 +263,8 @@ table tr:nth-child(2n+1) {
     overflow: visible;
   }
 }
-  input::-webkit-input-placeholder {
-            color: #2C3E50;
-         }
+
+input::-webkit-input-placeholder {
+  color: #2C3E50;
+}
 </style>

@@ -246,7 +246,6 @@
         }
       }).then(function (response) {
             self.results = response.data;
-            console.log('테스트 : ' + self.results.cate_num);
             self.list_total = Number(response.data.length);
 
             //pagination -> 전체 페이지수와 소비내역리스트 전체 길이
