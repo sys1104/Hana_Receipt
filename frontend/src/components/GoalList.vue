@@ -9,6 +9,7 @@
          <th>금액</th>
          <th colspan="20"></th>
         </tr>
+        <!-- 목표 리스트 화면 시작 -->
         <tr class="table-body" v-for="(result, index) in results">
          <!-- 리스트 화면 -->
          <td v-if="flag==false">{{result.g_time}}</td>
@@ -60,7 +61,7 @@
          </td>
          <td><button v-if="flag==true && (result.g_num == result3)" class="btn btn-success" @click="editGoal(result)">완료</button></td>
          <td><button v-if="flag==true && (result.g_num == result3)" class="btn btn-danger" @click="deleteGoal(result)">삭제</button></td>
-        </tr>
+       </tr> <!-- 목표 리스트 화면 끝 -->
       </table>
   </div>
 </template>
@@ -81,19 +82,13 @@
           info3:'',
           info4:'',
           flag:false,
-          result3 : '',
-          list_total : {},
-          page_num : '',
-          page:1,
-          pageIndex:1,
-          nextBtn:{},
-          page_total:{}
+          result3 : ''
         }
       },
       components:{
       },
       methods :{
-        // // 수정 후 완료클릭시 실행되는 function
+        //수정 후 완료클릭시 실행되는 function
         editGoal(result) {
           console.log('********** front-end editGoal 호출 **********');
           var g_num = result.g_num;
@@ -102,6 +97,7 @@
           var g_price = result.g_price;
           var g_time = result.g_time;
           var g_endtime = result.g_endtime;
+          //목표 DB에 업데이트 쿼리 보낸 후 수정완료 응답받기.
             axios({
               method: 'post',
               url: 'api/goal/edit_goal',
@@ -115,12 +111,12 @@
               }
             }).then(function(response) {
               console.log('********** 목표내역 수정완료 **********');
-            //   alert('목표내역 수정이 완료되었습니다');
               setTimeout("window.location.href = './goal_management'",0)
             })
         },
         //수정 클릭시 실행되는 function
         editClick(result) {
+          //수정 버튼 클릭시 수정화면으로 변경
           console.log('********** front-end editClick 호출 **********');
           this.flag=true;
           this.result3 = result.g_num;
@@ -129,6 +125,7 @@
         deleteGoal(result) {
           var g_num = result.g_num;
           var unum = result.u_num;
+          //목표 DB에 딜리트 쿼리 보낸 후 삭제완료 응답받기.
           axios({
             method: 'post',
             url: 'api/goal/delete_goal',
@@ -138,7 +135,6 @@
             }
           }).then(function(response) {
             console.log('********** 목표내역 삭제완료 **********');
-            // alert('목표내역 삭제가 완료되었습니다');
             setTimeout("window.location.href = './goal_management'",0)
           })
         }
@@ -146,7 +142,7 @@
     created(){
         console.log('GoalList Created()')
         var self  = this;
-
+        //목표 DB 조회 후 목표내역 response받기.
         axios({
         method: 'post',
         url: 'api/goal/request_goal',
@@ -155,14 +151,11 @@
         }
       }).then(function (response) {
             self.results = response.data;
-            self.list_total = Number(response.data.length);
-            for(var i=0;i<self.results.length;i++){
-              console.log(self.results[i].g_num);
-            }
           })
       }
     }
 </script>
+<!-- Vue Style을 위한 CSS -->
 <style scoped>
 .box-container{
         border-style: solid;

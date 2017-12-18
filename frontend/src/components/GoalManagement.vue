@@ -1,41 +1,22 @@
 <template>
-  <!-- <div id="insertGoal" class="table-users" style="margin-top:150px">
-      <navi></navi>
-  <div class="header">목표 관리</div>
-  <br>
-  <div class="container">
-    <wasted></wasted>
-    <div class="col-md-10; table-users">
-    <div class="header">목표 저장하기</div>
-    <div class="form-group">
-      <select v-model="cate_num" class="form-control" name="cate_num">
-        <option value="1">생활/쇼핑</option>
-        <option value="2">교통</option>
-        <option value="3">식비</option>
-        <option value="4">패션/미용</option>
-        <option value="5">주거/통신</option>
-        <option value="6">미분류</option>
-       </select>
-    </div>
-    <div class="form-group">
-      <input type="text" placeholder="목표기간" v-model="g_time" class="form-control" name="g_time"> -->
 <div id="insertGoal" class="table-users" style="width:1000px; margin-top:180px">
   <navi></navi>
   <div class="header">목표 관리</div>
     <br>
+    <!-- 지난 목표기간동안 낭비된 내역 import -->
     <wasted></wasted>
     <br>
+    <!-- 설정한 목표 리스트 import -->
     <goal-list></goal-list>
     <br>
     <div class="table-users" style="width:100%">
     <div class="header">목표 저장</div>
     <br>
 
-    <!-- class="row" 추가 -->
+    <!-- 목표 저장 form -->
     <div class="form-group" v-if="flag==false">
       <div v-if="info0==false" class="form-group" style="width:35%;" >
         <label class="form-control">목표기간</label>
-        <!-- <input type="hidden" v-model="cate_num" class="form-control" value="1" name="cate_num"> -->
       </div>
       <div v-if="info0==false" class="form-group" style="width:23%">
         <input type="date" placeholder="시작날짜" v-model="g_time" class="form-control" name="g_time" style="text-align:center">
@@ -43,19 +24,11 @@
       <div v-if="info0==false" class="form-group" style="width:3%">
         <p style="font-size:30px; margin-top:15px">~</p>
       </div>
-      <!-- <div class="row" style="width:25%"> -->
       <div v-if="info0==false" class="form-group" style="width:23%; margin-top:-30px">
         <button @click="week()" class="btn ab c">일주일 후</button>
          <button @click="month()" class="btn ab c">한달 후</button>
         <input type="date" placeholder="마지막날짜" v-model="g_endtime" class="form-control" name="g_endtime" style="text-align:center">
       </div>
-      <!-- <div v-if="info0==false" class="form-group" style="width:4%; margin-right:16px">
-         <button class="btn ab c">일주일 후</button>
-         <button class="btn ab c">한달 후</button>
-       </div> -->
-
-      <!-- </div> -->
-<!-- results1[0]!=cate_num.cate_num1 && results1[1]!=cate_num.cate_num1 && results1[2]!=cate_num.cate_num1 && results1[3]!=cate_num.cate_num1 &&results1[4]!=cate_num.cate_num1 && results1[5]!=cate_num.cate_num1 -->
 
       <div v-if="info1==false"class="form-group" style="width:35%">
         <label class="form-control">생활/쇼핑</label>
@@ -106,8 +79,8 @@
       </div>
     </div>
     <div>
-      <br>
-    <button @click.prevent="goalStore" class="btn c form-control" style="width:60%;">저장</button>
+    <br>
+    <button @click.prevent="goalStore" class="btn c form-control" style="width:50%;">저 장</button>
     </div>
     <br>
   </div>
@@ -169,7 +142,9 @@ export default {
     GoalList
   },
   methods: {
+    //설정한 목표 리스트를 보여주기위한 메소드
     showGoal(){
+      console.log('********** front-end showGoal 호출 **********');
       if(this.results1.length > 0){
         this.info0 = true;
       }
@@ -194,6 +169,7 @@ export default {
         }
       }
     },
+    //목표 설정 후 저장버튼 클릭시 실행되는 메소드
     goalStore() {
       console.log('********** front-end goalStore 호출 **********');
       var u_num = this.u_num;
@@ -232,20 +208,21 @@ export default {
         g_price.push(this.g_price.g_price6);
       }
       var sub=this.g_endtime - this.g_time;
-      var gTimeDay = this.g_time.substr(8,2);
-      var endTimeDay = this.g_endtime.substr(8,2);
+      //날짜 값에서 '-'문자 제거
+      var gTimeDay = this.g_time.replace(/\-/g,'');
+      var endTimeDay = this.g_endtime.replace(/\-/g,'');
       var subDay = endTimeDay-gTimeDay;
-     
+
       //입력 값이 없으면
       if(g_price.length<=0){
         alert('값을 입력하세요');
         //입력 값이 0보다 커야함
       }else if(this.g_price.g_price1<=0 && this.g_price.g_price2<=0 && this.g_price.g_price3<=0 && this.g_price.g_price4<=0 && this.g_price.g_price5<=0 && this.g_price.g_price6<=0){
         alert('양수만 입력 가능합니다');
-      }else if(subDay<=1){
-        alert('목표 기간은 최소 2일 이후부터 설정 가능합니다')
       }else if(this.g_time >= this.g_endtime){
         alert('종료일은 시작일 이후만 입력 가능합니다.');
+      }else if(subDay<=1){
+        alert('목표 기간은 최소 2일 이후부터 설정 가능합니다')
       }else{
         axios({
           method: 'post',
@@ -259,13 +236,13 @@ export default {
           }
         }).then(function(response) {
           console.log('********** 목표내역 저장완료 **********');
-          // alert('목표내역 저장 완료되었습니다');
           setTimeout("window.location.href = './goal_management'",0)
         })
       }
     },
+    //오늘 날짜 구하는 메소드
       getToday(){
-        console.log('getToday!')
+        console.log('********** front-end getToday 호출 **********')
         var today = new Date();
         var dd = today.getDate();
         var ddNext = today.getDate()+1;
@@ -281,9 +258,9 @@ export default {
         this.g_time = yyyy + '-'+ mm + '-' + dd;
         this.g_endtime = yyyy + '-'+ mm + '-' + ddNext;
       },
+      //목표 기간을 일주일 후로 설정
       week(){
-        console.log('week');
-        console.log(this.g_endtime);
+        console.log('********** front-end week 호출 **********');
         var year = this.g_endtime.substring(0,4);
         var month = this.g_endtime.substring(5,7);
         var day = this.g_endtime.substring(8,10);
@@ -295,7 +272,6 @@ export default {
         }
         var start_date = ''+month+'/'+day+'/'+year+'';
         var date = new Date(start_date);
-        console.log(date);
         var end_date = start_date;
         var daysago = 7;
         var start_date = new Date(date.setDate(date.getDate()+daysago));
@@ -312,9 +288,9 @@ export default {
         start_date = year2 + '' + month2 + '' + day2;
         this.g_endtime = year2 + '-'+ month2 + '-' + day2;
       },
+      //목표 기간을 한달 후로 설정
       month(){
-        console.log('week');
-        console.log(this.g_endtime);
+        console.log('********** front-end month 호출 **********');
         var year = this.g_endtime.substring(0,4);
         var month = this.g_endtime.substring(5,7);
         var day = this.g_endtime.substring(8,10);
@@ -326,7 +302,6 @@ export default {
         }
         var start_date = ''+month+'/'+day+'/'+year+'';
         var date = new Date(start_date);
-        console.log(date);
         var end_date = start_date;
         var daysago = 30;
         var start_date = new Date(date.setDate(date.getDate()+daysago));
@@ -342,16 +317,12 @@ export default {
         }
         start_date = year2 + '' + month2 + '' + day2;
         this.g_endtime = year2 + '-'+ month2 + '-' + day2;
-
       }
-
   },
-
   created(){
     console.log('GoalManagement created()')
-
     var self  = this;
-
+    //목표 DB 조회 후 리스트 response받기.
     axios({
     method: 'post',
     url: 'api/goal/request_goal',
@@ -360,13 +331,12 @@ export default {
     }
   }).then(function (response) {
         self.results = response.data;
-        self.list_total = Number(response.data.length);
         self.resultsStart = self.results[0].g_time;
         self.resultsEnd = self.results[0].g_endtime;
         for(var i=0;i<self.results.length;i++){
           self.results1.push(self.results[i].cate_num);
         }
-        console.log('********** 골매니지먼트에서 호출한 목표 리스트 **********');
+        //설정한 목표 리스트만 보여주기위해 showGoal 메소드 실행
         self.showGoal();
       })
 
@@ -375,8 +345,7 @@ export default {
     }
 }
 </script>
-
-
+<!-- Vue Style을 위한 CSS -->
 <style scoped>
 .box-container{
         border-style: solid;

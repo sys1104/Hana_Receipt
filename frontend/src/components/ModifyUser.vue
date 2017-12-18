@@ -1,8 +1,10 @@
 <template>
 
 <div class="table-users" id="register" style="width:1000px; display:inline-block; margin-top:200px">
+  <!-- Navi import -->
     <navi></navi>
     <br>
+    <!-- 회원정보 수정 form -->
     <h3>회원정보 수정</h3>
      <br>
       <img src="img/invoice.png" style="height:200px; margin-bottom:50px">
@@ -11,9 +13,6 @@
         <p class="text-left" style="margin-left:20px;display:inline-block">아이디 </p>
         <input type="text" style="width:790px; margin-left:28px;display:inline-block; color:#2C3E50; font-weight:bold" placeholder="아이디" v-model="u_id" class="form-control" name="u_id" disabled>
       </div>
-      <!-- <div class="form-group">
-        <input type="password" placeholder="패스워드" v-model="u_pw" class="form-control" name="u_pw">
-      </div> -->
       <div class="form-group">
         <p class="text-left" style="margin-left:20px; display:inline-block">이름 </p>
         <input type="text" style="width:790px; margin-left:30px;display:inline-block; color:#2C3E50; font-weight:bold" placeholder="이름" v-model="u_name" class="form-control" name="u_name" disabled>
@@ -37,11 +36,9 @@
       <br><br>
       <button @click.prevent="modifyUser" class="btn" style="width:200px; background-color:#327a81; color:white; font-weight:bold; margin-right:50px;">수 정</button>
       <button @click.prevent="deleteAccount" class="btn" style="width:200px; background-color:red; color:white; font-weight:bold">탈퇴</button>
-      
+
       <br><br><br>
-      <!-- <famous :stories="stories"></famous> -->
-      <!-- <famous></famous> -->
-    </div>
+  </div>
 </template>
 
 <script>
@@ -67,23 +64,21 @@ export default {
     Navi
   },
   methods: {
-    getUserInfo() {
-
-    },
+    //회원정보 수정을 위한 메소드
     modifyUser() {
       console.log('********** front-end modifyUser 호출 **********');
-      // var pwd = this.u_pw;
       var name = this.u_name;
       var phone = this.u_phone;
       var email = this.u_email;
       var job = this.u_job;
       var salary = this.u_salary;
       var num = this.$session.get('session');
-      console.log('폰 샘플데이터 '+phone)
       if(name.length<=0 || phone.length<=0 || email.length<=0 || job.length<=0 || salary.length<=0)
       {
+        //입력 값이 없을 경우 alert창 띄움.
         alert('데이터를 입력하세요');
       }else{
+        //유저 DB에 업데이트 쿼리 보낸 후 수정완료 response받기.
         axios({
           method: 'post',
           url: 'api/user/modifyUser',
@@ -99,10 +94,11 @@ export default {
           console.log('********** 회원정보 수정 **********');
           alert('회원정보 수정이 완료되었습니다');
           setTimeout("window.location.href = './'",0)
-      })        
+      })
       }
 
     },
+    //회원탈퇴를 위한 메소드
     deleteAccount(){
       var num = this.$session.get('session');
       var self = this;
@@ -117,26 +113,21 @@ export default {
           console.log('********** 회원탈퇴 완료**********');
           alert('회원탈퇴 완료!');
           self.$session.destroy();
-          console.log('세션 확인' + self.$session.get('session'));
+          console.log('---- 회원 탈퇴 후 세션 확인 : ' + self.$session.get('session'));
           setTimeout("window.location.href = './'",0)
-          })        
+          })
       }
-         
+
     }
   },
-  // props:['stories'],
   created() {
     var self = this;
-    // this.u_id = self.result[0];
-    // this.u_name = '송영수'
     if (!this.$session.exists()) {
-        console.log('세션 없음');
+        console.log('---- ModifyUser 세션 없음');
         }else{
-        console.log('세션 있음')
-        // this.u_num = this.$session.getAll();
-        console.log('세션 값 확인 '+ this.$session.get('session'))
-
+        console.log('---- ModifyUser 세션 있음')
         }
+        //유저 DB 조회 후 회원 정보 response받기.
       axios({
           method: 'post',
           url: 'api/user/showUser',
@@ -145,24 +136,18 @@ export default {
 
           }
       }).then(function(response) {
-          console.log('********** showUser 응답 받음 **********');
-          console.log(response.data);
+          console.log('********** front-end showUser 응답 받음 **********');
           self.u_id = response.data[0].u_id
           self.u_name = response.data[0].u_name
           self.u_phone = response.data[0].u_phone
           self.u_email = response.data[0].u_email
           self.u_job = response.data[0].u_job
           self.u_salary = response.data[0].u_salary
-
-
-          // this.u_id = response.data.u_id;
-
-          // response.data.u_name = this.u_name;
-          // setTimeout("window.location.href = './modifyUser'",0)
       })
   }
 }
 </script>
+<!-- Vue Style을 위한 CSS -->
 <style>
       .box-container{
                   border-style: solid;
@@ -207,7 +192,7 @@ export default {
                       box-shadow: none;
                       overflow: visible;
                   }
-              
+
               input::-webkit-input-placeholder {
                   color: #2C3E50;
               }

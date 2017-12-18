@@ -1,11 +1,9 @@
 <template id="test">
 <div>
+      <!-- 로그인이 안되었을 경우 Vue -->
       <div v-if="$session.exists() == false" class="container">
         <br><br>
-        <!-- <h4>하나 영수증 프로세스</h4><br><br> -->
         <div class="row">
-        
-                                                  <!-- 로그인 X -->
         <div class="row">
           <img src="img/invoice2.png" style="height:180px; width:200px">
           <img src="img/arrow1.png" style="height:80px; margin-left:50px; margin-right:50px; margin-top:50px">
@@ -32,29 +30,28 @@
         </div>
 
       </div>
-      
-                    <!-- 로그인 후 목표설정 O-->
-        <div v-if="$session.exists() == true && !results =='' " class="container" id="hi">
+
+      <!-- 로그인 후 vue (목표설정 있을 경우) -->
+      <div v-if="$session.exists() == true && !goal_price =='' " class="container" id="hi">
         <br>
-        <h2 class="text-center text-uppercase text-secondary mb-0">목표금액 : {{results | currency('',0)}}원</h2>
+        <h2 class="text-center text-uppercase text-secondary mb-0">목표금액 : {{goal_price | currency('',0)}}원</h2>
         <h5 class="text-center text-uppercase text-secondary mb-0">- 기간 : {{start_date}} ~ {{end_date}} -</h5>
-        <!-- <hr class="star-dark mb-5"> -->
         <br>
         <div class="row">
           <div class="col-md-7">
+            <!-- MyTotalChart import -->
                 <my-total-chart></my-total-chart>
           </div>
           <div class="col-md-5" style="margin-bottom:10%">
             <h5>{{u_name}}님은 현재 목표금액 <p>{{goal_price | currency('',0)}}원</p> 중 <p>{{now_price | currency('',0)}}원</p>을 사용하고 있습니다.</h5>
-        </div>
+          </div>
         </div>
       </div>
-                <!-- 로그인 후 목표설정 X -->
-        <div v-if="$session.exists() == true && results.length <= 0 " class="container" id="hi">
+
+        <!-- 로그인 후 vue (목표설정 없을 경우) -->
+      <div v-if="$session.exists() == true && goal_price.length <= 0 " class="container" id="hi">
         <br>
         <h2 class="text-center">목표금액</h2>
-        <!-- <h5 class="text-center text-uppercase text-secondary mb-0">- 기간 : {{start_date}}~ {{end_date}} -</h5> -->
-        <!-- <hr class="star-dark mb-5"> -->
         <br>
         <div class="row">
           <div class="col-md-7">
@@ -71,6 +68,7 @@
 </div>
 </template>
 
+<!-- Vue Style을 위한 CSS -->
 <style scoped>
       .btn{
         width:250px;
@@ -106,8 +104,6 @@
 <script>
 import axios from 'axios'
 import MyTotalChart from './MyTotalChart.vue'
-// import MyCategoryChart from './MyCategoryChart.vue'
-// import PercentageChart from './PercentageChart.vue'
 
 export default {
     data() {
@@ -116,17 +112,15 @@ export default {
         now_price : '',
         u_name : '',
         u_num : '',
-        results : '',
         start_date : '',
         end_date : '',
       }
     },
     components : {
-        MyTotalChart,
-        // MyCategoryChart,
-        // PercentageChart
+        MyTotalChart
     },
     methods : {
+        //날짜 변환 메소드
         getDate(){
           axios({
           method: 'post',
@@ -139,9 +133,6 @@ export default {
           console.log('********** request_goal 응답 받음');
           this.start_date = response.data[0].g_time;
           this.end_date = response.data[0].g_endtime;
-          // for(var i=0; i<response.length; i++){
-          //   self.results
-          // }
         });
         }
     },
@@ -160,7 +151,9 @@ export default {
         day = "0" + day;
       }
       var start_date = year + '' + month + '' + day;
-      console.log('펄스트섹션의 스타트 데이트 값 -------: ' + start_date);
+      console.log('---- FirstSection의 start_date 값 : ' + start_date);
+
+      //목표금액과 기간을 나타내기 위한 response받기.
       axios({
         method: 'post',
         url: 'api/analysis/all_used_goal_money',
@@ -169,27 +162,22 @@ export default {
           start_date: start_date
         }
       }).then((response) => {
-        console.log('********** all_used_goal_money 응답 받음 => 목표금액합산**********');
+        console.log('********** all_used_goal_money 응답 받음 => 목표금액합산 **********');
         var all_used = {};
         all_used = response.data.all_used;
-        console.log('섬프값 : ' + all_used[0].sum_price);
+        console.log('---- 사용자의 목표기간 동안 소비내역 : ' + all_used[0].sum_price);
 
         var all_goal = {};
         all_goal = response.data.all_goal;
-        self.results = all_goal[0].g_price;
-        console.log('목표금액 합산 : ' + self.results);
-        
+        //목표금액 goal_price변수에 저장
         self.goal_price = all_goal[0].g_price;
+        //목표대비 현재까지 사용금액 now_price변수에 저장
         self.now_price = all_used[0].sum_price;
         if(self.now_price==null){
           self.now_price = 0;
         }
-        
         self.u_name = all_goal[0].u_name;
-
-
       });
     }
 }
-
 </script>
