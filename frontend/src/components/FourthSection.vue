@@ -10,8 +10,8 @@
       <!-- <div>
         <my-used-month></my-used-month>
       </div> -->
-   
-      
+
+
   </div>
 </div>
 </template>
@@ -25,7 +25,6 @@
 <script>
 import axios from 'axios'
 // import MyTotalChart from './MyTotalChart.vue'
-import MyUsedMonth from './MyUsedMonth.vue'
 import WordCloud from './WordCloud.vue'
 // import PercentageChart from './PercentageChart.vue'
 
@@ -38,7 +37,6 @@ export default {
     },
     components : {
         // MyTotalChart,
-        MyUsedMonth,
         WordCloud
         // PercentageChart
     },
