@@ -1,10 +1,13 @@
 <template>
 <div id="insertConsume" class="table-users" style="width:1000px; display:inline-block; margin-top:170px">
+  <!-- Navi import -->
   <navi></navi>
   <div class="header">소비 관리</div>
   <br>
+  <!-- 소비내역 리스트 import -->
   <consume-history></consume-history>
   <br>
+  <!-- 소비내역 저장 form -->
   <div class="table-users" style="width:100%">
     <div class="header">소비내역 저장</div>
     <br>
@@ -28,14 +31,10 @@
     <div class="form-group">
         <input type="date" placeholder="  소비일자 예)20171205" v-model="c_time" class="form-control" name="c_time">
     </div>
-  <!-- <div class="form-group">
-    <input type="email" placeholder="낭비체크" v-model="wasted" class="form-control" name="wasted">
-  </div> -->
   <div class="form-group">
         <button @click.prevent="requestHistory" class="btn"
             style="width:150px; background-color:#327a81; color:white; font-weight:bold">저 장</button>
   </div>
-
   <br><br>
   </div>
   <br>
@@ -63,7 +62,8 @@ export default {
     ConsumeHistory,
     Navi
   },
-  methods: {    
+  methods: {
+    //소비내역 저장버튼 클릭시 호출되는 메소드
     requestHistory() {
       console.log('********** front-end requestHistory 호출 **********');
       var u_num = this.$session.get('session');
@@ -78,6 +78,7 @@ export default {
         alert('오늘 ('+this.today+')일 이하의 데이터만 입력 가능합니다.');
       }
       else{
+        //DB에 소비내역 정보 추가
         axios({
           method: 'post',
           url: 'api/consume_history/requestHistory',
@@ -96,34 +97,31 @@ export default {
       }
 
     },
-        getToday(){
-            console.log('getToday!')
-            var today = new Date();
-            var dd = today.getDate();
-            var mm = today.getMonth()+1; //January is 0!
-            var yyyy = today.getFullYear();
-            if(dd<10) {
-            dd='0'+dd
-            }
-            if(mm<10) {
-                mm='0'+mm
-            }
-            console.log(yyyy + '-'+ mm + '-' + dd);
-            this.c_time = yyyy + '-'+ mm + '-' + dd;
-            this.today = yyyy + '-'+ mm + '-' + dd;
-            
+    //날짜 변환 메소드
+    getToday(){
+        console.log('********** front-end getToday 메소드 호출 **********')
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+        if(dd<10) {
+        dd='0'+dd
         }
+        if(mm<10) {
+            mm='0'+mm
+        }
+        // console.log(yyyy + '-'+ mm + '-' + dd);
+        this.c_time = yyyy + '-'+ mm + '-' + dd;
+        this.today = yyyy + '-'+ mm + '-' + dd;
+    }
   },
   created(){
-    console.log('save_history')
+    console.log('SaveHistory created()')
     this.getToday();
     }
-
-
-}//exportDefault
-
-
+}
 </script>
+<!-- Vue Style을 위한 CSS -->
 <style scoped>
 .box-container{
         border-style: solid;
@@ -169,12 +167,7 @@ body * {
   display: inline-block;
   vertical-align: middle
 }
-
-
-
 input::-webkit-input-placeholder {
   color: #2C3E50;
-  }
-
-
+}
 </style>

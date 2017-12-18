@@ -1,17 +1,15 @@
 <template>
 <div class="table-users" id="register" style="width:1000px; display:inline-block; margin-top:200px">
+    <!-- Navi import -->
     <navi></navi>
+    <!-- 회원가입 form -->
       <h3>회원가입</h3><br>
       <img src="img/invoice.png" style="height:200px; margin-bottom:50px">
     <br>
       <div class="form-group" style=" margin-right:10px">
         <input type="text" style="width:830px; display:inline-block;" placeholder="아이디" v-model="u_id" class="form-control" name="u_id" id="u_id" >
-        <button @click.prevent="dupCheck" class="btn" style="background-color:#327a81; color:white; font-weight:bold">중복 체크</button>  
+        <button @click.prevent="dupCheck" class="btn" style="background-color:#327a81; color:white; font-weight:bold">중복 체크</button>
       </div>
-      <!-- <div class="form-group">
-        
-      </div> -->
-
       <div class="form-group">
         <input type="password" style="width:930px; margin-left:30px" placeholder="패스워드" v-model="u_pw" class="form-control" name="u_pw" id="u_pw">
       </div>
@@ -51,9 +49,6 @@
       </div>
       <button @click.prevent="addUser" class="btn" style="width:300px; background-color:#327a81; color:white; font-weight:bold">가입</button>
       <br><br>
-      <!-- <famous :stories="stories"></famous> -->
-      <!-- <famous></famous> -->
-    </div>
 </div>
 </template>
 <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요한) -->
@@ -85,6 +80,7 @@ export default {
     Navi
   },
   methods: {
+    //가입버튼 클릭시 실행되는 메소드
     addUser() {
       console.log('********** front-end addUser 호출 **********');
       var id = this.u_id;
@@ -96,9 +92,7 @@ export default {
       var email = this.u_email;
       var job = this.u_job;
       var salary = this.u_salary;
-      // if (name == '' || pw == '') {
-      //   this.errinfo = '';
-      //   this.classFade = ''
+      //빈 값이 입력되면 alert창 처리와 중복ID 체크.
       if(job<=0 || id.length==0 || pw.length==0 || name.length==0 || age.length==0 || gender.length==0 || phone.length==0 || email.length==0 || salary<=0){
         alert('필수항목을 입력하세요');
       }else if(this.dup_chk==true) {
@@ -109,6 +103,7 @@ export default {
       }
       //필수항목 입력, 아이디 중복체크 O , 중복아이디 X
       else if(this.dup_chk==false) {
+        //DB에 회원가입 정보 추가
         axios({
           method: 'post',
           url: 'api/user/signup',
@@ -133,6 +128,7 @@ export default {
         })
       }
     },
+    //중복 ID 체크하는 메소드.
     dupCheck() {
       console.log('********** front-end dupCheck() 호출 **********');
       var id = this.u_id;
@@ -156,15 +152,14 @@ export default {
       }else{
         alert('아이디를 입력하세요');
       }
-    }    
+    }
   },
-  // props:['stories'],
   created() {
-    console.log('register')
+    console.log('Register.vue created()')
   }
 }
 </script>
-
+<!-- Vue Style을 위한 CSS -->
 <style scoped>
       .box-container{
                   border-style: solid;
@@ -209,7 +204,7 @@ export default {
                       box-shadow: none;
                       overflow: visible;
                   }
-              
+
               input::-webkit-input-placeholder {
                   color: #2C3E50;
               }

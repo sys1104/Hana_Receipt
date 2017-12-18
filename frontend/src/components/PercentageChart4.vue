@@ -3,21 +3,21 @@
 <div>
   <div id='percentageChart4'></div>
   <div class="col-md-12 col-md-offset-2">
-    <!-- 두번째 그래프 -->
+    <!-- 사용자와 동일 직업군 비교(percentageChart4)의 결과 글로 나타내기 -->
     <h5>다른 이용자는 <p><{{category}}></p>에 많은 비용을 지출하고 있습니다</h5>
   </div>
 </div>
 </template>
 
 <script>
-// 나와 이용자 평균 percentage
+// 동일 직업군 비교 차트(기간 : 현재 날짜로 부터 한달전) --> percentageChart4
 import axios from 'axios'
 export default {
   data() {
     return {
       category: '',
       percentageConfig: {
-        // 두번째 파이
+        // 동일 직업군 비교 차트(파이차트)
         graphset: [{
           type: "pie",
           backgroundColor: "none",
@@ -43,14 +43,6 @@ export default {
               sequence: 1
             }
           },
-          // title: {
-          //   fontColor: "#fff",
-          //   text: 'Global Browser Usage',
-          //   align: "left",
-          //   offsetX: 10,
-          //   fontFamily: "Open Sans",
-          //   fontSize: 25
-          // },
           subtitle: {
             offsetX: 10,
             offsetY: 0,
@@ -100,14 +92,12 @@ export default {
   },
   created() {
     var self = this;
-    // this.myCategoryConfig.scaleX.labels.push('생활/쇼핑');
     if (!this.$session.exists()) {
-      console.log('********** 세션이 없습니다. **********');
+      console.log('********** 세션없음 (percentageChart4.vue) **********');
     } else {
-      console.log('********** 세션이 있습니다. **********');
-      // this.u_num = this.$session.getAll();
-      console.log('세션 값 확인 ' + this.$session.get('session'));
+      console.log('********** 세션있음 (percentageChart4.vue) **********');
       var unum = this.$session.get('session');
+      //날짜 구하기위한 코드
       var date = new Date();
       var year = date.getFullYear();
       var month = new String(date.getMonth() + 1);
@@ -137,6 +127,7 @@ export default {
       console.log('percentage2 start_date 날짜는 ' + start_date);
       console.log('percentage2 end_date 날짜는 ' + end_date);
       setTimeout(function() {
+        //DB 조회 후 현재날짜로 부터 지난 한달간 소비내역 데이터 response받기. (동일 직업군)
         axios({
           method: 'post',
           url: 'api/analysis/compare_user_other_job',
@@ -146,22 +137,20 @@ export default {
             end_date: end_date
           }
         }).then((response) => {
-
           console.log('********** compare_user_other 응답 받음 **********');
-          // var compare_user = {};
-          // compare_user = response.data.compare_user;
           var compare_other = {};
           compare_other = response.data.compare_other;
           self.percentageConfig.graphset[0].subtitle.text = compare_other[0].u_job + ' 직업군의 평균 소비내역';
 
+          //카테고리 넘버에 맞는 카테고리명 지정 후 차트에 값(비율) 적용하기.
           var temp = -1;
           for (var k = 0; k < compare_other.length; k++) {
-            if (compare_other[k].avg_price > temp) { //50000,19125,
-              self.category = compare_other[k].cate_num; //1,2
-              temp = compare_other[k].avg_price; //19125,50000
+            if (compare_other[k].avg_price > temp) {
+              self.category = compare_other[k].cate_num;
+              temp = compare_other[k].avg_price;
               if (self.category == 1) {
                 self.category = "생활/쇼핑";
-              } else if (self.category == 2) { //here
+              } else if (self.category == 2) {
                 self.category = "교통";
               } else if (self.category == 3) {
                 self.category = "식비";
@@ -172,9 +161,9 @@ export default {
               } else if (self.category == 6) {
                 self.category = "기타";
               }
-              console.log(self.category); //'생활/쇼핑'
             }
 
+            //카테고리별 소비내역 비율 지정 후 차트에 적용.(동일 직업군)
             if (compare_other[k].cate_num == 1) {
               self.percentageConfig.graphset[0].series[compare_other[k].cate_num - 1].values.push(compare_other[k].avg_price); //'생활/쇼핑'
             } else if (compare_other[k].cate_num == 2) {
@@ -189,13 +178,12 @@ export default {
               self.percentageConfig.graphset[0].series[compare_other[k].cate_num - 1].values.push(compare_other[k].avg_price);
             }
           }
+          //zingchart render
           zingchart.render({
             id: 'percentageChart4',
             data: self.percentageConfig,
             height: '430px',
             width: '430px'
-            // height: '90%',
-            // width: '99%'
           });
         });
       }, 400);
@@ -203,6 +191,7 @@ export default {
   }
 }
 </script>
+<!-- Vue Style을 위한 CSS -->
 <style scoped>
 @import 'https://fonts.googleapis.com/css?family=Open+Sans';
 p {

@@ -3,15 +3,11 @@
   <div class="container">
     <br>
     <h2>나의 소비 키워드</h2>
-  <h6>내가 자주 소비한 내역을 확인해보세요</h6>
-      <div>
-        <word-cloud></word-cloud>
-      </div>
-      <!-- <div>
-        <my-used-month></my-used-month>
-      </div> -->
-
-
+    <h6>내가 자주 소비한 내역을 확인해보세요</h6>
+    <div>
+      <!-- 자주 소비한 내역 (워드클라우드) import -->
+      <word-cloud></word-cloud>
+    </div>
   </div>
 </div>
 </template>
@@ -24,9 +20,7 @@
 
 <script>
 import axios from 'axios'
-// import MyTotalChart from './MyTotalChart.vue'
 import WordCloud from './WordCloud.vue'
-// import PercentageChart from './PercentageChart.vue'
 
 export default {
     data() {
@@ -36,11 +30,8 @@ export default {
       }
     },
     components : {
-        // MyTotalChart,
         WordCloud
-        // PercentageChart
-    },
-
+    }
 }
 </script>
 

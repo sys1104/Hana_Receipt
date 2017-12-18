@@ -1,15 +1,11 @@
 <template>
-<!-- <div> -->
-  <div class="col-md-12">
+<div class="col-md-12">
   <div class="row">
+    <!-- 카테고리별 소비 Percent 그래프 -->
   <div id='myCategoryChart' class="col-md-8">
     <p id="my1-p">카테고리별 금액</p>
   </div>
-  <!-- style="margin-bottom: 0%; margin-top:-10%" -->
-   <!-- style="margin-bottom: -14%;" -->
-   <!-- style="margin-top:2%" -->
-  <!-- 현재상태 역순 -->
-
+  <!-- 목표대비 남은금액 표시 -->
   <div class="col-md-2">
     <p id="my1-p">남은 금액</p>
     <br>
@@ -19,7 +15,7 @@
       </li>
     </ul>
   </div>
- <!-- style="margin-bottom: -50%;" -->
+  <!-- 남은금액에 따른 범위별 평가 표시 -->
   <div class="col-md-2">
     <p id="my1-p">평가</p>
         <br>
@@ -35,18 +31,15 @@
     </ul>
   </div>
   </div>
-  </div>
-<!-- </div> -->
+</div>
 </template>
-
-
-
 
 <script>
 // 카테고리별 목표금액 그래프
 import axios from 'axios'
 export default {
   data() {
+    //목표기간동안 카테고리별 소비내역을 차트에 설정
     return {
       results : [],
       results2 : [],
@@ -55,29 +48,6 @@ export default {
       myCategoryConfig: {
         type: "hbar",
         "font-family":"Arial",
-            // "title":{
-            //     "text":"나의 카테고리별 금액",
-            //     "font-family":"Arial",
-            //     "background-color":"none",
-            //     "font-color":"black",
-            //     "font-size":"25px",
-            // },
-        //     "labels":[
-        //         {
-        //             "text":"카테고리",
-        //             "font-size":"12px",
-        //             "font-color":"#black",
-        //             "x":"2%",
-        //             "y":"12%"
-        //         },
-        //         {
-        //             "text":"사용금액",
-        //             "font-size":"12px",
-        //             "font-color":"black",
-        //             "x":"50%",
-        //             "y":"12%"
-        //         }
-        //     ],
         backgroundColor: "none",
         tooltip: {
           visible: false
@@ -148,15 +118,6 @@ export default {
                     "border-color": "#e8e3e3",
                     "border-width":2,
                     "fill-angle":90,
-                    //  "value-box":{
-                    //     "placement":"left",
-                    //     "padding":"200px",
-                    //     "text":"목표 %v원",
-                    //     "decimals":0,
-                    //     "font-color":"#A4A4A4",
-                    //     "font-size":"14px",
-                    //     "alpha":0.6
-                    // },
                     "tooltip":{
                         "visible":false
                     }
@@ -207,9 +168,10 @@ export default {
   },
 
   methods : {
-    //범위별 상태알림을 위한 메소드
+    //범위별 상태(평가)알림을 위한 메소드
     resultComment(result_sum, result_min){
-      console.log('result_sum : ' + result_sum);
+      //result_sum ==> 목표대비 소비한 내역 percent
+      //result_min ==> 목표대비 소비내역을 차감한 금액 (남은금액)
       var re2 = result_sum;
       //0~20
       if(re2 >=0 && re2 <= 20){
@@ -248,6 +210,7 @@ export default {
   },
   created() {
     var self = this;
+    //날짜를 계산하기 위한 코드
     var date = new Date();
     var year = date.getFullYear();
     var month = new String(date.getMonth()+1);
@@ -260,14 +223,14 @@ export default {
       day = "0" + day;
     }
     var start_date = year + '' + month + '' + day;
-    console.log('myCategoryChart start_date는 ' + start_date);
+    console.log('---- MyCategoryChart의 start_date는 : ' + start_date);
     if (!this.$session.exists()) {
-      console.log('********** 세션이 없습니다.(MyCategoryChart.vue) **********');
+      console.log('********** 세션없음 (MyCategoryChart.vue) **********');
     } else {
-      console.log('********** 세션이 있습니다.(MyCategoryChart.vue) **********');
-      console.log('세션 값 확인 ' + this.$session.get('session'));
+      console.log('********** 세션있음 (MyCategoryChart.vue) **********');
       var unum = this.$session.get('session');
       //카테고리별 소비내역 차트를 위한 코드
+      //DB 조회 후 결과 response받기.
       setTimeout(function() {
         axios({
           method: 'post',
@@ -277,7 +240,7 @@ export default {
             start_date: start_date
           }
         }).then((response) => {
-          console.log('********** cate_used_goal_money 응답 받음 **********');
+          console.log('********** front-end cate_used_goal_money 응답 받음 **********');
 
           var cate_goal = {};
           cate_goal = response.data.cate_goal;
@@ -288,19 +251,13 @@ export default {
             self.myCategoryConfig.series[0].values.push('차트가 제공되지 않습니다.');
           }else {
             cate_used = response.data.cate_used;
-            console.log('--------검사 sum_price : ' + response.data.cate_used[0].cate_num);
-
-            var result_sum = '';
-            var result_min = '';
+            var result_sum = ''; //result_sum ==> 목표기간 동안 소비내역 퍼센티지
+            var result_min = ''; //result_min ==> 목표금액대비 소비내역 차감한 금액
+            //각 카테고리별 목표기간동안 소비내역을 그래프에 출력하기위한 코드.(for 문)
             for (var i = 0; i < cate_goal.length; i++) {
-              console.log('-----테스트 카테유즈드 섬프 : ' + cate_used[i].sum_price);
-              // result_sum = Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 100);
-              console.log(cate_used[i].cate_num + ' ++++++++++++++++++ ' + (cate_used[i].sum_price / cate_goal[i].g_price));
-              console.log('ㅎㅇ!!' + cate_goal.length);
               if (cate_used[i].cate_num == 1) {
                 result_sum = Math.floor((cate_used[i].sum_price / cate_goal[i].g_price) * 100);
                 result_min = (cate_goal[i].g_price - cate_used[i].sum_price);
-                console.log(result_min + '리민값');
                 self.resultComment(result_sum, result_min);
                 self.myCategoryConfig.scaleX.labels.push('생활/쇼핑');
                 self.myCategoryConfig.series[1].values.push(Math.floor((cate_used[i].sum_price  / cate_goal[i].g_price)*100)); //cate_used[i].sum_price
@@ -342,9 +299,8 @@ export default {
                 self.myCategoryConfig.series[0].values.push(100);
               }
             }
-
           }
-
+          //zingchart render
           zingchart.render({
             id: 'myCategoryChart',
             data: self.myCategoryConfig,
@@ -358,6 +314,7 @@ export default {
   }
 }
 </script>
+<!-- Vue Style을 위한 CSS -->
 <style scoped>
 #my-font{
   font-size: 30px;
@@ -378,7 +335,4 @@ export default {
   font-weight: bold;
   font-size:25px;
 }
-/* .em{
-  line-height:1.1em;
-} */
 </style>
