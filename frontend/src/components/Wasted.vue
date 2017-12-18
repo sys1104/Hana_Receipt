@@ -1,4 +1,5 @@
 <template>
+  <!-- 낭비된 금액 표시 (지난 목표 기간) -->
 <div>
   <br>
   <div class="table-users" style="width:100%">
@@ -9,6 +10,7 @@
         <th>금액</th>
       </tr>
 
+      <!-- 카테고리별 낭비된 금액 표시(기간 : 이전에 설정한 목표기간) -->
       <tr class="table-body" v-for="(result,index) in results">
         <td>
           <select style="color:black" type="button" v-model="result.cate_num" disabled class="form-control">
@@ -20,26 +22,22 @@
               <option value="6">미분류</option>
              </select>
         </td>
-
         <td style="text-align:center">{{info = result.sum_price | currency('',0)}}</td>
       </tr>
 
+      <!-- 낭비된 총액 표시 -->
       <tr>
         <td></td><br>
-        <h3 style="font-weight:bold; color:#327a81; margin-right:12px" class="text-right">총액 : {{sum | currency('',0)}}원</h3></tr>
+        <h3 style="font-weight:bold; color:#327a81; margin-right:12px" class="text-right">총액 : {{sum | currency('',0)}}원</h3>
+      </tr>
     </table>
     <hr>
   </div>
-
 </div>
 </template>
 
-
 <script>
 import axios from 'axios'
-
-
-
 export default {
   data: function() {
     return {
@@ -49,14 +47,10 @@ export default {
     }
   },
   methods: {
-    calculateDate() {
-      console.log('********** front-end  호출 **********');
-      var today = new date();
-      console.log(today);
-    }
   },
   created() {
     var self = this;
+    //날짜 구하기위한 코드
     var date = new Date();
     var year = date.getFullYear();
     var month = new String(date.getMonth() + 1);
@@ -70,6 +64,7 @@ export default {
     }
     var start_date = year + '' + month + '' + day;
     console.log(start_date);
+    //DB 조회 후 낭비된 금액 response 받기.
     axios({
       method: 'post',
       url: 'api/consume_history/wastedList',
@@ -79,22 +74,19 @@ export default {
       }
     }).then(function(response) {
       self.results = response.data;
-      // for( var i in self.results){
-      //   self.sum += i.sum_price;
-      // }
       var sum2 = 0;
+      //각 카테고리별 낭비된 금액 합산
       for (var i = 0; i < self.results.length; i++) {
         console.log('wasted.vue' + self.results[i].sum_price);
         sum2 += parseInt(self.results[i].sum_price);
       }
+      // sum ==> 지난 목표기간에 낭비된 소비내역 합산
       self.sum = sum2;
-      console.log('self.sum값 : ' + self.sum);
-
     })
   }
 }
 </script>
-
+<!-- Vue Style을 위한 CSS -->
 <style scoped>
 .box-container {
   border-style: solid;

@@ -131,8 +131,13 @@ export default {
           }
         }).then((response) => {
           console.log('********** request_goal 응답 받음');
-          this.start_date = response.data[0].g_time;
-          this.end_date = response.data[0].g_endtime;
+          if(JSON.stringify(response.data)=='[]'){
+            console.log('@@ getDate 메소드 response.data가 없음(FirstSection.vue) @@');
+          }else {
+            console.log('@@ getDate 메소드 response.data가 있음(FirstSection.vue) @@');
+            this.start_date = response.data[0].g_time;
+            this.end_date = response.data[0].g_endtime;
+          }
         });
         }
     },
@@ -165,12 +170,17 @@ export default {
         console.log('********** all_used_goal_money 응답 받음 => 목표금액합산 **********');
         var all_used = {};
         all_used = response.data.all_used;
+
         console.log('---- 사용자의 목표기간 동안 소비내역 : ' + all_used[0].sum_price);
 
         var all_goal = {};
         all_goal = response.data.all_goal;
         //목표금액 goal_price변수에 저장
-        self.goal_price = all_goal[0].g_price;
+        if(all_goal[0].g_price == null){
+          self.goal_price = '';
+        }else{
+          self.goal_price = all_goal[0].g_price;
+        }
         //목표대비 현재까지 사용금액 now_price변수에 저장
         self.now_price = all_used[0].sum_price;
         if(self.now_price==null){

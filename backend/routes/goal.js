@@ -7,6 +7,7 @@ var request_goal = function(req, res, callback) {
     var req_code = req.body.request_code || 0;
     console.log('req_code ' + req_code);
     if (database) {
+      var data = {};
         list_goal(database, u_num, req_code, function(err, rows) {
             if (err) {
                 console.error('********** list_goal 에러 발생 **********' + err.stack);
@@ -19,14 +20,16 @@ var request_goal = function(req, res, callback) {
                 // 에러 처리
             }
             if (rows) {
-                var data = {};
                 data = rows;
                 res.json(data);
                 console.log('********** data json 형태로 Wasted.vue로 보냄 **********');
                 console.log(data);
                 res.end();
             } else {
-                console.log("********** 사용내역 없음 **********");
+                console.log("********** list_goal 없음! 사용내역 없음 **********");
+                data = {};
+                res.json(data);
+                res.end();
             }
         });
     } else {

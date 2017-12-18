@@ -1,17 +1,19 @@
 <template>
+<!-- 나의 소비 키워드를 알아보는 워드클라우드 -->
 <div id="wordcloudlist">
-
   <div id="wordvalue">
-
   </div>
 </div>
 </template>
+
+<!-- Vue Style을 위한 CSS -->
 <style>
 @font-face {
   font-family: 'overwatch';
   src: url('/fonts/koverwatch.ttf');
 }
 </style>
+
 <script>
 import axios from 'axios'
 export default {
@@ -25,37 +27,35 @@ export default {
   },
   components: {},
   methods: {
+    //소비내역 키워드를 D3.js를 이용하여 역동적으로 보여주기위한 메소드 실행
     showWordCloud(wordresult) {
-
       var wResult = [];
       var cResult = [];
-      var lala = [];
-      lala = wordresult;
+      //인자로 받은 중복제거된 배열 respon_result배열에 넣기.
+      var respon_result = [];
+      respon_result = wordresult;
 
-      for (var m = 0; m < lala.length; m++) {
+      // 품목이름과 개수 각각의 배열(wResult, cResult)로 구별
+      for (var m = 0; m < respon_result.length; m++) {
         for (var n = 0; n < 2; n++) {
           if (n == 0) {
-            wResult.push(lala[m][0]);
+            wResult.push(respon_result[m][0]);
           } else if (n == 1) {
-            cResult.push(lala[m][1]);
+            cResult.push(respon_result[m][1]);
           }
         }
       }
-      let index = 0;
 
+      let index = 0;
+      let index2 = 0;
+      //index를 인자로 각 키워드의 개수에 따라 폰트 크기 설정을 위한 메소드
       function showRandom(index) {
         return cResult[index];
       }
 
-      let index2 = 0;
-
-      function showWord(index2) {
-        return wResult[index2];
-      }
-
       //워드클라우드 디자인 및 사용
       var width = 1000,
-        height = 600;
+          height = 600;
       var fill = function(i) {
         return d3.schemeCategory20b[i];
       };
@@ -65,8 +65,10 @@ export default {
       d3.csv(wResult, function(data) {
         showCloud(data)
         setInterval(function() {
+          //setInterval --> 인덱스 초기화
           index = 0;
           index2 = 0;
+          //소비 키워드 데이터를 인자로 역동적으로 보이게하는 메소드 실행
           showCloud(data)
         }, 3000)
       });
@@ -75,7 +77,7 @@ export default {
         .append("g")
         .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
 
-
+      //소비 키워드 데이터를 인자로 역동적으로 보이게하는 메소드 실행
       function showCloud(data) {
         d3.layout.cloud().size([width, height])
           //클라우드 레이아웃에 데이터 전달
@@ -89,7 +91,7 @@ export default {
           // function() { return ~~(Math.random() * 2) * 90; }
           .rotate(0)
           .font("Impact")
-          //스케일로 각 단어의 크기를 설정
+          //빈도수에 따라 각 단어의 크기를 설정
           .fontSize(function(d) {
             return showRandom(index2++) * 20;
           })
@@ -97,6 +99,7 @@ export default {
           .on("end", draw)
           .start();
 
+        //draw 메소드 실행
         function draw(words) {
           var cloud = svg.selectAll("text").data(words)
           //Entering words
@@ -126,49 +129,12 @@ export default {
             .style("fill-opacity", 1);
         }
       }
-
-      // var fill = function(i){ return d3.schemeCategory20b[i];};
-      // var layout = d3.layout.cloud()
-      //     .size([1000, 900])
-      //     // .words(b)
-      //       .words(wResult.map(function(d) {
-      //           return {text: d, size: setTimeout(showRandom(index++),0)*2, test: "haha"};
-      //         }))
-      //       .padding(5)
-      //       // function() { return ~~(Math.random() * 2) * 90; }
-      //       .rotate(function() { return ~~(Math.random() * 2) * 90; })
-      //       .font("Impact")
-      //       // function(d) { return d.size; }
-      //       .fontSize(function(d) { return showRandom(index2++)*20; })
-      //       .on("end", draw);
-      //
-      //       layout.start();
-      //
-      //       function draw(words) {
-      //         d3.select("#wordvalue").append("svg")
-      //         .attr("width", layout.size()[0])
-      //         .attr("height", layout.size()[1])
-      //         .append("g")
-      //         .attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")")
-      //         .selectAll("text")
-      //         .data(words)
-      //         .enter().append("text")
-      //         .style("font-size", function(d) { return d.size + "px"; })
-      //         .style("font-family", "Impact")
-      //         .style("fill", function(d, i) { return fill(i); })
-      //         .attr("text-anchor", "middle")
-      //         .attr("transform", function(d) {
-      //           return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
-      //         })
-      //         .text(function(d) { return d.text; });
-      //       }
     }
   },
   created() {
-    console.log('WordCloud Mounted()');
-    //axios 부분
+    console.log('WordCloud created()');
     var self = this;
-
+    //DB 조회 후 소비내역 품목이름 response받기. (기간 : 현재 날짜로 부터 한달전)
     axios({
       method: 'post',
       url: 'api/analysis/word_cloud_history',
@@ -178,15 +144,8 @@ export default {
     }).then(function(response) {
       self.results = response.data;
 
-      var wordresult = [];
-      for (var j = 0; j < response.data.length; j++) {
-        // console.log(self.results[j].content);
-        wordresult.push(self.results[j].content);
-      }
-
-      //각 품목이름별 갯수
+      //response받은 품목이름과 개수 배열로 저장
       var result_word = [];
-      var result_cnt = [];
       var count = 0;
       for (var k = 0; k < response.data.length; k++) {
         count = 0;
@@ -196,34 +155,33 @@ export default {
           }
         }
         result_word.push([response.data[k].content, count]);
-        // console.log('=====%%%%====' + result_word[k]);
-        // result_cnt.push(count);
       }
 
       //중복배열 제거
       var cnt = 0;
-      var cnt_result = [];
+      var word_result = [];
       var chkflag = false;
+      //이중 for문을 이용하여 중복된 배열 제거
       for (var f = 0; f < result_word.length; f++) {
         chkflag = false;
-        if (cnt_result.length == 0) {
-          cnt_result.push(result_word[f]);
+        if (word_result.length == 0) {
+          word_result.push(result_word[f]);
           continue;
         }
 
-        for (var v = 0; v < cnt_result.length; v++) {
-          if (JSON.stringify(result_word[f]) == JSON.stringify(cnt_result[v])) {
-            // console.log('cnt_result[v] 값 : ' + cnt_result[v]);
-            // console.log('result_word[f] 값 : ' + result_word[f]);
+        for (var v = 0; v < word_result.length; v++) {
+          if (JSON.stringify(result_word[f]) == JSON.stringify(word_result[v])) {
             chkflag = true;
           }
         }
         if (chkflag == false) {
-          cnt_result.push(result_word[f]);
+          //중복 제거 후 word_result 배열에 값 저장
+          word_result.push(result_word[f]);
         }
       }
-      // console.log('cnt_result 값@@@@@ : ' + cnt_result);
-      self.showWordCloud(cnt_result);
+
+      //소비내역 키워드를 D3.js를 이용하여 역동적으로 보여주기위한 메소드 실행 (인자로 중복제거된 배열 넣기)
+      self.showWordCloud(word_result);
     })
 
   }

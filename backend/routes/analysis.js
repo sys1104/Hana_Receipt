@@ -165,7 +165,7 @@ var all_used_goal_money = function(req, res, callback) {
           }
           if (rows2) {
             data.all_goal = rows2;
-            console.log(data);
+            console.log('데이타표현중 : ' + rows2[0].sum_price);
             console.log('********** all_used_goal_money //' + data + ' **********');
             res.json(data);
             res.end();
