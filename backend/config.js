@@ -150,12 +150,6 @@ module.exports = {
         },
         {
             file: './analysis',
-            path: '/api/analysis/used_month',
-            method: 'used_month',
-            type: 'post'
-        },
-        {
-            file: './analysis',
             path: '/api/analysis/word_cloud_history',
             method: 'word_cloud_history',
             type: 'post'

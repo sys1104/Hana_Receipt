@@ -650,5 +650,4 @@ module.exports.compare_user_user = compare_user_user;
 module.exports.compare_user_other = compare_user_other;
 module.exports.compare_user_other_genderAge = compare_user_other_genderAge;
 module.exports.compare_user_other_job = compare_user_other_job;
-module.exports.used_month = used_month;
 module.exports.word_cloud_history = word_cloud_history;
