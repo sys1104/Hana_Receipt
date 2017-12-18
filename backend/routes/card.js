@@ -1,6 +1,7 @@
-// ==================== 카드 혜택별 조회 function ==================== //
+// ==================== 카드 혜택별 조회 (신용/체크) function ==================== //
 var card_benefit_search = function(database, result_benefit_priority, callback) {
   console.log('********** server-side card_benefit_search 호출 **********');
+  //card_benefit_search 메소드를 호출함으로써 DB 조회 후 혜택에 해당하는 카드 리스트 callback
   database.pool.getConnection(function(err, conn) {
     if (err) {
       if (conn) {
@@ -9,11 +10,12 @@ var card_benefit_search = function(database, result_benefit_priority, callback) 
       callback(err, null);
       return;
     }
-    //칼럼명을 배열로 만들기
+    //conn 객체를 사용해서 sql 실행 (혜택에 해당하는 카드 조회 쿼리문)
     var sql = 'select * from card where card_benefit like ?';
     var exec = conn.query(sql, '%' + result_benefit_priority + '%', function(err, rows) {
       if (rows.length > 0) {
         conn.release();
+        console.log('********** 1차 우선 혜택 일치하는 내용 rows 반환 **********');
         callback(null, rows);
       } else {
         conn.release();
@@ -29,9 +31,10 @@ var card_benefit_search = function(database, result_benefit_priority, callback) 
     });
   });
 };
-// ==================== 혜택기반 체크카드 검색 function ==================== //
+// ==================== 카드 혜택별 조회 (체크) function ==================== //
 var card_benefit_search_check = function(database, result_benefit_priority, callback) {
   console.log('********** card_benefit_search_check 호출 (학생 또는 20살 미만) **********');
+  //card_benefit_search_check 메소드를 호출함으로써 DB 조회 후 혜택에 해당하는 카드 리스트 callback (체크카드만)
   database.pool.getConnection(function(err, conn) {
     if (err) {
       if (conn) {
@@ -41,14 +44,16 @@ var card_benefit_search_check = function(database, result_benefit_priority, call
       return;
     }
     //체크카드는 값 : 0 , 신용카드는 값 : 1
+    //conn 객체를 사용해서 sql 실행 (혜택에 해당하는 카드 조회 쿼리문 - 체크카드만)
     var sql = 'select * from card where card_benefit like ? and card_check = 0';
     var exec = conn.query(sql, '%' + result_benefit_priority + '%', function(err, rows) {
       if (rows.length > 0) {
         conn.release();
+        console.log('********** 1차 우선 혜택 일치하는 내용 rows반환 (체크카드) **********');
         callback(null, rows);
       } else {
         conn.release();
-        console.log('********** 1차 우선 혜택 일치하는 내용 없음 **********');
+        console.log('********** 1차 우선 혜택 일치하는 내용 없음 (체크카드) **********');
         callback(null, null);
       }
     });
@@ -60,9 +65,11 @@ var card_benefit_search_check = function(database, result_benefit_priority, call
     });
   });
 };
-// ==================== 혜택기반 신용카드 검색 function ==================== //
+
+// ==================== 카드 추천을 위한 사용자의 정보 분석 function ==================== //
 var user_benefit_search = function(database, u_num, card_benefit, callback) {
   console.log('********** user_benefit_search 호출 **********');
+  //user_benefit_search 메소드를 호출함으로써 DB 조회 후 카테고리별 지난 한달간 소비내역 합계와 직업, 나이, 성별 callback
   database.pool.getConnection(function(err, conn) {
     if (err) {
       if (conn) {
@@ -71,14 +78,16 @@ var user_benefit_search = function(database, u_num, card_benefit, callback) {
       callback(err, null);
       return;
     }
+    //conn 객체를 사용해서 sql 실행 (사용자의 카테고리별 지난 한달간 소비내역 합계와 직업, 나이, 성별 조회 쿼리문)
     var sql = 'select A.cate_num, sum(price) as sum_price, B.u_job as u_job, B.u_age as u_age, B.u_gender as u_gender from (select * from consume_history where u_num = ? and c_time <= curdate() and c_time >= DATE_SUB(curdate(), INTERVAL 30 DAY)) as A, user B where A.u_num = B.u_num group by cate_num';
     var exec = conn.query(sql, u_num, function(err, rows) {
       if (rows.length > 0) {
         conn.release();
+        console.log('********** 사용자의 카테고리별 소비내역, 직업, 나이, 성별 조회 rows 반환 **********');
         callback(null, rows);
       } else {
         conn.release();
-        console.log('********** 일치하는 사용자와 카테고리 없음 **********');
+        console.log('********** 사용자의 카테고리별 소비내역, 직업, 나이, 성별 조회결과 없음 **********');
         callback(null, null);
       }
     });
@@ -90,23 +99,26 @@ var user_benefit_search = function(database, u_num, card_benefit, callback) {
     });
   });
 };
+
 // ==================== 카드 추천 알고리즘 function ==================== //
 var card_benefit_list = function(req, res, callback) {
   console.log('********** card_benefit_list 호출 **********');
+  //카드 추천을 위한 알고리즘 시작
   var database = req.app.get('database');
   var u_num = req.body.u_num;
   var card_benefit = req.body.card_benefit;
 
   if (database) {
     var data = {};
+    //user_benefit_search 메소드를 호출함으로써 DB 조회 후 카테고리별 지난 한달간 소비내역 합계와 직업, 나이, 성별 callback
     user_benefit_search(database, u_num, card_benefit, function(err, rows) {
 
       if (err) {
-        console.error('카드 검색 중 에러발생 ' + err.stack);
+        console.error('user_benefit_search 카드 검색 중 에러발생 ' + err.stack);
         res.writeHead(200, {
           "Content-Type": 'text/html;charset=utf8'
         });
-        res.write('<h2>read board 중 에러 발생</h2>');
+        res.write('<h2>user_benefit_search 중 에러 발생</h2>');
         res.write('<p>' + err.stack + '<p>');
         res.end();
       }
@@ -123,22 +135,21 @@ var card_benefit_list = function(req, res, callback) {
 
         //학생이거나 미성년자면 체크카드만 나오게함.(if~else 구문 사용)
         if (rows[0].u_job == '학생' || rows[0].u_age < 20) {
+          //체크카드만 조회
           card_benefit_search_check(database, result_benefit_priority[0], function(err, rows2) {
             if (err) {
-              console.error('********** user_benefit_search 에러 발생 **********' + err.stack);
+              console.error('********** card_benefit_search_check 에러 발생 **********' + err.stack);
               res.writeHead(200, {
                 "Content-Type": 'text/html;charset=utf8'
               });
-              res.write('<h2>goal_money 에러 발생</h2>');
+              res.write('<h2>card_benefit_search_check 에러 발생</h2>');
               res.write('<p>' + err.stack + '</p>');
               res.end();
             }
 
             if (rows2) {
-              console.log('********** card_benefit_search메소드 -> row2값 있음 **********');
-              console.log('********** DB에서 검색된 check카드 개수 : ' + rows2.length + ' **********');
-              console.log(rows2[0].card_check);
-              console.log(rows2[1].card_check);
+              console.log('********** card_benefit_search_check메소드 -> row2값 있음 **********');
+              console.log('********** DB에서 검색된 체크카드 개수 : ' + rows2.length + ' **********');
               var match_card2 = [];
               if (rows2.length > 3) {
                 for (var p = 0; p < rows2.length; p++) {
@@ -147,62 +158,64 @@ var card_benefit_list = function(req, res, callback) {
                   }
                   console.log('********** 체크카드 혜택' + rows2[p].card_benefit + ' **********');
                 }
-                console.log('두번째 우선순위까지 매치된 카드 : ' + match_card2);
+                console.log('두번째 우선순위까지 매치된 체크카드: ' + match_card2 + ' **********');
                 data = match_card2;
-                console.log('********** 프론트로 제이슨 형태로 데이터를 보냄(체크카드) *********');
+                console.log('********** 두번째 우선순위까지 매치된 체크카드 JSON DATA 보냄 *********');
                 res.json(data);
                 res.end();
               } else if (rows2.length <= 3) {
-                console.log('********* rows2 갯수가 3이하, json(data)보냄(체크카드) *********');
+                console.log('********* DB에서 검색된 체크카드 개수가 3이하, JSON DATA 보냄 *********');
                 data = rows2;
                 res.json(data);
                 res.end();
               }
             } else {
-              console.log('********** DB에서 검색된 카드 없음 **********');
+              console.log('********** DB에서 검색된 체크카드 없음 **********');
             }
           }); //card_benefit_search_check 끝
         } else {
+          // 체크/신용카드 둘다
           card_benefit_search(database, result_benefit_priority[0], function(err, rows2) {
             if (err) {
-              console.error('********** user_benefit_search 에러 발생 **********' + err.stack);
+              console.error('********** card_benefit_search 에러 발생 **********' + err.stack);
               res.writeHead(200, {
                 "Content-Type": 'text/html;charset=utf8'
               });
-              res.write('<h2>goal_money 에러 발생</h2>');
+              res.write('<h2>card_benefit_search 에러 발생</h2>');
               res.write('<p>' + err.stack + '</p>');
               res.end();
             }
 
             if (rows2) {
               console.log('********** card_benefit_search메소드 -> row2값 있음 **********');
-              console.log('********** DB에서 검색된 check카드 개수: ' + rows2.length + ' **********');
+              console.log('********** DB에서 검색된 신용/체크카드 개수: ' + rows2.length + ' **********');
               var match_card = [];
               if (rows2.length > 3) {
                 for (var p = 0; p < rows2.length; p++) {
                   if (rows2[p].card_benefit.match(result_benefit_priority[1])) {
                     match_card.push(rows2[p]);
                   }
-                  console.log('********** 신용카드 혜택: ' + rows2[p].card_benefit + ' **********');
+                  console.log('********** 신용/체크카드 혜택: ' + rows2[p].card_benefit + ' **********');
                 }
-                console.log('두번째 우선순위까지 매치된 카드: ' + match_card + ' **********');
+                console.log('두번째 우선순위까지 매치된 신용/체크카드: ' + match_card + ' **********');
               } else if (rows2.length <= 3) {
-                console.log('********* rows2 갯수가 3이하, json(data)보냄(신용카드) *********');
+                console.log('********* DB에서 검색된 신용/체크카드 개수가 3이하, JSON DATA 보냄 *********');
                 data = rows2;
                 res.json(data);
                 res.end();
               }
               data = match_card;
-              console.log('********** 프론트로 제이슨 형태로 데이터를 보냄 *********');
+              console.log('********** 두번째 우선순위까지 매치된 신용/체크카드 JSON DATA 보냄 *********');
               res.json(data);
               res.end();
             } else {
-              console.log('********** DB에서 검색된 카드 없음 **********');
+              console.log('********** DB에서 검색된 신용/체크카드 없음 **********');
             }
           }); //card_benefit_search 끝
         }
       } else {
-        console.log('********** rows없음 **********');
+        console.log('********** user_benefit_search rows 없음(User X) **********');
+        console.log('********** user_benefit_search rows없으므로 빈 JSON DATA 보냄 **********');
         var data2 = {};
         res.json(data2);
       }
@@ -214,18 +227,19 @@ var card_benefit_list = function(req, res, callback) {
     });
     res.write('<h1>데이터베이스 연결 실패</h1>');
     res.write('<div><p>DB에 연결 하지 못했습니다.</p></div>');
-    res.write('<br/> <a href="/public/login2.html">다시 로그인 </a>');
     res.end();
   }
 };
 
-// ==================== 혜택별 카드추천 우선순위 function==================== //
+// ==================== 혜택별 카드추천 우선순위 분석 (가중치 적용) function==================== //
 var benefit_value = function(rows) {
   console.log('********** benefit_value 메소드 호출 **********');
+  //사용자의 소비패턴과 직업, 연령을 고려하여 가중치 적용을 위한 메소드
+
   //카테고리별 가중치
   var sum = 0; //sum_price 총합
-  var result = [];
-  var result2 = [];
+  var result = [];  //카테고리넘버 담기
+  var result2 = []; //각 카테고리별 합을 총합으로 나눈 후 *100하여 퍼센티지 구함.
   var result_cate = ''; //제일 비중 큰 카테고리명(또는 번호)
   var result_priority = ''; //제일 비중 큰 카테고리의 수치
   for (var i = 0; i < rows.length; i++) {
@@ -503,8 +517,8 @@ var benefit_value = function(rows) {
   }
 
   for (var k = 0; k < result.length; k++) {
-    console.log('********** 혜택 결과: ' + result[k] + ' **********');
-    console.log('********** 혜택 결과: ' + result2[k] + ' **********');
+    console.log('********** 혜택 결과: ' + result[k] + ' **********'); //카테고리 넘버
+    console.log('********** 혜택 결과: ' + result2[k] + ' **********'); //각 카테고리별 합을 총합으로 나눈 후 *100하여 퍼센티지 구함.
     if (result[k] == 1) {
       result_cate = "생활/쇼핑";
       refuel += result2[k] * 1.6;
@@ -600,7 +614,6 @@ var benefit_value = function(rows) {
         console.log('temp 값 : ' + temp);
       }
     }
-    // console.log('토탈 리절트 [카운트] : ' + total_result[count]);
     //위 y-for문을 돌고나와서 count 인덱스에 있는 값이 가장 큰 값이므로 if문을 통해 이름화 시킨다.
     //그 후 그 인덱스 자리의 값을 0으로 만들고 temp=-1로 리셋.
     //그럼 다시 y-for문을 돌며 가장 큰 값(실질적으로는 두번 째 큰값)을 찾는다.. 반복 (총 3회)
@@ -634,4 +647,6 @@ var benefit_value = function(rows) {
   //상위 3가지 세부 카테고리를 배열에 담아 리턴한다.
   return priority;
 };
+
+//모듈 exports
 module.exports.card_benefit_list = card_benefit_list;
