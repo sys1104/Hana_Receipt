@@ -320,7 +320,6 @@ export default {
     }
   },
   created() {
-    console.log('GoalManagement created()')
     var self = this;
     //목표 DB 조회 후 리스트 response받기.
     axios({

@@ -238,7 +238,7 @@ var benefit_value = function(rows) {
 
   //카테고리별 가중치
   var sum = 0; //sum_price 총합
-  var result = [];  //카테고리넘버 담기
+  var result = []; //카테고리넘버 담기
   var result2 = []; //각 카테고리별 합을 총합으로 나눈 후 *100하여 퍼센티지 구함.
   var result_cate = ''; //제일 비중 큰 카테고리명(또는 번호)
   var result_priority = ''; //제일 비중 큰 카테고리의 수치

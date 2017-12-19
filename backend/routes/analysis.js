@@ -546,8 +546,7 @@ var compare_other_job = function(database, u_num, start_date, end_date, callback
       return;
     }
     //conn 객체를 사용해서 sql 실행 (사용자의 직업에 따른 다른 이용자의 지난 한달간 소비내역 평균 조회 쿼리문)
-    var exec = conn.query('select cate_num, avg(sum_price) as avg_price, (select u_job from user where u_num = ?) as u_job from (select u_num, cate_num, sum(price) as sum_price from consume_history where c_time >= ? and c_time <= ? and u_num in (select u_num from user where u_job = (select u_job from user where u_num = ?)) group by u_num, cate_num) as sub_consume_history group by cate_num',
-    [u_num, start_date, end_date, u_num],
+    var exec = conn.query('select cate_num, avg(sum_price) as avg_price, (select u_job from user where u_num = ?) as u_job from (select u_num, cate_num, sum(price) as sum_price from consume_history where c_time >= ? and c_time <= ? and u_num in (select u_num from user where u_job = (select u_job from user where u_num = ?)) group by u_num, cate_num) as sub_consume_history group by cate_num', [u_num, start_date, end_date, u_num],
       function(err, rows) {
         if (rows.length > 0) {
           conn.release();

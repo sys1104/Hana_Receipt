@@ -13,9 +13,9 @@
 </template>
 
 <style scoped>
-  #hi{
-    background-color : white;
-  }
+#hi {
+  background-color: white;
+}
 </style>
 
 <script>
@@ -23,20 +23,20 @@ import axios from 'axios'
 import WordCloud from './WordCloud.vue'
 
 export default {
-    data() {
-      return {
-        u_num : '',
-        results : '',
-      }
-    },
-    components : {
-        WordCloud
+  data() {
+    return {
+      u_num: '',
+      results: '',
     }
+  },
+  components: {
+    WordCloud
+  }
 }
 </script>
 
 <style scoped>
-    #hi{
-        background-color:#FAFAFA;
-    }
+#hi {
+  background-color: #FAFAFA;
+}
 </style>

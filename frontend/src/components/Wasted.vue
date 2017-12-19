@@ -87,7 +87,7 @@ export default {
         period = response.data.period;
         self.period = '목표 기간 ' + response.data.period[0].max_gtime + ' ~ ' + response.data.period[0].max_gendtime + ' 동안 낭비된 금액';
       } catch (e) {
-        console.log('******* front-end 목표 내역이 없습니다. *******');
+        console.log('********** front-end 목표 내역이 없습니다. **********');
       }
     })
   }

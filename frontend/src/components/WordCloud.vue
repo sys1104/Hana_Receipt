@@ -132,58 +132,58 @@ export default {
     }
   },
   created() {
-    console.log('WordCloud created()');
+    console.log('********** WordCloud created() **********');
     var self = this;
     var unum = this.$session.get('session');
     //DB 조회 후 소비내역 품목이름 response받기. (기간 : 현재 날짜로 부터 한달전)
 
-      axios({
-        method: 'post',
-        url: 'api/analysis/word_cloud_history',
-        data: {
-          u_num: unum
-        }
-      }).then(function(response) {
-        self.results = response.data;
+    axios({
+      method: 'post',
+      url: 'api/analysis/word_cloud_history',
+      data: {
+        u_num: unum
+      }
+    }).then(function(response) {
+      self.results = response.data;
 
-        //response받은 품목이름과 개수 배열로 저장
-        var result_word = [];
-        var count = 0;
-        for (var k = 0; k < response.data.length; k++) {
-          count = 0;
-          for (var y = 0; y < response.data.length; y++) {
-            if (response.data[k].content == response.data[y].content) {
-              count++;
-            }
-          }
-          result_word.push([response.data[k].content, count]);
-        }
-
-        //중복배열 제거
-        var cnt = 0;
-        var word_result = [];
-        var chkflag = false;
-        //이중 for문을 이용하여 중복된 배열 제거
-        for (var f = 0; f < result_word.length; f++) {
-          chkflag = false;
-          if (word_result.length == 0) {
-            word_result.push(result_word[f]);
-            continue;
-          }
-
-          for (var v = 0; v < word_result.length; v++) {
-            if (JSON.stringify(result_word[f]) == JSON.stringify(word_result[v])) {
-              chkflag = true;
-            }
-          }
-          if (chkflag == false) {
-            //중복 제거 후 word_result 배열에 값 저장
-            word_result.push(result_word[f]);
+      //response받은 품목이름과 개수 배열로 저장
+      var result_word = [];
+      var count = 0;
+      for (var k = 0; k < response.data.length; k++) {
+        count = 0;
+        for (var y = 0; y < response.data.length; y++) {
+          if (response.data[k].content == response.data[y].content) {
+            count++;
           }
         }
-        //소비내역 키워드를 D3.js를 이용하여 역동적으로 보여주기위한 메소드 실행 (인자로 중복제거된 배열 넣기)
-        self.showWordCloud(word_result);
-      })
+        result_word.push([response.data[k].content, count]);
+      }
+
+      //중복배열 제거
+      var cnt = 0;
+      var word_result = [];
+      var chkflag = false;
+      //이중 for문을 이용하여 중복된 배열 제거
+      for (var f = 0; f < result_word.length; f++) {
+        chkflag = false;
+        if (word_result.length == 0) {
+          word_result.push(result_word[f]);
+          continue;
+        }
+
+        for (var v = 0; v < word_result.length; v++) {
+          if (JSON.stringify(result_word[f]) == JSON.stringify(word_result[v])) {
+            chkflag = true;
+          }
+        }
+        if (chkflag == false) {
+          //중복 제거 후 word_result 배열에 값 저장
+          word_result.push(result_word[f]);
+        }
+      }
+      //소비내역 키워드를 D3.js를 이용하여 역동적으로 보여주기위한 메소드 실행 (인자로 중복제거된 배열 넣기)
+      self.showWordCloud(word_result);
+    })
 
   }
 }

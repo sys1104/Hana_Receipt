@@ -124,8 +124,6 @@ export default {
         day2 = "0" + day2;
       }
       start_date = year2 + '' + month2 + '' + day2;
-      console.log('percentage2 start_date 날짜는 ' + start_date);
-      console.log('percentage2 end_date 날짜는 ' + end_date);
       setTimeout(function() {
         //DB 조회 후 현재날짜로 부터 지난 한달간 소비내역 데이터 response받기. (동일 직업군)
         axios({
@@ -137,7 +135,7 @@ export default {
             end_date: end_date
           }
         }).then((response) => {
-          console.log('********** compare_user_other 응답 받음 **********');
+          console.log('********** compare_user_other_job 응답 받음 **********');
           var compare_other = {};
           compare_other = response.data.compare_other;
           self.percentageConfig.graphset[0].subtitle.text = compare_other[0].u_job + ' 직업군의 평균 소비내역';

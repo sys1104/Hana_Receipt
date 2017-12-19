@@ -37,7 +37,7 @@ var requestHistory = function(req, res, callback) {
     res.end();
   }
 };
-
+// ==================== 소비내역 DB저장 function ==================== //
 var saveHistory = function(database, u_num, cate_num, content, price, c_time, wasted, callback) {
   console.log('********** server-side saveHistory 호출됨 **********');
   //pool에서 커넥션 객체 가져오기
@@ -123,7 +123,7 @@ var updateHistory = function(req, res, callback) {
     res.end();
   }
 };
-
+// ==================== 소비내역 DB수정 function ==================== //
 var editHistory = function(database, consume_num, u_num, cate_num, content, price, c_time, wasted, callback) {
   console.log('********** server-side editHistory 호출됨 **********');
   //pool에서 커넥션 객체 가져오기
@@ -195,7 +195,7 @@ var deleteHistory = function(req, res, callback) {
     res.end();
   }
 };
-
+// ==================== 소비내역 DB삭제 function ==================== //
 var delHistory = function(database, consume_num, u_num, callback) {
   console.log('********** server-side delHistory 호출됨 **********');
   //pool에서 커넥션 객체 가져오기
@@ -267,7 +267,7 @@ var read_consume_board = function(database, u_num, callback) {
     });
   });
 };
-
+// ==================== 소비내역 DB 리스트 요청 function ==================== //
 var consumeList = function(req, res, callback) {
   console.log('********** server-side consumeList 호출 **********');
   var database = req.app.get('database');
@@ -308,7 +308,7 @@ var consumeList = function(req, res, callback) {
   }
 };
 
-// ========================= server-side 지난 목표기간 동안 낭비된 금액 카테고리별 출력 function =================== //
+// ========================= 지난 목표기간 동안 낭비된 금액 카테고리별 출력 function =================== //
 var wastedList = function(req, res, callback) {
   console.log('********** server-side wastedList 호출 **********');
   var database = req.app.get('database');
@@ -369,7 +369,7 @@ var wastedList = function(req, res, callback) {
     res.end();
   }
 };
-
+// ========================= 지난 목표기간 동안 낭비된 금액 DB 요청 function =================== //
 var wasted_used = function(database, u_num, start_date, callback) {
   console.log('********** server-side wasted_used 호출 **********');
   //wasted_used 메소드를 호출함으로써 DB 조회 후 낭비된 소비내역 callback
@@ -402,7 +402,7 @@ var wasted_used = function(database, u_num, start_date, callback) {
     });
   });
 };
-
+// ========================= 지난 목표기간 DB 요청 function =================== //
 var goal_period = function(database, u_num, start_date, callback) {
   console.log('********** server-side goal_period 호출 **********');
   database.pool.getConnection(function(err, conn) {

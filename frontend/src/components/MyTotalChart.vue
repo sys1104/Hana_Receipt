@@ -144,7 +144,6 @@ export default {
       day = "0" + day;
     }
     var start_date = year + '' + month + '' + day;
-    console.log('---- MyTotalChart의 start_date는 : ' + start_date);
     if (!this.$session.exists()) {
       console.log('********** 세션없음 (MyTotalChart.vue) **********');
     } else {
