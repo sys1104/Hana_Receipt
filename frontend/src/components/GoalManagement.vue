@@ -221,9 +221,7 @@ export default {
         alert('양수만 입력 가능합니다');
       } else if (this.g_time >= this.g_endtime) {
         alert('종료일은 시작일 이후만 입력 가능합니다.');
-      } else if (subDay <= 1) {
-        alert('목표 기간은 최소 2일 이후부터 설정 가능합니다')
-      } else {
+      }else {
         axios({
           method: 'post',
           url: 'api/goal/save_goal',
