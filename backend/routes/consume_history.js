@@ -319,11 +319,11 @@ var wastedList = function(req, res, callback) {
     var data = {};
     wasted_used(database, u_num, start_date, function(err, rows) {
       if (err) {
-        console.error('********** cate_used 에러 발생 **********' + err.stack);
+        console.error('********** wasted_used 에러 발생 **********' + err.stack);
         res.writeHead(200, {
           "Content-Type": 'text/html;charset=utf8'
         });
-        res.write('<h2>cate_used 에러 발생</h2>');
+        res.write('<h2>wasted_used 에러 발생</h2>');
         res.write('<p>' + err.stack + '</p>');
         res.end();
         // 에러 처리
@@ -332,26 +332,27 @@ var wastedList = function(req, res, callback) {
       console.log('********** wasted_used ' + rows + ' *********');
       if (rows) {
         //낭비된 내역이 있으면 실행
+        //data 객체에 낭비된 내역 담기.
         data.wasted = rows;
         goal_period(database, u_num, start_date, function(err, rows2) {
           if (err) {
-            console.error('********** goal_money 에러 발생 **********' + err.stack);
+            console.error('********** goal_period 에러 발생 **********' + err.stack);
             res.writeHead(200, {
               "Content-Type": 'text/html;charset=utf8'
             });
-            res.write('<h2>goal_money 에러 발생</h2>');
+            res.write('<h2>goal_period 에러 발생</h2>');
             res.write('<p>' + err.stack + '</p>');
             res.end();
             // 에러 처리
           }
           if (rows2) {
-            console.log('********** cate_goal ' + rows2 + ' **********');
+            //data 객체에 지난 목표기간 담기.
             data.period = rows2;
-            console.log('********** 프론트로 제이슨 형태로 데이터를 보냄 *********');
+            console.log('********** wasted_used / goal_period JSON DATA 보냄 *********');
             res.json(data);
             res.end();
           } else {
-            console.log("********** 사용내역 없음 **********");
+            console.log("********** goal_period 지난 목표기간 없음 **********");
           }
         });
       } else {
@@ -371,6 +372,7 @@ var wastedList = function(req, res, callback) {
 
 var wasted_used = function(database, u_num, start_date, callback) {
   console.log('********** server-side wasted_used 호출 **********');
+  //wasted_used 메소드를 호출함으로써 DB 조회 후 낭비된 소비내역 callback
   database.pool.getConnection(function(err, conn) {
     if (err) {
       if (conn) {
@@ -402,7 +404,7 @@ var wasted_used = function(database, u_num, start_date, callback) {
 };
 
 var goal_period = function(database, u_num, start_date, callback) {
-  console.log('********** server-side wasted_used 호출 **********');
+  console.log('********** server-side goal_period 호출 **********');
   database.pool.getConnection(function(err, conn) {
     if (err) {
       if (conn) {
@@ -411,8 +413,8 @@ var goal_period = function(database, u_num, start_date, callback) {
       callback(err, null);
       return;
     }
-    //conn 객체를 사용해서 sql 실행 (지난 목표기간 동안 낭비내역 조회 쿼리문)
-    var exec = conn.query('select max(g_time) max_gtime, max(g_endtime) max_gendtime from goal where u_num = ? and g_endtime <= ?', [u_num, start_date],
+    //conn 객체를 사용해서 sql 실행 (지난 목표기간 조회 쿼리문)
+    var exec = conn.query('select substring(max(g_time),1,10) max_gtime, substring(max(g_endtime),1,10) max_gendtime from goal where u_num = ? and g_endtime <= ?;', [u_num, start_date],
       function(err, rows2) {
         if (rows2.length > 0) {
           conn.release();

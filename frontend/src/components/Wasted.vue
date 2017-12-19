@@ -78,16 +78,16 @@ export default {
         var sum2 = 0;
         //각 카테고리별 낭비된 금액 합산
         for (var i = 0; i < self.results.length; i++) {
-          console.log('******** wasted.vue ' + self.results[i].sum_price + ' *********');
+          // console.log('******** wasted.vue ' + self.results[i].sum_price + ' *********');
           sum2 += parseInt(self.results[i].sum_price);
         }
         // sum ==> 지난 목표기간에 낭비된 소비내역 합산
         self.sum = sum2;
         var period = {};
         period = response.data.period;
-        self.period = '목표 기간 ' + response.data.period[0].max_gtime.substring(0, 10) + ' ~ ' + response.data.period[0].max_gendtime.substring(0, 10) + ' 동안 낭비된 금액';
+        self.period = '목표 기간 ' + response.data.period[0].max_gtime + ' ~ ' + response.data.period[0].max_gendtime + ' 동안 낭비된 금액';
       } catch (e) {
-        console.log('목표 내역이 없습니다.');
+        console.log('******* front-end 목표 내역이 없습니다. *******');
       }
     })
   }
