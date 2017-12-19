@@ -383,7 +383,7 @@ var wasted_used = function(database, u_num, start_date, callback) {
     }
     //conn 객체를 사용해서 sql 실행 (지난 목표기간 동안 낭비내역 조회 쿼리문)
     // select cate_num, sum(price) sum_price from consume_history where u_num = ? and wasted = 1 and c_time <= ? group by cate_num
-    var exec = conn.query('select cate_num, sum(price) sum_price from consume_history where u_num = 48 and wasted = 1 and c_time >= (select max(g_time) max_gtime from goal where g_time < (select max(g_endtime) max_gendtime from goal where u_num = 48 and g_endtime < 20171219) and u_num = 48) and c_time <= (select max(g_endtime) max_gendtime from goal where u_num = 48 and g_endtime < 20171219) group by cate_num', [u_num, start_date],
+    var exec = conn.query('select cate_num, sum(price) sum_price from consume_history where u_num = ? and wasted = 1 and c_time >= (select max(g_time) max_gtime from goal where g_time < (select max(g_endtime) max_gendtime from goal where u_num = ? and g_endtime < ?) and u_num = ?) and c_time <= (select max(g_endtime) max_gendtime from goal where u_num = ? and g_endtime < ?) group by cate_num', [u_num, u_num, start_date, u_num, u_num, start_date],
       function(err, rows) {
         if (rows.length > 0) {
           conn.release();
